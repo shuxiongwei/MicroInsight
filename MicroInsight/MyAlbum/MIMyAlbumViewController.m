@@ -38,7 +38,7 @@ static NSString *const cellId = @"MIAlbumCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
     [self refreshBtnSelected];
     self.assets = [self requestAssetsWithType:_albumType];
     if (self.assets.count == 0) {
@@ -69,15 +69,23 @@ static NSString *const cellId = @"MIAlbumCell";
     } else {
         extention = @"mov";
     }
+    
     NSString *assetsPath = [MIHelpTool assetsPath];
-    NSDirectoryEnumerator *DE = [[NSFileManager defaultManager] enumeratorAtPath:assetsPath];
-    for (NSString *filename in DE) {
+    NSFileManager *fm = [NSFileManager defaultManager];
+    if ([fm fileExistsAtPath:assetsPath]) {
+        NSArray *contentOfFolder = [fm contentsOfDirectoryAtPath:assetsPath error:nil];
+        NSMutableArray *paths = [NSMutableArray arrayWithArray:contentOfFolder];
+        [paths sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+            return [obj2 compare:obj1];
+        }];
         
-        NSString *path = [assetsPath stringByAppendingPathComponent:filename];
-        if ([filename.pathExtension isEqualToString:extention]) {
-            MIAlbum *album = [[MIAlbum alloc] init];
-            album.fileUrl = path;
-            [self.assets addObject:album];
+        for (NSString *aPath in paths) {
+            if ([aPath.pathExtension isEqualToString:extention]) {
+                NSString *fullPath = [assetsPath stringByAppendingPathComponent:aPath];
+                MIAlbum *album = [[MIAlbum alloc] init];
+                album.fileUrl = fullPath;
+                [self.assets addObject:album];
+            }
         }
     }
     

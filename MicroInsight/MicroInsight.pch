@@ -1,0 +1,62 @@
+//
+//  MicroInsight.pch
+//  MicroInsight
+//
+//  Created by 舒雄威 on 2018/7/10.
+//  Copyright © 2018年 舒雄威. All rights reserved.
+//
+
+#ifndef MicroInsight_pch
+#define MicroInsight_pch
+
+#import "MIHelpTool.h"
+#import "MIUIFactory.h"
+#import "MIToastAlertView.h"
+#import "UIView+CCAdditions.h"
+#import "MIBaseViewController.h"
+#import "UIFont+Extension.h"
+
+#define MIIOS9  ([UIDevice currentDevice].systemVersion.floatValue >= 9.0f)
+
+#define MIScreenBounds [UIScreen mainScreen].bounds
+#define MIScreenWidth   MIScreenBounds.size.width
+#define MIScreenHeight  MIScreenBounds.size.height
+
+#define WSWeak(weakSelf)        __weak __typeof(&*self)weakSelf = self;
+
+//颜色(RGBA)
+#define UIColorFromRGBWithAlpha(rgbValue,a) [UIColor colorWithRed:((float)(((rgbValue) & 0xFF0000) >> 16))/255.0 green:((float)(((rgbValue) & 0xFF00)>>8))/255.0 blue: ((float)((rgbValue) & 0xFF))/255.0 alpha:(a)]
+
+#ifndef weakify
+#if __has_feature(objc_arc)
+#define weakify( x ) \
+_Pragma("clang diagnostic push") \
+_Pragma("clang diagnostic ignored \"-Wshadow\"") \
+autoreleasepool{} __weak __typeof__(x) __weak_##x##__ = x; \
+_Pragma("clang diagnostic pop")
+#else
+#define weakify ( x ) \
+_Pragma("chang diagnostic push") \
+_Pragma("chang diagnostic ignored \"-Wshadow\"") \
+autoreleasepool{} __block __typeof__(x) __block_##x##__ = x; \
+_Pragma("chang diagnostic pop")
+#endif
+#endif
+
+#ifndef strongify
+#if __has_feature(objc_arc)
+#define strongify( x ) \
+_Pragma("chang diagnostic push") \
+_Pragma("chang diagnostic ignored \"-Wshadow\"") \
+try{} @finally{} __typeof__(x) x = __weak_##x##__; \
+_Pragma("chang diagnostic pop")
+#else
+#define strongify( x ) \
+_Pragma("chang diagnostic push") \
+_Pragma("chang diagnostic ignored \"-Wshadow\"") \
+try{} @finally{} __typeof__(x) x = __block_##x##__; \
+_Pragma("chang diagnostic pop)
+#endif
+#endif
+
+#endif /* MicroInsight_pch */

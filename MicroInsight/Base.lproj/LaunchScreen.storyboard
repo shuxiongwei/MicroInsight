@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="EHf-IW-A2E">
+            <objects>
+                <viewController id="01J-lp-oVM" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="xf2-Sb-BQ2"/>
+                        <viewControllerLayoutGuide type="bottom" id="COt-VJ-cw4"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="app_lanuch" translatesAutoresizingMaskIntoConstraints="NO" id="N8c-8T-hRB">
+                                <rect key="frame" x="137.5" y="183.5" width="100" height="100"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="Hg7-eN-22n"/>
+                                    <constraint firstAttribute="height" constant="100" id="abE-SI-PJh"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="版权所有：肯维捷斯(武汉)科技有限公司" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1ac-Gd-7o7">
+                                <rect key="frame" x="52" y="629" width="271.5" height="18"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" red="0.53333333333333333" green="0.61176470588235299" blue="0.69019607843137254" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TipScope" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="loq-GX-PbC">
+                                <rect key="frame" x="146.5" y="293.5" width="81.5" height="21"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                <color key="textColor" red="0.53333333333333333" green="0.61176470588235299" blue="0.69019607843137254" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="见微知著，见多识广！" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mrp-S9-Zhk">
+                                <rect key="frame" x="100.5" y="593.5" width="173.5" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="N8c-8T-hRB" firstAttribute="bottom" secondItem="Ze5-6b-2t3" secondAttribute="centerY" constant="-50" id="6TR-eD-rOm"/>
+                            <constraint firstItem="loq-GX-PbC" firstAttribute="top" secondItem="N8c-8T-hRB" secondAttribute="bottom" constant="10" id="WFM-F9-V6m"/>
+                            <constraint firstAttribute="bottom" secondItem="1ac-Gd-7o7" secondAttribute="bottom" constant="20" id="XSy-9O-mRc"/>
+                            <constraint firstItem="1ac-Gd-7o7" firstAttribute="top" secondItem="mrp-S9-Zhk" secondAttribute="bottom" constant="15" id="bTd-9V-lrn"/>
+                            <constraint firstItem="mrp-S9-Zhk" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="d6e-gt-8Ul"/>
+                            <constraint firstItem="N8c-8T-hRB" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="gxW-0u-YWR"/>
+                            <constraint firstItem="1ac-Gd-7o7" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="lie-Kw-ycE"/>
+                            <constraint firstItem="loq-GX-PbC" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="ya0-uJ-C7C"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="53" y="375"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="app_lanuch" width="100" height="100"/>
+    </resources>
+</document>

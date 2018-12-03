@@ -1,0 +1,1039 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0902409D21969F4C0003D686 /* Community.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0902409C21969F4C0003D686 /* Community.storyboard */; };
+		0902409F21969F600003D686 /* Photography.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0902409E21969F600003D686 /* Photography.storyboard */; };
+		090240A121969F6E0003D686 /* MyAlbum.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 090240A021969F6E0003D686 /* MyAlbum.storyboard */; };
+		090240A3219726420003D686 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 090240A2219726420003D686 /* Login.storyboard */; };
+		20DC8A5C601B9DBA6E4BC4E1 /* libPods-MicroInsight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 54F2597ADBF8F4BC4200A0B9 /* libPods-MicroInsight.a */; };
+		3B19C3FB21A504F4001027E9 /* MIThemeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B19C3FA21A504F4001027E9 /* MIThemeCell.m */; };
+		3B5FDB8321A2551300DDCD1E /* MIHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5FDB8221A2551300DDCD1E /* MIHomeViewController.m */; };
+		3B5FDB8921A2A38500DDCD1E /* MILoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5FDB8821A2A38500DDCD1E /* MILoginViewController.m */; };
+		3B5FDB8C21A2C4BB00DDCD1E /* MICommunityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5FDB8B21A2C4BB00DDCD1E /* MICommunityViewController.m */; };
+		3B5FDB9021A2C58700DDCD1E /* MICommunityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5FDB8F21A2C58700DDCD1E /* MICommunityCell.m */; };
+		3B6D661B21AE3AA8005CAE9A /* MIHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B6D661321AE3AA8005CAE9A /* MIHTTPSessionManager.m */; };
+		3B6D661C21AE3AA8005CAE9A /* MINetworkConstant.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B6D661621AE3AA8005CAE9A /* MINetworkConstant.m */; };
+		3B6D661D21AE3AA8005CAE9A /* MIBaseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B6D661721AE3AA8005CAE9A /* MIBaseRequest.m */; };
+		3B6D661E21AE3AA8005CAE9A /* MIHTTPResponseSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B6D661821AE3AA8005CAE9A /* MIHTTPResponseSerializer.m */; };
+		3B6D662221AEBB1F005CAE9A /* MIAlbum.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B6D662121AEBB1F005CAE9A /* MIAlbum.m */; };
+		3B7973F221A3EB5C0087EE48 /* MIMyAlbumViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7973F121A3EB5C0087EE48 /* MIMyAlbumViewController.m */; };
+		3B7973F521A3EE510087EE48 /* MIUploadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7973F421A3EE510087EE48 /* MIUploadViewController.m */; };
+		3B7973F921A415540087EE48 /* MIAlbumCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7973F821A415540087EE48 /* MIAlbumCell.m */; };
+		3B830AE521AC084B00EC7746 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3B830AE421AC084B00EC7746 /* Main.storyboard */; };
+		702641AD20F6F15100B21AFC /* MIHelpTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 702641AA20F6F15100B21AFC /* MIHelpTool.m */; };
+		702641AE20F6F15100B21AFC /* MIUIFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 702641AB20F6F15100B21AFC /* MIUIFactory.m */; };
+		702641AF20F6F15100B21AFC /* MIToastAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 702641AC20F6F15100B21AFC /* MIToastAlertView.m */; };
+		70294780212D5E6700B3732A /* MIReviewImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7029477F212D5E6700B3732A /* MIReviewImageCell.m */; };
+		70294783212D5F8A00B3732A /* MIReviewImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70294782212D5F8A00B3732A /* MIReviewImageViewController.m */; };
+		70294787212D626D00B3732A /* MIBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70294786212D626D00B3732A /* MIBaseViewController.m */; };
+		70294789212D63BC00B3732A /* MIReviewVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70294788212D63BC00B3732A /* MIReviewVideoViewController.m */; };
+		706A6E1920F6F7390097C577 /* MIMotionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 706A6E1720F6F7390097C577 /* MIMotionManager.m */; };
+		706A6E1D20F6F9180097C577 /* UIView+CCAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 706A6E1C20F6F9180097C577 /* UIView+CCAdditions.m */; };
+		706A6E2120F6FA7A0097C577 /* MIVideoPreview.m in Sources */ = {isa = PBXBuildFile; fileRef = 706A6E2020F6FA7A0097C577 /* MIVideoPreview.m */; };
+		706A6E2420F6FB530097C577 /* MICameraView.m in Sources */ = {isa = PBXBuildFile; fileRef = 706A6E2320F6FB530097C577 /* MICameraView.m */; };
+		70710C5E20F476A300052929 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 70710C5D20F476A300052929 /* AppDelegate.m */; };
+		70710C6120F476A300052929 /* MIPhotographyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70710C6020F476A300052929 /* MIPhotographyViewController.m */; };
+		70710C6620F476A400052929 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 70710C6520F476A400052929 /* Assets.xcassets */; };
+		70710C6920F476A400052929 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 70710C6720F476A400052929 /* LaunchScreen.storyboard */; };
+		70710C6C20F476A400052929 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 70710C6B20F476A400052929 /* main.m */; };
+		70710C7620F476A500052929 /* MicroInsightTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 70710C7520F476A500052929 /* MicroInsightTests.m */; };
+		70710C8120F476A500052929 /* MicroInsightUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 70710C8020F476A500052929 /* MicroInsightUITests.m */; };
+		70710CAE20F4917E00052929 /* MIHorizontalPickerViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 70710CA920F4917E00052929 /* MIHorizontalPickerViewCell.m */; };
+		70710CAF20F4917E00052929 /* MIHorizontalPickerViewCellItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 70710CAB20F4917E00052929 /* MIHorizontalPickerViewCellItem.m */; };
+		70710CB020F4917E00052929 /* MIHorizontalPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70710CAD20F4917E00052929 /* MIHorizontalPickerView.m */; };
+		707A5BC9212E390E002D61BC /* UIButton+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 707A5BC8212E390E002D61BC /* UIButton+Extension.m */; };
+		707A5BD0212EAA02002D61BC /* UIFont+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 707A5BCF212EAA02002D61BC /* UIFont+Extension.m */; };
+		707A5BD2212EAA90002D61BC /* font.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 707A5BD1212EAA90002D61BC /* font.ttf */; };
+		7096B560213784CF003B1D3F /* MICameraFunctionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7096B55F213784CF003B1D3F /* MICameraFunctionView.m */; };
+		70A80994212D7744003ED7D2 /* MIFactorSlider.xib in Resources */ = {isa = PBXBuildFile; fileRef = 70A8098F212D7744003ED7D2 /* MIFactorSlider.xib */; };
+		70A80995212D7744003ED7D2 /* OMSliderBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 70A80991212D7744003ED7D2 /* OMSliderBar.m */; };
+		70A80996212D7744003ED7D2 /* MIFactorSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 70A80993212D7744003ED7D2 /* MIFactorSlider.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		70710C7220F476A500052929 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 70710C5120F476A300052929 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 70710C5820F476A300052929;
+			remoteInfo = MicroInsight;
+		};
+		70710C7D20F476A500052929 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 70710C5120F476A300052929 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 70710C5820F476A300052929;
+			remoteInfo = MicroInsight;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0902409C21969F4C0003D686 /* Community.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Community.storyboard; sourceTree = "<group>"; };
+		0902409E21969F600003D686 /* Photography.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Photography.storyboard; sourceTree = "<group>"; };
+		090240A021969F6E0003D686 /* MyAlbum.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MyAlbum.storyboard; sourceTree = "<group>"; };
+		090240A2219726420003D686 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
+		3B19C3F921A504F4001027E9 /* MIThemeCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIThemeCell.h; sourceTree = "<group>"; };
+		3B19C3FA21A504F4001027E9 /* MIThemeCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MIThemeCell.m; sourceTree = "<group>"; };
+		3B5FDB8121A2551300DDCD1E /* MIHomeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIHomeViewController.h; sourceTree = "<group>"; };
+		3B5FDB8221A2551300DDCD1E /* MIHomeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MIHomeViewController.m; sourceTree = "<group>"; };
+		3B5FDB8721A2A38500DDCD1E /* MILoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MILoginViewController.h; sourceTree = "<group>"; };
+		3B5FDB8821A2A38500DDCD1E /* MILoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MILoginViewController.m; sourceTree = "<group>"; };
+		3B5FDB8A21A2C4BB00DDCD1E /* MICommunityViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MICommunityViewController.h; sourceTree = "<group>"; };
+		3B5FDB8B21A2C4BB00DDCD1E /* MICommunityViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MICommunityViewController.m; sourceTree = "<group>"; };
+		3B5FDB8E21A2C58700DDCD1E /* MICommunityCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MICommunityCell.h; sourceTree = "<group>"; };
+		3B5FDB8F21A2C58700DDCD1E /* MICommunityCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MICommunityCell.m; sourceTree = "<group>"; };
+		3B6D661321AE3AA8005CAE9A /* MIHTTPSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIHTTPSessionManager.m; sourceTree = "<group>"; };
+		3B6D661421AE3AA8005CAE9A /* MIHTTPResponseSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIHTTPResponseSerializer.h; sourceTree = "<group>"; };
+		3B6D661521AE3AA8005CAE9A /* MIBaseRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIBaseRequest.h; sourceTree = "<group>"; };
+		3B6D661621AE3AA8005CAE9A /* MINetworkConstant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MINetworkConstant.m; sourceTree = "<group>"; };
+		3B6D661721AE3AA8005CAE9A /* MIBaseRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIBaseRequest.m; sourceTree = "<group>"; };
+		3B6D661821AE3AA8005CAE9A /* MIHTTPResponseSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIHTTPResponseSerializer.m; sourceTree = "<group>"; };
+		3B6D661921AE3AA8005CAE9A /* MIHTTPSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIHTTPSessionManager.h; sourceTree = "<group>"; };
+		3B6D661A21AE3AA8005CAE9A /* MINetworkConstant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MINetworkConstant.h; sourceTree = "<group>"; };
+		3B6D662021AEBB1F005CAE9A /* MIAlbum.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIAlbum.h; sourceTree = "<group>"; };
+		3B6D662121AEBB1F005CAE9A /* MIAlbum.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MIAlbum.m; sourceTree = "<group>"; };
+		3B7973F021A3EB5C0087EE48 /* MIMyAlbumViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIMyAlbumViewController.h; sourceTree = "<group>"; };
+		3B7973F121A3EB5C0087EE48 /* MIMyAlbumViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MIMyAlbumViewController.m; sourceTree = "<group>"; };
+		3B7973F321A3EE510087EE48 /* MIUploadViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIUploadViewController.h; sourceTree = "<group>"; };
+		3B7973F421A3EE510087EE48 /* MIUploadViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MIUploadViewController.m; sourceTree = "<group>"; };
+		3B7973F721A415540087EE48 /* MIAlbumCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIAlbumCell.h; sourceTree = "<group>"; };
+		3B7973F821A415540087EE48 /* MIAlbumCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MIAlbumCell.m; sourceTree = "<group>"; };
+		3B830AE421AC084B00EC7746 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		54F2597ADBF8F4BC4200A0B9 /* libPods-MicroInsight.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MicroInsight.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		569EC9E96DF1B12DA9274E3A /* Pods-MicroInsight.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MicroInsight.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MicroInsight/Pods-MicroInsight.debug.xcconfig"; sourceTree = "<group>"; };
+		702641A720F6F15100B21AFC /* MIToastAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIToastAlertView.h; sourceTree = "<group>"; };
+		702641A820F6F15100B21AFC /* MIUIFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIUIFactory.h; sourceTree = "<group>"; };
+		702641A920F6F15100B21AFC /* MIHelpTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIHelpTool.h; sourceTree = "<group>"; };
+		702641AA20F6F15100B21AFC /* MIHelpTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIHelpTool.m; sourceTree = "<group>"; };
+		702641AB20F6F15100B21AFC /* MIUIFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIUIFactory.m; sourceTree = "<group>"; };
+		702641AC20F6F15100B21AFC /* MIToastAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIToastAlertView.m; sourceTree = "<group>"; };
+		7029477E212D5E6700B3732A /* MIReviewImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIReviewImageCell.h; sourceTree = "<group>"; };
+		7029477F212D5E6700B3732A /* MIReviewImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIReviewImageCell.m; sourceTree = "<group>"; };
+		70294781212D5F8A00B3732A /* MIReviewImageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIReviewImageViewController.h; sourceTree = "<group>"; };
+		70294782212D5F8A00B3732A /* MIReviewImageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MIReviewImageViewController.m; sourceTree = "<group>"; };
+		70294785212D626D00B3732A /* MIBaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIBaseViewController.h; sourceTree = "<group>"; };
+		70294786212D626D00B3732A /* MIBaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MIBaseViewController.m; sourceTree = "<group>"; };
+		70294788212D63BC00B3732A /* MIReviewVideoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIReviewVideoViewController.m; sourceTree = "<group>"; };
+		706A6E1720F6F7390097C577 /* MIMotionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIMotionManager.m; sourceTree = "<group>"; };
+		706A6E1820F6F7390097C577 /* MIMotionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIMotionManager.h; sourceTree = "<group>"; };
+		706A6E1B20F6F9180097C577 /* UIView+CCAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+CCAdditions.h"; sourceTree = "<group>"; };
+		706A6E1C20F6F9180097C577 /* UIView+CCAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+CCAdditions.m"; sourceTree = "<group>"; };
+		706A6E1F20F6FA7A0097C577 /* MIVideoPreview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIVideoPreview.h; sourceTree = "<group>"; };
+		706A6E2020F6FA7A0097C577 /* MIVideoPreview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIVideoPreview.m; sourceTree = "<group>"; };
+		706A6E2220F6FB530097C577 /* MICameraView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MICameraView.h; sourceTree = "<group>"; };
+		706A6E2320F6FB530097C577 /* MICameraView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MICameraView.m; sourceTree = "<group>"; };
+		70710C5920F476A300052929 /* MicroInsight.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MicroInsight.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		70710C5C20F476A300052929 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		70710C5D20F476A300052929 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		70710C5F20F476A300052929 /* MIPhotographyViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIPhotographyViewController.h; sourceTree = "<group>"; };
+		70710C6020F476A300052929 /* MIPhotographyViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MIPhotographyViewController.m; sourceTree = "<group>"; };
+		70710C6520F476A400052929 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		70710C6820F476A400052929 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		70710C6A20F476A400052929 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		70710C6B20F476A400052929 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		70710C7120F476A500052929 /* MicroInsightTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MicroInsightTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		70710C7520F476A500052929 /* MicroInsightTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MicroInsightTests.m; sourceTree = "<group>"; };
+		70710C7720F476A500052929 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		70710C7C20F476A500052929 /* MicroInsightUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MicroInsightUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		70710C8020F476A500052929 /* MicroInsightUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MicroInsightUITests.m; sourceTree = "<group>"; };
+		70710C8220F476A500052929 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		70710C9F20F47EE100052929 /* MicroInsight.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MicroInsight.pch; sourceTree = "<group>"; };
+		70710CA820F4917E00052929 /* MIHorizontalPickerViewCellItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIHorizontalPickerViewCellItem.h; sourceTree = "<group>"; };
+		70710CA920F4917E00052929 /* MIHorizontalPickerViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIHorizontalPickerViewCell.m; sourceTree = "<group>"; };
+		70710CAA20F4917E00052929 /* MIHorizontalPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIHorizontalPickerView.h; sourceTree = "<group>"; };
+		70710CAB20F4917E00052929 /* MIHorizontalPickerViewCellItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIHorizontalPickerViewCellItem.m; sourceTree = "<group>"; };
+		70710CAC20F4917E00052929 /* MIHorizontalPickerViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIHorizontalPickerViewCell.h; sourceTree = "<group>"; };
+		70710CAD20F4917E00052929 /* MIHorizontalPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIHorizontalPickerView.m; sourceTree = "<group>"; };
+		707A5BC7212E390E002D61BC /* UIButton+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIButton+Extension.h"; sourceTree = "<group>"; };
+		707A5BC8212E390E002D61BC /* UIButton+Extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Extension.m"; sourceTree = "<group>"; };
+		707A5BCE212EAA02002D61BC /* UIFont+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIFont+Extension.h"; sourceTree = "<group>"; };
+		707A5BCF212EAA02002D61BC /* UIFont+Extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIFont+Extension.m"; sourceTree = "<group>"; };
+		707A5BD1212EAA90002D61BC /* font.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = font.ttf; sourceTree = "<group>"; };
+		7096B55E213784CF003B1D3F /* MICameraFunctionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MICameraFunctionView.h; sourceTree = "<group>"; };
+		7096B55F213784CF003B1D3F /* MICameraFunctionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MICameraFunctionView.m; sourceTree = "<group>"; };
+		70A8098F212D7744003ED7D2 /* MIFactorSlider.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MIFactorSlider.xib; sourceTree = "<group>"; };
+		70A80990212D7744003ED7D2 /* OMSliderBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMSliderBar.h; sourceTree = "<group>"; };
+		70A80991212D7744003ED7D2 /* OMSliderBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMSliderBar.m; sourceTree = "<group>"; };
+		70A80992212D7744003ED7D2 /* MIFactorSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIFactorSlider.h; sourceTree = "<group>"; };
+		70A80993212D7744003ED7D2 /* MIFactorSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIFactorSlider.m; sourceTree = "<group>"; };
+		70E1D22520F829F5007B07C2 /* MIReviewVideoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIReviewVideoViewController.h; sourceTree = "<group>"; };
+		D6210C935518D5CD3C8D161A /* Pods-MicroInsight.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MicroInsight.release.xcconfig"; path = "Pods/Target Support Files/Pods-MicroInsight/Pods-MicroInsight.release.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		70710C5620F476A300052929 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				20DC8A5C601B9DBA6E4BC4E1 /* libPods-MicroInsight.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		70710C6E20F476A500052929 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		70710C7920F476A500052929 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0902409821969DC00003D686 /* MyAlbum */ = {
+			isa = PBXGroup;
+			children = (
+				3B6D661F21AEBAFE005CAE9A /* Model */,
+				3B7973F621A4152A0087EE48 /* View */,
+				090240A021969F6E0003D686 /* MyAlbum.storyboard */,
+				3B7973F021A3EB5C0087EE48 /* MIMyAlbumViewController.h */,
+				3B7973F121A3EB5C0087EE48 /* MIMyAlbumViewController.m */,
+				3B7973F321A3EE510087EE48 /* MIUploadViewController.h */,
+				3B7973F421A3EE510087EE48 /* MIUploadViewController.m */,
+			);
+			path = MyAlbum;
+			sourceTree = "<group>";
+		};
+		0902409921969DE10003D686 /* Photography */ = {
+			isa = PBXGroup;
+			children = (
+				70710C5F20F476A300052929 /* MIPhotographyViewController.h */,
+				70710C6020F476A300052929 /* MIPhotographyViewController.m */,
+				0902409E21969F600003D686 /* Photography.storyboard */,
+			);
+			path = Photography;
+			sourceTree = "<group>";
+		};
+		0902409A21969EA80003D686 /* Community */ = {
+			isa = PBXGroup;
+			children = (
+				3B5FDB8D21A2C56700DDCD1E /* View */,
+				0902409C21969F4C0003D686 /* Community.storyboard */,
+				3B5FDB8A21A2C4BB00DDCD1E /* MICommunityViewController.h */,
+				3B5FDB8B21A2C4BB00DDCD1E /* MICommunityViewController.m */,
+			);
+			path = Community;
+			sourceTree = "<group>";
+		};
+		0902409B21969F1F0003D686 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				090240A2219726420003D686 /* Login.storyboard */,
+				3B5FDB8721A2A38500DDCD1E /* MILoginViewController.h */,
+				3B5FDB8821A2A38500DDCD1E /* MILoginViewController.m */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		3B5FDB8D21A2C56700DDCD1E /* View */ = {
+			isa = PBXGroup;
+			children = (
+				3B5FDB8E21A2C58700DDCD1E /* MICommunityCell.h */,
+				3B5FDB8F21A2C58700DDCD1E /* MICommunityCell.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		3B6D661221AE3AA8005CAE9A /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				3B6D661321AE3AA8005CAE9A /* MIHTTPSessionManager.m */,
+				3B6D661421AE3AA8005CAE9A /* MIHTTPResponseSerializer.h */,
+				3B6D661521AE3AA8005CAE9A /* MIBaseRequest.h */,
+				3B6D661621AE3AA8005CAE9A /* MINetworkConstant.m */,
+				3B6D661721AE3AA8005CAE9A /* MIBaseRequest.m */,
+				3B6D661821AE3AA8005CAE9A /* MIHTTPResponseSerializer.m */,
+				3B6D661921AE3AA8005CAE9A /* MIHTTPSessionManager.h */,
+				3B6D661A21AE3AA8005CAE9A /* MINetworkConstant.h */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		3B6D661F21AEBAFE005CAE9A /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				3B6D662021AEBB1F005CAE9A /* MIAlbum.h */,
+				3B6D662121AEBB1F005CAE9A /* MIAlbum.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		3B7973F621A4152A0087EE48 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				3B7973F721A415540087EE48 /* MIAlbumCell.h */,
+				3B7973F821A415540087EE48 /* MIAlbumCell.m */,
+				3B19C3F921A504F4001027E9 /* MIThemeCell.h */,
+				3B19C3FA21A504F4001027E9 /* MIThemeCell.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		5B626D7DB418531BE5019909 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				569EC9E96DF1B12DA9274E3A /* Pods-MicroInsight.debug.xcconfig */,
+				D6210C935518D5CD3C8D161A /* Pods-MicroInsight.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		702641A620F6F15100B21AFC /* MIHelpTool */ = {
+			isa = PBXGroup;
+			children = (
+				702641A920F6F15100B21AFC /* MIHelpTool.h */,
+				702641AA20F6F15100B21AFC /* MIHelpTool.m */,
+				702641A820F6F15100B21AFC /* MIUIFactory.h */,
+				702641AB20F6F15100B21AFC /* MIUIFactory.m */,
+				702641A720F6F15100B21AFC /* MIToastAlertView.h */,
+				702641AC20F6F15100B21AFC /* MIToastAlertView.m */,
+				706A6E1820F6F7390097C577 /* MIMotionManager.h */,
+				706A6E1720F6F7390097C577 /* MIMotionManager.m */,
+			);
+			path = MIHelpTool;
+			sourceTree = "<group>";
+		};
+		70294784212D625600B3732A /* BaseClass */ = {
+			isa = PBXGroup;
+			children = (
+				70294785212D626D00B3732A /* MIBaseViewController.h */,
+				70294786212D626D00B3732A /* MIBaseViewController.m */,
+			);
+			path = BaseClass;
+			sourceTree = "<group>";
+		};
+		7029478A212D659600B3732A /* Review(预览) */ = {
+			isa = PBXGroup;
+			children = (
+				7029478B212D65C800B3732A /* View */,
+				7029478C212D65D000B3732A /* Controller */,
+			);
+			path = "Review(预览)";
+			sourceTree = "<group>";
+		};
+		7029478B212D65C800B3732A /* View */ = {
+			isa = PBXGroup;
+			children = (
+				7029477E212D5E6700B3732A /* MIReviewImageCell.h */,
+				7029477F212D5E6700B3732A /* MIReviewImageCell.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		7029478C212D65D000B3732A /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				70294781212D5F8A00B3732A /* MIReviewImageViewController.h */,
+				70294782212D5F8A00B3732A /* MIReviewImageViewController.m */,
+				70E1D22520F829F5007B07C2 /* MIReviewVideoViewController.h */,
+				70294788212D63BC00B3732A /* MIReviewVideoViewController.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		706A6E1A20F6F8E00097C577 /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				706A6E1B20F6F9180097C577 /* UIView+CCAdditions.h */,
+				706A6E1C20F6F9180097C577 /* UIView+CCAdditions.m */,
+				707A5BC7212E390E002D61BC /* UIButton+Extension.h */,
+				707A5BC8212E390E002D61BC /* UIButton+Extension.m */,
+				707A5BCE212EAA02002D61BC /* UIFont+Extension.h */,
+				707A5BCF212EAA02002D61BC /* UIFont+Extension.m */,
+			);
+			path = Category;
+			sourceTree = "<group>";
+		};
+		706A6E1E20F6F9DC0097C577 /* Camera */ = {
+			isa = PBXGroup;
+			children = (
+				706A6E1F20F6FA7A0097C577 /* MIVideoPreview.h */,
+				706A6E2020F6FA7A0097C577 /* MIVideoPreview.m */,
+				706A6E2220F6FB530097C577 /* MICameraView.h */,
+				706A6E2320F6FB530097C577 /* MICameraView.m */,
+				7096B55E213784CF003B1D3F /* MICameraFunctionView.h */,
+				7096B55F213784CF003B1D3F /* MICameraFunctionView.m */,
+			);
+			path = Camera;
+			sourceTree = "<group>";
+		};
+		70710C5020F476A300052929 = {
+			isa = PBXGroup;
+			children = (
+				70710C5B20F476A300052929 /* MicroInsight */,
+				70710C7420F476A500052929 /* MicroInsightTests */,
+				70710C7F20F476A500052929 /* MicroInsightUITests */,
+				70710C5A20F476A300052929 /* Products */,
+				5B626D7DB418531BE5019909 /* Pods */,
+				F5BCF343CFAB0749216AB255 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		70710C5A20F476A300052929 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				70710C5920F476A300052929 /* MicroInsight.app */,
+				70710C7120F476A500052929 /* MicroInsightTests.xctest */,
+				70710C7C20F476A500052929 /* MicroInsightUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		70710C5B20F476A300052929 /* MicroInsight */ = {
+			isa = PBXGroup;
+			children = (
+				3B6D661221AE3AA8005CAE9A /* Network */,
+				0902409B21969F1F0003D686 /* Login */,
+				0902409A21969EA80003D686 /* Community */,
+				0902409921969DE10003D686 /* Photography */,
+				0902409821969DC00003D686 /* MyAlbum */,
+				70294784212D625600B3732A /* BaseClass */,
+				70A80997212D77B8003ED7D2 /* Custom */,
+				706A6E1A20F6F8E00097C577 /* Category */,
+				702641A620F6F15100B21AFC /* MIHelpTool */,
+				706A6E1E20F6F9DC0097C577 /* Camera */,
+				7029478A212D659600B3732A /* Review(预览) */,
+				70A8098E212D663B003ED7D2 /* Supporting Files */,
+			);
+			path = MicroInsight;
+			sourceTree = "<group>";
+		};
+		70710C7420F476A500052929 /* MicroInsightTests */ = {
+			isa = PBXGroup;
+			children = (
+				70710C7520F476A500052929 /* MicroInsightTests.m */,
+				70710C7720F476A500052929 /* Info.plist */,
+			);
+			path = MicroInsightTests;
+			sourceTree = "<group>";
+		};
+		70710C7F20F476A500052929 /* MicroInsightUITests */ = {
+			isa = PBXGroup;
+			children = (
+				70710C8020F476A500052929 /* MicroInsightUITests.m */,
+				70710C8220F476A500052929 /* Info.plist */,
+			);
+			path = MicroInsightUITests;
+			sourceTree = "<group>";
+		};
+		70710CA720F4917E00052929 /* MIHorizontalPickerView */ = {
+			isa = PBXGroup;
+			children = (
+				70710CAA20F4917E00052929 /* MIHorizontalPickerView.h */,
+				70710CAD20F4917E00052929 /* MIHorizontalPickerView.m */,
+				70710CAC20F4917E00052929 /* MIHorizontalPickerViewCell.h */,
+				70710CA920F4917E00052929 /* MIHorizontalPickerViewCell.m */,
+				70710CA820F4917E00052929 /* MIHorizontalPickerViewCellItem.h */,
+				70710CAB20F4917E00052929 /* MIHorizontalPickerViewCellItem.m */,
+			);
+			path = MIHorizontalPickerView;
+			sourceTree = "<group>";
+		};
+		70A8098E212D663B003ED7D2 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				3B830AE421AC084B00EC7746 /* Main.storyboard */,
+				70710C5C20F476A300052929 /* AppDelegate.h */,
+				70710C5D20F476A300052929 /* AppDelegate.m */,
+				3B5FDB8121A2551300DDCD1E /* MIHomeViewController.h */,
+				3B5FDB8221A2551300DDCD1E /* MIHomeViewController.m */,
+				70710C6520F476A400052929 /* Assets.xcassets */,
+				707A5BD1212EAA90002D61BC /* font.ttf */,
+				70710C6720F476A400052929 /* LaunchScreen.storyboard */,
+				70710C6A20F476A400052929 /* Info.plist */,
+				70710C6B20F476A400052929 /* main.m */,
+				70710C9F20F47EE100052929 /* MicroInsight.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		70A80997212D77B8003ED7D2 /* Custom */ = {
+			isa = PBXGroup;
+			children = (
+				70A80998212D77C9003ED7D2 /* Slider */,
+				70710CA720F4917E00052929 /* MIHorizontalPickerView */,
+			);
+			path = Custom;
+			sourceTree = "<group>";
+		};
+		70A80998212D77C9003ED7D2 /* Slider */ = {
+			isa = PBXGroup;
+			children = (
+				70A80992212D7744003ED7D2 /* MIFactorSlider.h */,
+				70A80993212D7744003ED7D2 /* MIFactorSlider.m */,
+				70A8098F212D7744003ED7D2 /* MIFactorSlider.xib */,
+				70A80990212D7744003ED7D2 /* OMSliderBar.h */,
+				70A80991212D7744003ED7D2 /* OMSliderBar.m */,
+			);
+			path = Slider;
+			sourceTree = "<group>";
+		};
+		F5BCF343CFAB0749216AB255 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				54F2597ADBF8F4BC4200A0B9 /* libPods-MicroInsight.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		70710C5820F476A300052929 /* MicroInsight */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 70710C8520F476A500052929 /* Build configuration list for PBXNativeTarget "MicroInsight" */;
+			buildPhases = (
+				0BEB9802F95D0FC744539885 /* [CP] Check Pods Manifest.lock */,
+				70710C5520F476A300052929 /* Sources */,
+				70710C5620F476A300052929 /* Frameworks */,
+				70710C5720F476A300052929 /* Resources */,
+				923F34F508345A39730407E6 /* [CP] Embed Pods Frameworks */,
+				BBF418F49785ADF150B7774B /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MicroInsight;
+			productName = MicroInsight;
+			productReference = 70710C5920F476A300052929 /* MicroInsight.app */;
+			productType = "com.apple.product-type.application";
+		};
+		70710C7020F476A500052929 /* MicroInsightTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 70710C8820F476A500052929 /* Build configuration list for PBXNativeTarget "MicroInsightTests" */;
+			buildPhases = (
+				70710C6D20F476A500052929 /* Sources */,
+				70710C6E20F476A500052929 /* Frameworks */,
+				70710C6F20F476A500052929 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				70710C7320F476A500052929 /* PBXTargetDependency */,
+			);
+			name = MicroInsightTests;
+			productName = MicroInsightTests;
+			productReference = 70710C7120F476A500052929 /* MicroInsightTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		70710C7B20F476A500052929 /* MicroInsightUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 70710C8B20F476A500052929 /* Build configuration list for PBXNativeTarget "MicroInsightUITests" */;
+			buildPhases = (
+				70710C7820F476A500052929 /* Sources */,
+				70710C7920F476A500052929 /* Frameworks */,
+				70710C7A20F476A500052929 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				70710C7E20F476A500052929 /* PBXTargetDependency */,
+			);
+			name = MicroInsightUITests;
+			productName = MicroInsightUITests;
+			productReference = 70710C7C20F476A500052929 /* MicroInsightUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		70710C5120F476A300052929 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = MI;
+				LastUpgradeCheck = 0940;
+				ORGANIZATIONNAME = "舒雄威";
+				TargetAttributes = {
+					70710C5820F476A300052929 = {
+						CreatedOnToolsVersion = 9.4.1;
+					};
+					70710C7020F476A500052929 = {
+						CreatedOnToolsVersion = 9.4.1;
+						TestTargetID = 70710C5820F476A300052929;
+					};
+					70710C7B20F476A500052929 = {
+						CreatedOnToolsVersion = 9.4.1;
+						TestTargetID = 70710C5820F476A300052929;
+					};
+				};
+			};
+			buildConfigurationList = 70710C5420F476A300052929 /* Build configuration list for PBXProject "MicroInsight" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 70710C5020F476A300052929;
+			productRefGroup = 70710C5A20F476A300052929 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				70710C5820F476A300052929 /* MicroInsight */,
+				70710C7020F476A500052929 /* MicroInsightTests */,
+				70710C7B20F476A500052929 /* MicroInsightUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		70710C5720F476A300052929 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				090240A121969F6E0003D686 /* MyAlbum.storyboard in Resources */,
+				0902409D21969F4C0003D686 /* Community.storyboard in Resources */,
+				707A5BD2212EAA90002D61BC /* font.ttf in Resources */,
+				70710C6920F476A400052929 /* LaunchScreen.storyboard in Resources */,
+				0902409F21969F600003D686 /* Photography.storyboard in Resources */,
+				70710C6620F476A400052929 /* Assets.xcassets in Resources */,
+				3B830AE521AC084B00EC7746 /* Main.storyboard in Resources */,
+				70A80994212D7744003ED7D2 /* MIFactorSlider.xib in Resources */,
+				090240A3219726420003D686 /* Login.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		70710C6F20F476A500052929 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		70710C7A20F476A500052929 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0BEB9802F95D0FC744539885 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MicroInsight-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		923F34F508345A39730407E6 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MicroInsight/Pods-MicroInsight-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BBF418F49785ADF150B7774B /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-MicroInsight/Pods-MicroInsight-resources.sh",
+				"${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle",
+				"${PODS_ROOT}/SVProgressHUD/SVProgressHUD/SVProgressHUD.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MicroInsight/Pods-MicroInsight-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		70710C5520F476A300052929 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3B5FDB8921A2A38500DDCD1E /* MILoginViewController.m in Sources */,
+				3B6D661C21AE3AA8005CAE9A /* MINetworkConstant.m in Sources */,
+				3B6D661B21AE3AA8005CAE9A /* MIHTTPSessionManager.m in Sources */,
+				70710C6120F476A300052929 /* MIPhotographyViewController.m in Sources */,
+				70710CB020F4917E00052929 /* MIHorizontalPickerView.m in Sources */,
+				70294783212D5F8A00B3732A /* MIReviewImageViewController.m in Sources */,
+				3B5FDB8321A2551300DDCD1E /* MIHomeViewController.m in Sources */,
+				70710CAE20F4917E00052929 /* MIHorizontalPickerViewCell.m in Sources */,
+				70294789212D63BC00B3732A /* MIReviewVideoViewController.m in Sources */,
+				707A5BD0212EAA02002D61BC /* UIFont+Extension.m in Sources */,
+				3B7973F221A3EB5C0087EE48 /* MIMyAlbumViewController.m in Sources */,
+				707A5BC9212E390E002D61BC /* UIButton+Extension.m in Sources */,
+				70294780212D5E6700B3732A /* MIReviewImageCell.m in Sources */,
+				70710CAF20F4917E00052929 /* MIHorizontalPickerViewCellItem.m in Sources */,
+				70A80996212D7744003ED7D2 /* MIFactorSlider.m in Sources */,
+				702641AE20F6F15100B21AFC /* MIUIFactory.m in Sources */,
+				3B5FDB9021A2C58700DDCD1E /* MICommunityCell.m in Sources */,
+				3B6D662221AEBB1F005CAE9A /* MIAlbum.m in Sources */,
+				70A80995212D7744003ED7D2 /* OMSliderBar.m in Sources */,
+				702641AF20F6F15100B21AFC /* MIToastAlertView.m in Sources */,
+				3B6D661D21AE3AA8005CAE9A /* MIBaseRequest.m in Sources */,
+				70294787212D626D00B3732A /* MIBaseViewController.m in Sources */,
+				706A6E1D20F6F9180097C577 /* UIView+CCAdditions.m in Sources */,
+				7096B560213784CF003B1D3F /* MICameraFunctionView.m in Sources */,
+				706A6E2420F6FB530097C577 /* MICameraView.m in Sources */,
+				70710C6C20F476A400052929 /* main.m in Sources */,
+				3B6D661E21AE3AA8005CAE9A /* MIHTTPResponseSerializer.m in Sources */,
+				3B7973F921A415540087EE48 /* MIAlbumCell.m in Sources */,
+				70710C5E20F476A300052929 /* AppDelegate.m in Sources */,
+				702641AD20F6F15100B21AFC /* MIHelpTool.m in Sources */,
+				706A6E2120F6FA7A0097C577 /* MIVideoPreview.m in Sources */,
+				3B7973F521A3EE510087EE48 /* MIUploadViewController.m in Sources */,
+				3B19C3FB21A504F4001027E9 /* MIThemeCell.m in Sources */,
+				3B5FDB8C21A2C4BB00DDCD1E /* MICommunityViewController.m in Sources */,
+				706A6E1920F6F7390097C577 /* MIMotionManager.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		70710C6D20F476A500052929 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				70710C7620F476A500052929 /* MicroInsightTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		70710C7820F476A500052929 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				70710C8120F476A500052929 /* MicroInsightUITests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		70710C7320F476A500052929 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 70710C5820F476A300052929 /* MicroInsight */;
+			targetProxy = 70710C7220F476A500052929 /* PBXContainerItemProxy */;
+		};
+		70710C7E20F476A500052929 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 70710C5820F476A300052929 /* MicroInsight */;
+			targetProxy = 70710C7D20F476A500052929 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		70710C6720F476A400052929 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				70710C6820F476A400052929 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		70710C8320F476A500052929 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		70710C8420F476A500052929 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		70710C8620F476A500052929 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 569EC9E96DF1B12DA9274E3A /* Pods-MicroInsight.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 2WHXP7FN9G;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/MicroInsight/MicroInsight.pch";
+				INFOPLIST_FILE = MicroInsight/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.qishon.qsho;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		70710C8720F476A500052929 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D6210C935518D5CD3C8D161A /* Pods-MicroInsight.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 2WHXP7FN9G;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/MicroInsight/MicroInsight.pch";
+				INFOPLIST_FILE = MicroInsight/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.qishon.qsho;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		70710C8920F476A500052929 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 2WHXP7FN9G;
+				INFOPLIST_FILE = MicroInsightTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = sxw.MicroInsightTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MicroInsight.app/MicroInsight";
+			};
+			name = Debug;
+		};
+		70710C8A20F476A500052929 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 2WHXP7FN9G;
+				INFOPLIST_FILE = MicroInsightTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = sxw.MicroInsightTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MicroInsight.app/MicroInsight";
+			};
+			name = Release;
+		};
+		70710C8C20F476A500052929 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 2WHXP7FN9G;
+				INFOPLIST_FILE = MicroInsightUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = sxw.MicroInsightUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = MicroInsight;
+			};
+			name = Debug;
+		};
+		70710C8D20F476A500052929 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 2WHXP7FN9G;
+				INFOPLIST_FILE = MicroInsightUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = sxw.MicroInsightUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = MicroInsight;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		70710C5420F476A300052929 /* Build configuration list for PBXProject "MicroInsight" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				70710C8320F476A500052929 /* Debug */,
+				70710C8420F476A500052929 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		70710C8520F476A500052929 /* Build configuration list for PBXNativeTarget "MicroInsight" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				70710C8620F476A500052929 /* Debug */,
+				70710C8720F476A500052929 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		70710C8820F476A500052929 /* Build configuration list for PBXNativeTarget "MicroInsightTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				70710C8920F476A500052929 /* Debug */,
+				70710C8A20F476A500052929 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		70710C8B20F476A500052929 /* Build configuration list for PBXNativeTarget "MicroInsightUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				70710C8C20F476A500052929 /* Debug */,
+				70710C8D20F476A500052929 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 70710C5120F476A300052929 /* Project object */;
+}

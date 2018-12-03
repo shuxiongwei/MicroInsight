@@ -11,6 +11,8 @@
 		0902409F21969F600003D686 /* Photography.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0902409E21969F600003D686 /* Photography.storyboard */; };
 		090240A121969F6E0003D686 /* MyAlbum.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 090240A021969F6E0003D686 /* MyAlbum.storyboard */; };
 		090240A3219726420003D686 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 090240A2219726420003D686 /* Login.storyboard */; };
+		09BC50B621B561A2006B4277 /* MIAlbumRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 09BC50B521B561A2006B4277 /* MIAlbumRequest.m */; };
+		09BC50B921B56246006B4277 /* MIModelMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 09BC50B721B56246006B4277 /* MIModelMapper.m */; };
 		20DC8A5C601B9DBA6E4BC4E1 /* libPods-MicroInsight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 54F2597ADBF8F4BC4200A0B9 /* libPods-MicroInsight.a */; };
 		3B19C3FB21A504F4001027E9 /* MIThemeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B19C3FA21A504F4001027E9 /* MIThemeCell.m */; };
 		3B5FDB8321A2551300DDCD1E /* MIHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5FDB8221A2551300DDCD1E /* MIHomeViewController.m */; };
@@ -78,6 +80,10 @@
 		0902409E21969F600003D686 /* Photography.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Photography.storyboard; sourceTree = "<group>"; };
 		090240A021969F6E0003D686 /* MyAlbum.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MyAlbum.storyboard; sourceTree = "<group>"; };
 		090240A2219726420003D686 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
+		09BC50B421B561A2006B4277 /* MIAlbumRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIAlbumRequest.h; sourceTree = "<group>"; };
+		09BC50B521B561A2006B4277 /* MIAlbumRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MIAlbumRequest.m; sourceTree = "<group>"; };
+		09BC50B721B56246006B4277 /* MIModelMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIModelMapper.m; sourceTree = "<group>"; };
+		09BC50B821B56246006B4277 /* MIModelMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIModelMapper.h; sourceTree = "<group>"; };
 		3B19C3F921A504F4001027E9 /* MIThemeCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIThemeCell.h; sourceTree = "<group>"; };
 		3B19C3FA21A504F4001027E9 /* MIThemeCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MIThemeCell.m; sourceTree = "<group>"; };
 		3B5FDB8121A2551300DDCD1E /* MIHomeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIHomeViewController.h; sourceTree = "<group>"; };
@@ -257,6 +263,8 @@
 				3B6D661621AE3AA8005CAE9A /* MINetworkConstant.m */,
 				3B6D661921AE3AA8005CAE9A /* MIHTTPSessionManager.h */,
 				3B6D661321AE3AA8005CAE9A /* MIHTTPSessionManager.m */,
+				09BC50B421B561A2006B4277 /* MIAlbumRequest.h */,
+				09BC50B521B561A2006B4277 /* MIAlbumRequest.m */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -293,6 +301,8 @@
 		702641A620F6F15100B21AFC /* MIHelpTool */ = {
 			isa = PBXGroup;
 			children = (
+				09BC50B821B56246006B4277 /* MIModelMapper.h */,
+				09BC50B721B56246006B4277 /* MIModelMapper.m */,
 				702641A920F6F15100B21AFC /* MIHelpTool.h */,
 				702641AA20F6F15100B21AFC /* MIHelpTool.m */,
 				702641A820F6F15100B21AFC /* MIUIFactory.h */,
@@ -499,7 +509,6 @@
 				70710C5520F476A300052929 /* Sources */,
 				70710C5620F476A300052929 /* Frameworks */,
 				70710C5720F476A300052929 /* Resources */,
-				923F34F508345A39730407E6 /* [CP] Embed Pods Frameworks */,
 				BBF418F49785ADF150B7774B /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
@@ -642,21 +651,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		923F34F508345A39730407E6 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MicroInsight/Pods-MicroInsight-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		BBF418F49785ADF150B7774B /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -669,7 +663,8 @@
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MJRefresh.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SVProgressHUD.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -693,6 +688,7 @@
 				70710CAE20F4917E00052929 /* MIHorizontalPickerViewCell.m in Sources */,
 				70294789212D63BC00B3732A /* MIReviewVideoViewController.m in Sources */,
 				707A5BD0212EAA02002D61BC /* UIFont+Extension.m in Sources */,
+				09BC50B921B56246006B4277 /* MIModelMapper.m in Sources */,
 				3B7973F221A3EB5C0087EE48 /* MIMyAlbumViewController.m in Sources */,
 				707A5BC9212E390E002D61BC /* UIButton+Extension.m in Sources */,
 				70294780212D5E6700B3732A /* MIReviewImageCell.m in Sources */,
@@ -706,6 +702,7 @@
 				3B6D661D21AE3AA8005CAE9A /* MIBaseRequest.m in Sources */,
 				70294787212D626D00B3732A /* MIBaseViewController.m in Sources */,
 				706A6E1D20F6F9180097C577 /* UIView+CCAdditions.m in Sources */,
+				09BC50B621B561A2006B4277 /* MIAlbumRequest.m in Sources */,
 				7096B560213784CF003B1D3F /* MICameraFunctionView.m in Sources */,
 				706A6E2420F6FB530097C577 /* MICameraView.m in Sources */,
 				70710C6C20F476A400052929 /* main.m in Sources */,

@@ -28,8 +28,8 @@
 - (NSURLSessionDataTask *)GET:(NSString *)URLString
                    parameters:(id)parameters
                  downProgress:(void (^)(NSProgress *progress))downProgress
-                      success:(PONetworkSessionSuccess)success
-                      failure:(PONetworkSessionFailure)failure{
+                      success:(MINetworkSessionSuccess)success
+                      failure:(MINetworkSessionFailure)failure{
 
     return [[MIHTTPSessionManager shareManager] GET:URLString parameters:parameters progress:nil success:success failure:failure];
 }
@@ -37,8 +37,8 @@
 - (NSURLSessionDataTask *)POST:(NSString *)URLString
                     parameters:(id)parameters
                   downProgress:(void (^)(NSProgress *progress))downProgress
-                       success:(PONetworkSessionSuccess)success
-                       failure:(PONetworkSessionFailure)failure{
+                       success:(MINetworkSessionSuccess)success
+                       failure:(MINetworkSessionFailure)failure{
     
     NSMutableDictionary *dic = parameters;
 //    if ([dic.allKeys containsObject:@"token"]) {
@@ -86,8 +86,8 @@
                     parameters:(id)parameters
                   downProgress:(void (^)(NSProgress *progress))downProgress
      constructingBodyWithBlock:(void (^)(id <AFMultipartFormData> formData))block
-                       success:(PONetworkSessionSuccess)success
-                       failure:(PONetworkSessionFailure)failure{
+                       success:(MINetworkSessionSuccess)success
+                       failure:(MINetworkSessionFailure)failure{
     
 //    NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
 //    NSString *token = [def objectForKey:@"token"];

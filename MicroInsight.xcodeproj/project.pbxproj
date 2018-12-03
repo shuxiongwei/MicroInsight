@@ -28,6 +28,8 @@
 		3B7973F521A3EE510087EE48 /* MIUploadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7973F421A3EE510087EE48 /* MIUploadViewController.m */; };
 		3B7973F921A415540087EE48 /* MIAlbumCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7973F821A415540087EE48 /* MIAlbumCell.m */; };
 		3B830AE521AC084B00EC7746 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3B830AE421AC084B00EC7746 /* Main.storyboard */; };
+		700F01C621B5447700D0D3EA /* MIRequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 700F01C521B5447700D0D3EA /* MIRequestManager.m */; };
+		700F01C921B5496400D0D3EA /* MILocalData.m in Sources */ = {isa = PBXBuildFile; fileRef = 700F01C821B5496400D0D3EA /* MILocalData.m */; };
 		702641AD20F6F15100B21AFC /* MIHelpTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 702641AA20F6F15100B21AFC /* MIHelpTool.m */; };
 		702641AE20F6F15100B21AFC /* MIUIFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 702641AB20F6F15100B21AFC /* MIUIFactory.m */; };
 		702641AF20F6F15100B21AFC /* MIToastAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 702641AC20F6F15100B21AFC /* MIToastAlertView.m */; };
@@ -113,6 +115,10 @@
 		3B830AE421AC084B00EC7746 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		54F2597ADBF8F4BC4200A0B9 /* libPods-MicroInsight.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MicroInsight.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		569EC9E96DF1B12DA9274E3A /* Pods-MicroInsight.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MicroInsight.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MicroInsight/Pods-MicroInsight.debug.xcconfig"; sourceTree = "<group>"; };
+		700F01C421B5447700D0D3EA /* MIRequestManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIRequestManager.h; sourceTree = "<group>"; };
+		700F01C521B5447700D0D3EA /* MIRequestManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MIRequestManager.m; sourceTree = "<group>"; };
+		700F01C721B5496400D0D3EA /* MILocalData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MILocalData.h; sourceTree = "<group>"; };
+		700F01C821B5496400D0D3EA /* MILocalData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MILocalData.m; sourceTree = "<group>"; };
 		702641A720F6F15100B21AFC /* MIToastAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIToastAlertView.h; sourceTree = "<group>"; };
 		702641A820F6F15100B21AFC /* MIUIFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIUIFactory.h; sourceTree = "<group>"; };
 		702641A920F6F15100B21AFC /* MIHelpTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIHelpTool.h; sourceTree = "<group>"; };
@@ -298,6 +304,15 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		700F01C021B5443D00D0D3EA /* Request(数据请求) */ = {
+			isa = PBXGroup;
+			children = (
+				700F01C421B5447700D0D3EA /* MIRequestManager.h */,
+				700F01C521B5447700D0D3EA /* MIRequestManager.m */,
+			);
+			path = "Request(数据请求)";
+			sourceTree = "<group>";
+		};
 		702641A620F6F15100B21AFC /* MIHelpTool */ = {
 			isa = PBXGroup;
 			children = (
@@ -311,6 +326,8 @@
 				702641AC20F6F15100B21AFC /* MIToastAlertView.m */,
 				706A6E1820F6F7390097C577 /* MIMotionManager.h */,
 				706A6E1720F6F7390097C577 /* MIMotionManager.m */,
+				700F01C721B5496400D0D3EA /* MILocalData.h */,
+				700F01C821B5496400D0D3EA /* MILocalData.m */,
 			);
 			path = MIHelpTool;
 			sourceTree = "<group>";
@@ -404,6 +421,7 @@
 		70710C5B20F476A300052929 /* MicroInsight */ = {
 			isa = PBXGroup;
 			children = (
+				700F01C021B5443D00D0D3EA /* Request(数据请求) */,
 				3B6D661221AE3AA8005CAE9A /* Network */,
 				0902409B21969F1F0003D686 /* Login */,
 				0902409A21969EA80003D686 /* Community */,
@@ -698,6 +716,7 @@
 				3B5FDB9021A2C58700DDCD1E /* MICommunityCell.m in Sources */,
 				3B6D662221AEBB1F005CAE9A /* MIAlbum.m in Sources */,
 				70A80995212D7744003ED7D2 /* OMSliderBar.m in Sources */,
+				700F01C621B5447700D0D3EA /* MIRequestManager.m in Sources */,
 				702641AF20F6F15100B21AFC /* MIToastAlertView.m in Sources */,
 				3B6D661D21AE3AA8005CAE9A /* MIBaseRequest.m in Sources */,
 				70294787212D626D00B3732A /* MIBaseViewController.m in Sources */,
@@ -706,6 +725,7 @@
 				7096B560213784CF003B1D3F /* MICameraFunctionView.m in Sources */,
 				706A6E2420F6FB530097C577 /* MICameraView.m in Sources */,
 				70710C6C20F476A400052929 /* main.m in Sources */,
+				700F01C921B5496400D0D3EA /* MILocalData.m in Sources */,
 				3B6D661E21AE3AA8005CAE9A /* MIHTTPResponseSerializer.m in Sources */,
 				3B7973F921A415540087EE48 /* MIAlbumCell.m in Sources */,
 				70710C5E20F476A300052929 /* AppDelegate.m in Sources */,

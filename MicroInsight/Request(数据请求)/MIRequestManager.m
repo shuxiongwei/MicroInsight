@@ -121,11 +121,6 @@ static NSString * const loginUrl = @"/site/login";
     NSString *url = [requestUrl stringByAppendingString:loginUrl];
     [MIRequestManager postApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
         
-        NSDictionary *data = jsonData[@"data"];
-        NSDictionary *user = data[@"user"];
-        [MILocalData setCurrentLoginUsername:user[@"username"]];
-        [MILocalData setCurrentRequestToken:user[@"token"]];
-        
         completed(jsonData, error);
     }];
 }

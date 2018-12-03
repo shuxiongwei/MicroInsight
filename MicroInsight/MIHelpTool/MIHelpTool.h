@@ -66,4 +66,6 @@
  */
 + (UIImage *)fetchThumbnailWithAVAsset:(AVAsset *)asset curTime:(CGFloat)curTime;
 
++ (BOOL) isBlankString:(NSString *)str;
+
 @end

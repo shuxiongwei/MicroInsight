@@ -89,7 +89,7 @@
                                             <constraint firstAttribute="height" constant="38" id="x7V-lY-85b"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                        <state key="normal" title="注册">
+                                        <state key="normal" title="登录">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <userDefinedRuntimeAttributes>
@@ -220,6 +220,7 @@
                     <connections>
                         <outlet property="accountTF" destination="S94-Ci-JIF" id="38B-oi-S9s"/>
                         <outlet property="bottomBtn" destination="Tm3-Lh-wpc" id="eaH-hG-69F"/>
+                        <outlet property="checkPsdTFHeight" destination="8vJ-An-LmE" id="ex6-pq-d71"/>
                         <outlet property="checkPswTFSupView" destination="hvU-k2-Ed1" id="QOE-ra-seu"/>
                         <outlet property="contentViewHeight" destination="77K-wb-JlY" id="0fS-Tv-KlH"/>
                         <outlet property="loginBtn" destination="0D8-Bi-c9g" id="tDh-pO-n4r"/>

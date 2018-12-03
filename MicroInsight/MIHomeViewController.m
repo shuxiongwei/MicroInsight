@@ -14,6 +14,8 @@
 
 @interface MIHomeViewController ()
 
+@property (weak, nonatomic) IBOutlet UIButton *loginBtn;
+
 @end
 
 @implementation MIHomeViewController
@@ -27,6 +29,15 @@
     
     self.navigationController.navigationBarHidden = YES;
     // Do any additional setup after loading the view.
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    NSString *username = [MILocalData getCurrentLoginUsername];
+    if (![MIHelpTool isBlankString:username]) {
+        [_loginBtn setTitle:username forState:UIControlStateNormal];
+    }
 }
 
 #pragma mark - IB

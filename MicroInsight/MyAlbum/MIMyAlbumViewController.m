@@ -13,11 +13,7 @@
 #import "MIAlbum.h"
 #import <AVFoundation/AVFoundation.h>
 
-typedef NS_ENUM(NSInteger,MIAlbumType) {
-    
-    MIAlbumTypePhoto = 1,
-    MIAlbumTypeVideo
-};
+
 
 @interface MIMyAlbumViewController () <UICollectionViewDelegate, UICollectionViewDataSource>{
  
@@ -43,7 +39,8 @@ static NSString *const cellId = @"MIAlbumCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.assets = [self requestAssetsWithType:MIAlbumTypePhoto];
+    [self refreshBtnSelected];
+    self.assets = [self requestAssetsWithType:_albumType];
     if (self.assets.count == 0) {
         _emptyTipView.hidden = NO;
     }else{
@@ -63,7 +60,9 @@ static NSString *const cellId = @"MIAlbumCell";
     // Do any additional setup after loading the view.
 }
 
-- (NSMutableArray *)requestAssetsWithType:(MIAlbumType)type{
+- (NSMutableArray *)requestAssetsWithType:(MIAlbumType)type {
+    [self.assets removeAllObjects];
+    
     NSString *extention;
     if (type == MIAlbumTypePhoto) {
         extention = @"png";
@@ -114,7 +113,7 @@ static NSString *const cellId = @"MIAlbumCell";
     if ([[url pathExtension] isEqualToString:@"png"]) {
         img = [UIImage imageWithContentsOfFile:url];
     } else {
-        AVAsset *asset = [AVAsset assetWithURL:[NSURL URLWithString:url]];
+        AVAsset *asset = [AVAsset assetWithURL:[NSURL fileURLWithPath:url]];
         img = [MIHelpTool fetchThumbnailWithAVAsset:asset curTime:0.0];
     }
     cell.assetImgView.image = img;
@@ -138,7 +137,7 @@ static NSString *const cellId = @"MIAlbumCell";
 
 #pragma mark - IBAction
 - (IBAction)backHomeBtnClick:(UIButton *)sender {
-    
+
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -158,20 +157,26 @@ static NSString *const cellId = @"MIAlbumCell";
 
 - (IBAction)photoBtnClick:(UIButton *)sender {
     
-    sender.selected = YES;
-    _videoBtn.selected = NO;
-    
-    [self requestAssetsWithType:MIAlbumTypePhoto];
-    [self.albumCollectionView reloadData];
+    if (!sender.selected) {
+        sender.selected = YES;
+        _videoBtn.selected = NO;
+        _albumType = MIAlbumTypePhoto;
+        
+        [self requestAssetsWithType:MIAlbumTypePhoto];
+        [self.albumCollectionView reloadData];
+    }
 }
 
 - (IBAction)videoBtnClick:(UIButton *)sender {
     
-    sender.selected = YES;
-    _photoBtn.selected = NO;
-    
-    [self requestAssetsWithType:MIAlbumTypeVideo];
-    [self.albumCollectionView reloadData];
+    if (!sender.selected) {
+        sender.selected = YES;
+        _photoBtn.selected = NO;
+        _albumType = MIAlbumTypeVideo;
+        
+        [self requestAssetsWithType:MIAlbumTypeVideo];
+        [self.albumCollectionView reloadData];
+    }
 }
 
 - (IBAction)deleteBtnClick:(UIButton *)sender {
@@ -180,6 +185,17 @@ static NSString *const cellId = @"MIAlbumCell";
 
 - (IBAction)uploadBtnClick:(UIButton *)sender {
     
+}
+
+#pragma mark - refresh
+- (void)refreshBtnSelected {
+    if (_albumType == MIAlbumTypePhoto) {
+        _photoBtn.selected = YES;
+        _videoBtn.selected = NO;
+    } else {
+        _photoBtn.selected = NO;
+        _videoBtn.selected = YES;
+    }
 }
 
 @end

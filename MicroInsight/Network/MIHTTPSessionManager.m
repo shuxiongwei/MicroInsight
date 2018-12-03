@@ -55,6 +55,75 @@ static MIHTTPSessionManager *manager = nil;
     return manager;
 }
 
++ (void)getApi:(NSString *)path parameters:(id)params completed:(void (^)(id jsonData, NSError *error))completed {
+    
+    [[MIHTTPSessionManager shareManager] GET:path parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)task.response;
+        if (httpResponse.statusCode == 200) { //成功
+            if ([responseObject isKindOfClass:[NSData class]]) {
+                responseObject = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingAllowFragments error:nil];
+            }
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (completed) {
+                    completed(responseObject, nil);
+                }
+            });
+        } else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (completed) {
+                    completed(nil, nil);
+                }
+            });
+        }
+        
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            if (completed) {
+                completed(nil, error);
+            }
+        });
+        
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    }];
+}
+
++ (void)postApi:(NSString *)path parameters:(id)params completed:(void (^)(id jsonData, NSError *error))completed {
+
+    [[MIHTTPSessionManager shareManager] POST:path parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)task.response;
+        if (httpResponse.statusCode == 200) {
+            if ([responseObject isKindOfClass:[NSData class]]) {
+                responseObject = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingAllowFragments error:nil];
+            }
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (completed) {
+                    completed(responseObject, nil);
+                }
+            });
+        } else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (completed)
+                    completed(nil, nil);
+            });
+        }
+        
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            if (completed) {
+                completed(nil, error);
+            }
+        });
+        
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    }];
+}
+
 - (NSURLSessionDataTask *)dataTaskWithRequest:(NSURLRequest *)request
                                uploadProgress:(nullable void (^)(NSProgress *uploadProgress)) uploadProgressBlock
                              downloadProgress:(nullable void (^)(NSProgress *downloadProgress)) downloadProgressBlock

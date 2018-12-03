@@ -15,6 +15,7 @@
 #import "MIMotionManager.h"
 #import "MIReviewVideoViewController.h"
 #import "MIReviewImageViewController.h"
+#import "MIMyAlbumViewController.h"
 
 @interface MIPhotographyViewController () <AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptureAudioDataOutputSampleBufferDelegate, MICameraViewDelegate>
 
@@ -310,12 +311,10 @@
     NSString *videoPath = [NSString stringWithFormat:@"%@/%@.mov", assetsPath,videoName];
     _videoPath = videoPath;
     NSError *error;
-    [manager moveItemAtURL:_movieURL toURL:[NSURL URLWithString:videoPath] error:&error];
-//    if ([manager fileExistsAtPath:videoPath]) {
-//        [manager removeItemAtPath:videoPath error:nil];
-//    }
-//    NSString *tempPath = [NSString stringWithFormat:@"%@/%@", documentPath, @"movie.mov"];
-//    [manager copyItemAtPath:tempPath toPath:videoPath error:nil];
+    if ([manager fileExistsAtPath:videoPath]) {
+        [manager removeItemAtPath:videoPath error:nil];
+    }
+    [manager moveItemAtPath:_movieURL.path toPath:videoPath error:&error];
 
     [_cameraView resetCoverBtnImageWithAssetPath:videoPath];
 }
@@ -471,15 +470,20 @@
     //跳转系统相册(私有API)
 //    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"photos-redirect://"]];
     
-    if (type == 0) {
-        MIReviewImageViewController *imageVC = [[MIReviewImageViewController alloc] init];
-        imageVC.imgPath = _photoPath;
-        [self presentViewController:imageVC animated:YES completion:nil];
-    } else {
-        MIReviewVideoViewController *videoVC = [[MIReviewVideoViewController alloc] init];
-        videoVC.assetPath = _videoPath;
-        [self presentViewController:videoVC animated:YES completion:nil];
-    }
+//    if (type == 0) {
+//        MIReviewImageViewController *imageVC = [[MIReviewImageViewController alloc] init];
+//        imageVC.imgPath = _photoPath;
+//        [self presentViewController:imageVC animated:YES completion:nil];
+//    } else {
+//        MIReviewVideoViewController *videoVC = [[MIReviewVideoViewController alloc] init];
+//        videoVC.assetPath = _videoPath;
+//        [self presentViewController:videoVC animated:YES completion:nil];
+//    }
+    
+    UIStoryboard *board = [UIStoryboard storyboardWithName:@"MyAlbum" bundle:nil];
+    MIMyAlbumViewController *vc = [board instantiateViewControllerWithIdentifier:@"MIMyAlbumViewController"];
+    vc.albumType = type + 1;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)setDeviceZoomFactor:(MICameraView *)cameraView zoomFactor:(CGFloat)factor {

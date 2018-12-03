@@ -50,6 +50,7 @@
 - (IBAction)myAlbumBtnClick:(UIButton *)sender {
     UIStoryboard *board = [UIStoryboard storyboardWithName:@"MyAlbum" bundle:nil];
     MIMyAlbumViewController *vc = [board instantiateViewControllerWithIdentifier:@"MIMyAlbumViewController"];
+    vc.albumType = MIAlbumTypePhoto;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

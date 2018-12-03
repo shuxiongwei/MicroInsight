@@ -8,9 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSInteger,MIAlbumType) {
+    
+    MIAlbumTypePhoto = 1,
+    MIAlbumTypeVideo
+};
+
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface MIMyAlbumViewController : UIViewController
+
+@property (nonatomic, assign) NSInteger albumType;
 
 @end
 

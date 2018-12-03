@@ -249,14 +249,14 @@
 		3B6D661221AE3AA8005CAE9A /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				3B6D661321AE3AA8005CAE9A /* MIHTTPSessionManager.m */,
 				3B6D661421AE3AA8005CAE9A /* MIHTTPResponseSerializer.h */,
-				3B6D661521AE3AA8005CAE9A /* MIBaseRequest.h */,
-				3B6D661621AE3AA8005CAE9A /* MINetworkConstant.m */,
-				3B6D661721AE3AA8005CAE9A /* MIBaseRequest.m */,
 				3B6D661821AE3AA8005CAE9A /* MIHTTPResponseSerializer.m */,
-				3B6D661921AE3AA8005CAE9A /* MIHTTPSessionManager.h */,
+				3B6D661521AE3AA8005CAE9A /* MIBaseRequest.h */,
+				3B6D661721AE3AA8005CAE9A /* MIBaseRequest.m */,
 				3B6D661A21AE3AA8005CAE9A /* MINetworkConstant.h */,
+				3B6D661621AE3AA8005CAE9A /* MINetworkConstant.m */,
+				3B6D661921AE3AA8005CAE9A /* MIHTTPSessionManager.h */,
+				3B6D661321AE3AA8005CAE9A /* MIHTTPSessionManager.m */,
 			);
 			path = Network;
 			sourceTree = "<group>";

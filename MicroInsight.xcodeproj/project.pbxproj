@@ -13,6 +13,7 @@
 		090240A3219726420003D686 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 090240A2219726420003D686 /* Login.storyboard */; };
 		09BC50B621B561A2006B4277 /* MIAlbumRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 09BC50B521B561A2006B4277 /* MIAlbumRequest.m */; };
 		09BC50B921B56246006B4277 /* MIModelMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 09BC50B721B56246006B4277 /* MIModelMapper.m */; };
+		09BC50BE21B57823006B4277 /* UICollectionViewLeftAlignedLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 09BC50BD21B57823006B4277 /* UICollectionViewLeftAlignedLayout.m */; };
 		20DC8A5C601B9DBA6E4BC4E1 /* libPods-MicroInsight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 54F2597ADBF8F4BC4200A0B9 /* libPods-MicroInsight.a */; };
 		3B19C3FB21A504F4001027E9 /* MIThemeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B19C3FA21A504F4001027E9 /* MIThemeCell.m */; };
 		3B5FDB8321A2551300DDCD1E /* MIHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5FDB8221A2551300DDCD1E /* MIHomeViewController.m */; };
@@ -86,6 +87,8 @@
 		09BC50B521B561A2006B4277 /* MIAlbumRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MIAlbumRequest.m; sourceTree = "<group>"; };
 		09BC50B721B56246006B4277 /* MIModelMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIModelMapper.m; sourceTree = "<group>"; };
 		09BC50B821B56246006B4277 /* MIModelMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIModelMapper.h; sourceTree = "<group>"; };
+		09BC50BC21B57823006B4277 /* UICollectionViewLeftAlignedLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UICollectionViewLeftAlignedLayout.h; sourceTree = "<group>"; };
+		09BC50BD21B57823006B4277 /* UICollectionViewLeftAlignedLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UICollectionViewLeftAlignedLayout.m; sourceTree = "<group>"; };
 		3B19C3F921A504F4001027E9 /* MIThemeCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIThemeCell.h; sourceTree = "<group>"; };
 		3B19C3FA21A504F4001027E9 /* MIThemeCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MIThemeCell.m; sourceTree = "<group>"; };
 		3B5FDB8121A2551300DDCD1E /* MIHomeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIHomeViewController.h; sourceTree = "<group>"; };
@@ -249,6 +252,15 @@
 			path = Login;
 			sourceTree = "<group>";
 		};
+		09BC50BB21B57823006B4277 /* UICollectionViewLeftAlignedLayout */ = {
+			isa = PBXGroup;
+			children = (
+				09BC50BC21B57823006B4277 /* UICollectionViewLeftAlignedLayout.h */,
+				09BC50BD21B57823006B4277 /* UICollectionViewLeftAlignedLayout.m */,
+			);
+			path = UICollectionViewLeftAlignedLayout;
+			sourceTree = "<group>";
+		};
 		3B5FDB8D21A2C56700DDCD1E /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -316,6 +328,7 @@
 		702641A620F6F15100B21AFC /* MIHelpTool */ = {
 			isa = PBXGroup;
 			children = (
+				09BC50BB21B57823006B4277 /* UICollectionViewLeftAlignedLayout */,
 				09BC50B821B56246006B4277 /* MIModelMapper.h */,
 				09BC50B721B56246006B4277 /* MIModelMapper.m */,
 				702641A920F6F15100B21AFC /* MIHelpTool.h */,
@@ -720,6 +733,7 @@
 				702641AF20F6F15100B21AFC /* MIToastAlertView.m in Sources */,
 				3B6D661D21AE3AA8005CAE9A /* MIBaseRequest.m in Sources */,
 				70294787212D626D00B3732A /* MIBaseViewController.m in Sources */,
+				09BC50BE21B57823006B4277 /* UICollectionViewLeftAlignedLayout.m in Sources */,
 				706A6E1D20F6F9180097C577 /* UIView+CCAdditions.m in Sources */,
 				09BC50B621B561A2006B4277 /* MIAlbumRequest.m in Sources */,
 				7096B560213784CF003B1D3F /* MICameraFunctionView.m in Sources */,

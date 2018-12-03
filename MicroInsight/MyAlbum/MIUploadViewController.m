@@ -8,6 +8,7 @@
 
 #import "MIUploadViewController.h"
 #import "MIThemeCell.h"
+#import "UICollectionViewLeftAlignedLayout.h"
 #import <AVFoundation/AVFoundation.h>
 
 
@@ -41,7 +42,11 @@ static NSString *const CellId = @"MIThemeCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-   
+    UICollectionViewLeftAlignedLayout *flow = [[UICollectionViewLeftAlignedLayout alloc]init];
+    flow.minimumInteritemSpacing = 10;
+    flow.minimumLineSpacing = 10;
+    flow.sectionInset = UIEdgeInsetsMake(15, 10, 15, 10);
+    self.themCollection.collectionViewLayout = flow;
     // Do any additional setup after loading the view.
 }
 

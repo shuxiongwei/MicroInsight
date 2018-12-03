@@ -93,6 +93,7 @@ static NSString *const cellId = @"MIAlbumCell";
 }
 
 #pragma mark - collectionDelegate,collectionDatasource
+
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
  
     return 1;

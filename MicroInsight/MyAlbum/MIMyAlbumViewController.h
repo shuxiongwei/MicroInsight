@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MIMyAlbumViewController : UIViewController
 
-@property (nonatomic, assign) NSInteger albumType;
+@property (nonatomic, assign) MIAlbumType albumType;
 
 @end
 

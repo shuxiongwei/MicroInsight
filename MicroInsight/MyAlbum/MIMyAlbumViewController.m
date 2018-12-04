@@ -208,7 +208,17 @@ static NSString *const cellId = @"MIAlbumCell";
 
 - (IBAction)deleteBtnClick:(UIButton *)sender {
 
-    [MIAlertView showAlertViewWithFrame:MIScreenBounds alertBounds:CGRectMake(0, 0, 331, 213) alertType:QSAlertMessage alertTitle:@"温馨提示" alertMessage:@"确定删除所选货号吗？" alertInfo:@"删除" action:^(id alert) {
+    if (self.seletedIndexPaths.count == 0) {
+        [MIToastAlertView showAlertViewWithMessage:@"请选择需要删除的图片或视频"];
+        return;
+    }
+    
+    NSString *alertText = @"确定删除所选图片吗？";
+    if (_albumType == MIAlbumTypeVideo) {
+        alertText = @"确定删除所选视频吗？";
+    }
+    
+    [MIAlertView showAlertViewWithFrame:MIScreenBounds alertBounds:CGRectMake(0, 0, 331, 213) alertType:QSAlertMessage alertTitle:@"温馨提示" alertMessage:alertText alertInfo:@"删除" action:^(id alert) {
         
         for (NSInteger i = 0; i < self.seletedIndexPaths.count; i++) {
             NSIndexPath *indexP = self.seletedIndexPaths[i];

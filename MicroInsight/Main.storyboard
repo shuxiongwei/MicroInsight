@@ -175,6 +175,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="Q1t-5Y-U5r"/>
                     <connections>
+                        <outlet property="albumImageView" destination="ICp-mL-vaO" id="f21-My-bGI"/>
                         <outlet property="albumView" destination="pTi-e6-zv2" id="FYG-wj-3D1"/>
                         <outlet property="communityView" destination="9Aw-Hf-b5q" id="KoD-rK-nhY"/>
                         <outlet property="loginView" destination="Zls-Hp-xlE" id="Ot4-ol-DwU"/>

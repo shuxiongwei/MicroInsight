@@ -11,6 +11,7 @@
 static NSString * const requestUrl = @"http://122.14.225.235:8080/tipscope/api/web/index.php";
 static NSString * const registerUrl = @"/site/register";
 static NSString * const loginUrl = @"/site/login";
+static NSString * const communityListUrl = @"/node/list";
 
 @implementation MIRequestManager
 
@@ -120,6 +121,21 @@ static NSString * const loginUrl = @"/site/login";
     
     NSString *url = [requestUrl stringByAppendingString:loginUrl];
     [MIRequestManager postApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+        
+        completed(jsonData, error);
+    }];
+}
+
++ (void)getCommunityDataListWithSearchTitle:(NSString *)title requestToken:(NSString *)token page:(NSInteger)page pageSize:(NSInteger)pageSize completed:(void (^)(id jsonData, NSError *error))completed {
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"title"] = title;
+    params[@"token"] = token;
+    params[@"page"] = @(page);
+    params[@"pageSize"] = @(pageSize);
+    
+    NSString *url = [requestUrl stringByAppendingString:communityListUrl];
+    [MIRequestManager getApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
         
         completed(jsonData, error);
     }];

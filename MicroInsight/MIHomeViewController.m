@@ -21,6 +21,7 @@
 @property (weak, nonatomic) IBOutlet UIView *loginView;
 @property (weak, nonatomic) IBOutlet UIView *shootView;
 @property (weak, nonatomic) IBOutlet UILabel *username;
+@property (weak, nonatomic) IBOutlet UIImageView *albumImageView;
 
 @end
 
@@ -41,6 +42,8 @@
     if (![MIHelpTool isBlankString:username]) {
         _username.text = username;
     }
+    
+    [self setAlbumImageViewWithFirstLocalAssetThumbnail];
 }
 
 - (void)configHomeUI {
@@ -106,6 +109,36 @@
     UIStoryboard *board = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
     MILoginViewController *vc = [board instantiateViewControllerWithIdentifier:@"MILoginViewController"];
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+#pragma mark - helper
+- (void)setAlbumImageViewWithFirstLocalAssetThumbnail {
+
+    NSString *assetsPath = [MIHelpTool assetsPath];
+    NSFileManager *fm = [NSFileManager defaultManager];
+    if ([fm fileExistsAtPath:assetsPath]) {
+        NSArray *contentOfFolder = [fm contentsOfDirectoryAtPath:assetsPath error:nil];
+        if (contentOfFolder.count > 0) {
+            NSMutableArray *paths = [NSMutableArray arrayWithArray:contentOfFolder];
+            [paths sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+                return [obj2 compare:obj1];
+            }];
+            
+            UIImage *image;
+            NSString *path = paths.firstObject;
+            NSString *fullPath = [assetsPath stringByAppendingPathComponent:path];
+            if ([path.pathExtension isEqualToString:@"png"]) {
+                image = [UIImage imageWithContentsOfFile:fullPath];
+            } else {
+                AVAsset *asset = [AVAsset assetWithURL:[NSURL fileURLWithPath:fullPath]];
+                image = [MIHelpTool fetchThumbnailWithAVAsset:asset curTime:0];
+            }
+            
+            _albumImageView.image = image;
+        } else {
+            _albumImageView.image = [UIImage imageNamed:@"home_btn_album"];
+        }
+    }
 }
 
 @end

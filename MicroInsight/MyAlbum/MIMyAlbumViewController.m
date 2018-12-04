@@ -51,7 +51,7 @@ static NSString *const cellId = @"MIAlbumCell";
     layout.minimumInteritemSpacing = 5.0;
     UIEdgeInsets inset = UIEdgeInsetsMake(0, 5.0, 0, 5.0);
     layout.sectionInset = inset;
-    CGFloat width = (MIScreenWidth - 4 * 5.0) / 3;
+    CGFloat width = (MIScreenWidth - 4 * 5.0) / 3.0;
     CGFloat height = width * 123 / 118.0;
     layout.itemSize = CGSizeMake(width, height);
     self.albumCollectionView.collectionViewLayout = layout;
@@ -72,17 +72,19 @@ static NSString *const cellId = @"MIAlbumCell";
     NSFileManager *fm = [NSFileManager defaultManager];
     if ([fm fileExistsAtPath:assetsPath]) {
         NSArray *contentOfFolder = [fm contentsOfDirectoryAtPath:assetsPath error:nil];
-        NSMutableArray *paths = [NSMutableArray arrayWithArray:contentOfFolder];
-        [paths sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
-            return [obj2 compare:obj1];
-        }];
-        
-        for (NSString *aPath in paths) {
-            if ([aPath.pathExtension isEqualToString:extention]) {
-                NSString *fullPath = [assetsPath stringByAppendingPathComponent:aPath];
-                MIAlbum *album = [[MIAlbum alloc] init];
-                album.fileUrl = fullPath;
-                [self.assets addObject:album];
+        if (contentOfFolder.count > 0) {
+            NSMutableArray *paths = [NSMutableArray arrayWithArray:contentOfFolder];
+            [paths sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+                return [obj2 compare:obj1];
+            }];
+            
+            for (NSString *aPath in paths) {
+                if ([aPath.pathExtension isEqualToString:extention]) {
+                    NSString *fullPath = [assetsPath stringByAppendingPathComponent:aPath];
+                    MIAlbum *album = [[MIAlbum alloc] init];
+                    album.fileUrl = fullPath;
+                    [self.assets addObject:album];
+                }
             }
         }
     }

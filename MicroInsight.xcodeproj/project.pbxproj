@@ -16,7 +16,6 @@
 		09BC50BE21B57823006B4277 /* UICollectionViewLeftAlignedLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 09BC50BD21B57823006B4277 /* UICollectionViewLeftAlignedLayout.m */; };
 		20DC8A5C601B9DBA6E4BC4E1 /* libPods-MicroInsight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 54F2597ADBF8F4BC4200A0B9 /* libPods-MicroInsight.a */; };
 		3B19C3FB21A504F4001027E9 /* MIThemeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B19C3FA21A504F4001027E9 /* MIThemeCell.m */; };
-		3B5FDB8321A2551300DDCD1E /* MIHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5FDB8221A2551300DDCD1E /* MIHomeViewController.m */; };
 		3B5FDB8921A2A38500DDCD1E /* MILoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5FDB8821A2A38500DDCD1E /* MILoginViewController.m */; };
 		3B5FDB8C21A2C4BB00DDCD1E /* MICommunityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5FDB8B21A2C4BB00DDCD1E /* MICommunityViewController.m */; };
 		3B5FDB9021A2C58700DDCD1E /* MICommunityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5FDB8F21A2C58700DDCD1E /* MICommunityCell.m */; };
@@ -59,6 +58,8 @@
 		70A80994212D7744003ED7D2 /* MIFactorSlider.xib in Resources */ = {isa = PBXBuildFile; fileRef = 70A8098F212D7744003ED7D2 /* MIFactorSlider.xib */; };
 		70A80995212D7744003ED7D2 /* OMSliderBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 70A80991212D7744003ED7D2 /* OMSliderBar.m */; };
 		70A80996212D7744003ED7D2 /* MIFactorSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 70A80993212D7744003ED7D2 /* MIFactorSlider.m */; };
+		70C4318B21B604C4001D56C4 /* MIHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70C4318921B604C4001D56C4 /* MIHomeViewController.m */; };
+		70C4318E21B61044001D56C4 /* MIAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70C4318D21B61044001D56C4 /* MIAlertView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -91,8 +92,6 @@
 		09BC50BD21B57823006B4277 /* UICollectionViewLeftAlignedLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UICollectionViewLeftAlignedLayout.m; sourceTree = "<group>"; };
 		3B19C3F921A504F4001027E9 /* MIThemeCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIThemeCell.h; sourceTree = "<group>"; };
 		3B19C3FA21A504F4001027E9 /* MIThemeCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MIThemeCell.m; sourceTree = "<group>"; };
-		3B5FDB8121A2551300DDCD1E /* MIHomeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIHomeViewController.h; sourceTree = "<group>"; };
-		3B5FDB8221A2551300DDCD1E /* MIHomeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MIHomeViewController.m; sourceTree = "<group>"; };
 		3B5FDB8721A2A38500DDCD1E /* MILoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MILoginViewController.h; sourceTree = "<group>"; };
 		3B5FDB8821A2A38500DDCD1E /* MILoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MILoginViewController.m; sourceTree = "<group>"; };
 		3B5FDB8A21A2C4BB00DDCD1E /* MICommunityViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MICommunityViewController.h; sourceTree = "<group>"; };
@@ -177,6 +176,10 @@
 		70A80991212D7744003ED7D2 /* OMSliderBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMSliderBar.m; sourceTree = "<group>"; };
 		70A80992212D7744003ED7D2 /* MIFactorSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIFactorSlider.h; sourceTree = "<group>"; };
 		70A80993212D7744003ED7D2 /* MIFactorSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIFactorSlider.m; sourceTree = "<group>"; };
+		70C4318921B604C4001D56C4 /* MIHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIHomeViewController.m; sourceTree = "<group>"; };
+		70C4318A21B604C4001D56C4 /* MIHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIHomeViewController.h; sourceTree = "<group>"; };
+		70C4318C21B61044001D56C4 /* MIAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIAlertView.h; sourceTree = "<group>"; };
+		70C4318D21B61044001D56C4 /* MIAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIAlertView.m; sourceTree = "<group>"; };
 		70E1D22520F829F5007B07C2 /* MIReviewVideoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIReviewVideoViewController.h; sourceTree = "<group>"; };
 		D6210C935518D5CD3C8D161A /* Pods-MicroInsight.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MicroInsight.release.xcconfig"; path = "Pods/Target Support Files/Pods-MicroInsight/Pods-MicroInsight.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -335,6 +338,8 @@
 				702641AA20F6F15100B21AFC /* MIHelpTool.m */,
 				702641A820F6F15100B21AFC /* MIUIFactory.h */,
 				702641AB20F6F15100B21AFC /* MIUIFactory.m */,
+				70C4318C21B61044001D56C4 /* MIAlertView.h */,
+				70C4318D21B61044001D56C4 /* MIAlertView.m */,
 				702641A720F6F15100B21AFC /* MIToastAlertView.h */,
 				702641AC20F6F15100B21AFC /* MIToastAlertView.m */,
 				706A6E1820F6F7390097C577 /* MIMotionManager.h */,
@@ -488,8 +493,8 @@
 				3B830AE421AC084B00EC7746 /* Main.storyboard */,
 				70710C5C20F476A300052929 /* AppDelegate.h */,
 				70710C5D20F476A300052929 /* AppDelegate.m */,
-				3B5FDB8121A2551300DDCD1E /* MIHomeViewController.h */,
-				3B5FDB8221A2551300DDCD1E /* MIHomeViewController.m */,
+				70C4318A21B604C4001D56C4 /* MIHomeViewController.h */,
+				70C4318921B604C4001D56C4 /* MIHomeViewController.m */,
 				70710C6520F476A400052929 /* Assets.xcassets */,
 				707A5BD1212EAA90002D61BC /* font.ttf */,
 				70710C6720F476A400052929 /* LaunchScreen.storyboard */,
@@ -715,7 +720,6 @@
 				70710C6120F476A300052929 /* MIPhotographyViewController.m in Sources */,
 				70710CB020F4917E00052929 /* MIHorizontalPickerView.m in Sources */,
 				70294783212D5F8A00B3732A /* MIReviewImageViewController.m in Sources */,
-				3B5FDB8321A2551300DDCD1E /* MIHomeViewController.m in Sources */,
 				70710CAE20F4917E00052929 /* MIHorizontalPickerViewCell.m in Sources */,
 				70294789212D63BC00B3732A /* MIReviewVideoViewController.m in Sources */,
 				707A5BD0212EAA02002D61BC /* UIFont+Extension.m in Sources */,
@@ -725,6 +729,7 @@
 				70294780212D5E6700B3732A /* MIReviewImageCell.m in Sources */,
 				70710CAF20F4917E00052929 /* MIHorizontalPickerViewCellItem.m in Sources */,
 				70A80996212D7744003ED7D2 /* MIFactorSlider.m in Sources */,
+				70C4318B21B604C4001D56C4 /* MIHomeViewController.m in Sources */,
 				702641AE20F6F15100B21AFC /* MIUIFactory.m in Sources */,
 				3B5FDB9021A2C58700DDCD1E /* MICommunityCell.m in Sources */,
 				3B6D662221AEBB1F005CAE9A /* MIAlbum.m in Sources */,
@@ -741,6 +746,7 @@
 				70710C6C20F476A400052929 /* main.m in Sources */,
 				700F01C921B5496400D0D3EA /* MILocalData.m in Sources */,
 				3B6D661E21AE3AA8005CAE9A /* MIHTTPResponseSerializer.m in Sources */,
+				70C4318E21B61044001D56C4 /* MIAlertView.m in Sources */,
 				3B7973F921A415540087EE48 /* MIAlbumCell.m in Sources */,
 				70710C5E20F476A300052929 /* AppDelegate.m in Sources */,
 				702641AD20F6F15100B21AFC /* MIHelpTool.m in Sources */,

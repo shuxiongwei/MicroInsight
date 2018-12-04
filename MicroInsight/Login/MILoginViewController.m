@@ -104,7 +104,12 @@ typedef NS_ENUM(NSInteger,MIModuleType) {
     } else {
         [MIRequestManager registerWithUsername:_accountTF.text password:_passwordTF.text completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
             
-            [self loginBtnClick:_loginBtn];
+            NSInteger code = [jsonData[@"code"] integerValue];
+            if (code == 0) {
+                [self loginBtnClick:_loginBtn];
+            } else {
+                [self alertText:@"注册失败"];
+            }
         }];
     }
 }

@@ -27,7 +27,7 @@
 #pragma mark - 事件响应
 //返回
 - (void)goBack:(UIButton *)sender {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)didReceiveMemoryWarning {

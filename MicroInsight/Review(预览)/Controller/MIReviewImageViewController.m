@@ -52,8 +52,6 @@
     
     MIReviewImageCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"reviewCell" forIndexPath:indexPath];
     
-    NSString *documentPath = [MIHelpTool getDocumentPath];
-//    NSString *imgPath = [NSString stringWithFormat:@"%@/image.png", documentPath];
     UIImage *image = [UIImage imageWithContentsOfFile:_imgPath];
     cell.imgView.image = image;
     

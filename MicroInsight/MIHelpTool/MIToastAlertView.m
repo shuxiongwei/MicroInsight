@@ -53,10 +53,10 @@
     CGFloat messageHeight = [MIHelpTool measureMutilineStringHeightWithString:_message font:[UIFont systemFontOfSize:15] width:messageWidth];
     
     CGFloat alertWidth = 20 + imgWidth + 10 + messageWidth + 20;
-    CGFloat alertHeight = 15 + messageHeight + 15;
+    CGFloat alertHeight = 10 + messageHeight + 10;
     if (alertWidth > MIScreenWidth / 2.0) {
         alertWidth = MIScreenWidth / 2.0;
-        alertHeight = 15 + messageHeight * 2 + 15;
+        alertHeight = 10 + messageHeight * 2 + 10;
         second = 3;
     }
     
@@ -70,7 +70,7 @@
     imgView.image = [UIImage imageNamed:@"icon_common_msg_nor"];
     [alertView addSubview:imgView];
     [imgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(alertView.mas_left).offset(20);
+        make.left.equalTo(alertView.mas_left).offset(15);
         make.centerY.equalTo(alertView);
         make.width.mas_equalTo(12);
         make.height.mas_equalTo(12);
@@ -81,7 +81,7 @@
     [alertView addSubview:titleLab];
     [titleLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(alertView.mas_left).offset(42);
-        make.right.equalTo(alertView.mas_right).offset(-20);
+        make.right.equalTo(alertView.mas_right).offset(-15);
         make.centerY.equalTo(alertView);
     }];
     

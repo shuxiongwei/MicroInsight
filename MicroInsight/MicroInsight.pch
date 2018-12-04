@@ -17,6 +17,7 @@
 #import "UIFont+Extension.h"
 #import "MIRequestManager.h"
 #import "MILocalData.h"
+#import "MIAlertView.h"
 
 #define MIIOS9  ([UIDevice currentDevice].systemVersion.floatValue >= 9.0f)
 

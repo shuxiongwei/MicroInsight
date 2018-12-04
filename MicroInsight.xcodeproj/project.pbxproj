@@ -58,6 +58,7 @@
 		70A80995212D7744003ED7D2 /* OMSliderBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 70A80991212D7744003ED7D2 /* OMSliderBar.m */; };
 		70A80996212D7744003ED7D2 /* MIFactorSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 70A80993212D7744003ED7D2 /* MIFactorSlider.m */; };
 		70C4318B21B604C4001D56C4 /* MIHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70C4318921B604C4001D56C4 /* MIHomeViewController.m */; };
+		70C4318E21B61044001D56C4 /* MIAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70C4318D21B61044001D56C4 /* MIAlertView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -174,6 +175,8 @@
 		70A80993212D7744003ED7D2 /* MIFactorSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIFactorSlider.m; sourceTree = "<group>"; };
 		70C4318921B604C4001D56C4 /* MIHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIHomeViewController.m; sourceTree = "<group>"; };
 		70C4318A21B604C4001D56C4 /* MIHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIHomeViewController.h; sourceTree = "<group>"; };
+		70C4318C21B61044001D56C4 /* MIAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIAlertView.h; sourceTree = "<group>"; };
+		70C4318D21B61044001D56C4 /* MIAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIAlertView.m; sourceTree = "<group>"; };
 		70E1D22520F829F5007B07C2 /* MIReviewVideoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIReviewVideoViewController.h; sourceTree = "<group>"; };
 		D6210C935518D5CD3C8D161A /* Pods-MicroInsight.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MicroInsight.release.xcconfig"; path = "Pods/Target Support Files/Pods-MicroInsight/Pods-MicroInsight.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -322,6 +325,8 @@
 				702641AA20F6F15100B21AFC /* MIHelpTool.m */,
 				702641A820F6F15100B21AFC /* MIUIFactory.h */,
 				702641AB20F6F15100B21AFC /* MIUIFactory.m */,
+				70C4318C21B61044001D56C4 /* MIAlertView.h */,
+				70C4318D21B61044001D56C4 /* MIAlertView.m */,
 				702641A720F6F15100B21AFC /* MIToastAlertView.h */,
 				702641AC20F6F15100B21AFC /* MIToastAlertView.m */,
 				706A6E1820F6F7390097C577 /* MIMotionManager.h */,
@@ -727,6 +732,7 @@
 				70710C6C20F476A400052929 /* main.m in Sources */,
 				700F01C921B5496400D0D3EA /* MILocalData.m in Sources */,
 				3B6D661E21AE3AA8005CAE9A /* MIHTTPResponseSerializer.m in Sources */,
+				70C4318E21B61044001D56C4 /* MIAlertView.m in Sources */,
 				3B7973F921A415540087EE48 /* MIAlbumCell.m in Sources */,
 				70710C5E20F476A300052929 /* AppDelegate.m in Sources */,
 				702641AD20F6F15100B21AFC /* MIHelpTool.m in Sources */,

@@ -68,4 +68,36 @@
 
 + (BOOL) isBlankString:(NSString *)str;
 
+/**
+ 判断 字母、数字、中文
+ 
+ @param str 输入的字符串
+ @return 返回值
+ */
++ (BOOL)isInputRuleAndNumber:(NSString *)str;
+
+/**
+ 获得maxLength长度的字符
+ 
+ @param string 输入的字符串
+ @return 返回值
+ */
++ (NSString *)getSubString:(NSString*)string;
+
+/**
+ 判断字符串是否含有emoji
+ 
+ @param str 输入的字符串
+ @return 返回值
+ */
++ (BOOL)hasEmoji:(NSString *)str;
+
+/**
+ 过滤字符串中的emoji
+ 
+ @param text 输入的字符串
+ @return 返回值
+ */
++ (NSString *)disable_emoji:(NSString *)text;
+
 @end

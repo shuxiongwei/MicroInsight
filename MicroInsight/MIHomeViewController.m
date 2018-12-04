@@ -83,9 +83,16 @@
 
 //社区
 - (void)clickCommunityView:(UITapGestureRecognizer *)rec {
-    UIStoryboard *board = [UIStoryboard storyboardWithName:@"Community" bundle:nil];
-    MICommunityViewController *vc = [board instantiateViewControllerWithIdentifier:@"MICommunityViewController"];
-    [self.navigationController pushViewController:vc animated:YES];
+    NSString *username = [MILocalData getCurrentLoginUsername];
+    if (![MIHelpTool isBlankString:username]) {
+        UIStoryboard *board = [UIStoryboard storyboardWithName:@"Community" bundle:nil];
+        MICommunityViewController *vc = [board instantiateViewControllerWithIdentifier:@"MICommunityViewController"];
+        [self.navigationController pushViewController:vc animated:YES];
+    } else {
+        UIStoryboard *board = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
+        MILoginViewController *vc = [board instantiateViewControllerWithIdentifier:@"MILoginViewController"];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 //拍摄

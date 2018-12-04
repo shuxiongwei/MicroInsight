@@ -8,6 +8,8 @@
 
 #import "MIHelpTool.h"
 
+static NSInteger const maxLength = 20;
+
 @implementation MIHelpTool
 
 + (NSString *)timeStampSecond {
@@ -96,6 +98,59 @@
     }
     
     return NO;
+}
+
++ (BOOL)isInputRuleAndNumber:(NSString *)str {
+    
+    NSString *other = @"➋➌➍➎➏➐➑➒";     //九宫格的输入值
+    unsigned long len = str.length;
+    for (int i = 0; i< len; i++) {
+        unichar a = [str characterAtIndex:i];
+        if(!((isalpha(a))
+             ||(isalnum(a))
+             //             ||((a=='_') || (a == '-')) //判断是否允许下划线，昵称可能会用上
+             ||((a==' '))                 //判断是否允许控制
+             ||((a >= 0x4e00 && a <= 0x9fa6))
+             ||([other rangeOfString:str].location != NSNotFound)
+             ))
+            return NO;
+    }
+    
+    return YES;
+}
+
++ (NSString *)getSubString:(NSString*)string {
+    NSStringEncoding encoding = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGB_18030_2000);
+    NSData* data = [string dataUsingEncoding:encoding];
+    NSInteger length = [data length];
+    if (length > maxLength) {
+        NSData *data1 = [data subdataWithRange:NSMakeRange(0, maxLength)];
+        //注意：当截取maxLength长度字符时，把中文字符截断返回的content会是nil
+        NSString *content = [[NSString alloc] initWithData:data1 encoding:encoding];
+        
+        if (!content || content.length == 0) {
+            data1 = [data subdataWithRange:NSMakeRange(0, maxLength - 1)];
+            content =  [[NSString alloc] initWithData:data1 encoding:encoding];
+        }
+        return content;
+    }
+    return nil;
+}
+
++ (BOOL)hasEmoji:(NSString *)str {
+    NSString *pattern = @"[^\\u0020-\\u007E\\u00A0-\\u00BE\\u2E80-\\uA4CF\\uF900-\\uFAFF\\uFE30-\\uFE4F\\uFF00-\\uFFEF\\u0080-\\u009F\\u2000-\\u201f\r\n]";
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", pattern];
+    BOOL isMatch = [pred evaluateWithObject:str];
+    return isMatch;
+}
+
++ (NSString *)disable_emoji:(NSString *)text {
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"[^\\u0020-\\u007E\\u00A0-\\u00BE\\u2E80-\\uA4CF\\uF900-\\uFAFF\\uFE30-\\uFE4F\\uFF00-\\uFFEF\\u0080-\\u009F\\u2000-\\u201f\r\n]"options:NSRegularExpressionCaseInsensitive error:nil];
+    NSString *modifiedString = [regex stringByReplacingMatchesInString:text
+                                                               options:0
+                                                                 range:NSMakeRange(0, [text length])
+                                                          withTemplate:@""];
+    return modifiedString;
 }
 
 @end

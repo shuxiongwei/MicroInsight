@@ -21,7 +21,8 @@ typedef NS_ENUM(NSUInteger, MIRefreshType) {
 @interface MICommunityViewController ()<UICollectionViewDelegate, UICollectionViewDataSource, UISearchBarDelegate>
 
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
-@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+@property (weak, nonatomic) IBOutlet UIView *searchBackView;
+@property (nonatomic, strong) UICollectionView *collectionV;
 
 @property (nonatomic, assign) NSInteger currentPage;
 @property (nonatomic, assign) NSInteger pageSize;
@@ -37,34 +38,50 @@ static NSString * const MICellID = @"MICommunityCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    UITextField *searchField = [_searchBar valueForKey:@"_searchField"];
+    [searchField setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
+    [searchField setValue:[UIFont systemFontOfSize:14] forKeyPath:@"_placeholderLabel.font"];
+    searchField.font = [UIFont systemFontOfSize:14];
+    searchField.layer.cornerRadius = 15;
+    searchField.layer.masksToBounds = YES;
+    searchField.backgroundColor = [UIColor blackColor];
+    UIButton *cancelBtn = [_searchBar valueForKey:@"cancelButton"];
+    [cancelBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    cancelBtn.titleLabel.font = [UIFont systemFontOfSize:15];
+    
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     layout.minimumLineSpacing = 5;
     layout.minimumInteritemSpacing = 5;
-    UIEdgeInsets inset = UIEdgeInsetsMake(0, 5.0, 0, 5.0);
+    UIEdgeInsets inset = UIEdgeInsetsMake(5.0, 5.0, 5.0, 5.0);
     layout.sectionInset = inset;
     CGFloat width = (MIScreenWidth - 3 * 5) / 2.0;
     layout.itemSize = CGSizeMake(width, width * 148.0 / 180.0);
-    self.collectionView.collectionViewLayout = layout;
+    
+    _collectionV = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 64, MIScreenWidth, MIScreenHeight - 64) collectionViewLayout:layout];
+    _collectionV.delegate = self;
+    _collectionV.dataSource = self;
+    [_collectionV registerNib:[UINib nibWithNibName:@"MICommunityCell" bundle:nil] forCellWithReuseIdentifier:MICellID];
+    [self.view addSubview:_collectionV];
     
     WSWeak(weakSelf);
     MJRefreshGifHeader *header = [MJRefreshGifHeader headerWithRefreshingBlock:^{
-        [weakSelf.collectionView.mj_header endRefreshing];
+        [weakSelf.collectionV.mj_header endRefreshing];
         weakSelf.currentPage = 1;
         [weakSelf refreshUI:MIRefreshNormal];
     }];
-    self.collectionView.mj_header = header;
+    _collectionV.mj_header = header;
     
     MJRefreshAutoNormalFooter *footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
         
         if (weakSelf.currentPage >= weakSelf.pageCount) {
-            [weakSelf.collectionView.mj_footer endRefreshingWithNoMoreData];
+            [weakSelf.collectionV.mj_footer endRefreshingWithNoMoreData];
         } else {
-            [weakSelf.collectionView.mj_footer endRefreshing];
+            [weakSelf.collectionV.mj_footer endRefreshing];
             weakSelf.currentPage++;
             [weakSelf refreshUI:MIRefreshAdd];
         }
     }];
-    self.collectionView.mj_footer = footer;
+    _collectionV.mj_footer = footer;
     
     _currentPage = 1;
     _pageSize = 10;
@@ -73,7 +90,7 @@ static NSString * const MICellID = @"MICommunityCell";
 
 - (void)refreshUI:(MIRefreshType)type {
     [self requestDataList:type complete:^{
-        [self.collectionView reloadData];
+        [_collectionV reloadData];
     }];
 }
 
@@ -110,8 +127,7 @@ static NSString * const MICellID = @"MICommunityCell";
 }
 
 - (IBAction)searchBtnClick:(UIButton *)sender {
-    
-    self.searchBar.hidden = NO;
+    _searchBackView.hidden = NO;
 }
 
 #pragma mark - UICollectionViewDelegate, UICollectionViewDataSource
@@ -128,6 +144,7 @@ static NSString * const MICellID = @"MICommunityCell";
     MICommunityCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:MICellID forIndexPath:indexPath];
     MICommunityListModel *listM = self.dataList[indexPath.item];
     cell.titleLb.text = listM.title;
+    cell.timeLb.text = listM.createdAt;
     MICommunityTagModel *tagM = listM.tags.firstObject;
     cell.subTitleLb.text = tagM.title;
     
@@ -163,7 +180,7 @@ static NSString * const MICellID = @"MICommunityCell";
     [self refreshUI:MIRefreshNormal];
     [searchBar resignFirstResponder];
     searchBar.text = nil;
-    searchBar.hidden = YES;
+    _searchBackView.hidden = YES;
 }
 
 #pragma mark - 懒加载

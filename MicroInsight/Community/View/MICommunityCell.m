@@ -13,8 +13,8 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     
-    _imgView.layer.cornerRadius = 3;
-    _imgView.layer.masksToBounds = YES;
+    self.layer.cornerRadius = 3;
+    self.layer.masksToBounds = YES;
 }
 
 @end

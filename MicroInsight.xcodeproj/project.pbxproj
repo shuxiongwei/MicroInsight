@@ -60,6 +60,7 @@
 		70C4318B21B604C4001D56C4 /* MIHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70C4318921B604C4001D56C4 /* MIHomeViewController.m */; };
 		70C4318E21B61044001D56C4 /* MIAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70C4318D21B61044001D56C4 /* MIAlertView.m */; };
 		70C4319221B620FC001D56C4 /* MICommunityListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 70C4319121B620FC001D56C4 /* MICommunityListModel.m */; };
+		70CC791021B6C55300C657FA /* MICommunityCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 70CC790F21B6C55300C657FA /* MICommunityCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -180,6 +181,7 @@
 		70C4318D21B61044001D56C4 /* MIAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIAlertView.m; sourceTree = "<group>"; };
 		70C4319021B620FC001D56C4 /* MICommunityListModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MICommunityListModel.h; sourceTree = "<group>"; };
 		70C4319121B620FC001D56C4 /* MICommunityListModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MICommunityListModel.m; sourceTree = "<group>"; };
+		70CC790F21B6C55300C657FA /* MICommunityCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MICommunityCell.xib; sourceTree = "<group>"; };
 		70E1D22520F829F5007B07C2 /* MIReviewVideoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIReviewVideoViewController.h; sourceTree = "<group>"; };
 		D6210C935518D5CD3C8D161A /* Pods-MicroInsight.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MicroInsight.release.xcconfig"; path = "Pods/Target Support Files/Pods-MicroInsight/Pods-MicroInsight.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -261,6 +263,7 @@
 			children = (
 				3B5FDB8E21A2C58700DDCD1E /* MICommunityCell.h */,
 				3B5FDB8F21A2C58700DDCD1E /* MICommunityCell.m */,
+				70CC790F21B6C55300C657FA /* MICommunityCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -649,6 +652,7 @@
 				3B830AE521AC084B00EC7746 /* Main.storyboard in Resources */,
 				70A80994212D7744003ED7D2 /* MIFactorSlider.xib in Resources */,
 				090240A3219726420003D686 /* Login.storyboard in Resources */,
+				70CC791021B6C55300C657FA /* MICommunityCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

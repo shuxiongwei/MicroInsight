@@ -11,6 +11,9 @@
 #import "MILoginViewController.h"
 #import "MICommunityViewController.h"
 #import "MIMyAlbumViewController.h"
+#import "MICommunityListModel.h"
+#import "UIImageView+WebCache.h"
+
 
 @interface MIHomeViewController ()
 
@@ -22,6 +25,7 @@
 @property (weak, nonatomic) IBOutlet UIView *shootView;
 @property (weak, nonatomic) IBOutlet UILabel *username;
 @property (weak, nonatomic) IBOutlet UIImageView *albumImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *communityImageView;
 
 @end
 
@@ -43,6 +47,7 @@
         _username.text = username;
     }
     
+    [self setCommunityBackgroundImage];
     [self setAlbumImageViewWithFirstLocalAssetThumbnail];
 }
 
@@ -139,6 +144,45 @@
             _albumImageView.image = [UIImage imageNamed:@"home_btn_album"];
         }
     }
+}
+
+- (void)setCommunityBackgroundImage {
+    NSString *username = [MILocalData getCurrentLoginUsername];
+    if (![MIHelpTool isBlankString:username]) {
+        [self requestFirstNetworkAssetThumbnailComplete:^(BOOL success) {
+            
+        }];
+    } else {
+        _communityImageView.image = [UIImage imageNamed:@"home_btn_social"];
+    }
+}
+
+- (void)requestFirstNetworkAssetThumbnailComplete:(void(^)(BOOL success))completed {
+    
+    WSWeak(weakSelf);
+    [MIRequestManager getCommunityDataListWithSearchTitle:@"" requestToken:[MILocalData getCurrentRequestToken] page:1 pageSize:1 completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+        
+        NSInteger code = [jsonData[@"code"] integerValue];
+        if (code == 0) {
+            NSDictionary *data = jsonData[@"data"];
+            NSArray *list = data[@"list"];
+            if (list.count > 0) {
+                NSDictionary *dic = list.firstObject;
+                MICommunityListModel *model = [MICommunityListModel yy_modelWithDictionary:dic];
+
+                if (model.contentType.integerValue == 0) {
+                    [weakSelf.communityImageView sd_setImageWithURL:[NSURL URLWithString:model.url] placeholderImage:nil options:SDWebImageRetryFailed];
+                } else {
+                    AVAsset *asset = [AVAsset assetWithURL:[NSURL URLWithString:model.url]];
+                    weakSelf.communityImageView.image = [MIHelpTool fetchThumbnailWithAVAsset:asset curTime:0];
+                }
+            } else {
+                weakSelf.communityImageView.image = [UIImage imageNamed:@"home_btn_social"];
+            }
+        } else {
+            weakSelf.communityImageView.image = [UIImage imageNamed:@"home_btn_social"];
+        }
+    }];
 }
 
 @end

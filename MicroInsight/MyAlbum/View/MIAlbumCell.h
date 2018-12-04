@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UIImageView *selectedTagImgView;
 @property (weak, nonatomic) IBOutlet UILabel *durationLb;
 @property (weak, nonatomic) IBOutlet UIView *shadeView;
+@property (weak, nonatomic) IBOutlet UIButton *playBtn;
 @property (assign, nonatomic) BOOL isSelected;
 
 @end

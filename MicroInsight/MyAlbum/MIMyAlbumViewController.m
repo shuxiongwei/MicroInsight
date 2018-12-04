@@ -43,11 +43,7 @@ static NSString *const cellId = @"MIAlbumCell";
 
     [self refreshBtnSelected];
     self.assets = [self requestAssetsWithType:_albumType];
-    if (self.assets.count == 0) {
-        _emptyTipView.hidden = NO;
-    }else{
-        _emptyTipView.hidden = YES;
-    }
+    [self showOrHideEmptyTipView];
     [self.albumCollectionView reloadData];
     
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
@@ -55,7 +51,7 @@ static NSString *const cellId = @"MIAlbumCell";
     layout.minimumInteritemSpacing = 5.0;
     UIEdgeInsets inset = UIEdgeInsetsMake(0, 5.0, 0, 5.0);
     layout.sectionInset = inset;
-    CGFloat width = (MIScreenWidth - 3 * 5.0) / 2;
+    CGFloat width = (MIScreenWidth - 4 * 5.0) / 3;
     CGFloat height = width * 123 / 118.0;
     layout.itemSize = CGSizeMake(width, height);
     self.albumCollectionView.collectionViewLayout = layout;
@@ -123,9 +119,11 @@ static NSString *const cellId = @"MIAlbumCell";
     UIImage *img = nil;
     if ([[url pathExtension] isEqualToString:@"png"]) {
         img = [UIImage imageWithContentsOfFile:url];
+        cell.playBtn.hidden = YES;
     } else {
         AVAsset *asset = [AVAsset assetWithURL:[NSURL fileURLWithPath:url]];
         img = [MIHelpTool fetchThumbnailWithAVAsset:asset curTime:0.0];
+        cell.playBtn.hidden = NO;
     }
     cell.assetImgView.image = img;
     cell.isSelected = album.isSelected;
@@ -190,6 +188,7 @@ static NSString *const cellId = @"MIAlbumCell";
         _albumType = MIAlbumTypePhoto;
         [self.seletedIndexPaths removeAllObjects];
         [self requestAssetsWithType:MIAlbumTypePhoto];
+        [self showOrHideEmptyTipView];
         [self.albumCollectionView reloadData];
     }
 }
@@ -202,6 +201,7 @@ static NSString *const cellId = @"MIAlbumCell";
         _albumType = MIAlbumTypeVideo;
         [self.seletedIndexPaths removeAllObjects];
         [self requestAssetsWithType:MIAlbumTypeVideo];
+        [self showOrHideEmptyTipView];
         [self.albumCollectionView reloadData];
     }
 }
@@ -231,6 +231,7 @@ static NSString *const cellId = @"MIAlbumCell";
         }
         
         [self requestAssetsWithType:_albumType];
+        [self showOrHideEmptyTipView];
         [self.seletedIndexPaths removeAllObjects];
         [self.albumCollectionView reloadData];
     }];
@@ -264,6 +265,14 @@ static NSString *const cellId = @"MIAlbumCell";
     } else {
         _photoBtn.selected = NO;
         _videoBtn.selected = YES;
+    }
+}
+
+- (void)showOrHideEmptyTipView {
+    if (self.assets.count == 0) {
+        _emptyTipView.hidden = NO;
+    } else {
+        _emptyTipView.hidden = YES;
     }
 }
 

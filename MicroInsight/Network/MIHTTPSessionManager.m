@@ -59,7 +59,7 @@ static MIHTTPSessionManager *manager = nil;
     
     [[MIHTTPSessionManager shareManager] GET:path parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)task.response;
-        if (httpResponse.statusCode == 200) { //成功
+        if (httpResponse.statusCode == ApiSessionSucessCode) { //成功
             if ([responseObject isKindOfClass:[NSData class]]) {
                 responseObject = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingAllowFragments error:nil];
             }
@@ -94,7 +94,7 @@ static MIHTTPSessionManager *manager = nil;
 
     [[MIHTTPSessionManager shareManager] POST:path parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)task.response;
-        if (httpResponse.statusCode == 200) {
+        if (httpResponse.statusCode == ApiSessionSucessCode) {
             if ([responseObject isKindOfClass:[NSData class]]) {
                 responseObject = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingAllowFragments error:nil];
             }

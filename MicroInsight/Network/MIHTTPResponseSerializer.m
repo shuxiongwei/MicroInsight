@@ -64,10 +64,10 @@
 //            [LBLocalManager clearUserInfo];
             dispatch_async(dispatch_get_main_queue(), ^{
                 
-                UITabBarController *tab = (UITabBarController  *)[UIApplication sharedApplication].keyWindow.rootViewController;
-                UIStoryboard *board = [UIStoryboard storyboardWithName:@"Reg&Log" bundle:nil];
-                UINavigationController *nav = [board instantiateInitialViewController];
-                [tab presentViewController:nav animated:YES completion:nil];
+//                UITabBarController *tab = (UITabBarController  *)[UIApplication sharedApplication].keyWindow.rootViewController;
+//                UIStoryboard *board = [UIStoryboard storyboardWithName:@"Reg&Log" bundle:nil];
+//                UINavigationController *nav = [board instantiateInitialViewController];
+//                [tab presentViewController:nav animated:YES completion:nil];
             });
         }
     }

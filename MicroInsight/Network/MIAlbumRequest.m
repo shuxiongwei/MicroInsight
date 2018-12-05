@@ -7,27 +7,18 @@
 //
 
 #import "MIAlbumRequest.h"
+#import "MITheme.h"
 
 @implementation MIAlbumRequest
 
-- (NSURLSessionTask *)loginWithPhone:(NSString *)phone password:(NSString *)psw  successResponse:(MINetworkRequestSuccessVoid)success failureResponse:(MINetworkRequestFailure)failure{
-    NSString *path = @"userinfo/login";
-    NSDictionary *parameter = @{@"phone" : phone?:@"",@"password":psw?:@""};
-    return [self POST:path parameters:parameter downProgress:nil success:^(NSURLSessionDataTask *task, id responseObject) {
-        
+- (NSURLSessionTask *)themeListWithSuccessResponse:(MINetworkRequestSuccessArray)success failureResponse:(MINetworkRequestFailure)failure{
+    NSString *path = @"tag/index";
+    return [self GET:path parameters:nil downProgress:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         NSDictionary *dic = responseObject;
-        NSDictionary *data = dic[@"data"];
-        NSString *token = data[@"token"];
-        NSString *upToken = data[@"uptoken"];
-        NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+        NSArray *array = dic[@"list"];
         
-        
-//        LBUserInfo *user = [LBModelMapper modelWithDictionary:data[@"userInfo"] modelClass:[LBUserInfo class]];
-//        NSData *userData = [NSKeyedArchiver archivedDataWithRootObject:user];
-//        [def setObject:userData forKey:LBUserInfoKey];
-        
-        NSString *msg = dic[@"msg"];
-        success(msg);
+        NSArray *list = [MIModelMapper modelArrayWithJsonArray:array modelClass:[MITheme class]];
+        success(list,nil);
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         

@@ -73,6 +73,7 @@
     self.cameraView = [[MICameraView alloc] initWithFrame:self.view.bounds];
     self.cameraView.delegate = self;
     [self.view addSubview:self.cameraView];
+    [super configBackBtn];
     
     NSError *error;
     [self setupSession:&error];
@@ -289,21 +290,21 @@
 
 // 保存视频
 - (void)saveMovieToCameraRoll {
-//    if (MIIOS9) {
-//        [PHPhotoLibrary requestAuthorization:^( PHAuthorizationStatus status ) {
-//            if (status != PHAuthorizationStatusAuthorized) return;
-//            [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
-//                if (@available(iOS 9.0, *)) {
-//                    PHAssetCreationRequest *videoRequest = [PHAssetCreationRequest creationRequestForAsset];
-//                    [videoRequest addResourceWithType:PHAssetResourceTypeVideo fileURL:self->_movieURL options:nil];
-//                } else {
-//                    // Fallback on earlier versions
-//                }
-//            } completionHandler:^( BOOL success, NSError * _Nullable error ) {
-//                success?:[MIToastAlertView showAlertViewWithMessage:error.localizedDescription];
-//            }];
-//        }];
-//    }
+    if (MIIOS9) {
+        [PHPhotoLibrary requestAuthorization:^( PHAuthorizationStatus status ) {
+            if (status != PHAuthorizationStatusAuthorized) return;
+            [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
+                if (@available(iOS 9.0, *)) {
+                    PHAssetCreationRequest *videoRequest = [PHAssetCreationRequest creationRequestForAsset];
+                    [videoRequest addResourceWithType:PHAssetResourceTypeVideo fileURL:self->_movieURL options:nil];
+                } else {
+                    // Fallback on earlier versions
+                }
+            } completionHandler:^( BOOL success, NSError * _Nullable error ) {
+                success?:[MIToastAlertView showAlertViewWithMessage:error.localizedDescription];
+            }];
+        }];
+    }
     
     NSFileManager *manager = [NSFileManager defaultManager];
     NSString *assetsPath = [MIHelpTool assetsPath];

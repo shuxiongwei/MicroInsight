@@ -11,6 +11,9 @@
 #import "MILoginViewController.h"
 #import "MICommunityViewController.h"
 #import "MIMyAlbumViewController.h"
+#import "MICommunityListModel.h"
+#import "UIImageView+WebCache.h"
+
 
 @interface MIHomeViewController ()
 
@@ -21,6 +24,8 @@
 @property (weak, nonatomic) IBOutlet UIView *loginView;
 @property (weak, nonatomic) IBOutlet UIView *shootView;
 @property (weak, nonatomic) IBOutlet UILabel *username;
+@property (weak, nonatomic) IBOutlet UIImageView *albumImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *communityImageView;
 
 @end
 
@@ -41,6 +46,9 @@
     if (![MIHelpTool isBlankString:username]) {
         _username.text = username;
     }
+    
+    [self setCommunityBackgroundImage];
+    [self setAlbumImageViewWithFirstLocalAssetThumbnail];
 }
 
 - (void)configHomeUI {
@@ -106,6 +114,75 @@
     UIStoryboard *board = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
     MILoginViewController *vc = [board instantiateViewControllerWithIdentifier:@"MILoginViewController"];
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+#pragma mark - helper
+- (void)setAlbumImageViewWithFirstLocalAssetThumbnail {
+
+    NSString *assetsPath = [MIHelpTool assetsPath];
+    NSFileManager *fm = [NSFileManager defaultManager];
+    if ([fm fileExistsAtPath:assetsPath]) {
+        NSArray *contentOfFolder = [fm contentsOfDirectoryAtPath:assetsPath error:nil];
+        if (contentOfFolder.count > 0) {
+            NSMutableArray *paths = [NSMutableArray arrayWithArray:contentOfFolder];
+            [paths sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+                return [obj2 compare:obj1];
+            }];
+            
+            UIImage *image;
+            NSString *path = paths.firstObject;
+            NSString *fullPath = [assetsPath stringByAppendingPathComponent:path];
+            if ([path.pathExtension isEqualToString:@"png"]) {
+                image = [UIImage imageWithContentsOfFile:fullPath];
+            } else {
+                AVAsset *asset = [AVAsset assetWithURL:[NSURL fileURLWithPath:fullPath]];
+                image = [MIHelpTool fetchThumbnailWithAVAsset:asset curTime:0];
+            }
+            
+            _albumImageView.image = image;
+        } else {
+            _albumImageView.image = [UIImage imageNamed:@"home_btn_album"];
+        }
+    }
+}
+
+- (void)setCommunityBackgroundImage {
+    NSString *username = [MILocalData getCurrentLoginUsername];
+    if (![MIHelpTool isBlankString:username]) {
+        [self requestFirstNetworkAssetThumbnailComplete:^(BOOL success) {
+            
+        }];
+    } else {
+        _communityImageView.image = [UIImage imageNamed:@"home_btn_social"];
+    }
+}
+
+- (void)requestFirstNetworkAssetThumbnailComplete:(void(^)(BOOL success))completed {
+    
+    WSWeak(weakSelf);
+    [MIRequestManager getCommunityDataListWithSearchTitle:@"" requestToken:[MILocalData getCurrentRequestToken] page:1 pageSize:1 completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+        
+        NSInteger code = [jsonData[@"code"] integerValue];
+        if (code == 0) {
+            NSDictionary *data = jsonData[@"data"];
+            NSArray *list = data[@"list"];
+            if (list.count > 0) {
+                NSDictionary *dic = list.firstObject;
+                MICommunityListModel *model = [MICommunityListModel yy_modelWithDictionary:dic];
+
+                if (model.contentType.integerValue == 0) {
+                    [weakSelf.communityImageView sd_setImageWithURL:[NSURL URLWithString:model.url] placeholderImage:nil options:SDWebImageRetryFailed];
+                } else {
+                    AVAsset *asset = [AVAsset assetWithURL:[NSURL URLWithString:model.url]];
+                    weakSelf.communityImageView.image = [MIHelpTool fetchThumbnailWithAVAsset:asset curTime:0];
+                }
+            } else {
+                weakSelf.communityImageView.image = [UIImage imageNamed:@"home_btn_social"];
+            }
+        } else {
+            weakSelf.communityImageView.image = [UIImage imageNamed:@"home_btn_social"];
+        }
+    }];
 }
 
 @end

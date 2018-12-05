@@ -57,6 +57,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (void)loginWithUsername:(NSString *)username password:(NSString *)password completed:(void (^)(id jsonData, NSError *error))completed;
 
+#pragma mark - 社区
++ (void)getCommunityDataListWithSearchTitle:(NSString *)title requestToken:(NSString *)token page:(NSInteger)page pageSize:(NSInteger)pageSize completed:(void (^)(id jsonData, NSError *error))completed;
+
 @end
 
 NS_ASSUME_NONNULL_END

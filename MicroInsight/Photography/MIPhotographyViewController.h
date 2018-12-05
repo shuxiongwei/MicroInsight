@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MIPhotographyViewController : UIViewController
+@interface MIPhotographyViewController : MIBaseViewController
 
 
 @end

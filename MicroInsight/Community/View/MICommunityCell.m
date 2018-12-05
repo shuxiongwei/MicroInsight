@@ -10,4 +10,11 @@
 
 @implementation MICommunityCell
 
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    
+    self.layer.cornerRadius = 3;
+    self.layer.masksToBounds = YES;
+}
+
 @end

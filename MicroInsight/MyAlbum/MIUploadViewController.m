@@ -13,7 +13,7 @@
 #import <AVFoundation/AVFoundation.h>
 
 
-@interface MIUploadViewController ()<UICollectionViewDelegate, UICollectionViewDataSource>
+@interface MIUploadViewController ()<UICollectionViewDelegate, UICollectionViewDataSource ,UICollectionViewDelegateFlowLayout>
 
 @property (weak, nonatomic) IBOutlet UIView *playBgView;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
@@ -50,7 +50,6 @@ static NSString *const CellId = @"MIThemeCell";
     flow.minimumLineSpacing = 10;
     flow.sectionInset = UIEdgeInsetsMake(15, 10, 15, 10);
     self.themCollection.collectionViewLayout = flow;
-    
     // Do any additional setup after loading the view.
 }
 

@@ -504,9 +504,9 @@
                                         </view>
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="sMJ-Om-RMB" secondAttribute="trailing" id="4NU-b8-m8h"/>
-                                            <constraint firstItem="sMJ-Om-RMB" firstAttribute="top" secondItem="fk4-Dh-8II" secondAttribute="top" id="ZgA-kJ-L8O"/>
-                                            <constraint firstAttribute="bottom" secondItem="sMJ-Om-RMB" secondAttribute="bottom" id="gl7-m8-E9j"/>
+                                            <constraint firstAttribute="bottom" secondItem="sMJ-Om-RMB" secondAttribute="bottom" id="CD5-oR-bTg"/>
                                             <constraint firstItem="sMJ-Om-RMB" firstAttribute="leading" secondItem="fk4-Dh-8II" secondAttribute="leading" id="q3t-4O-4rb"/>
+                                            <constraint firstItem="sMJ-Om-RMB" firstAttribute="top" secondItem="fk4-Dh-8II" secondAttribute="top" id="soC-dd-kEt"/>
                                         </constraints>
                                         <connections>
                                             <outlet property="themLb" destination="sMJ-Om-RMB" id="fUb-5O-WxR"/>

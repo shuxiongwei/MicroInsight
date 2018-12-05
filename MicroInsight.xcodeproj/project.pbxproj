@@ -15,6 +15,7 @@
 		09BC50B921B56246006B4277 /* MIModelMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 09BC50B721B56246006B4277 /* MIModelMapper.m */; };
 		09BC50BE21B57823006B4277 /* UICollectionViewLeftAlignedLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 09BC50BD21B57823006B4277 /* UICollectionViewLeftAlignedLayout.m */; };
 		09BC50C121B65429006B4277 /* NSString+MITextSize.m in Sources */ = {isa = PBXBuildFile; fileRef = 09BC50C021B65429006B4277 /* NSString+MITextSize.m */; };
+		09BC50C421B81FC7006B4277 /* MITheme.m in Sources */ = {isa = PBXBuildFile; fileRef = 09BC50C321B81FC7006B4277 /* MITheme.m */; };
 		20DC8A5C601B9DBA6E4BC4E1 /* libPods-MicroInsight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 54F2597ADBF8F4BC4200A0B9 /* libPods-MicroInsight.a */; };
 		3B19C3FB21A504F4001027E9 /* MIThemeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B19C3FA21A504F4001027E9 /* MIThemeCell.m */; };
 		3B5FDB8921A2A38500DDCD1E /* MILoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5FDB8821A2A38500DDCD1E /* MILoginViewController.m */; };
@@ -95,6 +96,8 @@
 		09BC50BD21B57823006B4277 /* UICollectionViewLeftAlignedLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UICollectionViewLeftAlignedLayout.m; sourceTree = "<group>"; };
 		09BC50BF21B65429006B4277 /* NSString+MITextSize.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+MITextSize.h"; sourceTree = "<group>"; };
 		09BC50C021B65429006B4277 /* NSString+MITextSize.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+MITextSize.m"; sourceTree = "<group>"; };
+		09BC50C221B81FC7006B4277 /* MITheme.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MITheme.h; sourceTree = "<group>"; };
+		09BC50C321B81FC7006B4277 /* MITheme.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MITheme.m; sourceTree = "<group>"; };
 		3B19C3F921A504F4001027E9 /* MIThemeCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIThemeCell.h; sourceTree = "<group>"; };
 		3B19C3FA21A504F4001027E9 /* MIThemeCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MIThemeCell.m; sourceTree = "<group>"; };
 		3B5FDB8721A2A38500DDCD1E /* MILoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MILoginViewController.h; sourceTree = "<group>"; };
@@ -305,6 +308,8 @@
 			children = (
 				3B6D662021AEBB1F005CAE9A /* MIAlbum.h */,
 				3B6D662121AEBB1F005CAE9A /* MIAlbum.m */,
+				09BC50C221B81FC7006B4277 /* MITheme.h */,
+				09BC50C321B81FC7006B4277 /* MITheme.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -745,6 +750,7 @@
 				70710CAE20F4917E00052929 /* MIHorizontalPickerViewCell.m in Sources */,
 				70294789212D63BC00B3732A /* MIReviewVideoViewController.m in Sources */,
 				707A5BD0212EAA02002D61BC /* UIFont+Extension.m in Sources */,
+				09BC50C421B81FC7006B4277 /* MITheme.m in Sources */,
 				09BC50B921B56246006B4277 /* MIModelMapper.m in Sources */,
 				3B7973F221A3EB5C0087EE48 /* MIMyAlbumViewController.m in Sources */,
 				707A5BC9212E390E002D61BC /* UIButton+Extension.m in Sources */,

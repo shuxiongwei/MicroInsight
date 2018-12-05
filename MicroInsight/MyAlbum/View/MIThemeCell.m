@@ -10,17 +10,15 @@
 
 @implementation MIThemeCell
 
-- (instancetype)initWithCoder:(NSCoder *)aDecoder{
-    
-    if (self = [super initWithCoder:aDecoder]) {
-        
-        _themLb.layer.borderColor = [UIColor whiteColor].CGColor;
-        _themLb.layer.cornerRadius = CGRectGetHeight(_themLb.bounds) / 2;
-        _themLb.layer.borderWidth = 1;
-    }
-    return self;
-}
 
+- (void)awakeFromNib{
+    [super awakeFromNib];
+    
+    _themLb.layer.borderColor = [UIColor whiteColor].CGColor;
+    _themLb.layer.cornerRadius = 30 / 2;
+    _themLb.layer.borderWidth = 1;
+    _themLb.clipsToBounds = YES;
+}
 
 - (void)setSelected:(BOOL)selected{
     
@@ -28,6 +26,7 @@
         
         _themLb.layer.borderColor = [UIColor clearColor].CGColor;
         _themLb.backgroundColor = MIColor(241, 56, 10);
+        
     }else{
         _themLb.layer.borderColor = [UIColor whiteColor].CGColor;
         _themLb.backgroundColor = [UIColor blackColor];

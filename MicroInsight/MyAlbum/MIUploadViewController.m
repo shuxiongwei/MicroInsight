@@ -9,6 +9,7 @@
 #import "MIUploadViewController.h"
 #import "MIThemeCell.h"
 #import "UICollectionViewLeftAlignedLayout.h"
+#import "NSString+MITextSize.h"
 #import <AVFoundation/AVFoundation.h>
 
 
@@ -42,11 +43,14 @@ static NSString *const CellId = @"MIThemeCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self configTopUIWithAsset:_assetUrl];
+    
     UICollectionViewLeftAlignedLayout *flow = [[UICollectionViewLeftAlignedLayout alloc]init];
     flow.minimumInteritemSpacing = 10;
     flow.minimumLineSpacing = 10;
     flow.sectionInset = UIEdgeInsetsMake(15, 10, 15, 10);
     self.themCollection.collectionViewLayout = flow;
+    
     // Do any additional setup after loading the view.
 }
 
@@ -77,18 +81,26 @@ static NSString *const CellId = @"MIThemeCell";
     }
 }
 
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    NSString *text =  @"生活";
+    CGFloat itemW = [text sizeWithFont:[UIFont systemFontOfSize:15]].width + 24;
+    return CGSizeMake(itemW, 30);
+}
+
 #pragma mark - UICollectionDelegate,UICollectionDatasource
+
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
     return 1;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return 1;
+    return 10;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     
     MIThemeCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CellId forIndexPath:indexPath];
+    cell.themLb.text = @"生活";
     return cell;
 }
 
@@ -108,6 +120,20 @@ static NSString *const CellId = @"MIThemeCell";
     }else{
         [_player play];
     }
+}
+
+- (IBAction)backBtnClick:(UIButton *)sender {
+    
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (IBAction)cancelBtnClick:(UIButton *)sender {
+    
+}
+
+- (IBAction)didEndOnExit:(UITextField *)sender {
+    
+    [sender resignFirstResponder];
 }
 
 - (IBAction)uploadBtnClick:(UIButton *)sender {

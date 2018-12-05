@@ -14,6 +14,7 @@
 		09BC50B621B561A2006B4277 /* MIAlbumRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 09BC50B521B561A2006B4277 /* MIAlbumRequest.m */; };
 		09BC50B921B56246006B4277 /* MIModelMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 09BC50B721B56246006B4277 /* MIModelMapper.m */; };
 		09BC50BE21B57823006B4277 /* UICollectionViewLeftAlignedLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 09BC50BD21B57823006B4277 /* UICollectionViewLeftAlignedLayout.m */; };
+		09BC50C121B65429006B4277 /* NSString+MITextSize.m in Sources */ = {isa = PBXBuildFile; fileRef = 09BC50C021B65429006B4277 /* NSString+MITextSize.m */; };
 		20DC8A5C601B9DBA6E4BC4E1 /* libPods-MicroInsight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 54F2597ADBF8F4BC4200A0B9 /* libPods-MicroInsight.a */; };
 		3B19C3FB21A504F4001027E9 /* MIThemeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B19C3FA21A504F4001027E9 /* MIThemeCell.m */; };
 		3B5FDB8921A2A38500DDCD1E /* MILoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5FDB8821A2A38500DDCD1E /* MILoginViewController.m */; };
@@ -90,6 +91,8 @@
 		09BC50B821B56246006B4277 /* MIModelMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIModelMapper.h; sourceTree = "<group>"; };
 		09BC50BC21B57823006B4277 /* UICollectionViewLeftAlignedLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UICollectionViewLeftAlignedLayout.h; sourceTree = "<group>"; };
 		09BC50BD21B57823006B4277 /* UICollectionViewLeftAlignedLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UICollectionViewLeftAlignedLayout.m; sourceTree = "<group>"; };
+		09BC50BF21B65429006B4277 /* NSString+MITextSize.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+MITextSize.h"; sourceTree = "<group>"; };
+		09BC50C021B65429006B4277 /* NSString+MITextSize.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+MITextSize.m"; sourceTree = "<group>"; };
 		3B19C3F921A504F4001027E9 /* MIThemeCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIThemeCell.h; sourceTree = "<group>"; };
 		3B19C3FA21A504F4001027E9 /* MIThemeCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MIThemeCell.m; sourceTree = "<group>"; };
 		3B5FDB8721A2A38500DDCD1E /* MILoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MILoginViewController.h; sourceTree = "<group>"; };
@@ -397,6 +400,8 @@
 				707A5BC8212E390E002D61BC /* UIButton+Extension.m */,
 				707A5BCE212EAA02002D61BC /* UIFont+Extension.h */,
 				707A5BCF212EAA02002D61BC /* UIFont+Extension.m */,
+				09BC50BF21B65429006B4277 /* NSString+MITextSize.h */,
+				09BC50C021B65429006B4277 /* NSString+MITextSize.m */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -733,6 +738,7 @@
 				702641AE20F6F15100B21AFC /* MIUIFactory.m in Sources */,
 				3B5FDB9021A2C58700DDCD1E /* MICommunityCell.m in Sources */,
 				3B6D662221AEBB1F005CAE9A /* MIAlbum.m in Sources */,
+				09BC50C121B65429006B4277 /* NSString+MITextSize.m in Sources */,
 				70A80995212D7744003ED7D2 /* OMSliderBar.m in Sources */,
 				700F01C621B5447700D0D3EA /* MIRequestManager.m in Sources */,
 				702641AF20F6F15100B21AFC /* MIToastAlertView.m in Sources */,
@@ -918,7 +924,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 2WHXP7FN9G;
+				DEVELOPMENT_TEAM = WCT8GXK7M4;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/MicroInsight/MicroInsight.pch";
 				INFOPLIST_FILE = MicroInsight/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -941,7 +947,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 2WHXP7FN9G;
+				DEVELOPMENT_TEAM = WCT8GXK7M4;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/MicroInsight/MicroInsight.pch";
 				INFOPLIST_FILE = MicroInsight/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;

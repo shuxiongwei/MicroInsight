@@ -133,11 +133,11 @@ static NSString *const cellId = @"MIAlbumCell";
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     
     if (canSelected) {
-        if ([self.seletedIndexPaths containsObject:indexPath]) {
-            [self.seletedIndexPaths removeObject:indexPath];
-        } else {
-            [self.seletedIndexPaths addObject:indexPath];
-        }
+//        if ([self.seletedIndexPaths containsObject:indexPath]) {
+//            [self.seletedIndexPaths removeObject:indexPath];
+//        } else {
+//            [self.seletedIndexPaths addObject:indexPath];
+//        }
         
         MIAlbum *album = self.assets[indexPath.item];
         album.isSelected = !album.isSelected;
@@ -174,7 +174,7 @@ static NSString *const cellId = @"MIAlbumCell";
             album.isSelected = NO;
         }
         [_albumCollectionView reloadData];
-        [self.seletedIndexPaths removeAllObjects];
+//        [self.seletedIndexPaths removeAllObjects];
     }
     _typeBottomView.hidden = canSelected;
     _manageBottomView.hidden = !canSelected;
@@ -186,7 +186,7 @@ static NSString *const cellId = @"MIAlbumCell";
         sender.selected = YES;
         _videoBtn.selected = NO;
         _albumType = MIAlbumTypePhoto;
-        [self.seletedIndexPaths removeAllObjects];
+//        [self.seletedIndexPaths removeAllObjects];
         [self requestAssetsWithType:MIAlbumTypePhoto];
         [self showOrHideEmptyTipView];
         [self.albumCollectionView reloadData];
@@ -199,7 +199,7 @@ static NSString *const cellId = @"MIAlbumCell";
         sender.selected = YES;
         _photoBtn.selected = NO;
         _albumType = MIAlbumTypeVideo;
-        [self.seletedIndexPaths removeAllObjects];
+//        [self.seletedIndexPaths removeAllObjects];
         [self requestAssetsWithType:MIAlbumTypeVideo];
         [self showOrHideEmptyTipView];
         [self.albumCollectionView reloadData];
@@ -208,10 +208,22 @@ static NSString *const cellId = @"MIAlbumCell";
 
 - (IBAction)deleteBtnClick:(UIButton *)sender {
 
-    if (self.seletedIndexPaths.count == 0) {
+    NSMutableArray *selectedAsset = [NSMutableArray array];
+    for (MIAlbum *album in _assets) {
+        
+        if (album.isSelected) {
+            [selectedAsset addObject:album];
+        }
+    }
+    if (selectedAsset.count == 0) {
+        
         [MIToastAlertView showAlertViewWithMessage:@"请选择需要删除的图片或视频"];
         return;
     }
+//    if (self.seletedIndexPaths.count == 0) {
+//        [MIToastAlertView showAlertViewWithMessage:@"请选择需要删除的图片或视频"];
+//        return;
+//    }
     
     NSString *alertText = @"确定删除所选图片吗？";
     if (_albumType == MIAlbumTypeVideo) {
@@ -220,25 +232,48 @@ static NSString *const cellId = @"MIAlbumCell";
     
     [MIAlertView showAlertViewWithFrame:MIScreenBounds alertBounds:CGRectMake(0, 0, 331, 213) alertType:QSAlertMessage alertTitle:@"温馨提示" alertMessage:alertText alertInfo:@"删除" action:^(id alert) {
         
-        for (NSInteger i = 0; i < self.seletedIndexPaths.count; i++) {
-            NSIndexPath *indexP = self.seletedIndexPaths[i];
-            MIAlbum *album = self.assets[indexP.item];
+//        for (NSInteger i = 0; i < self.seletedIndexPaths.count; i++) {
+//            NSIndexPath *indexP = self.seletedIndexPaths[i];
+//            MIAlbum *album = self.assets[indexP.item];
+//
+//            NSFileManager *fm = [NSFileManager defaultManager];
+//            if ([fm fileExistsAtPath:album.fileUrl]) {
+//                [fm removeItemAtPath:album.fileUrl error:nil];
+//            }
+//        }
+        for (MIAlbum *asset in selectedAsset) {
             
             NSFileManager *fm = [NSFileManager defaultManager];
-            if ([fm fileExistsAtPath:album.fileUrl]) {
-                [fm removeItemAtPath:album.fileUrl error:nil];
+            if ([fm fileExistsAtPath:asset.fileUrl]) {
+                [fm removeItemAtPath:asset.fileUrl error:nil];
             }
         }
-        
-        [self requestAssetsWithType:_albumType];
+        [self.assets removeObjectsInArray:selectedAsset];
+//        [self requestAssetsWithType:self->_albumType];
         [self showOrHideEmptyTipView];
-        [self.seletedIndexPaths removeAllObjects];
+//        [self.seletedIndexPaths removeAllObjects];
         [self.albumCollectionView reloadData];
     }];
 }
 
 - (IBAction)uploadBtnClick:(UIButton *)sender {
-    if (self.seletedIndexPaths.count > 1) {
+//    if (self.seletedIndexPaths.count > 1) {
+//        [MIToastAlertView showAlertViewWithMessage:@"上传的图片或视频数量不得超过1个"];
+//        return;
+//    }
+    NSMutableArray *selectedAsset = [NSMutableArray array];
+    for (MIAlbum *album in _assets) {
+        
+        if (album.isSelected) {
+            [selectedAsset addObject:album];
+        }
+    }
+    if (selectedAsset.count == 0) {
+        [MIToastAlertView showAlertViewWithMessage:@"请选择一张照片或一个视频"];
+        return;
+    }
+    
+    if (selectedAsset.count > 1) {
         [MIToastAlertView showAlertViewWithMessage:@"上传的图片或视频数量不得超过1个"];
         return;
     }
@@ -247,7 +282,9 @@ static NSString *const cellId = @"MIAlbumCell";
     if (![MIHelpTool isBlankString:username]) {
         UIStoryboard *board = [UIStoryboard storyboardWithName:@"MyAlbum" bundle:nil];
         MIUploadViewController *vc = [board instantiateViewControllerWithIdentifier:@"MIUploadViewController"];
-        MIAlbum *asset = self.seletedIndexPaths.firstObject;
+//        MIAlbum *asset = self.seletedIndexPaths.firstObject;
+//        vc.assetUrl = asset.fileUrl;
+        MIAlbum *asset = selectedAsset.firstObject;
         vc.assetUrl = asset.fileUrl;
         [self.navigationController pushViewController:vc animated:YES];
     } else {
@@ -277,12 +314,12 @@ static NSString *const cellId = @"MIAlbumCell";
 }
 
 #pragma mark - 懒加载
-- (NSMutableArray *)seletedIndexPaths {
-    if (!_seletedIndexPaths) {
-        _seletedIndexPaths = [NSMutableArray arrayWithCapacity:0];
-    }
-    
-    return _seletedIndexPaths;
-}
+//- (NSMutableArray *)seletedIndexPaths {
+//    if (!_seletedIndexPaths) {
+//        _seletedIndexPaths = [NSMutableArray arrayWithCapacity:0];
+//    }
+//
+//    return _seletedIndexPaths;
+//}
 
 @end

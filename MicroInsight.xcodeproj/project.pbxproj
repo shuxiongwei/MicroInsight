@@ -26,6 +26,7 @@
 		3B6D661D21AE3AA8005CAE9A /* MIBaseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B6D661721AE3AA8005CAE9A /* MIBaseRequest.m */; };
 		3B6D661E21AE3AA8005CAE9A /* MIHTTPResponseSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B6D661821AE3AA8005CAE9A /* MIHTTPResponseSerializer.m */; };
 		3B6D662221AEBB1F005CAE9A /* MIAlbum.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B6D662121AEBB1F005CAE9A /* MIAlbum.m */; };
+		3B76AE2F21B8C4F50021F9E9 /* MIDataConvertion.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B76AE2E21B8C4F50021F9E9 /* MIDataConvertion.m */; };
 		3B7973F221A3EB5C0087EE48 /* MIMyAlbumViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7973F121A3EB5C0087EE48 /* MIMyAlbumViewController.m */; };
 		3B7973F521A3EE510087EE48 /* MIUploadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7973F421A3EE510087EE48 /* MIUploadViewController.m */; };
 		3B7973F921A415540087EE48 /* MIAlbumCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7973F821A415540087EE48 /* MIAlbumCell.m */; };
@@ -116,6 +117,8 @@
 		3B6D661A21AE3AA8005CAE9A /* MINetworkConstant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MINetworkConstant.h; sourceTree = "<group>"; };
 		3B6D662021AEBB1F005CAE9A /* MIAlbum.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIAlbum.h; sourceTree = "<group>"; };
 		3B6D662121AEBB1F005CAE9A /* MIAlbum.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MIAlbum.m; sourceTree = "<group>"; };
+		3B76AE2D21B8C4F50021F9E9 /* MIDataConvertion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIDataConvertion.h; sourceTree = "<group>"; };
+		3B76AE2E21B8C4F50021F9E9 /* MIDataConvertion.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MIDataConvertion.m; sourceTree = "<group>"; };
 		3B7973F021A3EB5C0087EE48 /* MIMyAlbumViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIMyAlbumViewController.h; sourceTree = "<group>"; };
 		3B7973F121A3EB5C0087EE48 /* MIMyAlbumViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MIMyAlbumViewController.m; sourceTree = "<group>"; };
 		3B7973F321A3EE510087EE48 /* MIUploadViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIUploadViewController.h; sourceTree = "<group>"; };
@@ -361,6 +364,8 @@
 				706A6E1720F6F7390097C577 /* MIMotionManager.m */,
 				700F01C721B5496400D0D3EA /* MILocalData.h */,
 				700F01C821B5496400D0D3EA /* MILocalData.m */,
+				3B76AE2D21B8C4F50021F9E9 /* MIDataConvertion.h */,
+				3B76AE2E21B8C4F50021F9E9 /* MIDataConvertion.m */,
 			);
 			path = MIHelpTool;
 			sourceTree = "<group>";
@@ -572,6 +577,7 @@
 				70710C5620F476A300052929 /* Frameworks */,
 				70710C5720F476A300052929 /* Resources */,
 				BBF418F49785ADF150B7774B /* [CP] Copy Pods Resources */,
+				09BD482F3BEFA1784248F245 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -696,6 +702,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		09BD482F3BEFA1784248F245 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MicroInsight/Pods-MicroInsight-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		0BEB9802F95D0FC744539885 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -726,8 +747,7 @@
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MJRefresh.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SVProgressHUD.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -748,6 +768,7 @@
 				70710CB020F4917E00052929 /* MIHorizontalPickerView.m in Sources */,
 				70294783212D5F8A00B3732A /* MIReviewImageViewController.m in Sources */,
 				70710CAE20F4917E00052929 /* MIHorizontalPickerViewCell.m in Sources */,
+				3B76AE2F21B8C4F50021F9E9 /* MIDataConvertion.m in Sources */,
 				70294789212D63BC00B3732A /* MIReviewVideoViewController.m in Sources */,
 				707A5BD0212EAA02002D61BC /* UIFont+Extension.m in Sources */,
 				09BC50C421B81FC7006B4277 /* MITheme.m in Sources */,
@@ -948,7 +969,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = WCT8GXK7M4;
+				DEVELOPMENT_TEAM = 89ZA3J3575;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/MicroInsight/MicroInsight.pch";
 				INFOPLIST_FILE = MicroInsight/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -971,7 +992,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = WCT8GXK7M4;
+				DEVELOPMENT_TEAM = 89ZA3J3575;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/MicroInsight/MicroInsight.pch";
 				INFOPLIST_FILE = MicroInsight/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;

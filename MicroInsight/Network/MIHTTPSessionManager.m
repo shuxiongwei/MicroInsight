@@ -152,8 +152,8 @@ static MIHTTPSessionManager *manager = nil;
         if ([responseObject isKindOfClass:[NSDictionary class]]) {
             NSDictionary *dic = responseObject;
             
-            NSInteger code = [dic[@"status"] integerValue];
-            NSString *msg = dic[@"msg"];
+            NSInteger code = [dic[@"code"] integerValue];
+            NSString *msg = dic[@"message"];
             
             //TODO
             if (code != ApiSessionSucessCode) {

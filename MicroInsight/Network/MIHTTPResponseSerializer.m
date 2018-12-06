@@ -10,6 +10,7 @@
 #import "MINetworkConstant.h"
 #import "SVProgressHUD.h"
 #import "MIBaseRequest.h"
+#import "MIDataConvertion.h"
 //#import "SecurityUtil.h"
 
 
@@ -32,14 +33,10 @@
     }
     NSError *jsError;
     NSString *dataString = [[NSString  alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
-    NSDictionary *dic;
-    if ([response.URL.absoluteString isEqualToString:ApiAuctionWebSocketUrlBase]) {
-        
-//        dic = [self dictionaryWithJsonString:dataString];
-    }else{
-//        NSString *decryptStr = [SecurityUtil decryptAESData:dataString];
-//        dic = [self dictionaryWithJsonString:decryptStr];
-    }
+    
+    MIDataConvertion *convertion = [[MIDataConvertion alloc]init];
+    NSDictionary *dic = [convertion dictionaryWithJsonString:dataString];
+
    
 //    DLog(@"parse dic:%@",dic);
     if (!dic || ![dic isKindOfClass:[NSDictionary class]]|| jsError) {
@@ -50,11 +47,11 @@
         return nil;
     }
     
-    NSInteger code = [dic[@"status"] integerValue];
+    NSInteger code = [dic[@"code"] integerValue];
     if (code != ApiSessionSucessCode) {
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            [SVProgressHUD showErrorWithStatus:dic[@"msg"]];
+            [SVProgressHUD showErrorWithStatus:dic[@"message"]];
         });
         
         if (code == ApiAccountErrorLogoutCode) {

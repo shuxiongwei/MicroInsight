@@ -10,6 +10,8 @@
 #import "MIThemeCell.h"
 #import "UICollectionViewLeftAlignedLayout.h"
 #import "NSString+MITextSize.h"
+#import "MIAlbumRequest.h"
+#import "MITheme.h"
 #import <AVFoundation/AVFoundation.h>
 
 
@@ -43,6 +45,8 @@ static NSString *const CellId = @"MIThemeCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self requestThemeData];
+    
     [self configTopUIWithAsset:_assetUrl];
     
     UICollectionViewLeftAlignedLayout *flow = [[UICollectionViewLeftAlignedLayout alloc]init];
@@ -50,7 +54,23 @@ static NSString *const CellId = @"MIThemeCell";
     flow.minimumLineSpacing = 10;
     flow.sectionInset = UIEdgeInsetsMake(15, 10, 15, 10);
     self.themCollection.collectionViewLayout = flow;
+    self.themes = [NSArray array];
     // Do any additional setup after loading the view.
+}
+
+- (void)requestThemeData{
+    
+    __weak typeof(self)weakSelf = self;
+    MIAlbumRequest *rq = [[MIAlbumRequest alloc] init];
+    [rq themeListWithSuccessResponse:^(NSArray *modelList, NSString *message) {
+        
+        weakSelf.themes = modelList;
+        [weakSelf.themCollection reloadData];
+        
+    } failureResponse:^(NSError *error) {
+        
+    }];
+    
 }
 
 - (void)viewDidLayoutSubviews{
@@ -81,7 +101,8 @@ static NSString *const CellId = @"MIThemeCell";
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    NSString *text =  @"生活";
+    MITheme *t = _themes[indexPath.item];
+    NSString *text = t.title;
     CGFloat itemW = [text sizeWithFont:[UIFont systemFontOfSize:15]].width + 24;
     return CGSizeMake(itemW, 30);
 }
@@ -93,13 +114,14 @@ static NSString *const CellId = @"MIThemeCell";
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return 10;
+    return _themes.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     
+    MITheme *t = _themes[indexPath.item];
     MIThemeCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CellId forIndexPath:indexPath];
-    cell.themLb.text = @"生活";
+    cell.themLb.text = t.title;
     return cell;
 }
 

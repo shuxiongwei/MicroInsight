@@ -15,7 +15,7 @@
     NSString *path = @"tag/index";
     return [self GET:path parameters:nil downProgress:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         NSDictionary *dic = responseObject;
-        NSArray *array = dic[@"list"];
+        NSArray *array = dic[@"data"][@"list"];
         
         NSArray *list = [MIModelMapper modelArrayWithJsonArray:array modelClass:[MITheme class]];
         success(list,nil);

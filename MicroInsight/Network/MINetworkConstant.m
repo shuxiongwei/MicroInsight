@@ -10,7 +10,7 @@
 
 @implementation MINetworkConstant
 
-NSString *const ApiMainUrlBase = @"http://app2.n4321.com/LinkBitService/";
+NSString *const ApiMainUrlBase = @"http://122.14.225.235:8080/tipscope/api/web/index.php/";
 
 NSString *const ApiAuctionWebSocketUrlBase = @"http://app1.n4321.com:9092/LinkBitService/";
 
@@ -28,7 +28,7 @@ NSInteger const ApiAccountErrorLogoutCode = 99;
 
 NSString *const ApiErrorMsgResponseParseError = @"网络请求失败";
 
-NSInteger const ApiSessionSucessCode = 1;
+NSInteger const ApiSessionSucessCode = 0;
 
 NSString *const AppPlatform = @"2";
 

@@ -8,10 +8,14 @@
 
 #import "MIUploadViewController.h"
 #import "MIThemeCell.h"
+#import "UICollectionViewLeftAlignedLayout.h"
+#import "NSString+MITextSize.h"
+#import "MIAlbumRequest.h"
+#import "MITheme.h"
 #import <AVFoundation/AVFoundation.h>
 
 
-@interface MIUploadViewController ()<UICollectionViewDelegate, UICollectionViewDataSource>
+@interface MIUploadViewController ()<UICollectionViewDelegate, UICollectionViewDataSource ,UICollectionViewDelegateFlowLayout>
 
 @property (weak, nonatomic) IBOutlet UIView *playBgView;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
@@ -41,8 +45,32 @@ static NSString *const CellId = @"MIThemeCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-   
+    [self requestThemeData];
+    
+    [self configTopUIWithAsset:_assetUrl];
+    
+    UICollectionViewLeftAlignedLayout *flow = [[UICollectionViewLeftAlignedLayout alloc]init];
+    flow.minimumInteritemSpacing = 10;
+    flow.minimumLineSpacing = 10;
+    flow.sectionInset = UIEdgeInsetsMake(15, 10, 15, 10);
+    self.themCollection.collectionViewLayout = flow;
+    self.themes = [NSArray array];
     // Do any additional setup after loading the view.
+}
+
+- (void)requestThemeData{
+    
+    __weak typeof(self)weakSelf = self;
+    MIAlbumRequest *rq = [[MIAlbumRequest alloc] init];
+    [rq themeListWithSuccessResponse:^(NSArray *modelList, NSString *message) {
+        
+        weakSelf.themes = modelList;
+        [weakSelf.themCollection reloadData];
+        
+    } failureResponse:^(NSError *error) {
+        
+    }];
+    
 }
 
 - (void)viewDidLayoutSubviews{
@@ -72,18 +100,28 @@ static NSString *const CellId = @"MIThemeCell";
     }
 }
 
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    MITheme *t = _themes[indexPath.item];
+    NSString *text = t.title;
+    CGFloat itemW = [text sizeWithFont:[UIFont systemFontOfSize:15]].width + 24;
+    return CGSizeMake(itemW, 30);
+}
+
 #pragma mark - UICollectionDelegate,UICollectionDatasource
+
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
     return 1;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return 1;
+    return _themes.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     
+    MITheme *t = _themes[indexPath.item];
     MIThemeCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CellId forIndexPath:indexPath];
+    cell.themLb.text = t.title;
     return cell;
 }
 
@@ -103,6 +141,20 @@ static NSString *const CellId = @"MIThemeCell";
     }else{
         [_player play];
     }
+}
+
+- (IBAction)backBtnClick:(UIButton *)sender {
+    
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (IBAction)cancelBtnClick:(UIButton *)sender {
+    
+}
+
+- (IBAction)didEndOnExit:(UITextField *)sender {
+    
+    [sender resignFirstResponder];
 }
 
 - (IBAction)uploadBtnClick:(UIButton *)sender {

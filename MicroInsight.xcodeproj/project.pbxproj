@@ -13,6 +13,9 @@
 		090240A3219726420003D686 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 090240A2219726420003D686 /* Login.storyboard */; };
 		09BC50B621B561A2006B4277 /* MIAlbumRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 09BC50B521B561A2006B4277 /* MIAlbumRequest.m */; };
 		09BC50B921B56246006B4277 /* MIModelMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 09BC50B721B56246006B4277 /* MIModelMapper.m */; };
+		09BC50BE21B57823006B4277 /* UICollectionViewLeftAlignedLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 09BC50BD21B57823006B4277 /* UICollectionViewLeftAlignedLayout.m */; };
+		09BC50C121B65429006B4277 /* NSString+MITextSize.m in Sources */ = {isa = PBXBuildFile; fileRef = 09BC50C021B65429006B4277 /* NSString+MITextSize.m */; };
+		09BC50C421B81FC7006B4277 /* MITheme.m in Sources */ = {isa = PBXBuildFile; fileRef = 09BC50C321B81FC7006B4277 /* MITheme.m */; };
 		20DC8A5C601B9DBA6E4BC4E1 /* libPods-MicroInsight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 54F2597ADBF8F4BC4200A0B9 /* libPods-MicroInsight.a */; };
 		3B19C3FB21A504F4001027E9 /* MIThemeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B19C3FA21A504F4001027E9 /* MIThemeCell.m */; };
 		3B5FDB8921A2A38500DDCD1E /* MILoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5FDB8821A2A38500DDCD1E /* MILoginViewController.m */; };
@@ -23,6 +26,7 @@
 		3B6D661D21AE3AA8005CAE9A /* MIBaseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B6D661721AE3AA8005CAE9A /* MIBaseRequest.m */; };
 		3B6D661E21AE3AA8005CAE9A /* MIHTTPResponseSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B6D661821AE3AA8005CAE9A /* MIHTTPResponseSerializer.m */; };
 		3B6D662221AEBB1F005CAE9A /* MIAlbum.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B6D662121AEBB1F005CAE9A /* MIAlbum.m */; };
+		3B76AE2F21B8C4F50021F9E9 /* MIDataConvertion.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B76AE2E21B8C4F50021F9E9 /* MIDataConvertion.m */; };
 		3B7973F221A3EB5C0087EE48 /* MIMyAlbumViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7973F121A3EB5C0087EE48 /* MIMyAlbumViewController.m */; };
 		3B7973F521A3EE510087EE48 /* MIUploadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7973F421A3EE510087EE48 /* MIUploadViewController.m */; };
 		3B7973F921A415540087EE48 /* MIAlbumCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7973F821A415540087EE48 /* MIAlbumCell.m */; };
@@ -95,6 +99,12 @@
 		09BC50B521B561A2006B4277 /* MIAlbumRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MIAlbumRequest.m; sourceTree = "<group>"; };
 		09BC50B721B56246006B4277 /* MIModelMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIModelMapper.m; sourceTree = "<group>"; };
 		09BC50B821B56246006B4277 /* MIModelMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIModelMapper.h; sourceTree = "<group>"; };
+		09BC50BC21B57823006B4277 /* UICollectionViewLeftAlignedLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UICollectionViewLeftAlignedLayout.h; sourceTree = "<group>"; };
+		09BC50BD21B57823006B4277 /* UICollectionViewLeftAlignedLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UICollectionViewLeftAlignedLayout.m; sourceTree = "<group>"; };
+		09BC50BF21B65429006B4277 /* NSString+MITextSize.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+MITextSize.h"; sourceTree = "<group>"; };
+		09BC50C021B65429006B4277 /* NSString+MITextSize.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+MITextSize.m"; sourceTree = "<group>"; };
+		09BC50C221B81FC7006B4277 /* MITheme.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MITheme.h; sourceTree = "<group>"; };
+		09BC50C321B81FC7006B4277 /* MITheme.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MITheme.m; sourceTree = "<group>"; };
 		3B19C3F921A504F4001027E9 /* MIThemeCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIThemeCell.h; sourceTree = "<group>"; };
 		3B19C3FA21A504F4001027E9 /* MIThemeCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MIThemeCell.m; sourceTree = "<group>"; };
 		3B5FDB8721A2A38500DDCD1E /* MILoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MILoginViewController.h; sourceTree = "<group>"; };
@@ -113,6 +123,8 @@
 		3B6D661A21AE3AA8005CAE9A /* MINetworkConstant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MINetworkConstant.h; sourceTree = "<group>"; };
 		3B6D662021AEBB1F005CAE9A /* MIAlbum.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIAlbum.h; sourceTree = "<group>"; };
 		3B6D662121AEBB1F005CAE9A /* MIAlbum.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MIAlbum.m; sourceTree = "<group>"; };
+		3B76AE2D21B8C4F50021F9E9 /* MIDataConvertion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIDataConvertion.h; sourceTree = "<group>"; };
+		3B76AE2E21B8C4F50021F9E9 /* MIDataConvertion.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MIDataConvertion.m; sourceTree = "<group>"; };
 		3B7973F021A3EB5C0087EE48 /* MIMyAlbumViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIMyAlbumViewController.h; sourceTree = "<group>"; };
 		3B7973F121A3EB5C0087EE48 /* MIMyAlbumViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MIMyAlbumViewController.m; sourceTree = "<group>"; };
 		3B7973F321A3EE510087EE48 /* MIUploadViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIUploadViewController.h; sourceTree = "<group>"; };
@@ -278,6 +290,15 @@
 			path = Login;
 			sourceTree = "<group>";
 		};
+		09BC50BB21B57823006B4277 /* UICollectionViewLeftAlignedLayout */ = {
+			isa = PBXGroup;
+			children = (
+				09BC50BC21B57823006B4277 /* UICollectionViewLeftAlignedLayout.h */,
+				09BC50BD21B57823006B4277 /* UICollectionViewLeftAlignedLayout.m */,
+			);
+			path = UICollectionViewLeftAlignedLayout;
+			sourceTree = "<group>";
+		};
 		3B5FDB8D21A2C56700DDCD1E /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -315,6 +336,8 @@
 			children = (
 				3B6D662021AEBB1F005CAE9A /* MIAlbum.h */,
 				3B6D662121AEBB1F005CAE9A /* MIAlbum.m */,
+				09BC50C221B81FC7006B4277 /* MITheme.h */,
+				09BC50C321B81FC7006B4277 /* MITheme.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -351,6 +374,7 @@
 		702641A620F6F15100B21AFC /* MIHelpTool */ = {
 			isa = PBXGroup;
 			children = (
+				09BC50BB21B57823006B4277 /* UICollectionViewLeftAlignedLayout */,
 				09BC50B821B56246006B4277 /* MIModelMapper.h */,
 				09BC50B721B56246006B4277 /* MIModelMapper.m */,
 				702641A920F6F15100B21AFC /* MIHelpTool.h */,
@@ -365,6 +389,8 @@
 				706A6E1720F6F7390097C577 /* MIMotionManager.m */,
 				700F01C721B5496400D0D3EA /* MILocalData.h */,
 				700F01C821B5496400D0D3EA /* MILocalData.m */,
+				3B76AE2D21B8C4F50021F9E9 /* MIDataConvertion.h */,
+				3B76AE2E21B8C4F50021F9E9 /* MIDataConvertion.m */,
 			);
 			path = MIHelpTool;
 			sourceTree = "<group>";
@@ -418,6 +444,8 @@
 				707A5BC8212E390E002D61BC /* UIButton+Extension.m */,
 				707A5BCE212EAA02002D61BC /* UIFont+Extension.h */,
 				707A5BCF212EAA02002D61BC /* UIFont+Extension.m */,
+				09BC50BF21B65429006B4277 /* NSString+MITextSize.h */,
+				09BC50C021B65429006B4277 /* NSString+MITextSize.m */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -577,6 +605,7 @@
 				70710C5620F476A300052929 /* Frameworks */,
 				70710C5720F476A300052929 /* Resources */,
 				BBF418F49785ADF150B7774B /* [CP] Copy Pods Resources */,
+				09BD482F3BEFA1784248F245 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -703,6 +732,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		09BD482F3BEFA1784248F245 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MicroInsight/Pods-MicroInsight-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		0BEB9802F95D0FC744539885 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -733,8 +777,7 @@
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MJRefresh.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SVProgressHUD.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -755,6 +798,7 @@
 				70710CB020F4917E00052929 /* MIHorizontalPickerView.m in Sources */,
 				70294783212D5F8A00B3732A /* MIReviewImageViewController.m in Sources */,
 				70710CAE20F4917E00052929 /* MIHorizontalPickerViewCell.m in Sources */,
+				3B76AE2F21B8C4F50021F9E9 /* MIDataConvertion.m in Sources */,
 				70294789212D63BC00B3732A /* MIReviewVideoViewController.m in Sources */,
 				707A5BD0212EAA02002D61BC /* UIFont+Extension.m in Sources */,
 				70B509EC21B754B300BBB2A9 /* MIDetailViewController.m in Sources */,
@@ -770,11 +814,13 @@
 				702641AE20F6F15100B21AFC /* MIUIFactory.m in Sources */,
 				3B5FDB9021A2C58700DDCD1E /* MICommunityCell.m in Sources */,
 				3B6D662221AEBB1F005CAE9A /* MIAlbum.m in Sources */,
+				09BC50C121B65429006B4277 /* NSString+MITextSize.m in Sources */,
 				70A80995212D7744003ED7D2 /* OMSliderBar.m in Sources */,
 				700F01C621B5447700D0D3EA /* MIRequestManager.m in Sources */,
 				702641AF20F6F15100B21AFC /* MIToastAlertView.m in Sources */,
 				3B6D661D21AE3AA8005CAE9A /* MIBaseRequest.m in Sources */,
 				70294787212D626D00B3732A /* MIBaseViewController.m in Sources */,
+				09BC50BE21B57823006B4277 /* UICollectionViewLeftAlignedLayout.m in Sources */,
 				706A6E1D20F6F9180097C577 /* UIView+CCAdditions.m in Sources */,
 				09BC50B621B561A2006B4277 /* MIAlbumRequest.m in Sources */,
 				7096B560213784CF003B1D3F /* MICameraFunctionView.m in Sources */,
@@ -956,7 +1002,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 2WHXP7FN9G;
+				DEVELOPMENT_TEAM = 89ZA3J3575;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/MicroInsight/MicroInsight.pch";
 				INFOPLIST_FILE = MicroInsight/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -979,7 +1025,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 2WHXP7FN9G;
+				DEVELOPMENT_TEAM = 89ZA3J3575;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/MicroInsight/MicroInsight.pch";
 				INFOPLIST_FILE = MicroInsight/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;

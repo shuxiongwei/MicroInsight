@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MIAlbumRequest : MIBaseRequest
 
-- (NSURLSessionTask *)loginWithPhone:(NSString *)phone password:(NSString *)psw  successResponse:(MINetworkRequestSuccessVoid)success failureResponse:(MINetworkRequestFailure)failure;
+- (NSURLSessionTask *)themeListWithSuccessResponse:(MINetworkRequestSuccessArray)success failureResponse:(MINetworkRequestFailure)failure;
 
 @end
 

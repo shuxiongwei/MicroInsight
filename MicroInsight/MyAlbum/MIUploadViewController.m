@@ -25,6 +25,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *uploadBtn;
 @property (strong, nonatomic) AVPlayer *player;
 @property (strong, nonatomic) AVPlayerLayer *playerLayer;
+@property (strong, nonatomic) AVPlayerItem *curItem;
 @property (copy, nonatomic) NSArray *themes;
 
 @end
@@ -76,7 +77,7 @@ static NSString *const CellId = @"MIThemeCell";
 - (void)viewDidLayoutSubviews{
     [super viewDidLayoutSubviews];
     
-    _playerLayer.frame = self.view.bounds;
+    _playerLayer.frame = self.playBgView.bounds;
 }
 
 
@@ -94,9 +95,12 @@ static NSString *const CellId = @"MIThemeCell";
         _imageView.hidden = YES;
         _playBtn.hidden = NO;
         
-        self.player = [AVPlayer playerWithURL:[NSURL URLWithString:url]];
+        
+        self.curItem = [AVPlayerItem playerItemWithURL:[NSURL fileURLWithPath:url]];
+        self.player = [AVPlayer playerWithPlayerItem:_curItem];;
         self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:_player];
         [self.playBgView.layer addSublayer:_playerLayer];
+        [_playBgView bringSubviewToFront:_playBtn];
     }
 }
 
@@ -137,9 +141,9 @@ static NSString *const CellId = @"MIThemeCell";
     
     sender.selected = !sender.selected;
     if (sender.selected) {
-        [_player pause];
-    }else{
         [_player play];
+    }else{
+        [_player pause];
     }
 }
 

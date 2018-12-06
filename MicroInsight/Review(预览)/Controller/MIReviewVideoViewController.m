@@ -37,6 +37,12 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(itemDidPlayToEndTime:) name:AVPlayerItemDidPlayToEndTimeNotification object:nil];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    self.navigationController.navigationBarHidden = YES;
+}
+
 - (void)configVideoPlayer {
     
     _playerItem = [[AVPlayerItem alloc] initWithURL:[NSURL fileURLWithPath:_assetPath]];

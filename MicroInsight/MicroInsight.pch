@@ -9,6 +9,7 @@
 #ifndef MicroInsight_pch
 #define MicroInsight_pch
 
+
 #import "MIHelpTool.h"
 #import "MIUIFactory.h"
 #import "MIToastAlertView.h"
@@ -19,6 +20,8 @@
 #import "MILocalData.h"
 #import "MIAlertView.h"
 #import "YYModel.h"
+#import "MIBaseModel.h"
+#import "MICommonFile.h"
 
 #define MIIOS9  ([UIDevice currentDevice].systemVersion.floatValue >= 9.0f)
 

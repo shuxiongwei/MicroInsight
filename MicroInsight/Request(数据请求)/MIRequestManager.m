@@ -12,6 +12,10 @@ static NSString * const requestUrl = @"http://122.14.225.235:8080/tipscope/api/w
 static NSString * const registerUrl = @"/site/register";
 static NSString * const loginUrl = @"/site/login";
 static NSString * const communityListUrl = @"/node/list";
+static NSString * const communityDetailUrl = @"/image/detail";
+static NSString * const communityCommentUrl = @"/image/comment-list";
+static NSString * const praiseUrl = @"/image/like";
+static NSString * const commentUrl = @"/image/comment";
 
 @implementation MIRequestManager
 
@@ -135,6 +139,59 @@ static NSString * const communityListUrl = @"/node/list";
     params[@"pageSize"] = @(pageSize);
     
     NSString *url = [requestUrl stringByAppendingString:communityListUrl];
+    [MIRequestManager getApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+        
+        completed(jsonData, error);
+    }];
+}
+
++ (void)getCommunityDetailDataWithContentId:(NSString *)contentId requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed {
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"imageId"] = @(contentId.integerValue);
+    params[@"token"] = token;
+    
+    NSString *url = [requestUrl stringByAppendingString:communityDetailUrl];
+    [MIRequestManager getApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+        
+        completed(jsonData, error);
+    }];
+}
+
++ (void)getCommunityCommentListWithContentId:(NSString *)contentId requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed {
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"imageId"] = @(contentId.integerValue);
+    params[@"token"] = token;
+    
+    NSString *url = [requestUrl stringByAppendingString:communityCommentUrl];
+    [MIRequestManager getApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+        
+        completed(jsonData, error);
+    }];
+}
+
++ (void)praiseWithContentId:(NSString *)contentId requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed {
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"imageId"] = @(contentId.integerValue);
+    params[@"token"] = token;
+    
+    NSString *url = [requestUrl stringByAppendingString:praiseUrl];
+    [MIRequestManager getApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+        
+        completed(jsonData, error);
+    }];
+}
+
++ (void)commentWithContentId:(NSString *)contentId content:(NSString *)content requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed {
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"imageId"] = @(contentId.integerValue);
+    params[@"content"] = content;
+    params[@"token"] = token;
+    
+    NSString *url = [requestUrl stringByAppendingString:commentUrl];
     [MIRequestManager getApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
         
         completed(jsonData, error);

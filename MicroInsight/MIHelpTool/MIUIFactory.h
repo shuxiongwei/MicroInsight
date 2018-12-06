@@ -129,4 +129,12 @@
            shadowRadius:(CGFloat)shadowRadius
         andCornerRadius:(CGFloat)cornerRadius;
 
+/**
+ 图片模糊
+ 
+ @param image 待模糊的图片
+ @return 模糊后的图片
+ */
++ (UIImage *)coreBlurImage:(UIImage *)image;
+
 @end

@@ -156,7 +156,7 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="pTi-e6-zv2" firstAttribute="leading" secondItem="IqY-Tf-QoK" secondAttribute="leading" constant="5" id="4pq-rK-iTb"/>
                             <constraint firstAttribute="trailing" secondItem="Zls-Hp-xlE" secondAttribute="trailing" constant="5" id="7mf-bg-WNt"/>

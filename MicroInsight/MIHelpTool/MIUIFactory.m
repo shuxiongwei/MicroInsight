@@ -169,4 +169,27 @@
     [view.superview.layer insertSublayer:shadowLayer below:view.layer];
 }
 
++ (UIImage *)coreBlurImage:(UIImage *)image {
+    
+    // 创建输入CIImage对象
+    CIImage * inputImg = [CIImage imageWithCGImage:image.CGImage];
+    // 创建滤镜
+    CIFilter * filter = [CIFilter filterWithName:@"CIGaussianBlur"];
+    // 设置滤镜属性值为默认值
+    //[filter setDefaults];
+    // 设置输入图像
+    [filter setValue:inputImg forKey:@"inputImage"];
+    [filter setValue:[NSNumber numberWithFloat:35] forKey:@"inputRadius"];
+    // 获取输出图像
+    CIImage * outputImg = [filter valueForKey:@"outputImage"];
+    
+    // 创建CIContex上下文对象
+    CIContext * context = [CIContext contextWithOptions:nil];
+    CGImageRef cgImg = [context createCGImage:outputImg fromRect:inputImg.extent];
+    UIImage *resultImg = [UIImage imageWithCGImage:cgImg];
+    CGImageRelease(cgImg);
+    
+    return resultImg;
+}
+
 @end

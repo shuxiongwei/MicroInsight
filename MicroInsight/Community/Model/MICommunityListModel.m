@@ -12,10 +12,29 @@
 
 @end
 
+
 @implementation MICommunityListModel
 
 + (NSDictionary<NSString *, id> *)modelContainerPropertyGenericClass {
     return @{@"tags" : [MICommunityTagModel class]};
+}
+
+@end
+
+
+@implementation MICommunityDetailModel
+
++ (NSDictionary *)modelCustomPropertyMapper {
+    return @{@"contentId" : @"id"};
+}
+
+@end
+
+
+@implementation MICommunityCommentModel
+
++ (NSDictionary *)modelCustomPropertyMapper {
+    return @{@"contentId" : @"id"};
 }
 
 @end

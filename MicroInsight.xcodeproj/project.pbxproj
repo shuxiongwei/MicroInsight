@@ -57,6 +57,12 @@
 		70A80994212D7744003ED7D2 /* MIFactorSlider.xib in Resources */ = {isa = PBXBuildFile; fileRef = 70A8098F212D7744003ED7D2 /* MIFactorSlider.xib */; };
 		70A80995212D7744003ED7D2 /* OMSliderBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 70A80991212D7744003ED7D2 /* OMSliderBar.m */; };
 		70A80996212D7744003ED7D2 /* MIFactorSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 70A80993212D7744003ED7D2 /* MIFactorSlider.m */; };
+		70B509EC21B754B300BBB2A9 /* MIDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B509EA21B754B300BBB2A9 /* MIDetailViewController.m */; };
+		70B509ED21B754B300BBB2A9 /* MIDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 70B509EB21B754B300BBB2A9 /* MIDetailViewController.xib */; };
+		70B509F121B7593500BBB2A9 /* MICommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B509EF21B7593500BBB2A9 /* MICommentCell.m */; };
+		70B509F221B7593500BBB2A9 /* MICommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 70B509F021B7593500BBB2A9 /* MICommentCell.xib */; };
+		70B50A0A21B7E7D900BBB2A9 /* MICommunityCollectionLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B50A0921B7E7D900BBB2A9 /* MICommunityCollectionLayout.m */; };
+		70B50A0D21B7FFA600BBB2A9 /* MIBaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B50A0C21B7FFA600BBB2A9 /* MIBaseModel.m */; };
 		70C4318B21B604C4001D56C4 /* MIHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70C4318921B604C4001D56C4 /* MIHomeViewController.m */; };
 		70C4318E21B61044001D56C4 /* MIAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70C4318D21B61044001D56C4 /* MIAlertView.m */; };
 		70C4319221B620FC001D56C4 /* MICommunityListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 70C4319121B620FC001D56C4 /* MICommunityListModel.m */; };
@@ -175,6 +181,17 @@
 		70A80991212D7744003ED7D2 /* OMSliderBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMSliderBar.m; sourceTree = "<group>"; };
 		70A80992212D7744003ED7D2 /* MIFactorSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIFactorSlider.h; sourceTree = "<group>"; };
 		70A80993212D7744003ED7D2 /* MIFactorSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIFactorSlider.m; sourceTree = "<group>"; };
+		70B509E921B754B300BBB2A9 /* MIDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIDetailViewController.h; sourceTree = "<group>"; };
+		70B509EA21B754B300BBB2A9 /* MIDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MIDetailViewController.m; sourceTree = "<group>"; };
+		70B509EB21B754B300BBB2A9 /* MIDetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MIDetailViewController.xib; sourceTree = "<group>"; };
+		70B509EE21B7593500BBB2A9 /* MICommentCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MICommentCell.h; sourceTree = "<group>"; };
+		70B509EF21B7593500BBB2A9 /* MICommentCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MICommentCell.m; sourceTree = "<group>"; };
+		70B509F021B7593500BBB2A9 /* MICommentCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MICommentCell.xib; sourceTree = "<group>"; };
+		70B50A0821B7E7D900BBB2A9 /* MICommunityCollectionLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MICommunityCollectionLayout.h; sourceTree = "<group>"; };
+		70B50A0921B7E7D900BBB2A9 /* MICommunityCollectionLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MICommunityCollectionLayout.m; sourceTree = "<group>"; };
+		70B50A0B21B7FFA600BBB2A9 /* MIBaseModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIBaseModel.h; sourceTree = "<group>"; };
+		70B50A0C21B7FFA600BBB2A9 /* MIBaseModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MIBaseModel.m; sourceTree = "<group>"; };
+		70B50A1121B806E700BBB2A9 /* MICommonFile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MICommonFile.h; sourceTree = "<group>"; };
 		70C4318921B604C4001D56C4 /* MIHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIHomeViewController.m; sourceTree = "<group>"; };
 		70C4318A21B604C4001D56C4 /* MIHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIHomeViewController.h; sourceTree = "<group>"; };
 		70C4318C21B61044001D56C4 /* MIAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIAlertView.h; sourceTree = "<group>"; };
@@ -244,6 +261,9 @@
 				0902409C21969F4C0003D686 /* Community.storyboard */,
 				3B5FDB8A21A2C4BB00DDCD1E /* MICommunityViewController.h */,
 				3B5FDB8B21A2C4BB00DDCD1E /* MICommunityViewController.m */,
+				70B509E921B754B300BBB2A9 /* MIDetailViewController.h */,
+				70B509EA21B754B300BBB2A9 /* MIDetailViewController.m */,
+				70B509EB21B754B300BBB2A9 /* MIDetailViewController.xib */,
 			);
 			path = Community;
 			sourceTree = "<group>";
@@ -264,6 +284,11 @@
 				3B5FDB8E21A2C58700DDCD1E /* MICommunityCell.h */,
 				3B5FDB8F21A2C58700DDCD1E /* MICommunityCell.m */,
 				70CC790F21B6C55300C657FA /* MICommunityCell.xib */,
+				70B509EE21B7593500BBB2A9 /* MICommentCell.h */,
+				70B509EF21B7593500BBB2A9 /* MICommentCell.m */,
+				70B509F021B7593500BBB2A9 /* MICommentCell.xib */,
+				70B50A0821B7E7D900BBB2A9 /* MICommunityCollectionLayout.h */,
+				70B50A0921B7E7D900BBB2A9 /* MICommunityCollectionLayout.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -349,6 +374,8 @@
 			children = (
 				70294785212D626D00B3732A /* MIBaseViewController.h */,
 				70294786212D626D00B3732A /* MIBaseViewController.m */,
+				70B50A0B21B7FFA600BBB2A9 /* MIBaseModel.h */,
+				70B50A0C21B7FFA600BBB2A9 /* MIBaseModel.m */,
 			);
 			path = BaseClass;
 			sourceTree = "<group>";
@@ -504,6 +531,7 @@
 			children = (
 				70A80998212D77C9003ED7D2 /* Slider */,
 				70710CA720F4917E00052929 /* MIHorizontalPickerView */,
+				70B50A1121B806E700BBB2A9 /* MICommonFile.h */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -645,6 +673,8 @@
 			files = (
 				090240A121969F6E0003D686 /* MyAlbum.storyboard in Resources */,
 				0902409D21969F4C0003D686 /* Community.storyboard in Resources */,
+				70B509ED21B754B300BBB2A9 /* MIDetailViewController.xib in Resources */,
+				70B509F221B7593500BBB2A9 /* MICommentCell.xib in Resources */,
 				707A5BD2212EAA90002D61BC /* font.ttf in Resources */,
 				70710C6920F476A400052929 /* LaunchScreen.storyboard in Resources */,
 				0902409F21969F600003D686 /* Photography.storyboard in Resources */,
@@ -727,6 +757,7 @@
 				70710CAE20F4917E00052929 /* MIHorizontalPickerViewCell.m in Sources */,
 				70294789212D63BC00B3732A /* MIReviewVideoViewController.m in Sources */,
 				707A5BD0212EAA02002D61BC /* UIFont+Extension.m in Sources */,
+				70B509EC21B754B300BBB2A9 /* MIDetailViewController.m in Sources */,
 				09BC50B921B56246006B4277 /* MIModelMapper.m in Sources */,
 				3B7973F221A3EB5C0087EE48 /* MIMyAlbumViewController.m in Sources */,
 				707A5BC9212E390E002D61BC /* UIButton+Extension.m in Sources */,
@@ -735,6 +766,7 @@
 				70C4319221B620FC001D56C4 /* MICommunityListModel.m in Sources */,
 				70A80996212D7744003ED7D2 /* MIFactorSlider.m in Sources */,
 				70C4318B21B604C4001D56C4 /* MIHomeViewController.m in Sources */,
+				70B50A0A21B7E7D900BBB2A9 /* MICommunityCollectionLayout.m in Sources */,
 				702641AE20F6F15100B21AFC /* MIUIFactory.m in Sources */,
 				3B5FDB9021A2C58700DDCD1E /* MICommunityCell.m in Sources */,
 				3B6D662221AEBB1F005CAE9A /* MIAlbum.m in Sources */,
@@ -747,11 +779,13 @@
 				09BC50B621B561A2006B4277 /* MIAlbumRequest.m in Sources */,
 				7096B560213784CF003B1D3F /* MICameraFunctionView.m in Sources */,
 				706A6E2420F6FB530097C577 /* MICameraView.m in Sources */,
+				70B509F121B7593500BBB2A9 /* MICommentCell.m in Sources */,
 				70710C6C20F476A400052929 /* main.m in Sources */,
 				700F01C921B5496400D0D3EA /* MILocalData.m in Sources */,
 				3B6D661E21AE3AA8005CAE9A /* MIHTTPResponseSerializer.m in Sources */,
 				70C4318E21B61044001D56C4 /* MIAlertView.m in Sources */,
 				3B7973F921A415540087EE48 /* MIAlbumCell.m in Sources */,
+				70B50A0D21B7FFA600BBB2A9 /* MIBaseModel.m in Sources */,
 				70710C5E20F476A300052929 /* AppDelegate.m in Sources */,
 				702641AD20F6F15100B21AFC /* MIHelpTool.m in Sources */,
 				706A6E2120F6FA7A0097C577 /* MIVideoPreview.m in Sources */,
@@ -925,7 +959,7 @@
 				DEVELOPMENT_TEAM = 2WHXP7FN9G;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/MicroInsight/MicroInsight.pch";
 				INFOPLIST_FILE = MicroInsight/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -948,7 +982,7 @@
 				DEVELOPMENT_TEAM = 2WHXP7FN9G;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/MicroInsight/MicroInsight.pch";
 				INFOPLIST_FILE = MicroInsight/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

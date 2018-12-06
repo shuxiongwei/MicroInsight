@@ -10,6 +10,50 @@
 
 @interface MIBaseViewController : UIViewController
 
+/**
+ 配置导航栏左边视图
+
+ @param text 标题
+ */
+- (void)configLeftBarButtonItem:(NSString *)text;
+
+/**
+ 退到上级页面
+ */
+- (void)popToForwardViewController;
+
+/**
+ 配置导航栏右边视图
+ 
+ @param type 按钮类型
+ @param frame 范围
+ @param title 标题
+ @param norColor 正常状态标题颜色
+ @param hgtColor 高亮状态标题颜色
+ @param selColor 选中状态标题颜色
+ @param font 标题文字大小
+ @param norImage 正常状态图片
+ @param highImage 高亮状态图片
+ @param selImage 选中状态图片
+ */
+- (void)configRightBarButtonItemWithType:(UIButtonType)type
+                                   frame:(CGRect)frame
+                             normalTitle:(NSString *)title
+                        normalTitleColor:(UIColor *)norColor
+                   highlightedTitleColor:(UIColor *)hgtColor
+                           selectedColor:(UIColor *)selColor
+                               titleFont:(CGFloat)font
+                             normalImage:(UIImage *)norImage
+                        highlightedImage:(UIImage *)highImage
+                           selectedImage:(UIImage *)selImage
+                     touchUpInSideTarget:(id)target
+                                  action:(SEL)action;
+
+/**
+ 释放对象
+ */
+- (void)releaseObject;
+
 - (void)configBackBtn;
 
 @end

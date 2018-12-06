@@ -8,6 +8,7 @@
 
 #import "MIReviewImageViewController.h"
 #import "MIReviewImageCell.h"
+#import "UIImageView+WebCache.h"
 
 @interface MIReviewImageViewController () <UICollectionViewDataSource>
 
@@ -24,6 +25,12 @@
     [self configReviewImageUI];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    self.navigationController.navigationBarHidden = YES;
+}
+
 - (void)configReviewImageUI {
     
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
@@ -37,6 +44,8 @@
     _collectionView.alwaysBounceHorizontal = YES;
     _collectionView.alwaysBounceVertical = YES;
     _collectionView.dataSource = self;
+    _collectionView.showsVerticalScrollIndicator = NO;
+    _collectionView.showsHorizontalScrollIndicator = NO;
     [self.view addSubview:_collectionView];
     
     [super configBackBtn];
@@ -52,8 +61,12 @@
     
     MIReviewImageCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"reviewCell" forIndexPath:indexPath];
     
-    UIImage *image = [UIImage imageWithContentsOfFile:_imgPath];
-    cell.imgView.image = image;
+    if ([_imgPath containsString:@"http"]) {
+        [cell.imgView sd_setImageWithURL:[NSURL URLWithString:_imgPath] placeholderImage:nil options:SDWebImageLowPriority];
+    } else {
+        UIImage *image = [UIImage imageWithContentsOfFile:_imgPath];
+        cell.imgView.image = image;
+    }
     
     return cell;
 }

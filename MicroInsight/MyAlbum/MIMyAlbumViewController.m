@@ -58,6 +58,12 @@ static NSString *const cellId = @"MIAlbumCell";
     // Do any additional setup after loading the view.
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    self.navigationController.navigationBarHidden = YES;
+}
+
 - (NSMutableArray *)requestAssetsWithType:(MIAlbumType)type {
     [self.assets removeAllObjects];
     

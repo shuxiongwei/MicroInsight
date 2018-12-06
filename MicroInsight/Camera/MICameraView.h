@@ -14,6 +14,13 @@
 @optional;
 
 /**
+ 返回
+
+ @param cameraView 自身
+ */
+- (void)goBackAction:(MICameraView *)cameraView;
+
+/**
  转换摄像头
 
  @param cameraView 自身

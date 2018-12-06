@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MICommunityTagModel : NSObject
+@interface MICommunityTagModel : MIBaseModel
 
 @property (nonatomic, copy) NSString *tag_id;
 @property (nonatomic, copy) NSString *title;
@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface MICommunityListModel : NSObject<YYModel>
+@interface MICommunityListModel : MIBaseModel
 
 @property (nonatomic, copy) NSString *contentId;
 @property (nonatomic, copy) NSString *title;
@@ -26,6 +26,33 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSString *url;
 @property (nonatomic, copy) NSString *createdAt;
 @property (nonatomic, copy) NSArray<MICommunityTagModel *> *tags;
+
+@end
+
+@interface MICommunityDetailModel : MIBaseModel
+
+@property (nonatomic, copy) NSString *contentId;
+@property (nonatomic, copy) NSString *userId;
+@property (nonatomic, copy) NSString *username;
+@property (nonatomic, copy) NSString *width;
+@property (nonatomic, copy) NSString *height;
+@property (nonatomic, copy) NSString *url;
+@property (nonatomic, copy) NSString *title;
+@property (nonatomic, copy) NSString *goodNum;
+@property (nonatomic, copy) NSString *commentNum;
+@property (nonatomic, copy) NSString *createdAt;
+@property (nonatomic, copy) NSArray<MICommunityTagModel *> *tags;
+@property (nonatomic, assign) BOOL isLike;
+
+@end
+
+@interface MICommunityCommentModel : MIBaseModel
+
+@property (nonatomic, copy) NSString *contentId;
+@property (nonatomic, copy) NSString *userId;
+@property (nonatomic, copy) NSString *username;
+@property (nonatomic, copy) NSString *content;
+@property (nonatomic, copy) NSString *createdAt;
 
 @end
 

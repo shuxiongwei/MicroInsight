@@ -20,8 +20,9 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
-    [application setStatusBarHidden:YES];
-    
+    //设置状态栏白色模式
+    application.statusBarStyle = UIStatusBarStyleLightContent;
+
     //延迟加载
     [NSThread sleepForTimeInterval:1.0];
     

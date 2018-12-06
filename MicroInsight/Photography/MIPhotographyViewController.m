@@ -73,7 +73,6 @@
     self.cameraView = [[MICameraView alloc] initWithFrame:self.view.bounds];
     self.cameraView.delegate = self;
     [self.view addSubview:self.cameraView];
-    [super configBackBtn];
     
     NSError *error;
     [self setupSession:&error];
@@ -83,6 +82,18 @@
     } else {
         [MIToastAlertView showAlertViewWithMessage:error.localizedDescription];
     }
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [[UIApplication sharedApplication] setStatusBarHidden:YES];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
 }
 
 #pragma mark - 相机配置
@@ -404,6 +415,11 @@
 }
 
 #pragma mark - MICameraViewDelegate
+//返回
+- (void)goBackAction:(MICameraView *)cameraView {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 //聚焦
 - (void)focusAction:(MICameraView *)cameraView point:(CGPoint)point succ:(void (^)(void))succ fail:(void (^)(NSError *))fail {
     id error = [self focusAtPoint:point];

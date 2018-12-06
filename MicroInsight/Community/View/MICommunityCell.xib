@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
-        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -48,19 +47,18 @@
             <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="qfE-kD-3l6" firstAttribute="top" secondItem="eWD-LD-WeG" secondAttribute="bottom" constant="7" id="0QF-d6-m8C"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="eWD-LD-WeG" secondAttribute="trailing" constant="5" id="1NE-8k-ler"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="PLa-Rv-vds" secondAttribute="trailing" constant="5" id="38D-A2-DuI"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="jau-dm-uwL" secondAttribute="trailing" id="5OJ-65-MoZ"/>
+                <constraint firstAttribute="trailing" secondItem="eWD-LD-WeG" secondAttribute="trailing" constant="5" id="1NE-8k-ler"/>
+                <constraint firstAttribute="trailing" secondItem="PLa-Rv-vds" secondAttribute="trailing" constant="5" id="38D-A2-DuI"/>
+                <constraint firstAttribute="trailing" secondItem="jau-dm-uwL" secondAttribute="trailing" id="5OJ-65-MoZ"/>
                 <constraint firstItem="PLa-Rv-vds" firstAttribute="centerY" secondItem="qfE-kD-3l6" secondAttribute="centerY" id="Diy-l3-o4j"/>
-                <constraint firstItem="qfE-kD-3l6" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="5" id="LXl-M2-SX8"/>
+                <constraint firstItem="qfE-kD-3l6" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="5" id="LXl-M2-SX8"/>
                 <constraint firstItem="eWD-LD-WeG" firstAttribute="top" secondItem="jau-dm-uwL" secondAttribute="bottom" constant="6" id="Pc4-G3-PCV"/>
-                <constraint firstItem="eWD-LD-WeG" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="5" id="R9N-zN-Qgs"/>
-                <constraint firstItem="jau-dm-uwL" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="Yej-fj-NTf"/>
+                <constraint firstItem="eWD-LD-WeG" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="5" id="R9N-zN-Qgs"/>
+                <constraint firstItem="jau-dm-uwL" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Yej-fj-NTf"/>
                 <constraint firstItem="PLa-Rv-vds" firstAttribute="leading" secondItem="qfE-kD-3l6" secondAttribute="trailing" constant="10" id="pLh-Hw-EQL"/>
-                <constraint firstItem="jau-dm-uwL" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="q5a-zu-EhM"/>
+                <constraint firstItem="jau-dm-uwL" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="q5a-zu-EhM"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <connections>
                 <outlet property="imgView" destination="jau-dm-uwL" id="jn4-GI-dfX"/>
                 <outlet property="subTitleLb" destination="qfE-kD-3l6" id="kNS-iv-fad"/>

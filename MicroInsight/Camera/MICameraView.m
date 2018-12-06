@@ -154,8 +154,14 @@
 - (void)configTopViewUI {
     UILabel *appLab = [MIUIFactory createLabelWithCenter:CGPointMake(self.centerX, 25) withBounds:CGRectMake(0, 0, self.width, 50) withText:@"TipScope" withFont:20 withTextColor:[UIColor whiteColor] withTextAlignment:NSTextAlignmentCenter];
     appLab.font = [UIFont captionFontWithName:@"custom" size:20];
-//    appLab.backgroundColor = UIColorFromRGBWithAlpha(000000, 0.5);
     [self addSubview:appLab];
+    
+    UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    backBtn.bounds = CGRectMake(0, 0, 20, 20);
+    backBtn.center = CGPointMake(25, 25);
+    [backBtn setImage:[UIImage imageNamed:@"icon_review_close_nor"] forState:UIControlStateNormal];
+    [backBtn addTarget:self action:@selector(goBack:) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:backBtn];
 }
 
 - (void)configShootTypeMenuUI {
@@ -261,6 +267,12 @@
 }
 
 #pragma mark - 事件响应
+- (void)goBack:(UIButton *)sender {
+    if ([_delegate respondsToSelector:@selector(goBackAction:)]) {
+        [_delegate goBackAction:self];
+    }
+}
+
 //聚焦
 - (void)tapAction:(UIGestureRecognizer *)tap {
     if ([_delegate respondsToSelector:@selector(focusAction:point:succ:fail:)]) {

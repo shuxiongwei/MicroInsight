@@ -16,6 +16,7 @@ typedef NS_ENUM(NSInteger,MIModuleType) {
 
 @interface MILoginViewController ()
 
+@property (weak, nonatomic) IBOutlet UILabel *loginTitle;
 @property (weak, nonatomic) IBOutlet UIButton *loginBtn;
 @property (weak, nonatomic) IBOutlet UIButton *signInBtn;
 @property (weak, nonatomic) IBOutlet UITextField *accountTF;
@@ -38,6 +39,7 @@ typedef NS_ENUM(NSInteger,MIModuleType) {
     _type = MIModuleTypeLogin;
     _checkPswTFSupView.hidden = YES;
     _contentViewHeight.constant = 200;
+    _loginTitle.font = [UIFont captionFontWithName:@"custom" size:20];
 }
 
 #pragma mark - IB Action

@@ -13,11 +13,11 @@
 #import "MIAlbumRequest.h"
 #import "MITheme.h"
 #import "MIAlbumRequest.h"
-
+#import <VODUpload/VODUploadSVideoClient.h>
 #import <AVFoundation/AVFoundation.h>
 
 
-@interface MIUploadViewController ()<UICollectionViewDelegate, UICollectionViewDataSource ,UICollectionViewDelegateFlowLayout>
+@interface MIUploadViewController ()<UICollectionViewDelegate, UICollectionViewDataSource ,UICollectionViewDelegateFlowLayout, VODUploadSVideoClientDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *playBgView;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
@@ -165,11 +165,30 @@ static NSString *const CellId = @"MIThemeCell";
 
 - (IBAction)uploadBtnClick:(UIButton *)sender {
     
-    NSString *fileName = [[MIHelpTool timeStampSecond] stringByAppendingString:@".jpg"];
-    NSMutableArray *tags = [NSMutableArray arrayWithCapacity:_themes.count];
-    for (MITheme *theme in _themes) {
-        [tags addObject:@([theme.themeId integerValue])];
+    
+    if ([_assetUrl.pathExtension isEqualToString:@"png"]) {
+        NSString *fileName = [[MIHelpTool timeStampSecond] stringByAppendingString:@".jpg"];
+        NSMutableArray *tags = [NSMutableArray arrayWithCapacity:_themes.count];
+        for (MITheme *theme in _themes) {
+            [tags addObject:@([theme.themeId integerValue])];
+        }
+        [MIRequestManager uploadImageWithFile:@"file" fileName:fileName filePath:_assetUrl title:_nameTF.text tags:tags requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+            
+        }];
+    }else{
+        
+        MIAlbumRequest *rq = [[MIAlbumRequest alloc] init];
+        [rq videoInfoWithTitle:_assetUrl.lastPathComponent SuccessResponse:^(MIUploadVidoInfo * _Nonnull info) {
+            
+            VODUploadSVideoClient *client = [[VODUploadSVideoClient alloc] init];
+            client.delegate = self;
+            client uploadWithVideoPath:<#(NSString *)#> imagePath:<#(NSString *)#> svideoInfo:<#(VodSVideoInfo *)#> accessKeyId:<#(NSString *)#> accessKeySecret:<#(NSString *)#> accessToken:<#(NSString *)#>
+            
+        } failureResponse:^(NSError *error) {
+            
+        }];
     }
+    
     
 //    NSIndexPath *index = _themCollection.indexPathsForSelectedItems.firstObject;
 //    MITheme *t = _themes[index.item];
@@ -180,21 +199,7 @@ static NSString *const CellId = @"MIThemeCell";
 //    } failureResponse:^(NSError *error) {
 //        
 //    }];
-    
-//    NSIndexPath *index = _themCollection.indexPathsForSelectedItems.firstObject;
-//     MITheme *t = _themes[index.item];
-//    MIAlbumRequest *rq = [[MIAlbumRequest alloc] init];
-//    [rq videoInfoWithTitle:t.title SuccessResponse:^(MIUploadVidoInfo * _Nonnull info) {
-//
-//
-//
-//    } failureResponse:^(NSError *error) {
-//
-//    }];
-    
-    [MIRequestManager uploadImageWithFile:@"file" fileName:fileName filePath:_assetUrl title:_nameTF.text tags:tags requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
-        
-    }];
+ 
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {

@@ -15,7 +15,7 @@
 
 static NSString * const commentID = @"MICommentCell";
 
-@interface MIDetailViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface MIDetailViewController () <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UIImageView *backImgView;
 @property (weak, nonatomic) IBOutlet UIImageView *topImgView;
@@ -26,6 +26,7 @@ static NSString * const commentID = @"MICommentCell";
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomConstraint;
+@property (weak, nonatomic) IBOutlet UITextField *commentTF;
 
 @property (nonatomic, strong) MICommunityDetailModel *detailModel;
 @property (nonatomic, assign) NSInteger currentPage;
@@ -189,7 +190,12 @@ static NSString * const commentID = @"MICommentCell";
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 100;
+    
+    MICommunityCommentModel *model = self.commentList[indexPath.row];
+    CGFloat width = MIScreenWidth - 70;
+    CGFloat contentH = [MIHelpTool measureMutilineStringHeightWithString:model.content font:[UIFont systemFontOfSize:13] width:width];
+
+    return contentH + 73;
 }
 
 #pragma mark - 懒加载

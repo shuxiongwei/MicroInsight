@@ -96,6 +96,19 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (void)praiseWithContentId:(NSString *)contentId requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed;
 
+/**
+ 图片上传
+
+ @param file 文件
+ @param fileName 文件名称
+ @param path 文件路径
+ @param title 标题
+ @param tags 主题列表
+ @param token token
+ @param completed 完成回调
+ */
++ (void)uploadImageWithFile:(NSString *)file fileName:(NSString *)fileName filePath:(NSString *)path title:(NSString *)title tags:(NSArray *)tags requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed;
+
 @end
 
 NS_ASSUME_NONNULL_END

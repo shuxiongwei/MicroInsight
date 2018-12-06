@@ -25,12 +25,7 @@
 
     //延迟加载
     [NSThread sleepForTimeInterval:1.0];
-    
-//    MIPhotographyViewController *vc = [[MIPhotographyViewController alloc] init];
-//    _window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-//    _window.rootViewController = vc;
-//    [_window makeKeyAndVisible];
-    
+
     NSFileManager *fm = [NSFileManager defaultManager];
     if (![fm fileExistsAtPath:[MIHelpTool assetsPath]]) {
         

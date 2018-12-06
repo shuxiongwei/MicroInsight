@@ -159,7 +159,19 @@ static NSString *const CellId = @"MIThemeCell";
 
 - (IBAction)uploadBtnClick:(UIButton *)sender {
     
+    NSString *fileName = [[MIHelpTool timeStampSecond] stringByAppendingString:@".jpg"];
+    NSMutableArray *tags = [NSMutableArray arrayWithCapacity:_themes.count];
+    for (MITheme *theme in _themes) {
+        [tags addObject:@([theme.themeId integerValue])];
+    }
     
+    [MIRequestManager uploadImageWithFile:@"file" fileName:fileName filePath:_assetUrl title:_nameTF.text tags:tags requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+        
+    }];
+}
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    [_nameTF resignFirstResponder];
 }
 
 @end

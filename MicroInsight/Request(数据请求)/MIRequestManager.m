@@ -16,6 +16,7 @@ static NSString * const communityDetailUrl = @"/image/detail";
 static NSString * const communityCommentUrl = @"/image/comment-list";
 static NSString * const praiseUrl = @"/image/like";
 static NSString * const commentUrl = @"/image/comment";
+static NSString * const uploadImageUrl = @"/image/upload";
 
 @implementation MIRequestManager
 
@@ -195,6 +196,31 @@ static NSString * const commentUrl = @"/image/comment";
     [MIRequestManager getApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
         
         completed(jsonData, error);
+    }];
+}
+
++ (void)uploadImageWithFile:(NSString *)file fileName:(NSString *)fileName filePath:(NSString *)path title:(NSString *)title tags:(NSArray *)tags requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed {
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"title"] = title;
+    params[@"tags"] = tags;
+    
+    NSString *url = [requestUrl stringByAppendingString:uploadImageUrl];
+    url = [url stringByAppendingString:[NSString stringWithFormat:@"?token=%@", token]];
+    
+    [MIRequestManager sharedManager].responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/plain", @"multipart/form-data", @"application/json", @"text/html", @"image/jpeg", @"image/png", @"application/octet-stream", @"text/json", nil];
+    
+    [[MIRequestManager sharedManager] POST:url parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+        
+        UIImage *img = [UIImage imageWithContentsOfFile:path];
+        NSData *datas = UIImageJPEGRepresentation(img, 0.1);
+        [formData appendPartWithFileData:datas name:file fileName:fileName mimeType:@"image/jpg"];
+    } progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        completed(responseObject, nil);
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        completed(nil, error);
     }];
 }
 

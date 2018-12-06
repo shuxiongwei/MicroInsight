@@ -12,6 +12,8 @@
 #import "NSString+MITextSize.h"
 #import "MIAlbumRequest.h"
 #import "MITheme.h"
+#import "MIAlbumRequest.h"
+
 #import <AVFoundation/AVFoundation.h>
 
 
@@ -163,6 +165,27 @@ static NSString *const CellId = @"MIThemeCell";
 
 - (IBAction)uploadBtnClick:(UIButton *)sender {
     
+    
+//    NSIndexPath *index = _themCollection.indexPathsForSelectedItems.firstObject;
+//    MITheme *t = _themes[index.item];
+//    MIAlbumRequest *rq = [[MIAlbumRequest alloc] init];
+//    NSData *compress = UIImageJPEGRepresentation(_imageView.image, 0.2);
+//    [rq uploadPhotoWithFile:compress title:t.title tags:@[t.themeId] SuccessResponse:^(NSString *message) {
+//        
+//    } failureResponse:^(NSError *error) {
+//        
+//    }];
+    
+    NSIndexPath *index = _themCollection.indexPathsForSelectedItems.firstObject;
+     MITheme *t = _themes[index.item];
+    MIAlbumRequest *rq = [[MIAlbumRequest alloc] init];
+    [rq videoInfoWithTitle:t.title SuccessResponse:^(MIUploadVidoInfo * _Nonnull info) {
+        
+        
+
+    } failureResponse:^(NSError *error) {
+
+    }];
     
 }
 

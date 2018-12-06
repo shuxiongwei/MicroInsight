@@ -25,12 +25,7 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         [SVProgressHUD dismiss];
     });
-    if (![response.URL.absoluteString containsString:@"versioninfo/getVersion"] && !responseObject) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [SVProgressHUD showErrorWithStatus:@"网络请求失败"];
-        });
-        return nil;
-    }
+   
     NSError *jsError;
     NSString *dataString = [[NSString  alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
     

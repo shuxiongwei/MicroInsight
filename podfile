@@ -6,4 +6,5 @@ pod 'YYModel'
 pod 'SVProgressHUD'
 pod 'MJRefresh'
 pod 'SDWebImage'
+pod 'VODUpload'
 end

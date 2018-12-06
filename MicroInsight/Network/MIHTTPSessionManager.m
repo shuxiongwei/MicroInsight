@@ -25,6 +25,7 @@ static MIHTTPSessionManager *manager = nil;
         manager.requestSerializer = [AFHTTPRequestSerializer serializer];
         manager.requestSerializer.timeoutInterval = 10.0;
         manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", nil];
+        manager.responseSerializer = [MIHTTPResponseSerializer serializer];
         [manager.reachabilityManager setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
             switch (status) {
                 case AFNetworkReachabilityStatusNotReachable:     // 无连线
@@ -49,7 +50,6 @@ static MIHTTPSessionManager *manager = nil;
             }
             
         }];
-        manager.responseSerializer = [MIHTTPResponseSerializer serializer];
         [manager.reachabilityManager startMonitoring];
     });
     return manager;

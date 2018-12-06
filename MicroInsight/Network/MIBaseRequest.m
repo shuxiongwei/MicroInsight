@@ -11,6 +11,7 @@
 #import "MIHTTPSessionManager.h"
 #import "SVProgressHUD.h"
 #import "MINetworkConstant.h"
+#import "MILocalData.h"
 //#import "RSAUtil.h"
 //#import "CRSA.h"
 #import "MJRefresh.h"
@@ -30,8 +31,13 @@
                  downProgress:(void (^)(NSProgress *progress))downProgress
                       success:(MINetworkSessionSuccess)success
                       failure:(MINetworkSessionFailure)failure{
-
-    return [[MIHTTPSessionManager shareManager] GET:URLString parameters:parameters progress:nil success:success failure:failure];
+    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:parameters];
+    NSString *token = [MILocalData getCurrentRequestToken];
+    if (token.length > 0) {
+        
+        [dic setObject:token forKey:@"token"];
+    }
+    return [[MIHTTPSessionManager shareManager] GET:URLString parameters:dic progress:nil success:success failure:failure];
 }
 
 - (NSURLSessionDataTask *)POST:(NSString *)URLString
@@ -40,7 +46,12 @@
                        success:(MINetworkSessionSuccess)success
                        failure:(MINetworkSessionFailure)failure{
     
-    NSMutableDictionary *dic = parameters;
+    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:parameters];
+    NSString *token = [MILocalData getCurrentRequestToken];
+    if (token.length > 0) {
+        
+       URLString = [URLString stringByAppendingString:[NSString stringWithFormat:@"?token=%@",token]];
+    }
 //    if ([dic.allKeys containsObject:@"token"]) {
 //
 //        POUserInfo *info = [POLocalManager getUserInfo];

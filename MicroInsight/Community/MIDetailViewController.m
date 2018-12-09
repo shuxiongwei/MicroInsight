@@ -130,7 +130,7 @@ static NSString * const commentID = @"MICommentCell";
 
 - (void)requestCommentData:(BOOL)isComment {
     WSWeak(weakSelf);
-    [MIRequestManager getCommunityCommentListWithContentId:_contentId requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+    [MIRequestManager getCommunityCommentListWithContentId:_contentId contentType:_contentType requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
         
         NSInteger code = [jsonData[@"code"] integerValue];
         if (code == 0) {
@@ -157,7 +157,7 @@ static NSString * const commentID = @"MICommentCell";
 
 - (IBAction)clickPraiseBtn:(UIButton *)sender {
     if (!sender.selected) {
-        [MIRequestManager praiseWithContentId:_detailModel.contentId requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+        [MIRequestManager praiseWithContentId:_detailModel.contentId contentType:_contentType requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
             
             NSInteger code = [jsonData[@"code"] integerValue];
             if (code == 0) {
@@ -181,7 +181,7 @@ static NSString * const commentID = @"MICommentCell";
         return;
     }
     
-    [MIRequestManager commentWithContentId:_detailModel.contentId content:_commentTF.text requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+    [MIRequestManager commentWithContentId:_detailModel.contentId contentType:_contentType content:_commentTF.text requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
         
         NSInteger code = [jsonData[@"code"] integerValue];
         if (code == 0) {
@@ -190,8 +190,6 @@ static NSString * const commentID = @"MICommentCell";
         } else {
             [MIToastAlertView showAlertViewWithMessage:@"评论失败"];
         }
-        
-        
     }];
     
     _commentTF.text = nil;

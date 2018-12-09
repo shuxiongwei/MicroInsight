@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MIDetailViewController : MIBaseViewController
 
 @property (nonatomic, copy) NSString *contentId;
+@property (nonatomic, assign) NSInteger contentType;
 
 @end
 

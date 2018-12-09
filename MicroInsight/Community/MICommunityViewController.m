@@ -245,6 +245,7 @@ static NSString * const MICellID = @"MICommunityCell";
     
     MIDetailViewController *detailVC = [[MIDetailViewController alloc] initWithNibName:@"MIDetailViewController" bundle:nil];
     detailVC.contentId = listM.contentId;
+    detailVC.contentType = [listM.contentType integerValue];
     [self.navigationController pushViewController:detailVC animated:YES];
 }
 

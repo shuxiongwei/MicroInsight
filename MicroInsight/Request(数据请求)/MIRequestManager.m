@@ -13,9 +13,9 @@ static NSString * const registerUrl = @"/site/register";
 static NSString * const loginUrl = @"/site/login";
 static NSString * const communityListUrl = @"/node/list";
 static NSString * const communityDetailUrl = @"/image/detail";
-static NSString * const communityCommentUrl = @"/image/comment-list";
-static NSString * const praiseUrl = @"/image/like";
-static NSString * const commentUrl = @"/image/comment";
+static NSString * const communityCommentUrl = @"/node/comment-list";
+static NSString * const praiseUrl = @"/node/like";
+static NSString * const commentUrl = @"/node/comment";
 static NSString * const uploadImageUrl = @"/image/upload";
 
 @implementation MIRequestManager
@@ -159,10 +159,11 @@ static NSString * const uploadImageUrl = @"/image/upload";
     }];
 }
 
-+ (void)getCommunityCommentListWithContentId:(NSString *)contentId requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed {
++ (void)getCommunityCommentListWithContentId:(NSString *)contentId contentType:(NSInteger)contentType requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed {
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"imageId"] = @(contentId.integerValue);
+    params[@"contentId"] = @(contentId.integerValue);
+    params[@"contentType"] = @(contentType);
     params[@"token"] = token;
     
     NSString *url = [requestUrl stringByAppendingString:communityCommentUrl];
@@ -172,10 +173,11 @@ static NSString * const uploadImageUrl = @"/image/upload";
     }];
 }
 
-+ (void)praiseWithContentId:(NSString *)contentId requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed {
++ (void)praiseWithContentId:(NSString *)contentId contentType:(NSInteger)contentType requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed {
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"imageId"] = @(contentId.integerValue);
+    params[@"contentType"] = @(contentType);
+    params[@"contentId"] = @(contentId.integerValue);
     
     NSString *url = [requestUrl stringByAppendingString:praiseUrl];
     url = [url stringByAppendingString:[NSString stringWithFormat:@"?token=%@", token]];
@@ -185,10 +187,11 @@ static NSString * const uploadImageUrl = @"/image/upload";
     }];
 }
 
-+ (void)commentWithContentId:(NSString *)contentId content:(NSString *)content requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed {
++ (void)commentWithContentId:(NSString *)contentId contentType:(NSInteger)contentType content:(NSString *)content requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed {
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"imageId"] = @(contentId.integerValue);
+    params[@"contentId"] = @(contentId.integerValue);
+    params[@"contentType"] = @(contentType);
     params[@"content"] = content;
     
     NSString *url = [requestUrl stringByAppendingString:commentUrl];

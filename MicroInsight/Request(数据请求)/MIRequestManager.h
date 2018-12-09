@@ -82,29 +82,32 @@ NS_ASSUME_NONNULL_BEGIN
  获取评论列表
 
  @param contentId 图片id
+ @param contentType 类型(0:图片，1:视频)
  @param token token
  @param completed 完成回调
  */
-+ (void)getCommunityCommentListWithContentId:(NSString *)contentId requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed;
++ (void)getCommunityCommentListWithContentId:(NSString *)contentId contentType:(NSInteger)contentType requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed;
 
 /**
  评论
 
  @param contentId 图片id
+ @param contentType 类型(0:图片，1:视频)
  @param content 内容
  @param token token
  @param completed 完成回调
  */
-+ (void)commentWithContentId:(NSString *)contentId content:(NSString *)content requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed;
++ (void)commentWithContentId:(NSString *)contentId contentType:(NSInteger)contentType content:(NSString *)content requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed;
 
 /**
  点赞
  
  @param contentId 图片id
+ @param contentType 类型(0:图片，1:视频)
  @param token token
  @param completed 完成回调
  */
-+ (void)praiseWithContentId:(NSString *)contentId requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed;
++ (void)praiseWithContentId:(NSString *)contentId contentType:(NSInteger)contentType requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed;
 
 /**
  图片上传

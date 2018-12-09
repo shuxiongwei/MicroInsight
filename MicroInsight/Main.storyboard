@@ -36,7 +36,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pTi-e6-zv2">
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pTi-e6-zv2">
                                 <rect key="frame" x="5" y="456.5" width="365" height="205.5"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="home_btn_album" translatesAutoresizingMaskIntoConstraints="NO" id="ICp-mL-vaO">
@@ -66,7 +66,7 @@
                                     <constraint firstItem="j4m-XV-gVt" firstAttribute="centerX" secondItem="pTi-e6-zv2" secondAttribute="centerX" id="pQE-F6-n66"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Aw-Hf-b5q">
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Aw-Hf-b5q">
                                 <rect key="frame" x="5" y="25" width="200" height="426.5"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="home_btn_social" translatesAutoresizingMaskIntoConstraints="NO" id="WBq-gr-cHq">
@@ -96,7 +96,7 @@
                                     <constraint firstAttribute="centerY" secondItem="z0a-Ah-22Q" secondAttribute="bottom" constant="-5" id="tyb-k6-CxK"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zls-Hp-xlE">
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zls-Hp-xlE">
                                 <rect key="frame" x="210" y="269" width="160" height="182.5"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="me_login" translatesAutoresizingMaskIntoConstraints="NO" id="mb6-mS-SGe">
@@ -126,7 +126,7 @@
                                     <constraint firstItem="mb6-mS-SGe" firstAttribute="leading" secondItem="Zls-Hp-xlE" secondAttribute="leading" id="tUX-yB-V16"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cFO-qv-Kdg">
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cFO-qv-Kdg">
                                 <rect key="frame" x="210" y="25" width="160" height="239"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="home_btn_shoot" translatesAutoresizingMaskIntoConstraints="NO" id="1rL-Zk-Qze">

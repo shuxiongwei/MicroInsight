@@ -176,10 +176,10 @@ static NSString * const uploadImageUrl = @"/image/upload";
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"imageId"] = @(contentId.integerValue);
-    params[@"token"] = token;
     
     NSString *url = [requestUrl stringByAppendingString:praiseUrl];
-    [MIRequestManager getApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+    url = [url stringByAppendingString:[NSString stringWithFormat:@"?token=%@", token]];
+    [MIRequestManager postApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
         
         completed(jsonData, error);
     }];
@@ -190,10 +190,10 @@ static NSString * const uploadImageUrl = @"/image/upload";
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"imageId"] = @(contentId.integerValue);
     params[@"content"] = content;
-    params[@"token"] = token;
     
     NSString *url = [requestUrl stringByAppendingString:commentUrl];
-    [MIRequestManager getApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+    url = [url stringByAppendingString:[NSString stringWithFormat:@"?token=%@", token]];
+    [MIRequestManager postApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
         
         completed(jsonData, error);
     }];

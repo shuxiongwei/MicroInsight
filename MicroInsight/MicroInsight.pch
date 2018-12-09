@@ -22,6 +22,7 @@
 #import "YYModel.h"
 #import "MIBaseModel.h"
 #import "MICommonFile.h"
+#import "MBProgressHUD+MJ.h"
 
 #define MIIOS9  ([UIDevice currentDevice].systemVersion.floatValue >= 9.0f)
 

@@ -23,7 +23,6 @@ static NSString * const commentID = @"MICommentCell";
 @property (weak, nonatomic) IBOutlet UIButton *praiseBtn;
 @property (weak, nonatomic) IBOutlet UILabel *titleLab;
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
-@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomConstraint;
 @property (weak, nonatomic) IBOutlet UITextField *commentTF;
@@ -48,8 +47,8 @@ static NSString * const commentID = @"MICommentCell";
     
     [super configLeftBarButtonItem:@"社区"];
     [self configDetailUI];
-    [self requestDetailData];
-    [self requestCommentData];
+    [self requestDetailData:NO];
+    [self requestCommentData:NO];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChangeFrame:) name:UIKeyboardWillChangeFrameNotification object:nil];
 }
 
@@ -69,7 +68,12 @@ static NSString * const commentID = @"MICommentCell";
     [_topImgView addGestureRecognizer:tap];
 }
 
-- (void)requestDetailData {
+/**
+ 请求数据
+
+ @param isComment 是否是评论后的请求
+ */
+- (void)requestDetailData:(BOOL)isComment {
     WSWeak(weakSelf);
     [MIRequestManager getCommunityDetailDataWithContentId:_contentId requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
         
@@ -79,41 +83,61 @@ static NSString * const commentID = @"MICommentCell";
             NSDictionary *imageDic = dic[@"image"];
             weakSelf.detailModel = [MICommunityDetailModel yy_modelWithDictionary:imageDic];
             if ([weakSelf.detailModel.url.pathExtension isEqualToString:@"jpg"]) {
-                [weakSelf refreshUI:YES];
+                [weakSelf refreshUI:YES isComment:isComment];
             } else {
-                [weakSelf refreshUI:NO];
+                [weakSelf refreshUI:NO isComment:isComment];
             }
         }
     }];
 }
 
-- (void)refreshUI:(BOOL)isImage {
-    self.title = _detailModel.title;
-    _titleLab.text = _detailModel.username;
+/**
+ 刷新UI
+
+ @param isImage YES：图片，NO：视频
+ @param isComment 是否是评论后的刷新
+ */
+- (void)refreshUI:(BOOL)isImage isComment:(BOOL)isComment {
     [_commentBtn setTitle:_detailModel.commentNum forState:UIControlStateNormal];
     [_praiseBtn setTitle:_detailModel.goodNum forState:UIControlStateNormal];
+    _praiseBtn.selected = _detailModel.isLike;
     
-    if (isImage) {
-        _topImgView.hidden = NO;
-        _backImgView.hidden = NO;
+    if (!isComment) {
+        self.title = _detailModel.title;
+        _titleLab.text = _detailModel.username;
         
-        WSWeak(weakSelf);
-        [_topImgView sd_setImageWithURL:[NSURL URLWithString:_detailModel.url] placeholderImage:nil options:SDWebImageLowPriority];
-        [_backImgView sd_setImageWithURL:[NSURL URLWithString:_detailModel.url] placeholderImage:nil options:SDWebImageLowPriority completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+        if (isImage) {
+            _topImgView.hidden = NO;
+            _backImgView.hidden = NO;
             
-            weakSelf.backImgView.image = [MIUIFactory coreBlurImage:weakSelf.backImgView.image];
-        }];
-    } else {
-        
+            WSWeak(weakSelf);
+            [_topImgView sd_setImageWithURL:[NSURL URLWithString:_detailModel.url] placeholderImage:nil options:SDWebImageLowPriority completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+                
+
+                weakSelf.backImgView.image = image;
+                
+                UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+                UIVisualEffectView *effectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+                effectView.frame = weakSelf.backImgView.bounds;
+                effectView.alpha = 0.95;
+                [weakSelf.backImgView addSubview:effectView];
+            }];
+        } else {
+            
+        }
     }
 }
 
-- (void)requestCommentData {
+- (void)requestCommentData:(BOOL)isComment {
     WSWeak(weakSelf);
     [MIRequestManager getCommunityCommentListWithContentId:_contentId requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
         
         NSInteger code = [jsonData[@"code"] integerValue];
         if (code == 0) {
+            if (isComment) {
+                [weakSelf.commentList removeAllObjects];
+            }
+            
             NSDictionary *dic = jsonData[@"data"];
             NSArray *list = dic[@"list"];
             for (NSDictionary *commentDic in list) {
@@ -128,7 +152,7 @@ static NSString * const commentID = @"MICommentCell";
 
 #pragma mark - 事件响应
 - (IBAction)clickCommentBtn:(UIButton *)sender {
-    
+    [_commentTF becomeFirstResponder];
 }
 
 - (IBAction)clickPraiseBtn:(UIButton *)sender {
@@ -137,7 +161,11 @@ static NSString * const commentID = @"MICommentCell";
             
             NSInteger code = [jsonData[@"code"] integerValue];
             if (code == 0) {
-                [MIToastAlertView showAlertViewWithMessage:@"点赞成功"];
+//                [self requestDetailData:YES];
+                NSDictionary *data = jsonData[@"data"];
+                [_praiseBtn setTitle:[data[@"goodNum"] stringValue] forState:UIControlStateNormal];
+                _praiseBtn.selected = YES;
+                _detailModel.isLike = YES;
             } else {
                 [MIToastAlertView showAlertViewWithMessage:@"点赞失败"];
             }
@@ -145,6 +173,29 @@ static NSString * const commentID = @"MICommentCell";
     } else {
         [MIToastAlertView showAlertViewWithMessage:@"已点赞过该作品"];
     }
+}
+
+- (IBAction)clickSendBtn:(UIButton *)sender {
+    if ([MIHelpTool isBlankString:_commentTF.text]) {
+        [MIToastAlertView showAlertViewWithMessage:@"请输入评论内容"];
+        return;
+    }
+    
+    [MIRequestManager commentWithContentId:_detailModel.contentId content:_commentTF.text requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+        
+        NSInteger code = [jsonData[@"code"] integerValue];
+        if (code == 0) {
+            [self requestDetailData:YES];
+            [self requestCommentData:YES];
+        } else {
+            [MIToastAlertView showAlertViewWithMessage:@"评论失败"];
+        }
+        
+        
+    }];
+    
+    _commentTF.text = nil;
+    [_commentTF resignFirstResponder];
 }
 
 #pragma mark - 手势

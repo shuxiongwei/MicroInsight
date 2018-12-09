@@ -40,6 +40,13 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (NSString *)getCurrentRequestToken;
 
+/**
+ 获取本地的第一个图片或视频路径
+
+ @return 返回值
+ */
++ (NSString *)getFirstLocalAssetPath;
+
 @end
 
 NS_ASSUME_NONNULL_END

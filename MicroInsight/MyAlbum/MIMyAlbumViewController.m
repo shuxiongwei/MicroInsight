@@ -62,6 +62,12 @@ static NSString *const cellId = @"MIAlbumCell";
     [super viewWillAppear:animated];
     
     self.navigationController.navigationBarHidden = YES;
+    
+    NSString *assetPath = [MIHelpTool assetsPath];
+    NSString *path = [NSString stringWithFormat:@"%@/%@", assetPath, @"movie.mov"];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
+        [[NSFileManager defaultManager] removeItemAtPath:path error:nil];
+    };
 }
 
 - (NSMutableArray *)requestAssetsWithType:(MIAlbumType)type {

@@ -88,6 +88,16 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)getCommunityCommentListWithContentId:(NSString *)contentId requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed;
 
 /**
+ 评论
+
+ @param contentId 图片id
+ @param content 内容
+ @param token token
+ @param completed 完成回调
+ */
++ (void)commentWithContentId:(NSString *)contentId content:(NSString *)content requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed;
+
+/**
  点赞
  
  @param contentId 图片id
@@ -108,6 +118,8 @@ NS_ASSUME_NONNULL_BEGIN
  @param completed 完成回调
  */
 + (void)uploadImageWithFile:(NSString *)file fileName:(NSString *)fileName filePath:(NSString *)path title:(NSString *)title tags:(NSArray *)tags requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed;
+
+
 
 @end
 

@@ -29,6 +29,7 @@
 @property (strong, nonatomic) AVPlayerLayer *playerLayer;
 @property (strong, nonatomic) AVPlayerItem *curItem;
 @property (copy, nonatomic) NSArray *themes;
+@property (nonatomic, strong) MITheme *curTheme;
 
 @end
 
@@ -135,6 +136,7 @@ static NSString *const CellId = @"MIThemeCell";
     
     MIThemeCell *cell = (MIThemeCell *)[collectionView cellForItemAtIndexPath:indexPath];
     cell.selected = !cell.selected;
+    _curTheme = _themes[indexPath.item];
 }
 
 #pragma mark - IBAction
@@ -165,15 +167,34 @@ static NSString *const CellId = @"MIThemeCell";
 
 - (IBAction)uploadBtnClick:(UIButton *)sender {
     
+    if ([MIHelpTool isBlankString:_nameTF.text]) {
+        [MIToastAlertView showAlertViewWithMessage:@"请输入标题"];
+        return;
+    }
+    
+    if (!_curTheme) {
+        [MIToastAlertView showAlertViewWithMessage:@"请选择主题"];
+        return;
+    }
     
     if ([_assetUrl.pathExtension isEqualToString:@"png"]) {
+        [MBProgressHUD showStatus:@"图片上传中，请稍后"];
+        
         NSString *fileName = [[MIHelpTool timeStampSecond] stringByAppendingString:@".jpg"];
-        NSMutableArray *tags = [NSMutableArray arrayWithCapacity:_themes.count];
-        for (MITheme *theme in _themes) {
-            [tags addObject:@([theme.themeId integerValue])];
-        }
+        NSMutableArray *tags = [NSMutableArray arrayWithObject:@([_curTheme.themeId integerValue])];
         [MIRequestManager uploadImageWithFile:@"file" fileName:fileName filePath:_assetUrl title:_nameTF.text tags:tags requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
             
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [MBProgressHUD hideHUD];
+            });
+            
+            NSInteger code = [jsonData[@"code"] integerValue];
+            if (code == 0) {
+                [MIToastAlertView showAlertViewWithMessage:@"上传成功"];
+                [self.navigationController popViewControllerAnimated:YES];
+            } else {
+                [MIToastAlertView showAlertViewWithMessage:@"上传失败"];
+            }
         }];
     }else{
         
@@ -182,7 +203,7 @@ static NSString *const CellId = @"MIThemeCell";
             
             VODUploadSVideoClient *client = [[VODUploadSVideoClient alloc] init];
             client.delegate = self;
-            client uploadWithVideoPath:<#(NSString *)#> imagePath:<#(NSString *)#> svideoInfo:<#(VodSVideoInfo *)#> accessKeyId:<#(NSString *)#> accessKeySecret:<#(NSString *)#> accessToken:<#(NSString *)#>
+//            client uploadWithVideoPath:<#(NSString *)#> imagePath:<#(NSString *)#> svideoInfo:<#(VodSVideoInfo *)#> accessKeyId:<#(NSString *)#> accessKeySecret:<#(NSString *)#> accessToken:<#(NSString *)#>
             
         } failureResponse:^(NSError *error) {
             

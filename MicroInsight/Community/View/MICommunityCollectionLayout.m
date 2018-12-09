@@ -8,7 +8,6 @@
 
 #import "MICommunityCollectionLayout.h"
 
-static const float kLineCellCount = 2.0;
 
 @implementation MICommunityCollectionLayout
 
@@ -28,11 +27,11 @@ static const float kLineCellCount = 2.0;
 
 - (void)configureLayout {
   
-    self.minimumLineSpacing = 5;
-    self.minimumInteritemSpacing = 5;
-    UIEdgeInsets inset = UIEdgeInsetsMake(5.0, 5.0, 5.0, 5.0);
+    self.minimumLineSpacing = 10;
+    self.minimumInteritemSpacing = 10;
+    UIEdgeInsets inset = UIEdgeInsetsMake(5.0, 10.0, 5.0, 10.0);
     self.sectionInset = inset;
-    CGFloat width = (MIScreenWidth - 3 * 5) / 2.0;
+    CGFloat width = (MIScreenWidth - 3 * 10) / 2.0;
     self.itemSize = CGSizeMake(width, width * 148.0 / 180.0);
 }
 

@@ -55,7 +55,7 @@
 }
 
 - (void)configReviewVideoUI {
-    _playBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(0, 0, 60, 60) normalTitle:nil normalTitleColor:nil highlightedTitleColor:nil selectedColor:nil titleFont:0 normalImage:[UIImage imageNamed:@"icon_review_play_nor"] highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(playVideo:)];
+    _playBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(0, 0, 60, 60) normalTitle:nil normalTitleColor:nil highlightedTitleColor:nil selectedColor:nil titleFont:0 normalImage:[UIImage imageNamed:@"play_white"] highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(playVideo:)];
     _playBtn.center = self.view.center;
     [self.view addSubview:_playBtn];
 }

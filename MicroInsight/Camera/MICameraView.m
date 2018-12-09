@@ -81,7 +81,7 @@
 - (NSTimer *)recordTimer {
     if (!_recordTimer) {
         _recordTimer = [NSTimer timerWithTimeInterval:0.1 target:self selector:@selector(recordDurationOfVideo:) userInfo:nil repeats:YES];
-        [[NSRunLoop mainRunLoop] addTimer:_recordTimer forMode:NSRunLoopCommonModes];
+        [[NSRunLoop currentRunLoop] addTimer:_recordTimer forMode:NSRunLoopCommonModes];
     }
     return _recordTimer;
 }
@@ -129,22 +129,14 @@
     [self.bottomView addSubview:_photoBtn];
     
     //手电筒
-    _torchBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(self.bottomView.width - 30 - 50 - 54, (self.bottomView.height - 44) / 2.0, 34, 44) normalTitle:nil normalTitleColor:nil highlightedTitleColor:nil selectedColor:nil titleFont:0 normalImage:[UIImage imageNamed:@"icon_camera_light_normal"] highlightedImage:nil selectedImage:[UIImage imageNamed:@"icon_camera_light_sel"] touchUpInSideTarget:self action:@selector(torchClick:)];
+    _torchBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(self.bottomView.width - 30 - 50 - 54, (self.bottomView.height - 44) / 2.0, 34, 44) normalTitle:nil normalTitleColor:nil highlightedTitleColor:nil selectedColor:nil titleFont:0 normalImage:[UIImage imageNamed:@"btn_shoot_flash_nor"] highlightedImage:nil selectedImage:[UIImage imageNamed:@"btn_shoot_flash_sel"] touchUpInSideTarget:self action:@selector(torchClick:)];
     [self.bottomView addSubview:_torchBtn];
     
     //功能按钮
-    UIButton *funcBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(self.bottomView.width - 30 - 50, (self.bottomView.height - 50) / 2.0, 50, 50) normalTitle:nil normalTitleColor:nil highlightedTitleColor:nil selectedColor:nil titleFont:0 normalImage:[UIImage imageNamed:@"icon_camera_function_nor"] highlightedImage:nil selectedImage:[UIImage imageNamed:@"icon_camera_function_sel"] touchUpInSideTarget:self action:@selector(clickFunctionBtn:)];
+    UIButton *funcBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(self.bottomView.width - 30 - 50, (self.bottomView.height - 50) / 2.0, 50, 50) normalTitle:nil normalTitleColor:nil highlightedTitleColor:nil selectedColor:nil titleFont:0 normalImage:[UIImage imageNamed:@"btn_shoot_func_nor"] highlightedImage:nil selectedImage:[UIImage imageNamed:@"btn_shoot_func_sel"] touchUpInSideTarget:self action:@selector(clickFunctionBtn:)];
     [self.bottomView addSubview:funcBtn];
     
-    //预览图片按钮
-    NSString *documentPath = [MIHelpTool getDocumentPath];
-    NSString *imgPath = [NSString stringWithFormat:@"%@/image.png", documentPath];
-    UIImage *img = [UIImage imageNamed:@""];
-    if ([[NSFileManager defaultManager] fileExistsAtPath:imgPath]) {
-        img = [UIImage imageWithContentsOfFile:imgPath];
-    }
-    
-    _coverBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(30, (self.bottomView.height - 50) / 2.0, 50, 50) normalTitle:nil normalTitleColor:nil highlightedTitleColor:nil selectedColor:nil titleFont:0 normalImage:img highlightedImage:nil selectedImage:[UIImage imageNamed:@""] touchUpInSideTarget:self action:@selector(reviewCoverImage:)];
+    _coverBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(30, (self.bottomView.height - 50) / 2.0, 50, 50) normalTitle:nil normalTitleColor:nil highlightedTitleColor:nil selectedColor:nil titleFont:0 normalImage:nil highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(reviewCoverImage:)];
     _coverBtn.imageView.contentMode = UIViewContentModeScaleAspectFill;
     _coverBtn.layer.cornerRadius = 3;
     _coverBtn.layer.masksToBounds = YES;
@@ -512,23 +504,21 @@
 }
 
 - (void)resetCoverBtnImageWithAssetPath:(NSString *)path {
-//    NSString *documentPath = [MIHelpTool getDocumentPath];
-//
-    UIImage *img = [UIImage imageNamed:@""];
-    if (_shootTypeMenu.selectedIndex == 0) {
-//        NSString *imgPath = [NSString stringWithFormat:@"%@/image.png", documentPath];
-        if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
-            img = [UIImage imageWithContentsOfFile:path];
-        }
+
+    if (path == nil) {
+        [_coverBtn setImage:[UIImage imageNamed:@"home_btn_album"] forState:UIControlStateNormal];
     } else {
-//        NSString *videoPath = [NSString stringWithFormat:@"%@/video.mov", documentPath];
-        if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
+        UIImage *image;
+        
+        if ([path.pathExtension isEqualToString:@"png"]) {
+            image = [UIImage imageWithContentsOfFile:path];
+        } else {
             AVAsset *asset = [AVAsset assetWithURL:[NSURL fileURLWithPath:path]];
-            img = [MIHelpTool fetchThumbnailWithAVAsset:asset curTime:0];
+            image = [MIHelpTool fetchThumbnailWithAVAsset:asset curTime:0];
         }
+        
+        [_coverBtn setImage:image forState:UIControlStateNormal];
     }
-    
-    [_coverBtn setImage:img forState:UIControlStateNormal];
 }
 
 #pragma mark - QSHorizontalPickerViewDelegate

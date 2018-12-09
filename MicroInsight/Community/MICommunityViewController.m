@@ -70,6 +70,7 @@ static NSString * const MICellID = @"MICommunityCell";
     
     WSWeak(weakSelf);
     MJRefreshGifHeader *header = [MJRefreshGifHeader headerWithRefreshingBlock:^{
+        [weakSelf.collectionV.mj_footer resetNoMoreData];
         [weakSelf.collectionV.mj_header endRefreshing];
         weakSelf.currentPage = 1;
         [weakSelf refreshUI:MIRefreshNormal];
@@ -104,6 +105,7 @@ static NSString * const MICellID = @"MICommunityCell";
     
     WSWeak(weakSelf);
     MJRefreshGifHeader *header = [MJRefreshGifHeader headerWithRefreshingBlock:^{
+        [weakSelf.searchCollectionV.mj_footer resetNoMoreData];
         [weakSelf.searchCollectionV.mj_header endRefreshing];
         weakSelf.searchPage = 1;
         [weakSelf refreshUI:MIRefreshNormal];
@@ -139,7 +141,13 @@ static NSString * const MICellID = @"MICommunityCell";
 - (void)requestDataList:(MIRefreshType)type complete:(void(^)(void))completed {
     
     WSWeak(weakSelf);
-    [MIRequestManager getCommunityDataListWithSearchTitle:_searchBar.text requestToken:[MILocalData getCurrentRequestToken] page:_currentPage pageSize:_pageSize completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+    
+    NSInteger page = _currentPage;
+    if (![MIHelpTool isBlankString:weakSelf.searchBar.text]) {
+        page = _searchPage;
+    }
+    
+    [MIRequestManager getCommunityDataListWithSearchTitle:_searchBar.text requestToken:[MILocalData getCurrentRequestToken] page:page pageSize:_pageSize completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
         
         NSInteger code = [jsonData[@"code"] integerValue];
         if (code == 0) {
@@ -163,7 +171,7 @@ static NSString * const MICellID = @"MICommunityCell";
                 }
             }
             
-            NSDictionary *pagination = jsonData[@"pagination"];
+            NSDictionary *pagination = data[@"pagination"];
             if (![MIHelpTool isBlankString:weakSelf.searchBar.text]) {
                 weakSelf.searchPage = [pagination[@"page"] integerValue];
                 weakSelf.searchPageCount = [pagination[@"pageCount"] integerValue];

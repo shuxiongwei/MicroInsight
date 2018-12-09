@@ -96,6 +96,13 @@
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    NSString *path = [MILocalData getFirstLocalAssetPath];
+    [_cameraView resetCoverBtnImageWithAssetPath:path];
+}
+
 #pragma mark - 相机配置
 //会话
 - (void)setupSession:(NSError **)error {
@@ -315,6 +322,11 @@
                 success?:[MIToastAlertView showAlertViewWithMessage:error.localizedDescription];
             }];
         }];
+    } else {
+        ALAssetsLibrary *lab = [[ALAssetsLibrary alloc]init];
+        [lab writeVideoAtPathToSavedPhotosAlbum:_movieURL completionBlock:^(NSURL *assetURL, NSError *error) {
+            !error?:[MIToastAlertView showAlertViewWithMessage:error.localizedDescription];
+        }];
     }
     
     NSFileManager *manager = [NSFileManager defaultManager];
@@ -326,7 +338,7 @@
     if ([manager fileExistsAtPath:videoPath]) {
         [manager removeItemAtPath:videoPath error:nil];
     }
-    [manager moveItemAtPath:_movieURL.path toPath:videoPath error:&error];
+    [manager copyItemAtPath:_movieURL.path toPath:videoPath error:&error];
 
     [_cameraView resetCoverBtnImageWithAssetPath:videoPath];
 }

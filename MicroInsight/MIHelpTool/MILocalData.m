@@ -33,4 +33,28 @@ static NSString * const currentRequestToken = @"currentRequestToken";
     return [def valueForKey:currentRequestToken];
 }
 
++ (NSString *)getFirstLocalAssetPath {
+    
+    NSString *assetsPath = [MIHelpTool assetsPath];
+    NSFileManager *fm = [NSFileManager defaultManager];
+    if ([fm fileExistsAtPath:assetsPath]) {
+        NSArray *contentOfFolder = [fm contentsOfDirectoryAtPath:assetsPath error:nil];
+        if (contentOfFolder.count > 0) {
+            NSMutableArray *paths = [NSMutableArray arrayWithArray:contentOfFolder];
+            [paths sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+                return [obj2 compare:obj1];
+            }];
+
+            NSString *path = paths.firstObject;
+            NSString *fullPath = [assetsPath stringByAppendingPathComponent:path];
+            
+            return fullPath;
+        } else {
+            return nil;
+        }
+    }
+    
+    return nil;
+}
+
 @end

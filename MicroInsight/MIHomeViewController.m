@@ -122,31 +122,21 @@
 
 #pragma mark - helper
 - (void)setAlbumImageViewWithFirstLocalAssetThumbnail {
-
-    NSString *assetsPath = [MIHelpTool assetsPath];
-    NSFileManager *fm = [NSFileManager defaultManager];
-    if ([fm fileExistsAtPath:assetsPath]) {
-        NSArray *contentOfFolder = [fm contentsOfDirectoryAtPath:assetsPath error:nil];
-        if (contentOfFolder.count > 0) {
-            NSMutableArray *paths = [NSMutableArray arrayWithArray:contentOfFolder];
-            [paths sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
-                return [obj2 compare:obj1];
-            }];
-            
-            UIImage *image;
-            NSString *path = paths.firstObject;
-            NSString *fullPath = [assetsPath stringByAppendingPathComponent:path];
-            if ([path.pathExtension isEqualToString:@"png"]) {
-                image = [UIImage imageWithContentsOfFile:fullPath];
-            } else {
-                AVAsset *asset = [AVAsset assetWithURL:[NSURL fileURLWithPath:fullPath]];
-                image = [MIHelpTool fetchThumbnailWithAVAsset:asset curTime:0];
-            }
-            
-            _albumImageView.image = image;
+    
+    NSString *path = [MILocalData getFirstLocalAssetPath];
+    if (path == nil) {
+        _albumImageView.image = [UIImage imageNamed:@"home_btn_album"];
+    } else {
+        UIImage *image;
+        
+        if ([path.pathExtension isEqualToString:@"png"]) {
+            image = [UIImage imageWithContentsOfFile:path];
         } else {
-            _albumImageView.image = [UIImage imageNamed:@"home_btn_album"];
+            AVAsset *asset = [AVAsset assetWithURL:[NSURL fileURLWithPath:path]];
+            image = [MIHelpTool fetchThumbnailWithAVAsset:asset curTime:0];
         }
+        
+        _albumImageView.image = image;
     }
 }
 

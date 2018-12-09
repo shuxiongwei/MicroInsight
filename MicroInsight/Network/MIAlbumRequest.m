@@ -44,9 +44,8 @@
 
 - (NSURLSessionTask *)videoInfoWithTitle:(NSString *)title SuccessResponse:(void (^)(MIUploadVidoInfo * _Nonnull))success failureResponse:(MINetworkRequestFailure)failure{
     
-    NSString *path = @"video/generate-upload-info";
-    NSDictionary *parameters = @{@"title" : title};
-    return [self POST:path parameters:parameters downProgress:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+    NSString *path = @"credential/generate-upload-video-sts";
+    return [self POST:path parameters:nil downProgress:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         
         NSDictionary *dic = responseObject;        
         MIUploadVidoInfo *info = [MIModelMapper modelWithDictionary:dic[@"data"] modelClass:[MIUploadVidoInfo class]];

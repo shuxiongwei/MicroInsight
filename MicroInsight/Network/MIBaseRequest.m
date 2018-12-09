@@ -37,7 +37,13 @@
         
         [dic setObject:token forKey:@"token"];
     }
-    return [[MIHTTPSessionManager shareManager] GET:URLString parameters:dic progress:nil success:success failure:failure];
+    return [[MIHTTPSessionManager shareManager] GET:URLString parameters:dic progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+         NSLog(@"taskURL:%@,taskRequest:%@",task.response.URL,task.currentRequest.URL.absoluteString);
+        success(task,responseObject);
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        failure(task,error);
+    }];
 }
 
 - (NSURLSessionDataTask *)POST:(NSString *)URLString
@@ -52,14 +58,7 @@
         
        URLString = [URLString stringByAppendingString:[NSString stringWithFormat:@"?token=%@",token]];
     }
-//    if ([dic.allKeys containsObject:@"token"]) {
-//
-//        POUserInfo *info = [POLocalManager getUserInfo];
-//        if (info) {
-//            dic = [NSMutableDictionary dictionaryWithDictionary:dic];
-//            [dic setObject:info.userId forKey:@"userId"];
-//        }
-//    }
+
 //    NSError *error;
 //    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic options:0 error:&error];
 //    NSString *string = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
@@ -85,6 +84,7 @@
 
     return [[MIHTTPSessionManager shareManager] POST:URLString parameters:dic progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
     
+        NSLog(@"taskURL:%@,taskRequest:%@",task.response.URL,task.currentRequest.URL.absoluteString);
         success(task,responseObject);
 //        DLog(@"successResponse");
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -100,16 +100,6 @@
                        success:(MINetworkSessionSuccess)success
                        failure:(MINetworkSessionFailure)failure{
     
-//    NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
-//    NSString *token = [def objectForKey:@"token"];
-//    if (token.length == 0 && ![URLString isEqualToString:tokenRequestApi]) {
-//        [SVProgressHUD showErrorWithStatus:@"token失效，请杀掉进程重启应用"];
-//        return nil;
-//    }
-//    NSMutableDictionary *mutDictionary = [NSMutableDictionary dictionaryWithDictionary:parameters];
-//    mutDictionary[@"_t"] = token;
-//    NSString *encodedString = [self desEncoderWithParameter:mutDictionary];
-//    NSDictionary *encodeDic = @{@"_param":mutDictionary};
     return [[MIHTTPSessionManager shareManager] POST:URLString parameters:parameters constructingBodyWithBlock:block progress:downProgress success:success failure:failure];
 }
 

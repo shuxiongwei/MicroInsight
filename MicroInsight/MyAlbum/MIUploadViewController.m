@@ -203,7 +203,24 @@ static NSString *const CellId = @"MIThemeCell";
             
             VODUploadSVideoClient *client = [[VODUploadSVideoClient alloc] init];
             client.delegate = self;
-//            client uploadWithVideoPath:<#(NSString *)#> imagePath:<#(NSString *)#> svideoInfo:<#(VodSVideoInfo *)#> accessKeyId:<#(NSString *)#> accessKeySecret:<#(NSString *)#> accessToken:<#(NSString *)#>
+            client.transcode = YES;
+            NSString *imgPath = [self->_assetUrl stringByReplacingOccurrencesOfString:@".mov" withString:@".png"];
+            NSFileManager *fm = [NSFileManager defaultManager];
+            if (![fm fileExistsAtPath:imgPath]) {
+                AVAsset *asset = [AVAsset assetWithURL:[NSURL fileURLWithPath:self -> _assetUrl]];
+                UIImage *image = [MIHelpTool fetchThumbnailWithAVAsset:asset curTime:0.0];
+                NSData *imgData = UIImageJPEGRepresentation(image, 0.6);
+                [imgData writeToFile:imgPath atomically:YES];
+            }
+           
+            VodSVideoInfo *vodInfo = [[VodSVideoInfo alloc] init];
+            NSIndexPath *index = self->_themCollection.indexPathsForSelectedItems.firstObject;
+            MITheme *t = self->_themes[index.item];
+            vodInfo.title = t.title;
+            vodInfo.desc = self->_nameTF.text;
+            vodInfo.templateGroupId = info.TemplateGroupId;
+            vodInfo.cateId = @(0);
+            [client uploadWithVideoPath:self.assetUrl imagePath:imgPath svideoInfo:vodInfo accessKeyId:info.AccessKeyId accessKeySecret:info.AccessKeySecret accessToken:info.SecurityToken];
             
         } failureResponse:^(NSError *error) {
             
@@ -221,6 +238,34 @@ static NSString *const CellId = @"MIThemeCell";
 //        
 //    }];
  
+}
+
+#pragma mark - VODUploadSVideoClientDelegate
+- (void)uploadSuccessWithResult:(VodSVideoUploadResult *)result{
+    
+    NSLog(@"uploadSuccess:%@",result);
+}
+
+- (void)uploadFailedWithCode:(NSString *)code message:(NSString *)message{
+    NSLog(@"uploadFailed:%@",message);
+}
+
+- (void)uploadTokenExpired{
+    NSLog(@"%s",__FUNCTION__);
+}
+
+- (void)uploadProgressWithUploadedSize:(long long)uploadedSize totalSize:(long long)totalSize{
+    NSLog(@"uploadSize:%lld,totalSize:%lld",uploadedSize,totalSize);
+}
+
+- (void)uploadRetry{
+    
+    NSLog(@"%s",__FUNCTION__);
+}
+
+- (void)uploadRetryResume{
+    
+    NSLog(@"%s",__FUNCTION__);
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {

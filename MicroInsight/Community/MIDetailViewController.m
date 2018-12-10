@@ -12,6 +12,8 @@
 #import "UIImageView+WebCache.h"
 #import "MIReviewImageViewController.h"
 #import "UIButton+Extension.h"
+#import "MICommunityRequest.h"
+
 
 static NSString * const commentID = @"MICommentCell";
 
@@ -88,6 +90,7 @@ static NSString * const commentID = @"MICommentCell";
 
 - (void)requestVideoInfo{
     
+    MICommunityRequest *rq = [[MICommunityRequest alloc] init];
     
 }
 

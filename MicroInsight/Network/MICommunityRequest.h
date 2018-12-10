@@ -8,12 +8,13 @@
 
 #import <Foundation/Foundation.h>
 #import "MIBaseRequest.h"
+#import "MICommunityVideoInfo.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface MICommunityRequest : MIBaseRequest
 
-
+- (NSURLSessionTask *)videoInfoWithVideoId:(NSString *)videoID SuccessResponse:(void(^)(MICommunityVideoInfo *info))success failureResponse:(MINetworkRequestFailure)failure;
 
 @end
 

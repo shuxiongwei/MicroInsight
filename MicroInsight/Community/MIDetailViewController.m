@@ -33,6 +33,11 @@ static NSString * const commentID = @"MICommentCell";
 @property (nonatomic, assign) NSInteger pageCount;
 @property (nonatomic, strong) NSMutableArray *commentList;
 
+@property (strong, nonatomic) AVPlayer *player;
+@property (strong, nonatomic) AVPlayerLayer *playerLayer;
+@property (strong, nonatomic) AVPlayerItem *curItem;
+@property (weak, nonatomic) IBOutlet UIView *playerBackView;
+
 @end
 
 @implementation MIDetailViewController
@@ -47,9 +52,17 @@ static NSString * const commentID = @"MICommentCell";
     
     [super configLeftBarButtonItem:@"社区"];
     [self configDetailUI];
+    
+    
     [self requestDetailData:NO];
     [self requestCommentData:NO];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChangeFrame:) name:UIKeyboardWillChangeFrameNotification object:nil];
+}
+
+- (void)viewDidLayoutSubviews{
+    [super viewDidLayoutSubviews];
+    
+    _playerLayer.frame = _playerBackView.bounds;
 }
 
 - (void)configDetailUI {
@@ -66,6 +79,16 @@ static NSString * const commentID = @"MICommentCell";
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(clickTopImgView:)];
     [_topImgView addGestureRecognizer:tap];
+    
+    
+    self.player = [AVPlayer playerWithPlayerItem:nil];
+    self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:_player];
+    [_playerBackView.layer addSublayer:_playerLayer];
+}
+
+- (void)requestVideoInfo{
+    
+    
 }
 
 /**

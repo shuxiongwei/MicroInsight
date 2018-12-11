@@ -34,8 +34,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSString *goodNum;
 @property (nonatomic, copy) NSString *commentNum;
 @property (nonatomic, copy) NSString *createdAt;
-@property (nonatomic, copy) NSArray<MIVideoTag> *tags;
-@property (nonatomic, copy) NSArray<MIPlayerInfo> *playUrlList;
+@property (nonatomic, copy) NSArray<MIVideoTag *> *tags;
+@property (nonatomic, copy) NSArray<MIPlayerInfo *> *playUrlList;
 @property (nonatomic, assign) BOOL isLike;
 
 @end

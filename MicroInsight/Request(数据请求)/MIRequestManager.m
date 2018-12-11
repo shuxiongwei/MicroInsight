@@ -8,7 +8,7 @@
 
 #import "MIRequestManager.h"
 
-static NSString * const requestUrl = @"http://122.14.225.235:8080/tipscope/api/web/index.php";
+static NSString * const requestUrl = @"https://api.tipscope.com/";
 static NSString * const registerUrl = @"/site/register";
 static NSString * const loginUrl = @"/site/login";
 static NSString * const communityListUrl = @"/node/list";

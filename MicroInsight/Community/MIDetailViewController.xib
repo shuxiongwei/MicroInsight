@@ -38,10 +38,19 @@
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0xk-S4-4wm">
                             <rect key="frame" x="0.0" y="0.0" width="375" height="211"/>
                         </imageView>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sK7-GM-OpE">
+                            <rect key="frame" x="157.5" y="73" width="60" height="65"/>
+                            <state key="normal" image="play"/>
+                            <connections>
+                                <action selector="playBtnClick:" destination="-1" eventType="touchUpInside" id="D4Y-d4-Hz1"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="bottom" secondItem="0xk-S4-4wm" secondAttribute="bottom" id="3A4-4w-Lf8"/>
+                        <constraint firstItem="sK7-GM-OpE" firstAttribute="centerY" secondItem="moJ-HH-tkp" secondAttribute="centerY" id="92E-gT-olw"/>
+                        <constraint firstItem="sK7-GM-OpE" firstAttribute="centerX" secondItem="moJ-HH-tkp" secondAttribute="centerX" id="Ag8-c1-m4k"/>
                         <constraint firstItem="0xk-S4-4wm" firstAttribute="leading" secondItem="moJ-HH-tkp" secondAttribute="leading" id="GYN-6O-S2A"/>
                         <constraint firstAttribute="width" secondItem="moJ-HH-tkp" secondAttribute="height" multiplier="375:211" id="Zjl-EG-N9H"/>
                         <constraint firstAttribute="bottom" secondItem="lW9-wI-mj6" secondAttribute="bottom" id="bgj-g5-WV3"/>
@@ -161,5 +170,6 @@
         <image name="comments" width="18" height="18"/>
         <image name="like" width="18" height="18"/>
         <image name="like_red" width="18" height="18"/>
+        <image name="play" width="60" height="65"/>
     </resources>
 </document>

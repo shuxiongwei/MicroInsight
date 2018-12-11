@@ -10,7 +10,7 @@
 
 @implementation MINetworkConstant
 
-NSString *const ApiMainUrlBase = @"http://122.14.225.235:8080/tipscope/api/web/index.php/";
+NSString *const ApiMainUrlBase = @"https://api.tipscope.com/";
 
 NSString *const ApiAuctionWebSocketUrlBase = @"http://app1.n4321.com:9092/LinkBitService/";
 

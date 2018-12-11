@@ -46,6 +46,8 @@ static NSString * const commentID = @"MICommentCell";
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [_player pause];
+    _player = nil;
 }
 
 - (void)viewDidLoad {
@@ -55,7 +57,7 @@ static NSString * const commentID = @"MICommentCell";
     [super configLeftBarButtonItem:@"社区"];
     [self configDetailUI];
     
-    
+    [self requestVideoInfo];
     [self requestDetailData:NO];
     [self requestCommentData:NO];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChangeFrame:) name:UIKeyboardWillChangeFrameNotification object:nil];
@@ -77,6 +79,7 @@ static NSString * const commentID = @"MICommentCell";
     _topImgView.contentMode = UIViewContentModeScaleAspectFit;
     _topImgView.userInteractionEnabled = YES;
     _topImgView.hidden = YES;
+    
     _backImgView.hidden = YES;
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(clickTopImgView:)];
@@ -90,8 +93,16 @@ static NSString * const commentID = @"MICommentCell";
 
 - (void)requestVideoInfo{
     
+    __weak typeof(self)weakSelf = self;
     MICommunityRequest *rq = [[MICommunityRequest alloc] init];
-    
+    [rq videoInfoWithVideoId:_contentId SuccessResponse:^(MICommunityVideoInfo * _Nonnull info) {
+        
+        MIPlayerInfo *pInfo = info.playUrlList.firstObject;
+        [weakSelf.player replaceCurrentItemWithPlayerItem:[AVPlayerItem playerItemWithURL:[NSURL URLWithString:pInfo.playUrl]]];
+        
+    } failureResponse:^(NSError *error) {
+        
+    }];
 }
 
 /**
@@ -176,7 +187,18 @@ static NSString * const commentID = @"MICommentCell";
     }];
 }
 
-#pragma mark - 事件响应
+#pragma mark - IBAction
+- (IBAction)playBtnClick:(UIButton *)sender {
+    
+    sender.selected = !sender.selected;
+    if (sender.selected) {
+        [_player play];
+    }else{
+        [_player pause];
+    }
+}
+
+
 - (IBAction)clickCommentBtn:(UIButton *)sender {
     [_commentTF becomeFirstResponder];
 }

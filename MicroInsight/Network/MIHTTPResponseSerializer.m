@@ -21,7 +21,7 @@
                           error:(NSError *__autoreleasing  _Nullable *)error{
     
     id responseObject = [super responseObjectForResponse:response data:data error:error];
-//    DLog(@"NSURLResponseURL:%@",response.URL);
+    NSLog(@"NSURLResponseURL:%@",response.URL);
     dispatch_async(dispatch_get_main_queue(), ^{
         [SVProgressHUD dismiss];
     });

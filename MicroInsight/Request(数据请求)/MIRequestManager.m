@@ -35,11 +35,11 @@ static NSString * const uploadImageUrl = @"/image/upload";
     
     [[MIRequestManager sharedManager] GET:path parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)task.response;
+        NSLog(@"AFHTTPSessionManager GET responseURL:%@",httpResponse.URL);
         if (httpResponse.statusCode == 200) { //成功
             if ([responseObject isKindOfClass:[NSData class]]) {
                 responseObject = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingAllowFragments error:nil];
             }
-            
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (completed) {
                     completed(responseObject, nil);
@@ -70,6 +70,7 @@ static NSString * const uploadImageUrl = @"/image/upload";
 
     [[MIRequestManager sharedManager] POST:path parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)task.response;
+        NSLog(@"AFHTTPSessionManager GET responseURL:%@",httpResponse.URL);
         if (httpResponse.statusCode == 200) {
             if ([responseObject isKindOfClass:[NSData class]]) {
                 responseObject = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingAllowFragments error:nil];

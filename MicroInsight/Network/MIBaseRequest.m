@@ -39,7 +39,6 @@
     }
     return [[MIHTTPSessionManager shareManager] GET:URLString parameters:dic progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
-         NSLog(@"taskURL:%@,taskRequest:%@",task.response.URL,task.currentRequest.URL.absoluteString);
         success(task,responseObject);
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         failure(task,error);
@@ -84,7 +83,6 @@
 
     return [[MIHTTPSessionManager shareManager] POST:URLString parameters:dic progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
     
-        NSLog(@"taskURL:%@,taskRequest:%@",task.response.URL,task.currentRequest.URL.absoluteString);
         success(task,responseObject);
 //        DLog(@"successResponse");
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {

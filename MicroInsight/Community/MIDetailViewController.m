@@ -89,6 +89,7 @@ static NSString * const commentID = @"MICommentCell";
     self.player = [AVPlayer playerWithPlayerItem:nil];
     self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:_player];
     [_playerBackView.layer addSublayer:_playerLayer];
+    _playerBackView.layer.backgroundColor = [UIColor blueColor].CGColor;
 }
 
 - (void)requestVideoInfo{

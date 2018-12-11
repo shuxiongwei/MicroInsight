@@ -14,10 +14,10 @@
     
     NSString *path = @"video/detail";
     NSDictionary *parameter = @{@"videoId" : videoID};
-    return [self POST:path parameters:parameter downProgress:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+    return [self GET:path parameters:parameter downProgress:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         
         NSDictionary *dic = responseObject;
-        MICommunityVideoInfo *info = [MIModelMapper modelWithDictionary:dic[@"data"] modelClass:[MICommunityVideoInfo class]];
+        MICommunityVideoInfo *info = [MIModelMapper modelWithDictionary:dic[@"data"][@"video"] modelClass:[MICommunityVideoInfo class]];
         success(info);
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {

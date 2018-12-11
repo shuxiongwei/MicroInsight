@@ -59,6 +59,7 @@ static MIHTTPSessionManager *manager = nil;
     
     [[MIHTTPSessionManager shareManager] GET:path parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)task.response;
+        NSLog(@"AFHTTPSessionManager GET responseURL:%@",httpResponse.URL);
         if (httpResponse.statusCode == ApiSessionSucessCode) { //成功
             if ([responseObject isKindOfClass:[NSData class]]) {
                 responseObject = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingAllowFragments error:nil];
@@ -79,6 +80,9 @@ static MIHTTPSessionManager *manager = nil;
         
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)task.response;
+        NSLog(@"AFHTTPSessionManager GET responseURL:%@",httpResponse.URL);
         dispatch_async(dispatch_get_main_queue(), ^{
             
             if (completed) {
@@ -94,6 +98,7 @@ static MIHTTPSessionManager *manager = nil;
 
     [[MIHTTPSessionManager shareManager] POST:path parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)task.response;
+       NSLog(@"AFHTTPSessionManager POST responseURL:%@",httpResponse.URL);
         if (httpResponse.statusCode == ApiSessionSucessCode) {
             if ([responseObject isKindOfClass:[NSData class]]) {
                 responseObject = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingAllowFragments error:nil];
@@ -113,6 +118,9 @@ static MIHTTPSessionManager *manager = nil;
         
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)task.response;
+       NSLog(@"AFHTTPSessionManager POST responseURL:%@",httpResponse.URL);
         dispatch_async(dispatch_get_main_queue(), ^{
             
             if (completed) {

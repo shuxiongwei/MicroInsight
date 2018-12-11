@@ -18,6 +18,10 @@
 
 @implementation MICommunityVideoInfo
 
++ (NSDictionary<NSString *, id> *)modelContainerPropertyGenericClass {
+    return @{@"tags" : [MIVideoTag class], @"playUrlList" : [MIPlayerInfo class]};
+}
+
 + (NSDictionary *)modelCustomPropertyMapper {
     return @{@"videoId" : @"id"};
 }

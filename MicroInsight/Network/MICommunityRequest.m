@@ -13,7 +13,8 @@
 - (NSURLSessionTask *)videoInfoWithVideoId:(NSString *)videoID SuccessResponse:(void (^)(MICommunityVideoInfo *info))success failureResponse:(MINetworkRequestFailure)failure{
     
     NSString *path = @"video/detail";
-    return [self POST:path parameters:nil downProgress:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+    NSDictionary *parameter = @{@"videoId" : videoID};
+    return [self POST:path parameters:parameter downProgress:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         
         NSDictionary *dic = responseObject;
         MICommunityVideoInfo *info = [MIModelMapper modelWithDictionary:dic[@"data"] modelClass:[MICommunityVideoInfo class]];

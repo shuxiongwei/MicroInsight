@@ -24,8 +24,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) NSString *contentType;
 @property (nonatomic, copy) NSString *url;
-@property (nonatomic, copy) NSString *cover_url;
-@property (nonatomic, copy) NSString *video_url;
+@property (nonatomic, copy) NSString *coverUrl;
+@property (nonatomic, copy) NSString *videoUrl;
 @property (nonatomic, copy) NSString *createdAt;
 @property (nonatomic, copy) NSArray<MICommunityTagModel *> *tags;
 

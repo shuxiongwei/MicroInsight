@@ -43,6 +43,13 @@
                     <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="0.60196382705479456" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="play_white" translatesAutoresizingMaskIntoConstraints="NO" id="Nlt-8o-e1S">
+                    <rect key="frame" x="135" y="70" width="27" height="27"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="27" id="7Bw-jw-Dpc"/>
+                        <constraint firstAttribute="height" constant="27" id="dhs-KW-zXe"/>
+                    </constraints>
+                </imageView>
             </subviews>
             <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
@@ -54,13 +61,16 @@
                 <constraint firstItem="qfE-kD-3l6" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="5" id="LXl-M2-SX8"/>
                 <constraint firstItem="eWD-LD-WeG" firstAttribute="top" secondItem="jau-dm-uwL" secondAttribute="bottom" constant="6" id="Pc4-G3-PCV"/>
                 <constraint firstItem="eWD-LD-WeG" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="5" id="R9N-zN-Qgs"/>
+                <constraint firstItem="Nlt-8o-e1S" firstAttribute="centerX" secondItem="jau-dm-uwL" secondAttribute="centerX" id="T3h-IB-vNU"/>
                 <constraint firstItem="jau-dm-uwL" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Yej-fj-NTf"/>
+                <constraint firstItem="Nlt-8o-e1S" firstAttribute="centerY" secondItem="jau-dm-uwL" secondAttribute="centerY" id="a8G-ho-4Tb"/>
                 <constraint firstItem="PLa-Rv-vds" firstAttribute="leading" secondItem="qfE-kD-3l6" secondAttribute="trailing" constant="10" id="pLh-Hw-EQL"/>
                 <constraint firstItem="jau-dm-uwL" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="q5a-zu-EhM"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="imgView" destination="jau-dm-uwL" id="jn4-GI-dfX"/>
+                <outlet property="playIcon" destination="Nlt-8o-e1S" id="qXx-m1-dTg"/>
                 <outlet property="subTitleLb" destination="qfE-kD-3l6" id="kNS-iv-fad"/>
                 <outlet property="timeLb" destination="PLa-Rv-vds" id="Qb7-39-gIk"/>
                 <outlet property="titleLb" destination="eWD-LD-WeG" id="WvJ-40-lZG"/>
@@ -68,4 +78,7 @@
             <point key="canvasLocation" x="32.799999999999997" y="-148.42578710644679"/>
         </view>
     </objects>
+    <resources>
+        <image name="play_white" width="27" height="27"/>
+    </resources>
 </document>

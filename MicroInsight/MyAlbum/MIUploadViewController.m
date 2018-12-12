@@ -13,6 +13,7 @@
 #import "MIAlbumRequest.h"
 #import "MITheme.h"
 #import "MIAlbumRequest.h"
+#import <SVProgressHUD/SVProgressHUD.h>
 #import <VODUpload/VODUploadSVideoClient.h>
 #import <AVFoundation/AVFoundation.h>
 
@@ -243,18 +244,30 @@ static NSString *const CellId = @"MIThemeCell";
 #pragma mark - VODUploadSVideoClientDelegate
 - (void)uploadSuccessWithResult:(VodSVideoUploadResult *)result{
     
+    [SVProgressHUD dismiss];
     NSLog(@"uploadSuccess:%@",result);
 }
 
 - (void)uploadFailedWithCode:(NSString *)code message:(NSString *)message{
+    
+    [SVProgressHUD dismiss];
     NSLog(@"uploadFailed:%@",message);
 }
 
+
 - (void)uploadTokenExpired{
+    
+    [SVProgressHUD dismiss];
+    
     NSLog(@"%s",__FUNCTION__);
 }
 
 - (void)uploadProgressWithUploadedSize:(long long)uploadedSize totalSize:(long long)totalSize{
+    
+    [SVProgressHUD showProgress:uploadedSize / totalSize status:@"视频上传中..."];
+    if (uploadedSize >= totalSize) {
+        [SVProgressHUD dismiss];
+    }
     NSLog(@"uploadSize:%lld,totalSize:%lld",uploadedSize,totalSize);
 }
 

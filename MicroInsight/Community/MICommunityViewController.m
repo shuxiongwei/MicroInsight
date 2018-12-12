@@ -230,9 +230,9 @@ static NSString * const MICellID = @"MICommunityCell";
     } else { //视频
         cell.playIcon.hidden = NO;
         
-        AVAsset *asset = [AVAsset assetWithURL:[NSURL URLWithString:listM.videoUrl]];
-        cell.imgView.image = [MIHelpTool fetchThumbnailWithAVAsset:asset curTime:0];
-//        [cell.imgView sd_setImageWithURL:[NSURL URLWithString:listM.coverUrl] placeholderImage:nil options:SDWebImageRetryFailed];
+//        AVAsset *asset = [AVAsset assetWithURL:[NSURL URLWithString:listM.videoUrl]];
+//        cell.imgView.image = [MIHelpTool fetchThumbnailWithAVAsset:asset curTime:0];
+        [cell.imgView sd_setImageWithURL:[NSURL URLWithString:listM.coverUrl] placeholderImage:nil options:SDWebImageRetryFailed];
     }
 
     return cell;

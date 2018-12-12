@@ -228,11 +228,11 @@ static NSString * const MICellID = @"MICommunityCell";
         cell.playIcon.hidden = YES;
         [cell.imgView sd_setImageWithURL:[NSURL URLWithString:listM.url] placeholderImage:nil options:SDWebImageRetryFailed];
     } else { //视频
-//        AVAsset *asset = [AVAsset assetWithURL:[NSURL URLWithString:listM.video_url]];
-//        cell.imgView.image = [MIHelpTool fetchThumbnailWithAVAsset:asset curTime:0];
-        
         cell.playIcon.hidden = NO;
-        [cell.imgView sd_setImageWithURL:[NSURL URLWithString:listM.cover_url] placeholderImage:nil options:SDWebImageRetryFailed];
+        
+//        AVAsset *asset = [AVAsset assetWithURL:[NSURL URLWithString:listM.videoUrl]];
+//        cell.imgView.image = [MIHelpTool fetchThumbnailWithAVAsset:asset curTime:0];
+        [cell.imgView sd_setImageWithURL:[NSURL URLWithString:listM.coverUrl] placeholderImage:nil options:SDWebImageRetryFailed];
     }
 
     return cell;

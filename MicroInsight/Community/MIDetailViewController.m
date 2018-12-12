@@ -30,6 +30,7 @@ static NSString * const commentID = @"MICommentCell";
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomConstraint;
 @property (weak, nonatomic) IBOutlet UITextField *commentTF;
+@property (weak, nonatomic) IBOutlet UIButton *playBtn;
 
 @property (nonatomic, strong) MICommunityDetailModel *detailModel;
 @property (nonatomic, assign) NSInteger currentPage;
@@ -91,6 +92,7 @@ static NSString * const commentID = @"MICommentCell";
     [_commentBtn layoutButtonWithEdgeInsetsStyle:MIButtonEdgeInsetsStyleLeft imageTitleSpace:5];
 
     if (_contentType == 0) {
+        _playBtn.hidden = YES;
         _topImgView.contentMode = UIViewContentModeScaleAspectFit;
         _topImgView.userInteractionEnabled = YES;
         
@@ -102,6 +104,7 @@ static NSString * const commentID = @"MICommentCell";
         self.playerLayer.backgroundColor = [UIColor blackColor].CGColor;
         self.playerLayer.contentsGravity = AVLayerVideoGravityResizeAspect;
         [_playerBackView.layer addSublayer:_playerLayer];
+        [_playerBackView bringSubviewToFront:_playBtn];
     }
 }
 

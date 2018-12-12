@@ -1,5 +1,6 @@
 platform :ios, '9.0'
 target 'MicroInsight' do
+    
 pod 'Masonry', '~>1.0.0'
 pod 'AFNetworking'
 pod 'YYModel'
@@ -7,4 +8,7 @@ pod 'SVProgressHUD'
 pod 'MJRefresh'
 pod 'SDWebImage'
 pod 'VODUpload'
+pod 'KRVideoPlayer'
+pod 'PLPlayerKit'
+
 end

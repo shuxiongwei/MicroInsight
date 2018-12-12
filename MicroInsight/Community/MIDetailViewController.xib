@@ -16,6 +16,7 @@
                 <outlet property="bottomView" destination="5oN-GM-Qhh" id="BIq-DW-8Vh"/>
                 <outlet property="commentBtn" destination="MA0-sc-wKu" id="9hs-W4-Xbc"/>
                 <outlet property="commentTF" destination="h8H-Yj-Uza" id="63I-4b-L7d"/>
+                <outlet property="playBtn" destination="sK7-GM-OpE" id="EEs-mH-Hk9"/>
                 <outlet property="playerBackView" destination="moJ-HH-tkp" id="Wjc-P4-eCa"/>
                 <outlet property="praiseBtn" destination="OFO-I2-5Ni" id="Ihs-XI-f5B"/>
                 <outlet property="tableView" destination="Jhg-Ay-cfm" id="yCI-cA-Vp6"/>

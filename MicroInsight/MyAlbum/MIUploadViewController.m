@@ -14,11 +14,12 @@
 #import "MITheme.h"
 #import "MIAlbumRequest.h"
 #import <SVProgressHUD/SVProgressHUD.h>
-#import <VODUpload/VODUploadSVideoClient.h>
+#import <VODUpload/VODUploadClient.h>
+#import <VODUpload/VODUploadModel.h>
 #import <AVFoundation/AVFoundation.h>
 
 
-@interface MIUploadViewController ()<UICollectionViewDelegate, UICollectionViewDataSource ,UICollectionViewDelegateFlowLayout, VODUploadSVideoClientDelegate>
+@interface MIUploadViewController ()<UICollectionViewDelegate, UICollectionViewDataSource ,UICollectionViewDelegateFlowLayout>
 
 @property (weak, nonatomic) IBOutlet UIView *playBgView;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
@@ -183,6 +184,7 @@ static NSString *const CellId = @"MIThemeCell";
         
         NSString *fileName = [[MIHelpTool timeStampSecond] stringByAppendingString:@".jpg"];
         NSMutableArray *tags = [NSMutableArray arrayWithObject:@([_curTheme.themeId integerValue])];
+
         [MIRequestManager uploadImageWithFile:@"file" fileName:fileName filePath:_assetUrl title:_nameTF.text tags:tags requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
             
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -202,87 +204,55 @@ static NSString *const CellId = @"MIThemeCell";
         MIAlbumRequest *rq = [[MIAlbumRequest alloc] init];
         [rq videoInfoWithTitle:_assetUrl.lastPathComponent SuccessResponse:^(MIUploadVidoInfo * _Nonnull info) {
             
-            VODUploadSVideoClient *client = [[VODUploadSVideoClient alloc] init];
-            client.delegate = self;
-            client.transcode = YES;
-            NSString *imgPath = [self->_assetUrl stringByReplacingOccurrencesOfString:@".mov" withString:@".png"];
-            NSFileManager *fm = [NSFileManager defaultManager];
-            if (![fm fileExistsAtPath:imgPath]) {
-                AVAsset *asset = [AVAsset assetWithURL:[NSURL fileURLWithPath:self -> _assetUrl]];
-                UIImage *image = [MIHelpTool fetchThumbnailWithAVAsset:asset curTime:0.0];
-                NSData *imgData = UIImageJPEGRepresentation(image, 0.6);
-                [imgData writeToFile:imgPath atomically:YES];
-            }
-           
-            VodSVideoInfo *vodInfo = [[VodSVideoInfo alloc] init];
-            NSIndexPath *index = self->_themCollection.indexPathsForSelectedItems.firstObject;
-            MITheme *t = self->_themes[index.item];
-            vodInfo.title = t.title;
-            vodInfo.desc = self->_nameTF.text;
-            vodInfo.templateGroupId = info.TemplateGroupId;
-            vodInfo.cateId = @(0);
-            [client uploadWithVideoPath:self.assetUrl imagePath:imgPath svideoInfo:vodInfo accessKeyId:info.AccessKeyId accessKeySecret:info.AccessKeySecret accessToken:info.SecurityToken];
+            VODUploadListener *listener = [[VODUploadListener alloc] init];
+            listener.retry = ^{
+                
+                NSLog(@"%s", __PRETTY_FUNCTION__);
+            };
+            listener.retryResume = ^{
+                NSLog(@"%s", __PRETTY_FUNCTION__);
+            };
+            listener.finish = ^(UploadFileInfo *fileInfo, VodUploadResult *result) {
+                
+                [SVProgressHUD showSuccessWithStatus:@"上传完成"];
+                NSLog(@"%s", __PRETTY_FUNCTION__);
+            };
+            listener.failure = ^(UploadFileInfo *fileInfo, NSString *code, NSString *message) {
+                [SVProgressHUD showErrorWithStatus:@"上传失败"];
+                NSLog(@"%s", __PRETTY_FUNCTION__);
+            };
+            listener.started = ^(UploadFileInfo *fileInfo) {
+                NSLog(@"%s", __PRETTY_FUNCTION__);
+            };
+            listener.progress = ^(UploadFileInfo *fileInfo, long uploadedSize, long totalSize) {
+                CGFloat uploadedS = uploadedSize;
+                [SVProgressHUD showProgress:uploadedS / totalSize status:@"视频上传中..."];
+                if (uploadedSize >= totalSize) {
+                    [SVProgressHUD dismiss];
+                }
+                NSLog(@"%s", __PRETTY_FUNCTION__);
+            };
+  
+            listener.expire = ^{
+                [SVProgressHUD showErrorWithStatus:@"上传失败"];
+                NSLog(@"%s", __PRETTY_FUNCTION__);
+            };
+            
+            VodInfo *uploadVodInfo = [[VodInfo alloc] init];
+            uploadVodInfo.title = self->_nameTF.text;
+            uploadVodInfo.templateGroupId = info.TemplateGroupId;
+            uploadVodInfo.cateId = @(0);
+            
+            VODUploadClient *uploadClient = [[VODUploadClient alloc] init];
+            [uploadClient init:info.AccessKeyId accessKeySecret:info.AccessKeySecret secretToken:info.SecurityToken expireTime:info.Expiration listener:listener];
+            [uploadClient addFile:self.assetUrl vodInfo:uploadVodInfo];
+            [uploadClient start];
             
         } failureResponse:^(NSError *error) {
             
         }];
     }
-    
-    
-//    NSIndexPath *index = _themCollection.indexPathsForSelectedItems.firstObject;
-//    MITheme *t = _themes[index.item];
-//    MIAlbumRequest *rq = [[MIAlbumRequest alloc] init];
-//    NSData *compress = UIImageJPEGRepresentation(_imageView.image, 0.2);
-//    [rq uploadPhotoWithFile:compress title:t.title tags:@[t.themeId] SuccessResponse:^(NSString *message) {
-//        
-//    } failureResponse:^(NSError *error) {
-//        
-//    }];
- 
 }
 
-#pragma mark - VODUploadSVideoClientDelegate
-- (void)uploadSuccessWithResult:(VodSVideoUploadResult *)result{
-    
-    [SVProgressHUD dismiss];
-    NSLog(@"uploadSuccess:%@",result);
-}
-
-- (void)uploadFailedWithCode:(NSString *)code message:(NSString *)message{
-    
-    [SVProgressHUD dismiss];
-    NSLog(@"uploadFailed:%@",message);
-}
-
-
-- (void)uploadTokenExpired{
-    
-    [SVProgressHUD dismiss];
-    
-    NSLog(@"%s",__FUNCTION__);
-}
-
-- (void)uploadProgressWithUploadedSize:(long long)uploadedSize totalSize:(long long)totalSize{
-    
-    [SVProgressHUD showProgress:uploadedSize / totalSize status:@"视频上传中..."];
-    if (uploadedSize >= totalSize) {
-        [SVProgressHUD dismiss];
-    }
-    NSLog(@"uploadSize:%lld,totalSize:%lld",uploadedSize,totalSize);
-}
-
-- (void)uploadRetry{
-    
-    NSLog(@"%s",__FUNCTION__);
-}
-
-- (void)uploadRetryResume{
-    
-    NSLog(@"%s",__FUNCTION__);
-}
-
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    [_nameTF resignFirstResponder];
-}
 
 @end

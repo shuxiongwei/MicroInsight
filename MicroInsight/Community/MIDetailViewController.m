@@ -13,6 +13,8 @@
 #import "MIReviewImageViewController.h"
 #import "UIButton+Extension.h"
 #import "MICommunityRequest.h"
+#import "MIPlayerViewController.h"
+#import <PLPlayerKit/PLPlayerKit.h>
 
 
 static NSString * const commentID = @"MICommentCell";
@@ -35,9 +37,11 @@ static NSString * const commentID = @"MICommentCell";
 @property (nonatomic, assign) NSInteger pageCount;
 @property (nonatomic, strong) NSMutableArray *commentList;
 
+@property (weak, nonatomic) IBOutlet UIButton *playBtn;
 @property (strong, nonatomic) AVPlayer *player;
 @property (strong, nonatomic) AVPlayerLayer *playerLayer;
 @property (strong, nonatomic) AVPlayerItem *curItem;
+@property (copy, nonatomic) NSString *VideoURLString;
 @property (weak, nonatomic) IBOutlet UIView *playerBackView;
 @property (nonatomic, strong) MICommunityVideoInfo *videoInfo;
 
@@ -49,6 +53,7 @@ static NSString * const commentID = @"MICommentCell";
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [_player pause];
     _player = nil;
+
 }
 
 - (void)viewDidLoad {
@@ -60,8 +65,10 @@ static NSString * const commentID = @"MICommentCell";
     
     if (_contentType == 0) {
         [self requestDetailData:NO];
+        _playBtn.hidden = YES;
     } else {
         [self requestVideoInfo:NO];
+        _playBtn.hidden = NO;
     }
 
     [self requestCommentData:NO];
@@ -115,6 +122,7 @@ static NSString * const commentID = @"MICommentCell";
             
             MIPlayerInfo *pInfo = info.playUrlList.firstObject;
             [weakSelf.player replaceCurrentItemWithPlayerItem:[AVPlayerItem playerItemWithURL:[NSURL URLWithString:pInfo.playUrl]]];
+            weakSelf.VideoURLString = pInfo.playUrl;
         }
     } failureResponse:^(NSError *error) {
         
@@ -204,12 +212,12 @@ static NSString * const commentID = @"MICommentCell";
 
 #pragma mark - IBAction
 - (IBAction)playBtnClick:(UIButton *)sender {
-    
-    sender.selected = !sender.selected;
-    if (sender.selected) {
-        [_player play];
-    }else{
-        [_player pause];
+
+    if (_VideoURLString.length > 0) {
+       
+        MIPlayerViewController *vc = [[MIPlayerViewController alloc] init];
+        vc.videoURL = _VideoURLString;
+        [self.navigationController pushViewController:vc animated:YES];
     }
 }
 

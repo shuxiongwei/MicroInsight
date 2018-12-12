@@ -23,18 +23,19 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) CGFloat height;
 @property (nonatomic, copy) NSString *definition;
 
-
 @end
 
 @interface MICommunityVideoInfo : NSObject
 
 @property (nonatomic, copy) NSString *videoId;
 @property (nonatomic, copy) NSString *userId;
+@property (nonatomic, copy) NSString *username;
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) NSString *goodNum;
 @property (nonatomic, copy) NSString *commentNum;
 @property (nonatomic, copy) NSString *createdAt;
 @property (nonatomic, copy) NSArray<MIVideoTag *> *tags;
+@property (nonatomic, copy) NSString *coverUrl;
 @property (nonatomic, copy) NSArray<MIPlayerInfo *> *playUrlList;
 @property (nonatomic, assign) BOOL isLike;
 

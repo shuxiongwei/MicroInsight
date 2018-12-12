@@ -225,10 +225,14 @@ static NSString * const MICellID = @"MICommunityCell";
     cell.subTitleLb.text = tagM.title;
     
     if (listM.contentType.integerValue == 0) { //图片
+        cell.playIcon.hidden = YES;
         [cell.imgView sd_setImageWithURL:[NSURL URLWithString:listM.url] placeholderImage:nil options:SDWebImageRetryFailed];
     } else { //视频
-        AVAsset *asset = [AVAsset assetWithURL:[NSURL URLWithString:listM.url]];
-        cell.imgView.image = [MIHelpTool fetchThumbnailWithAVAsset:asset curTime:0];
+//        AVAsset *asset = [AVAsset assetWithURL:[NSURL URLWithString:listM.video_url]];
+//        cell.imgView.image = [MIHelpTool fetchThumbnailWithAVAsset:asset curTime:0];
+        
+        cell.playIcon.hidden = NO;
+        [cell.imgView sd_setImageWithURL:[NSURL URLWithString:listM.cover_url] placeholderImage:nil options:SDWebImageRetryFailed];
     }
 
     return cell;

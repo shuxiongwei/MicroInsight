@@ -167,8 +167,10 @@
                 if (model.contentType.integerValue == 0) {
                     [weakSelf.communityImageView sd_setImageWithURL:[NSURL URLWithString:model.url] placeholderImage:nil options:SDWebImageRetryFailed];
                 } else {
-                    AVAsset *asset = [AVAsset assetWithURL:[NSURL URLWithString:model.url]];
-                    weakSelf.communityImageView.image = [MIHelpTool fetchThumbnailWithAVAsset:asset curTime:0];
+//                    AVAsset *asset = [AVAsset assetWithURL:[NSURL URLWithString:model.video_url]];
+//                    weakSelf.communityImageView.image = [MIHelpTool fetchThumbnailWithAVAsset:asset curTime:0];
+                    
+                    [weakSelf.communityImageView sd_setImageWithURL:[NSURL URLWithString:model.cover_url] placeholderImage:nil options:SDWebImageRetryFailed];
                 }
             } else {
                 weakSelf.communityImageView.image = [UIImage imageNamed:@"home_btn_social"];

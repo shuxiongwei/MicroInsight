@@ -30,7 +30,6 @@ static NSString * const commentID = @"MICommentCell";
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomConstraint;
 @property (weak, nonatomic) IBOutlet UITextField *commentTF;
-@property (weak, nonatomic) IBOutlet UIButton *playBtn;
 
 @property (nonatomic, strong) MICommunityDetailModel *detailModel;
 @property (nonatomic, assign) NSInteger currentPage;

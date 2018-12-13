@@ -14,7 +14,6 @@
 #import "UIButton+Extension.h"
 #import "MICommunityRequest.h"
 #import "MIPlayerViewController.h"
-#import <PLPlayerKit/PLPlayerKit.h>
 
 
 static NSString * const commentID = @"MICommentCell";

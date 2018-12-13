@@ -200,7 +200,8 @@ static NSString *const CellId = @"MIThemeCell";
             }
         }];
     }else{
-        
+        NSString *text = _nameTF.text;
+        WSWeak(weakSelf);
         MIAlbumRequest *rq = [[MIAlbumRequest alloc] init];
         [rq videoInfoWithTitle:_assetUrl.lastPathComponent SuccessResponse:^(MIUploadVidoInfo * _Nonnull info) {
             
@@ -214,7 +215,16 @@ static NSString *const CellId = @"MIThemeCell";
             };
             listener.finish = ^(UploadFileInfo *fileInfo, VodUploadResult *result) {
                 
-                [SVProgressHUD showSuccessWithStatus:@"上传完成"];
+                NSMutableArray *tags = [NSMutableArray arrayWithObject:@([weakSelf.curTheme.themeId integerValue])];
+                [MIRequestManager uploadVideoWithTitle:text videoId:result.videoId tags:tags requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+                    
+                    NSInteger code = [jsonData[@"code"] integerValue];
+                    if (code == 0) {
+                        [MIToastAlertView showAlertViewWithMessage:@"视频上传成功"];
+                        [weakSelf.navigationController popViewControllerAnimated:YES];
+                    }
+                }];
+                
                 NSLog(@"%s", __PRETTY_FUNCTION__);
             };
             listener.failure = ^(UploadFileInfo *fileInfo, NSString *code, NSString *message) {
@@ -247,6 +257,7 @@ static NSString *const CellId = @"MIThemeCell";
             [uploadClient init:info.AccessKeyId accessKeySecret:info.AccessKeySecret secretToken:info.SecurityToken expireTime:info.Expiration listener:listener];
             [uploadClient addFile:self.assetUrl vodInfo:uploadVodInfo];
             [uploadClient start];
+            [SVProgressHUD showProgress:0 status:@"视频上传中..."];
             
         } failureResponse:^(NSError *error) {
             
@@ -254,5 +265,8 @@ static NSString *const CellId = @"MIThemeCell";
     }
 }
 
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    [_nameTF resignFirstResponder];
+}
 
 @end

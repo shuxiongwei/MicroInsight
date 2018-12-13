@@ -37,9 +37,6 @@ static NSString * const commentID = @"MICommentCell";
 @property (nonatomic, strong) NSMutableArray *commentList;
 
 @property (weak, nonatomic) IBOutlet UIButton *playBtn;
-@property (strong, nonatomic) AVPlayer *player;
-@property (strong, nonatomic) AVPlayerLayer *playerLayer;
-@property (strong, nonatomic) AVPlayerItem *curItem;
 @property (copy, nonatomic) NSString *VideoURLString;
 @property (weak, nonatomic) IBOutlet UIView *playerBackView;
 @property (nonatomic, strong) MICommunityVideoInfo *videoInfo;
@@ -50,9 +47,6 @@ static NSString * const commentID = @"MICommentCell";
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [_player pause];
-    _player = nil;
-
 }
 
 - (void)viewDidLoad {
@@ -63,7 +57,7 @@ static NSString * const commentID = @"MICommentCell";
     [self configDetailUI];
     
     if (_contentType == 0) {
-        [self requestDetailData:NO];
+        [self requestImageData:NO];
         _playBtn.hidden = YES;
     } else {
         [self requestVideoInfo:NO];
@@ -74,38 +68,28 @@ static NSString * const commentID = @"MICommentCell";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChangeFrame:) name:UIKeyboardWillChangeFrameNotification object:nil];
 }
 
-- (void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
-    
-    if (_contentType == 1) {
-        _playerLayer.frame = _playerBackView.bounds;
-    }
-}
-
 - (void)configDetailUI {
     [_tableView registerNib:[UINib nibWithNibName:commentID bundle:nil] forCellReuseIdentifier:commentID];
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 
     [_praiseBtn layoutButtonWithEdgeInsetsStyle:MIButtonEdgeInsetsStyleLeft imageTitleSpace:5];
     [_commentBtn layoutButtonWithEdgeInsetsStyle:MIButtonEdgeInsetsStyleLeft imageTitleSpace:5];
-
+    _topImgView.contentMode = UIViewContentModeScaleAspectFit;
+    
     if (_contentType == 0) {
         _playBtn.hidden = YES;
-        _topImgView.contentMode = UIViewContentModeScaleAspectFit;
         _topImgView.userInteractionEnabled = YES;
         
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(clickTopImgView:)];
         [_topImgView addGestureRecognizer:tap];
-    } else {
-        self.player = [AVPlayer playerWithPlayerItem:nil];
-        self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:_player];
-        self.playerLayer.backgroundColor = [UIColor blackColor].CGColor;
-        self.playerLayer.contentsGravity = AVLayerVideoGravityResizeAspect;
-        [_playerBackView.layer addSublayer:_playerLayer];
-        [_playerBackView bringSubviewToFront:_playBtn];
     }
 }
 
+/**
+ 请求视频详情数据
+
+ @param isComment 是否评论后的请求
+ */
 - (void)requestVideoInfo:(BOOL)isComment {
     
     WSWeak(weakSelf);
@@ -120,9 +104,9 @@ static NSString * const commentID = @"MICommentCell";
         if (!isComment) {
             weakSelf.title = info.title;
             weakSelf.titleLab.text = info.username;
+            [weakSelf refreshTopAndBottomImageView:info.coverUrl];
             
             MIPlayerInfo *pInfo = info.playUrlList.firstObject;
-            [weakSelf.player replaceCurrentItemWithPlayerItem:[AVPlayerItem playerItemWithURL:[NSURL URLWithString:pInfo.playUrl]]];
             weakSelf.VideoURLString = pInfo.playUrl;
         }
     } failureResponse:^(NSError *error) {
@@ -131,11 +115,11 @@ static NSString * const commentID = @"MICommentCell";
 }
 
 /**
- 请求数据
+ 请求图片详情数据
 
  @param isComment 是否是评论后的请求
  */
-- (void)requestDetailData:(BOOL)isComment {
+- (void)requestImageData:(BOOL)isComment {
     WSWeak(weakSelf);
     [MIRequestManager getCommunityDetailDataWithContentId:_contentId requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
         
@@ -144,11 +128,7 @@ static NSString * const commentID = @"MICommentCell";
             NSDictionary *dic = jsonData[@"data"];
             NSDictionary *imageDic = dic[@"image"];
             weakSelf.detailModel = [MICommunityDetailModel yy_modelWithDictionary:imageDic];
-            if (weakSelf.contentType == 0) {
-                [weakSelf refreshUI:YES isComment:isComment];
-            } else {
-                [weakSelf refreshUI:NO isComment:isComment];
-            }
+            [weakSelf refreshUI:isComment];
         }
     }];
 }
@@ -156,10 +136,9 @@ static NSString * const commentID = @"MICommentCell";
 /**
  刷新UI
 
- @param isImage YES：图片，NO：视频
  @param isComment 是否是评论后的刷新
  */
-- (void)refreshUI:(BOOL)isImage isComment:(BOOL)isComment {
+- (void)refreshUI:(BOOL)isComment {
     [_commentBtn setTitle:_detailModel.commentNum forState:UIControlStateNormal];
     [_praiseBtn setTitle:_detailModel.goodNum forState:UIControlStateNormal];
     _praiseBtn.selected = _detailModel.isLike;
@@ -167,25 +146,7 @@ static NSString * const commentID = @"MICommentCell";
     if (!isComment) {
         self.title = _detailModel.title;
         _titleLab.text = _detailModel.username;
-        
-        if (isImage) {
-            _topImgView.hidden = NO;
-            _backImgView.hidden = NO;
-            
-            WSWeak(weakSelf);
-            [_topImgView sd_setImageWithURL:[NSURL URLWithString:_detailModel.url] placeholderImage:nil options:SDWebImageLowPriority completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
-                
-                weakSelf.backImgView.image = image;
-                
-                UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
-                UIVisualEffectView *effectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
-                effectView.frame = weakSelf.backImgView.bounds;
-                effectView.alpha = 0.95;
-                [weakSelf.backImgView addSubview:effectView];
-            }];
-        } else {
-            
-        }
+        [self refreshTopAndBottomImageView:_detailModel.url];
     }
 }
 
@@ -211,6 +172,20 @@ static NSString * const commentID = @"MICommentCell";
     }];
 }
 
+- (void)refreshTopAndBottomImageView:(NSString *)url {
+    WSWeak(weakSelf);
+    [_topImgView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:nil options:SDWebImageLowPriority completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+        
+        weakSelf.backImgView.image = image;
+        
+        UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+        UIVisualEffectView *effectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+        effectView.frame = weakSelf.backImgView.bounds;
+        effectView.alpha = 0.95;
+        [weakSelf.backImgView addSubview:effectView];
+    }];
+}
+
 #pragma mark - IBAction
 - (IBAction)playBtnClick:(UIButton *)sender {
 
@@ -229,7 +204,7 @@ static NSString * const commentID = @"MICommentCell";
 - (IBAction)clickPraiseBtn:(UIButton *)sender {
     if (!sender.selected) {
         WSWeak(weakSelf);
-        [MIRequestManager praiseWithContentId:_detailModel.contentId contentType:_contentType requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+        [MIRequestManager praiseWithContentId:_contentId contentType:_contentType requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
             
             NSInteger code = [jsonData[@"code"] integerValue];
             if (code == 0) {
@@ -253,12 +228,12 @@ static NSString * const commentID = @"MICommentCell";
     }
     
     WSWeak(weakSelf);
-    [MIRequestManager commentWithContentId:_detailModel.contentId contentType:_contentType content:_commentTF.text requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+    [MIRequestManager commentWithContentId:_contentId contentType:_contentType content:_commentTF.text requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
         
         NSInteger code = [jsonData[@"code"] integerValue];
         if (code == 0) {
             if (weakSelf.contentType == 0) {
-                [self requestDetailData:YES];
+                [self requestImageData:YES];
             } else {
                 [self requestVideoInfo:YES];
             }
@@ -334,7 +309,7 @@ static NSString * const commentID = @"MICommentCell";
     return _commentList;
 }
 
-#pragma mar - touch
+#pragma mark - touch
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
 }

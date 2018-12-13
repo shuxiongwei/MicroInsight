@@ -297,9 +297,9 @@
 				3B5FDB8B21A2C4BB00DDCD1E /* MICommunityViewController.m */,
 				70B509E921B754B300BBB2A9 /* MIDetailViewController.h */,
 				70B509EA21B754B300BBB2A9 /* MIDetailViewController.m */,
+				70B509EB21B754B300BBB2A9 /* MIDetailViewController.xib */,
 				3BB45A7821C118E700196914 /* MIPlayerViewController.h */,
 				3BB45A7921C118E700196914 /* MIPlayerViewController.m */,
-				70B509EB21B754B300BBB2A9 /* MIDetailViewController.xib */,
 			);
 			path = Community;
 			sourceTree = "<group>";
@@ -657,7 +657,6 @@
 				70710C5620F476A300052929 /* Frameworks */,
 				70710C5720F476A300052929 /* Resources */,
 				BBF418F49785ADF150B7774B /* [CP] Copy Pods Resources */,
-				F8B9C3FF89B5E55BF91A5B32 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -817,29 +816,13 @@
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MJRefresh.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SVProgressHUD.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SuperPlayer.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MicroInsight/Pods-MicroInsight-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		F8B9C3FF89B5E55BF91A5B32 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-MicroInsight/Pods-MicroInsight-frameworks.sh",
-				"${PODS_ROOT}/PLPlayerKit/Pod/Library/PLPlayerKit.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PLPlayerKit.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MicroInsight/Pods-MicroInsight-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1067,7 +1050,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 89ZA3J3575;
+				DEVELOPMENT_TEAM = 2WHXP7FN9G;
 				ENABLE_BITCODE = NO;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/MicroInsight/MicroInsight.pch";
 				INFOPLIST_FILE = MicroInsight/Info.plist;
@@ -1076,7 +1059,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.qishon.qsho;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sxw.ts;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1091,7 +1074,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 89ZA3J3575;
+				DEVELOPMENT_TEAM = 2WHXP7FN9G;
 				ENABLE_BITCODE = NO;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/MicroInsight/MicroInsight.pch";
 				INFOPLIST_FILE = MicroInsight/Info.plist;
@@ -1100,7 +1083,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.qishon.qsho;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sxw.ts;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";

@@ -18,7 +18,6 @@
 @implementation MIPlayerViewController
 
 - (void)dealloc{
-    
     [_playerView pause];
     _playerView = nil;
 }
@@ -26,7 +25,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    
+    self.view.backgroundColor = [UIColor blackColor];
+
     _playerView = [[SuperPlayerView alloc] init];
     // 设置代理，用于接受事件
     _playerView.delegate = self;
@@ -38,13 +38,6 @@
     playerModel.videoURL = _videoURL;
     // 开始播放
     [_playerView playWithModel:playerModel];
-    
-//    self.player = [PLPlayer playerWithURL:[NSURL URLWithString:_videoURL] option:[PLPlayerOption defaultOption]];
-//    _player.delegate = self;
-//     [self.view addSubview:_player.playerView];
-//    _player.playerView.frame = self.view.bounds;
-//    [_player play];
-    // Do any additional setup after loading the view.
 }
 
 - (void)viewWillAppear:(BOOL)animated{

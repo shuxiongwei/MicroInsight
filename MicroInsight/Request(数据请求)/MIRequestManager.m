@@ -17,6 +17,7 @@ static NSString * const communityCommentUrl = @"/node/comment-list";
 static NSString * const praiseUrl = @"/node/like";
 static NSString * const commentUrl = @"/node/comment";
 static NSString * const uploadImageUrl = @"/image/upload";
+static NSString * const uploadVideoUrl = @"/video/create";
 
 @implementation MIRequestManager
 
@@ -225,6 +226,22 @@ static NSString * const uploadImageUrl = @"/image/upload";
         completed(responseObject, nil);
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         completed(nil, error);
+    }];
+}
+
++ (void)uploadVideoWithTitle:(NSString *)title videoId:(NSString *)videoId tags:(NSArray *)tags requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed {
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"title"] = title;
+    params[@"aliyunVideoId"] = videoId;
+    params[@"tags"] = tags;
+    
+    NSString *url = [requestUrl stringByAppendingString:uploadVideoUrl];
+    url = [url stringByAppendingString:[NSString stringWithFormat:@"?token=%@", token]];
+    
+    [MIRequestManager postApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+        
+        completed(jsonData, error);
     }];
 }
 

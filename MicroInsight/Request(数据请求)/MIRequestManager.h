@@ -122,7 +122,16 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (void)uploadImageWithFile:(NSString *)file fileName:(NSString *)fileName filePath:(NSString *)path title:(NSString *)title tags:(NSArray *)tags requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed;
 
+/**
+ 视频上传
 
+ @param title 标题
+ @param videoId 阿里云视频id
+ @param tags 主题列表
+ @param token token
+ @param completed 完成回调
+ */
++ (void)uploadVideoWithTitle:(NSString *)title videoId:(NSString *)videoId tags:(NSArray *)tags requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed;
 
 @end
 

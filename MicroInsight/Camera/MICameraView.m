@@ -445,7 +445,7 @@
 
 - (void)recordDurationOfVideo:(NSTimer *)sender {
     _recordSecond ++;
-    if (_recordSecond > 60) {
+    if (_recordSecond > 600) {
         [self recordVideo:_videoBtn];
         [MIToastAlertView showAlertViewWithMessage:@"视频录制时长不得超过1分钟"];
         return;

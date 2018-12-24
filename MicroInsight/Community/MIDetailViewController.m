@@ -10,6 +10,7 @@
 #import "MICommentCell.h"
 #import "MICommunityListModel.h"
 #import "UIImageView+WebCache.h"
+#import "UIButton+WebCache.h"
 #import "MIReviewImageViewController.h"
 #import "UIButton+Extension.h"
 #import "MICommunityRequest.h"
@@ -29,6 +30,7 @@ static NSString * const commentID = @"MICommentCell";
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomConstraint;
 @property (weak, nonatomic) IBOutlet UITextField *commentTF;
+@property (weak, nonatomic) IBOutlet UIImageView *userIcon;
 
 @property (nonatomic, strong) MICommunityDetailModel *detailModel;
 @property (nonatomic, assign) NSInteger currentPage;
@@ -72,9 +74,14 @@ static NSString * const commentID = @"MICommentCell";
     [_tableView registerNib:[UINib nibWithNibName:commentID bundle:nil] forCellReuseIdentifier:commentID];
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 
+    _userIcon.layer.cornerRadius = 14;
+    _userIcon.layer.masksToBounds = YES;
     [_praiseBtn layoutButtonWithEdgeInsetsStyle:MIButtonEdgeInsetsStyleLeft imageTitleSpace:5];
     [_commentBtn layoutButtonWithEdgeInsetsStyle:MIButtonEdgeInsetsStyleLeft imageTitleSpace:5];
-    _topImgView.contentMode = UIViewContentModeScaleAspectFit;
+    
+    _commentTF.layer.cornerRadius = 20;
+    _commentTF.layer.masksToBounds = YES;
+    [_commentTF setValue:UIColorFromRGBWithAlpha(0x666666, 1) forKeyPath:@"_placeholderLabel.textColor"];
     
     if (_contentType == 0) {
         _playBtn.hidden = YES;
@@ -103,8 +110,9 @@ static NSString * const commentID = @"MICommentCell";
         
         if (!isComment) {
             weakSelf.title = info.title;
-            weakSelf.titleLab.text = info.username;
+            weakSelf.titleLab.text = info.nickname;
             [weakSelf refreshTopAndBottomImageView:info.coverUrl];
+            [weakSelf setUserIconImage:info.avatar];
             
             MIPlayerInfo *pInfo = info.playUrlList.firstObject;
             weakSelf.VideoURLString = pInfo.playUrl;
@@ -145,8 +153,9 @@ static NSString * const commentID = @"MICommentCell";
     
     if (!isComment) {
         self.title = _detailModel.title;
-        _titleLab.text = _detailModel.username;
+        _titleLab.text = _detailModel.nickname;
         [self refreshTopAndBottomImageView:_detailModel.url];
+        [self setUserIconImage:_detailModel.avatar];
     }
 }
 
@@ -173,17 +182,21 @@ static NSString * const commentID = @"MICommentCell";
 }
 
 - (void)refreshTopAndBottomImageView:(NSString *)url {
+
+    //等比缩放，限定在矩形框外
+    NSString *imgUrl = [NSString stringWithFormat:@"%@?x-oss-process=image/resize,m_fill,h_%ld,w_%ld", url, (NSInteger)_topImgView.size.width / 1, (NSInteger)_topImgView.size.width / 1];
+    
     WSWeak(weakSelf);
-    [_topImgView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:nil options:SDWebImageLowPriority completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+    [_topImgView sd_setImageWithURL:[NSURL URLWithString:imgUrl] placeholderImage:nil options:SDWebImageRetryFailed completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
         
-        weakSelf.backImgView.image = image;
-        
-        UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
-        UIVisualEffectView *effectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
-        effectView.frame = weakSelf.backImgView.bounds;
-        effectView.alpha = 0.95;
-        [weakSelf.backImgView addSubview:effectView];
+        weakSelf.backImgView.image = [MIUIFactory coreBlurImage:image];
     }];
+}
+
+- (void)setUserIconImage:(NSString *)url {
+    //等比缩放，限定在矩形框外
+    NSString *imgUrl = [NSString stringWithFormat:@"%@?x-oss-process=image/resize,m_fill,h_%ld,w_%ld", url, (NSInteger)_userIcon.size.width / 1, (NSInteger)_userIcon.size.width / 1];
+    [_userIcon sd_setImageWithURL:[NSURL URLWithString:imgUrl] placeholderImage:[UIImage imageNamed:@"account"] options:SDWebImageRetryFailed];
 }
 
 #pragma mark - IBAction
@@ -284,9 +297,13 @@ static NSString * const commentID = @"MICommentCell";
     
     MICommentCell *cell = [tableView dequeueReusableCellWithIdentifier:commentID forIndexPath:indexPath];
     MICommunityCommentModel *model = self.commentList[indexPath.row];
-    cell.titleLab.text = model.username;
+    cell.titleLab.text = model.nickname;
     cell.timeLab.text = model.createdAt;
     cell.commentLab.text = model.content;
+    
+    //等比缩放，限定在矩形框外
+    NSString *imgUrl = [NSString stringWithFormat:@"%@?x-oss-process=image/resize,m_fill,h_%ld,w_%ld", model.avatar, (NSInteger)cell.userBtn.size.width / 1, (NSInteger)cell.userBtn.size.width / 1];
+    [cell.userBtn sd_setImageWithURL:[NSURL URLWithString:imgUrl] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"account"] options:SDWebImageRetryFailed];
     
     return cell;
 }

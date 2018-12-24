@@ -8,6 +8,7 @@
 
 
 #import "MILoginViewController.h"
+#import "MIThirdPartyLoginManager.h"
 
 typedef NS_ENUM(NSInteger,MIModuleType) {
     MIModuleTypeLogin,
@@ -87,7 +88,8 @@ typedef NS_ENUM(NSInteger,MIModuleType) {
             return;
         }
     }
-
+    
+    WSWeak(weakSelf);
     if (_type == MIModuleTypeLogin) {
         [MIRequestManager loginWithUsername:_accountTF.text password:_passwordTF.text completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
             
@@ -95,12 +97,12 @@ typedef NS_ENUM(NSInteger,MIModuleType) {
             if (code == 0) {
                 NSDictionary *data = jsonData[@"data"];
                 NSDictionary *user = data[@"user"];
-                [MILocalData setCurrentLoginUsername:user[@"username"]];
-                [MILocalData setCurrentRequestToken:user[@"token"]];
+                MIUserInfoModel *model = [MIUserInfoModel yy_modelWithDictionary:user];
+                [MILocalData saveCurrentLoginUserInfo:model];
                 
-                [self.navigationController popViewControllerAnimated:YES];
+                [weakSelf.navigationController popViewControllerAnimated:YES];
             } else {
-                [self alertText:@"登录失败"];
+                [weakSelf alertText:@"登录失败"];
             }
         }];
     } else {
@@ -108,9 +110,9 @@ typedef NS_ENUM(NSInteger,MIModuleType) {
             
             NSInteger code = [jsonData[@"code"] integerValue];
             if (code == 0) {
-                [self loginBtnClick:_loginBtn];
+                [weakSelf loginBtnClick:weakSelf.loginBtn];
             } else {
-                [self alertText:@"注册失败"];
+                [weakSelf alertText:@"注册失败"];
             }
         }];
     }
@@ -118,6 +120,42 @@ typedef NS_ENUM(NSInteger,MIModuleType) {
 
 - (IBAction)textfieldEditingChanged:(UITextField *)sender {
     
+}
+
+- (IBAction)thirdPartLoginByQQ:(UIButton *)sender {
+    
+    WSWeak(weakSelf);
+    [[MIThirdPartyLoginManager shareManager] getUserInfoWithWTLoginType:MILoginTypeTencent result:^(NSDictionary *loginResult, NSString *error) {
+        
+        if ([MIHelpTool isBlankString:error]) {
+            [MIRequestManager loginByQQWithOpenId:loginResult[@"openId"] accessToken:loginResult[@"accessToken"] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+                
+                NSInteger code = [jsonData[@"code"] integerValue];
+                if (code == 0) {
+                    NSDictionary *data = jsonData[@"data"];
+                    NSDictionary *user = data[@"user"];
+                    MIUserInfoModel *model = [MIUserInfoModel yy_modelWithDictionary:user];
+                    [MILocalData saveCurrentLoginUserInfo:model];
+                    
+                    [weakSelf.navigationController popViewControllerAnimated:YES];
+                } else {
+                    [weakSelf alertText:@"登录失败"];
+                }
+            }];
+        } else {
+            [MIToastAlertView showAlertViewWithMessage:error];
+        }
+    }];
+}
+
+- (IBAction)thirdPartLoginByWX:(UIButton *)sender {
+    [MIRequestManager getMessageVerificationCodeWithMobile:@"13159166158" type:0 completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+        
+        NSDictionary *data = jsonData[@"data"];
+        [MIRequestManager registerWithMobile:@"13159166158" password:@"123456" verifyToken:data[@"verifyToken"] verifyCode:@"8888" completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+            
+        }];
+    }];
 }
 
 - (void)refreshUI {

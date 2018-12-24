@@ -8,29 +8,13 @@
 
 #import "MILocalData.h"
 
-static NSString * const currentLoginUser = @"currentLoginUser";
-static NSString * const currentRequestToken = @"currentRequestToken";
+static NSString * const currentLoginUserInfo = @"currentLoginUserInfo";
 
 @implementation MILocalData
 
-+ (void)setCurrentLoginUsername:(NSString *)username {
-    NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
-    [def setValue:username forKey:currentLoginUser];
-}
-
-+ (NSString *)getCurrentLoginUsername {
-    NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
-    return [def valueForKey:currentLoginUser];
-}
-
-+ (void)setCurrentRequestToken:(NSString *)token {
-    NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
-    [def setValue:token forKey:currentRequestToken];
-}
-
 + (NSString *)getCurrentRequestToken {
-    NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
-    return [def valueForKey:currentRequestToken];
+    MIUserInfoModel *model = [self getCurrentLoginUserInfo];
+    return model.token;
 }
 
 + (NSString *)getFirstLocalAssetPath {
@@ -55,6 +39,27 @@ static NSString * const currentRequestToken = @"currentRequestToken";
     }
     
     return nil;
+}
+
++ (void)saveCurrentLoginUserInfo:(nullable MIUserInfoModel *)info {
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:info];
+    NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+    [def setObject:data forKey:currentLoginUserInfo];
+}
+
++ (MIUserInfoModel *)getCurrentLoginUserInfo {
+    NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+    NSData *data = [def objectForKey:currentLoginUserInfo];
+    return [NSKeyedUnarchiver unarchiveObjectWithData:data];
+}
+
++ (BOOL)hasLogin {
+    MIUserInfoModel *model = [self getCurrentLoginUserInfo];
+    if (model) {
+        return YES;
+    }
+    
+    return NO;
 }
 
 @end

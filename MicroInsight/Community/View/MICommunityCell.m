@@ -15,6 +15,8 @@
     
     self.layer.cornerRadius = 3;
     self.layer.masksToBounds = YES;
+    _userIcon.layer.cornerRadius = 10;
+    _userIcon.layer.masksToBounds = YES;
 }
 
 @end

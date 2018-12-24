@@ -100,4 +100,22 @@
  */
 + (NSString *)disable_emoji:(NSString *)text;
 
+/**
+ 日期转换成字符串
+ 
+ @param date 日期
+ @param format 转换格式(如@"yyyy-MM-dd HH:mm:ss")
+ @return 返回值
+ */
++ (NSString *)converDate:(NSDate *)date toStringByFormat:(NSString *)format;
+
+/**
+ 时间字符串转日期
+ 
+ @param string 时间字符串
+ @param format 转化格式
+ @return 返回值
+ */
++ (NSDate *)converString:(NSString *)string toDateByFormat:(NSString *)format;
+
 @end

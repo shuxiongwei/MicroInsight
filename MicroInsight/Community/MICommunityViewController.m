@@ -17,6 +17,7 @@
 
 @interface MICommunityViewController ()<UICollectionViewDelegate, UICollectionViewDataSource, UISearchBarDelegate>
 
+@property (weak, nonatomic) IBOutlet UILabel *titleLab;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UIView *searchBackView;
 @property (nonatomic, strong) UICollectionView *collectionV;
@@ -59,6 +60,9 @@ static NSString * const MICellID = @"MICommunityCell";
 
     [self configCollectionView];
     [self configSearchCollectionView];
+    
+    MIUserInfoModel *model = [MILocalData getCurrentLoginUserInfo];
+    _titleLab.text = model.nickname;
 }
 
 - (void)configCollectionView {
@@ -128,12 +132,13 @@ static NSString * const MICellID = @"MICommunityCell";
 }
 
 - (void)refreshUI:(MIRefreshType)type {
+    WSWeak(weakSelf);
     [self requestDataList:type complete:^{
         
-        if (![MIHelpTool isBlankString:_searchBar.text]) {
-            [_searchCollectionV reloadData];
+        if (![MIHelpTool isBlankString:weakSelf.searchBar.text]) {
+            [weakSelf.searchCollectionV reloadData];
         } else {
-            [_collectionV reloadData];
+            [weakSelf.collectionV reloadData];
         }
     }];
 }
@@ -147,7 +152,7 @@ static NSString * const MICellID = @"MICommunityCell";
         page = _searchPage;
     }
     
-    [MIRequestManager getCommunityDataListWithSearchTitle:_searchBar.text requestToken:[MILocalData getCurrentRequestToken] page:page pageSize:_pageSize completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+    [MIRequestManager getCommunityDataListWithSearchTitle:_searchBar.text requestToken:[MILocalData getCurrentRequestToken] page:page pageSize:_pageSize isMine:_isMine completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
         
         NSInteger code = [jsonData[@"code"] integerValue];
         if (code == 0) {
@@ -223,17 +228,22 @@ static NSString * const MICellID = @"MICommunityCell";
     cell.timeLb.text = listM.createdAt;
     MICommunityTagModel *tagM = listM.tags.firstObject;
     cell.subTitleLb.text = tagM.title;
-    
+    cell.authorLab.text = listM.nickname;
+
+    //通过阿里云的处理，图片固定宽高，自动裁剪
+    NSString *url = [NSString stringWithFormat:@"?x-oss-process=image/resize,m_fill,h_%ld,w_%ld", (NSInteger)cell.imgView.size.height / 1, (NSInteger)cell.imgView.size.width / 1];
+
     if (listM.contentType.integerValue == 0) { //图片
         cell.playIcon.hidden = YES;
-        [cell.imgView sd_setImageWithURL:[NSURL URLWithString:listM.url] placeholderImage:nil options:SDWebImageRetryFailed];
+        [cell.imgView sd_setImageWithURL:[NSURL URLWithString:[listM.url stringByAppendingString:url]] placeholderImage:nil options:SDWebImageRetryFailed];
     } else { //视频
         cell.playIcon.hidden = NO;
-        
-//        AVAsset *asset = [AVAsset assetWithURL:[NSURL URLWithString:listM.videoUrl]];
-//        cell.imgView.image = [MIHelpTool fetchThumbnailWithAVAsset:asset curTime:0];
-        [cell.imgView sd_setImageWithURL:[NSURL URLWithString:listM.coverUrl] placeholderImage:nil options:SDWebImageRetryFailed];
+        [cell.imgView sd_setImageWithURL:[NSURL URLWithString:[listM.coverUrl stringByAppendingString:url]] placeholderImage:nil options:SDWebImageRetryFailed];
     }
+    
+    //等比缩放，限定在矩形框外
+    NSString *imgUrl = [NSString stringWithFormat:@"%@?x-oss-process=image/resize,m_fill,h_%ld,w_%ld", listM.avatar, (NSInteger)cell.userIcon.size.width / 1, (NSInteger)cell.userIcon.size.width / 1];
+    [cell.userIcon sd_setImageWithURL:[NSURL URLWithString:imgUrl] placeholderImage:[UIImage imageNamed:@"account"] options:SDWebImageRetryFailed];
 
     return cell;
 }

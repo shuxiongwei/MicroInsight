@@ -137,4 +137,36 @@
  */
 + (UIImage *)coreBlurImage:(UIImage *)image;
 
+/**
+ 创建自定义弹窗
+ 
+ @param title 提示文字
+ @param titleColor 提示文字颜色
+ @param titleFont 提示文字大小
+ @param message 消息文字
+ @param msgColor 消息文字颜色
+ @param msgFont 消息文字大小
+ @param style 弹窗样式
+ @param leftTitle 左边按钮标题
+ @param leftStyle 左边按钮样式
+ @param rightTitle 右边按钮标题
+ @param rightStyle 右边按钮样式
+ @param actionTitleColor 按钮标题颜色
+ @param select 选择回调
+ @return 返回创建好的弹窗
+ */
++ (UIAlertController *)createAlertControllerWithTitle:(NSString *)title
+                                           titleColor:(UIColor *)titleColor
+                                            titleFont:(CGFloat)titleFont
+                                              message:(NSString *)message
+                                         messageColor:(UIColor *)msgColor
+                                          messageFont:(CGFloat)msgFont
+                                           alertStyle:(UIAlertControllerStyle)style
+                                      actionLeftTitle:(NSString *)leftTitle
+                                      actionLeftStyle:(UIAlertActionStyle)leftStyle
+                                     actionRightTitle:(NSString *)rightTitle
+                                     actionRightStyle:(UIAlertActionStyle)rightStyle
+                                     actionTitleColor:(UIColor *)actionTitleColor
+                                         selectAction:(void(^)(void))select;
+
 @end

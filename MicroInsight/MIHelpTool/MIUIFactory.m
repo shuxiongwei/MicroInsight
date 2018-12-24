@@ -192,4 +192,54 @@
     return resultImg;
 }
 
++ (UIAlertController *)createAlertControllerWithTitle:(NSString *)title
+                                           titleColor:(UIColor *)titleColor
+                                            titleFont:(CGFloat)titleFont
+                                              message:(NSString *)message
+                                         messageColor:(UIColor *)msgColor
+                                          messageFont:(CGFloat)msgFont
+                                           alertStyle:(UIAlertControllerStyle)style
+                                      actionLeftTitle:(NSString *)leftTitle
+                                      actionLeftStyle:(UIAlertActionStyle)leftStyle
+                                     actionRightTitle:(NSString *)rightTitle
+                                     actionRightStyle:(UIAlertActionStyle)rightStyle
+                                     actionTitleColor:(UIColor *)actionTitleColor
+                                         selectAction:(void(^)(void))select {
+    
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:style];
+    
+    //更改title的大小和颜色
+    if (![MIHelpTool isBlankString:title]) {
+        NSMutableAttributedString *titleAtt = [[NSMutableAttributedString alloc] initWithString:title];
+        [titleAtt addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:titleFont] range:NSMakeRange(0, title.length)];
+        [titleAtt addAttribute:NSForegroundColorAttributeName value:titleColor range:NSMakeRange(0, title.length)];
+        [alertController setValue:titleAtt forKey:@"attributedTitle"];
+    }
+    
+    //改变message的大小和颜色
+    if (![MIHelpTool isBlankString:message]) {
+        NSMutableAttributedString *messageAtt = [[NSMutableAttributedString alloc] initWithString:message];
+        [messageAtt addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:msgFont] range:NSMakeRange(0, message.length)];
+        [messageAtt addAttribute:NSForegroundColorAttributeName value:msgColor range:NSMakeRange(0, message.length)];
+        [alertController setValue:messageAtt forKey:@"attributedMessage"];
+    }
+    
+    if (![MIHelpTool isBlankString:leftTitle]) {
+        UIAlertAction *leftAction = [UIAlertAction actionWithTitle:leftTitle style:leftStyle handler:nil];
+        [leftAction setValue:actionTitleColor forKey:@"titleTextColor"];
+        [alertController addAction:leftAction];
+    }
+    if (![MIHelpTool isBlankString:rightTitle]) {
+        UIAlertAction *rightAction = [UIAlertAction actionWithTitle:rightTitle style:rightStyle handler:^(UIAlertAction * _Nonnull action) {
+            if (select) {
+                select();
+            }
+        }];
+        [rightAction setValue:actionTitleColor forKey:@"titleTextColor"];
+        [alertController addAction:rightAction];
+    }
+    
+    return alertController;
+}
+
 @end

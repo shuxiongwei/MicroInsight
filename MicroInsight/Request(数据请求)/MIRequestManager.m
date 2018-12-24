@@ -10,14 +10,21 @@
 
 static NSString * const requestUrl = @"https://api.tipscope.com/";
 static NSString * const registerUrl = @"/site/register";
+static NSString * const messageCodeUrl = @"/site/send-sms-verify-code";
+static NSString * const mobileRegisterUrl = @"/site/register-mobile";
 static NSString * const loginUrl = @"/site/login";
+static NSString * const loginByQQUrl = @"/site/qq-login";
 static NSString * const communityListUrl = @"/node/list";
+static NSString * const myCommunityListUrl = @"/node/my";
 static NSString * const communityDetailUrl = @"/image/detail";
 static NSString * const communityCommentUrl = @"/node/comment-list";
 static NSString * const praiseUrl = @"/node/like";
 static NSString * const commentUrl = @"/node/comment";
 static NSString * const uploadImageUrl = @"/image/upload";
 static NSString * const uploadVideoUrl = @"/video/create";
+static NSString * const modifyUserInfoUrl = @"/user/update-profile";
+static NSString * const uploadUserAvatarUrl = @"/user/upload-avatar";
+static NSString * const getUserInfoUrl = @"/user/info";
 
 @implementation MIRequestManager
 
@@ -27,6 +34,7 @@ static NSString * const uploadVideoUrl = @"/video/create";
     
     dispatch_once(&onceToken, ^{
         manager = [[MIRequestManager alloc] init];
+        manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/plain", @"multipart/form-data", @"application/json", @"text/html", @"image/jpeg", @"image/png", @"application/octet-stream", @"text/json", nil];
     });
     
     return manager;
@@ -111,10 +119,33 @@ static NSString * const uploadVideoUrl = @"/video/create";
     NSString *url = [requestUrl stringByAppendingString:registerUrl];
     [MIRequestManager postApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
         
-        NSDictionary *data = jsonData[@"data"];
-        NSDictionary *user = data[@"user"];
-        [MILocalData setCurrentLoginUsername:user[@"username"]];
-        [MILocalData setCurrentRequestToken:user[@"token"]];
+        completed(jsonData, error);
+    }];
+}
+
++ (void)registerWithMobile:(NSString *)mobile password:(NSString *)password verifyToken:(NSString *)verifyToken verifyCode:(NSString *)verifyCode completed:(void (^)(id jsonData, NSError *error))completed {
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"mobile"] = mobile;
+    params[@"password"] = password;
+    params[@"verifyToken"] = verifyToken;
+    params[@"verifyCode"] = verifyCode;
+    
+    NSString *url = [requestUrl stringByAppendingString:mobileRegisterUrl];
+    [MIRequestManager postApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+        
+        completed(jsonData, error);
+    }];
+}
+
++ (void)getMessageVerificationCodeWithMobile:(NSString *)mobile type:(NSInteger)type completed:(void (^)(id jsonData, NSError *error))completed {
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"mobile"] = mobile;
+    params[@"type"] = @(type);
+    
+    NSString *url = [requestUrl stringByAppendingString:messageCodeUrl];
+    [MIRequestManager postApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
         
         completed(jsonData, error);
     }];
@@ -133,7 +164,20 @@ static NSString * const uploadVideoUrl = @"/video/create";
     }];
 }
 
-+ (void)getCommunityDataListWithSearchTitle:(NSString *)title requestToken:(NSString *)token page:(NSInteger)page pageSize:(NSInteger)pageSize completed:(void (^)(id jsonData, NSError *error))completed {
++ (void)loginByQQWithOpenId:(NSString *)openId accessToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed {
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"openId"] = openId;
+    params[@"accessToken"] = token;
+    
+    NSString *url = [requestUrl stringByAppendingString:loginByQQUrl];
+    [MIRequestManager postApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+        
+        completed(jsonData, error);
+    }];
+}
+
++ (void)getCommunityDataListWithSearchTitle:(NSString *)title requestToken:(NSString *)token page:(NSInteger)page pageSize:(NSInteger)pageSize isMine:(BOOL)mine completed:(void (^)(id jsonData, NSError *error))completed {
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"title"] = title;
@@ -142,6 +186,10 @@ static NSString * const uploadVideoUrl = @"/video/create";
     params[@"pageSize"] = @(pageSize);
     
     NSString *url = [requestUrl stringByAppendingString:communityListUrl];
+    if (mine) {
+        url = [requestUrl stringByAppendingString:myCommunityListUrl];
+    }
+    
     [MIRequestManager getApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
         
         completed(jsonData, error);
@@ -213,7 +261,7 @@ static NSString * const uploadVideoUrl = @"/video/create";
     NSString *url = [requestUrl stringByAppendingString:uploadImageUrl];
     url = [url stringByAppendingString:[NSString stringWithFormat:@"?token=%@", token]];
     
-    [MIRequestManager sharedManager].responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/plain", @"multipart/form-data", @"application/json", @"text/html", @"image/jpeg", @"image/png", @"application/octet-stream", @"text/json", nil];
+    //[MIRequestManager sharedManager].responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/plain", @"multipart/form-data", @"application/json", @"text/html", @"image/jpeg", @"image/png", @"application/octet-stream", @"text/json", nil];
     
     [[MIRequestManager sharedManager] POST:url parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         
@@ -242,6 +290,52 @@ static NSString * const uploadVideoUrl = @"/video/create";
     [MIRequestManager postApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
         
         completed(jsonData, error);
+    }];
+}
+
++ (void)getCurrentLoginUserInfoWithRequestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed {
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"token"] = token;
+    
+    NSString *url = [requestUrl stringByAppendingString:getUserInfoUrl];
+    [MIRequestManager getApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+        
+        completed(jsonData, error);
+    }];
+}
+
++ (void)modifyUserInfoWithNickname:(NSString *)nickname gender:(NSString *)gender birthday:(NSString *)birthday requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed {
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"nickname"] = nickname;
+    params[@"gender"] = @(gender.integerValue);
+    params[@"birthday"] = birthday;
+    
+    NSString *url = [requestUrl stringByAppendingString:modifyUserInfoUrl];
+    url = [url stringByAppendingString:[NSString stringWithFormat:@"?token=%@", token]];
+    
+    [MIRequestManager postApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+        
+        completed(jsonData, error);
+    }];
+}
+
++ (void)uploadUserAvatarWithFile:(NSString *)file fileName:(NSString *)fileName avatar:(UIImage *)avatar requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed {
+    
+    NSString *url = [requestUrl stringByAppendingString:uploadUserAvatarUrl];
+    url = [url stringByAppendingString:[NSString stringWithFormat:@"?token=%@", token]];
+    
+    [[MIRequestManager sharedManager] POST:url parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+
+        NSData *datas = UIImageJPEGRepresentation(avatar, 0.5);
+        [formData appendPartWithFileData:datas name:file fileName:fileName mimeType:@"image/jpg"];
+    } progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        completed(responseObject, nil);
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        completed(nil, error);
     }];
 }
 

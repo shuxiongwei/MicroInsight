@@ -13,7 +13,8 @@
 #import "MIMyAlbumViewController.h"
 #import "MICommunityListModel.h"
 #import "UIImageView+WebCache.h"
-
+#import "MIMineViewController.h"
+#import "UIButton+WebCache.h"
 
 @interface MIHomeViewController ()
 
@@ -45,11 +46,13 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+
+    MIUserInfoModel *model = [MILocalData getCurrentLoginUserInfo];
+    _username.text = model.nickname;
     
-    NSString *username = [MILocalData getCurrentLoginUsername];
-    if (![MIHelpTool isBlankString:username]) {
-        _username.text = username;
-    }
+    //等比缩放，限定在矩形框外
+    NSString *imgUrl = [NSString stringWithFormat:@"%@?x-oss-process=image/resize,m_fill,h_%d,w_%d", model.avatar, 50, 50];
+    [_userBtn sd_setImageWithURL:[NSURL URLWithString:imgUrl] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"icon_home_user_nor"] options:SDWebImageRetryFailed];
     
     [self setCommunityBackgroundImage];
     [self setAlbumImageViewWithFirstLocalAssetThumbnail];
@@ -68,6 +71,8 @@
     _loginView.layer.masksToBounds = YES;
     _shootView.layer.cornerRadius = 3;
     _shootView.layer.masksToBounds = YES;
+    _userBtn.layer.cornerRadius = 25;
+    _userBtn.layer.masksToBounds = YES;
 }
 
 - (void)configGestureRecognizer {
@@ -95,8 +100,7 @@
 
 //社区
 - (void)clickCommunityView:(UITapGestureRecognizer *)rec {
-    NSString *username = [MILocalData getCurrentLoginUsername];
-    if (![MIHelpTool isBlankString:username]) {
+    if ([MILocalData hasLogin]) {
         UIStoryboard *board = [UIStoryboard storyboardWithName:@"Community" bundle:nil];
         MICommunityViewController *vc = [board instantiateViewControllerWithIdentifier:@"MICommunityViewController"];
         [self.navigationController pushViewController:vc animated:YES];
@@ -115,9 +119,14 @@
 
 //登录
 - (void)clickLoginView:(UITapGestureRecognizer *)rec {
-    UIStoryboard *board = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
-    MILoginViewController *vc = [board instantiateViewControllerWithIdentifier:@"MILoginViewController"];
-    [self.navigationController pushViewController:vc animated:YES];
+    if ([MILocalData hasLogin]) {
+        MIMineViewController *mineVC = [[MIMineViewController alloc] initWithNibName:@"MIMineViewController" bundle:nil];
+        [self.navigationController pushViewController:mineVC animated:YES];
+    } else {
+        UIStoryboard *board = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
+        MILoginViewController *vc = [board instantiateViewControllerWithIdentifier:@"MILoginViewController"];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 #pragma mark - helper
@@ -141,8 +150,7 @@
 }
 
 - (void)setCommunityBackgroundImage {
-    NSString *username = [MILocalData getCurrentLoginUsername];
-    if (![MIHelpTool isBlankString:username]) {
+    if ([MILocalData hasLogin]) {
         [self requestFirstNetworkAssetThumbnailComplete:^(BOOL success) {
             
         }];
@@ -154,7 +162,7 @@
 - (void)requestFirstNetworkAssetThumbnailComplete:(void(^)(BOOL success))completed {
     
     WSWeak(weakSelf);
-    [MIRequestManager getCommunityDataListWithSearchTitle:@"" requestToken:[MILocalData getCurrentRequestToken] page:1 pageSize:1 completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+    [MIRequestManager getCommunityDataListWithSearchTitle:@"" requestToken:[MILocalData getCurrentRequestToken] page:1 pageSize:1 isMine:NO completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
         
         NSInteger code = [jsonData[@"code"] integerValue];
         if (code == 0) {
@@ -164,12 +172,12 @@
                 NSDictionary *dic = list.firstObject;
                 MICommunityListModel *model = [MICommunityListModel yy_modelWithDictionary:dic];
 
+                NSString *url = [NSString stringWithFormat:@"?x-oss-process=image/resize,m_fill,h_%ld,w_%ld", (NSInteger)weakSelf.communityImageView.size.height / 1, (NSInteger)weakSelf.communityImageView.size.width / 1];
+                
                 if (model.contentType.integerValue == 0) {
-                    [weakSelf.communityImageView sd_setImageWithURL:[NSURL URLWithString:model.url] placeholderImage:nil options:SDWebImageRetryFailed];
+                    [weakSelf.communityImageView sd_setImageWithURL:[NSURL URLWithString:[model.url stringByAppendingString:url]] placeholderImage:nil options:SDWebImageRetryFailed];
                 } else {
-//                    AVAsset *asset = [AVAsset assetWithURL:[NSURL URLWithString:model.videoUrl]];
-//                    weakSelf.communityImageView.image = [MIHelpTool fetchThumbnailWithAVAsset:asset curTime:0];
-                    [weakSelf.communityImageView sd_setImageWithURL:[NSURL URLWithString:model.coverUrl] placeholderImage:nil options:SDWebImageRetryFailed];
+                    [weakSelf.communityImageView sd_setImageWithURL:[NSURL URLWithString:[model.coverUrl stringByAppendingString:url]] placeholderImage:nil options:SDWebImageRetryFailed];
                 }
             } else {
                 weakSelf.communityImageView.image = [UIImage imageNamed:@"home_btn_social"];

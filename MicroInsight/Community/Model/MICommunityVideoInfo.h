@@ -38,6 +38,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSString *coverUrl;
 @property (nonatomic, copy) NSArray<MIPlayerInfo *> *playUrlList;
 @property (nonatomic, assign) BOOL isLike;
+@property (nonatomic, copy) NSString *nickname;
+@property (nonatomic, copy) NSString *avatar;
 
 @end
 

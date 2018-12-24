@@ -19,4 +19,6 @@
 @property (nonatomic, copy) void (^sliderBarDidTrack)(CGFloat x);
 @property (nonatomic, copy) void (^sliderBarDidEndTrack)(CGFloat x);
 
+- (void)refreshCurrentFactor:(CGFloat)factor;
+
 @end

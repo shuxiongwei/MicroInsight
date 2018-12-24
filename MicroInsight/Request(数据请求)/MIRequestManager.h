@@ -47,15 +47,44 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (void)registerWithUsername:(NSString *)username password:(NSString *)password completed:(void (^)(id jsonData, NSError *error))completed;
 
+/**
+ 获取短信验证码
+ 
+ @param mobile 手机号
+ @param type 类型：0-注册，1-绑定手机(不填为注册)
+ @param completed 完成回调
+ */
++ (void)getMessageVerificationCodeWithMobile:(NSString *)mobile type:(NSInteger)type completed:(void (^)(id jsonData, NSError *error))completed;
+
+/**
+ 手机号注册
+
+ @param mobile 手机号
+ @param password 密码
+ @param verifyToken 短信验证token
+ @param verifyCode 短信验证码
+ @param completed 完成回调
+ */
++ (void)registerWithMobile:(NSString *)mobile password:(NSString *)password verifyToken:(NSString *)verifyToken verifyCode:(NSString *)verifyCode completed:(void (^)(id jsonData, NSError *error))completed;
+
 #pragma mark - 登录
 /**
- 登录
+ 账号密码登录
 
  @param username 用户名
  @param password 密码
  @param completed 完成回调
  */
 + (void)loginWithUsername:(NSString *)username password:(NSString *)password completed:(void (^)(id jsonData, NSError *error))completed;
+
+/**
+ QQ登录
+
+ @param openId openId
+ @param token accessToken
+ @param completed 完成回调
+ */
++ (void)loginByQQWithOpenId:(NSString *)openId accessToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed;
 
 #pragma mark - 社区
 /**
@@ -65,9 +94,10 @@ NS_ASSUME_NONNULL_BEGIN
  @param token token
  @param page 当前页数
  @param pageSize 每页条数
+ @param mine 是：个人作品，否：全部作品
  @param completed 完成回调
  */
-+ (void)getCommunityDataListWithSearchTitle:(NSString *)title requestToken:(NSString *)token page:(NSInteger)page pageSize:(NSInteger)pageSize completed:(void (^)(id jsonData, NSError *error))completed;
++ (void)getCommunityDataListWithSearchTitle:(NSString *)title requestToken:(NSString *)token page:(NSInteger)page pageSize:(NSInteger)pageSize isMine:(BOOL)mine completed:(void (^)(id jsonData, NSError *error))completed;
 
 /**
  获取社区详情数据
@@ -132,6 +162,37 @@ NS_ASSUME_NONNULL_BEGIN
  @param completed 完成回调
  */
 + (void)uploadVideoWithTitle:(NSString *)title videoId:(NSString *)videoId tags:(NSArray *)tags requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed;
+
+#pragma mark - 个人中心
+/**
+ 获取当前登录的用户信息
+
+ @param token token
+ @param completed 完成回调
+ */
++ (void)getCurrentLoginUserInfoWithRequestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed;
+
+/**
+ 修改用户信息
+
+ @param nickname 昵称
+ @param gender 性别
+ @param birthday 生日
+ @param token token
+ @param completed 完成回调
+ */
++ (void)modifyUserInfoWithNickname:(NSString *)nickname gender:(NSString *)gender birthday:(NSString *)birthday requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed;
+
+/**
+ 上传用户头像
+
+ @param file 文件
+ @param fileName 文件名称
+ @param avatar 头像
+ @param token token
+ @param completed 完成回调
+ */
++ (void)uploadUserAvatarWithFile:(NSString *)file fileName:(NSString *)fileName avatar:(UIImage *)avatar requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed;
 
 @end
 

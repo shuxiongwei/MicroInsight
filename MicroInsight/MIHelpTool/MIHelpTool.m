@@ -153,4 +153,16 @@ static NSInteger const maxLength = 20;
     return modifiedString;
 }
 
++ (NSString *)converDate:(NSDate *)date toStringByFormat:(NSString *)format {
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:format];
+    return [dateFormatter stringFromDate:date];
+}
+
++ (NSDate *)converString:(NSString *)string toDateByFormat:(NSString *)format {
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:format];
+    return [dateFormatter dateFromString:string];
+}
+
 @end

@@ -37,8 +37,8 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="玩转社区" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hfR-Ub-2l4">
-                                        <rect key="frame" x="151" y="40" width="73.5" height="4"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <rect key="frame" x="151" y="38" width="73.5" height="8"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -58,7 +58,7 @@
                                     <constraint firstItem="bEc-55-fP8" firstAttribute="leading" secondItem="u33-sx-U94" secondAttribute="leading" constant="10" id="jGg-bv-h9i"/>
                                     <constraint firstItem="aRs-Of-oZV" firstAttribute="centerY" secondItem="bEc-55-fP8" secondAttribute="centerY" id="mxP-gC-5wR"/>
                                     <constraint firstAttribute="bottom" secondItem="bEc-55-fP8" secondAttribute="bottom" id="naW-8t-9dp"/>
-                                    <constraint firstAttribute="bottom" secondItem="hfR-Ub-2l4" secondAttribute="bottom" constant="20" id="qr7-pi-14L"/>
+                                    <constraint firstAttribute="bottom" secondItem="hfR-Ub-2l4" secondAttribute="bottom" constant="18" id="qr7-pi-14L"/>
                                     <constraint firstItem="hfR-Ub-2l4" firstAttribute="centerX" secondItem="u33-sx-U94" secondAttribute="centerX" id="vL4-ul-heB"/>
                                 </constraints>
                             </view>
@@ -100,6 +100,7 @@
                     <connections>
                         <outlet property="searchBackView" destination="SA1-N7-9fP" id="GKB-z3-zuI"/>
                         <outlet property="searchBar" destination="f40-Qp-l2N" id="gbn-4W-97z"/>
+                        <outlet property="titleLab" destination="hfR-Ub-2l4" id="1eB-Mi-gpg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ULY-qj-x0s" userLabel="First Responder" sceneMemberID="firstResponder"/>

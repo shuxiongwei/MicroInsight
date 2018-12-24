@@ -10,28 +10,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class MIUserInfoModel;
 @interface MILocalData : NSObject
-
-/**
- 设置当前登录用户名
-
- @param username 用户名
- */
-+ (void)setCurrentLoginUsername:(NSString *)username;
-
-/**
- 获取当前登录用户名
-
- @return 返回用户名
- */
-+ (NSString *)getCurrentLoginUsername;
-
-/**
- 设置当前请求token
-
- @param token token
- */
-+ (void)setCurrentRequestToken:(NSString *)token;
 
 /**
  获取当前请求token
@@ -46,6 +26,27 @@ NS_ASSUME_NONNULL_BEGIN
  @return 返回值
  */
 + (NSString *)getFirstLocalAssetPath;
+
+/**
+ 保存当前登录用户信息
+
+ @param info 用户信息
+ */
++ (void)saveCurrentLoginUserInfo:(nullable MIUserInfoModel *)info;
+
+/**
+ 获取当前登录用户信息
+
+ @return 用户信息
+ */
++ (MIUserInfoModel *)getCurrentLoginUserInfo;
+
+/**
+ 判断是否已经登录
+
+ @return 返回值
+ */
++ (BOOL)hasLogin;
 
 @end
 

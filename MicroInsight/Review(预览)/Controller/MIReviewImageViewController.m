@@ -62,7 +62,7 @@
     MIReviewImageCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"reviewCell" forIndexPath:indexPath];
     
     if ([_imgPath containsString:@"http"]) {
-        [cell.imgView sd_setImageWithURL:[NSURL URLWithString:_imgPath] placeholderImage:nil options:SDWebImageLowPriority];
+        [cell.imgView sd_setImageWithURL:[NSURL URLWithString:_imgPath] placeholderImage:nil options:SDWebImageRetryFailed];
     } else {
         UIImage *image = [UIImage imageWithContentsOfFile:_imgPath];
         cell.imgView.image = image;

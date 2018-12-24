@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "MIHelpTool.h"
 #import "MIPhotographyViewController.h"
+#import "MIThirdPartyLoginManager.h"
 
 @interface AppDelegate ()
 
@@ -64,5 +65,36 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
+// iOS9 以上用这个方法接收
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString *,id> *)options {
+
+    if (@available(iOS 9.0, *)) {
+        if ([options[UIApplicationOpenURLOptionsSourceApplicationKey] isEqualToString:@"com.sina.weibo"]) {
+            return [WeiboSDK handleOpenURL:url delegate:[MIThirdPartyLoginManager shareManager]];
+        } else if ([options[UIApplicationOpenURLOptionsSourceApplicationKey] isEqualToString:@"com.tencent.xin"]) {
+            return [WXApi handleOpenURL:url delegate:[MIThirdPartyLoginManager shareManager]];
+        } else if ([options[UIApplicationOpenURLOptionsSourceApplicationKey] isEqualToString:@"com.tencent.mqq"]) {
+            return [TencentOAuth HandleOpenURL:url];
+        }
+    } else {
+        // Fallback on earlier versions
+    }
+    
+    return YES;
+}
+
+// iOS9 以下用这个方法接收
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    
+    if ([sourceApplication isEqualToString:@"com.sina.weibo"]) {
+        return [WeiboSDK handleOpenURL:url delegate:[MIThirdPartyLoginManager shareManager]];
+    } else if ([sourceApplication isEqualToString:@"com.tencent.xin"]) {
+        return [WXApi handleOpenURL:url delegate:[MIThirdPartyLoginManager shareManager]];
+    } else if ([sourceApplication isEqualToString:@"com.tencent.mqq"]) {
+        return [TencentOAuth HandleOpenURL:url];
+    }
+    
+    return YES;
+}
 
 @end

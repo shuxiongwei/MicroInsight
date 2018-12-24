@@ -10,6 +10,13 @@
 
 @implementation MIAlbumCell
 
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    
+    _assetImgView.layer.cornerRadius = 3;
+    _assetImgView.layer.masksToBounds = YES;
+}
+
 - (void)setSelected:(BOOL)selected{
     [super setSelected:selected];
 

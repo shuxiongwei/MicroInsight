@@ -15,6 +15,8 @@
     // Initialization code
     
     self.selectionStyle = UITableViewCellSelectionStyleNone;
+    _userBtn.layer.cornerRadius = 15;
+    _userBtn.layer.masksToBounds = YES;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

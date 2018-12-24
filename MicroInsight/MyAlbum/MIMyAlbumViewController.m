@@ -291,9 +291,8 @@ static NSString *const cellId = @"MIAlbumCell";
         [MIToastAlertView showAlertViewWithMessage:@"上传的图片或视频数量不得超过1个"];
         return;
     }
-    
-    NSString *username = [MILocalData getCurrentLoginUsername];
-    if (![MIHelpTool isBlankString:username]) {
+
+    if ([MILocalData hasLogin]) {
         UIStoryboard *board = [UIStoryboard storyboardWithName:@"MyAlbum" bundle:nil];
         MIUploadViewController *vc = [board instantiateViewControllerWithIdentifier:@"MIUploadViewController"];
 //        MIAlbum *asset = self.seletedIndexPaths.firstObject;

@@ -204,18 +204,46 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cl1-3w-j86">
+                                <rect key="frame" x="67.5" y="577" width="80" height="50"/>
+                                <color key="backgroundColor" red="0.45855034719999999" green="0.67835828990000002" blue="0.052408854169999998" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="2lz-Ln-Gwu"/>
+                                    <constraint firstAttribute="width" constant="80" id="bdm-db-GEm"/>
+                                </constraints>
+                                <state key="normal" title="QQ登录"/>
+                                <connections>
+                                    <action selector="thirdPartLoginByQQ:" destination="yLL-6f-lTC" eventType="touchUpInside" id="YYV-sM-QWT"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dcY-f0-Ish">
+                                <rect key="frame" x="227.5" y="577" width="80" height="50"/>
+                                <color key="backgroundColor" red="0.45855034719999999" green="0.67835828990000002" blue="0.052408854169999998" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="PNI-Xh-Ten"/>
+                                    <constraint firstAttribute="width" constant="80" id="yIR-CA-TSQ"/>
+                                </constraints>
+                                <state key="normal" title="微信登录"/>
+                                <connections>
+                                    <action selector="thirdPartLoginByWX:" destination="yLL-6f-lTC" eventType="touchUpInside" id="fMJ-14-cH0"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="ev3-Qw-5Mf" firstAttribute="centerX" secondItem="pz9-hN-MzY" secondAttribute="centerX" id="6ii-Jh-N7I"/>
                             <constraint firstAttribute="trailing" secondItem="NnY-QF-OC0" secondAttribute="trailing" id="8J0-sT-wRd"/>
+                            <constraint firstAttribute="centerX" secondItem="cl1-3w-j86" secondAttribute="trailing" constant="40" id="9R5-02-4Xa"/>
                             <constraint firstItem="NnY-QF-OC0" firstAttribute="top" secondItem="pz9-hN-MzY" secondAttribute="top" id="ASJ-9n-pNj"/>
                             <constraint firstAttribute="trailing" secondItem="VcV-OZ-QRL" secondAttribute="trailing" constant="10" id="BfQ-R2-asU"/>
                             <constraint firstItem="VcV-OZ-QRL" firstAttribute="centerY" secondItem="ev3-Qw-5Mf" secondAttribute="centerY" id="HFM-wj-fef"/>
                             <constraint firstItem="j9k-7I-hQr" firstAttribute="top" secondItem="fep-uM-RQl" secondAttribute="bottom" constant="15" id="MMC-g6-jgt"/>
                             <constraint firstItem="NnY-QF-OC0" firstAttribute="leading" secondItem="pz9-hN-MzY" secondAttribute="leading" id="PpP-qh-XIg"/>
+                            <constraint firstItem="dcY-f0-Ish" firstAttribute="leading" secondItem="pz9-hN-MzY" secondAttribute="centerX" constant="40" id="QUP-vg-rjP"/>
+                            <constraint firstItem="Hcd-kq-qa8" firstAttribute="top" secondItem="cl1-3w-j86" secondAttribute="bottom" constant="40" id="Uxf-mZ-bd0"/>
                             <constraint firstItem="j9k-7I-hQr" firstAttribute="top" secondItem="ev3-Qw-5Mf" secondAttribute="bottom" constant="60" id="Wm1-Lk-tH5"/>
                             <constraint firstItem="j9k-7I-hQr" firstAttribute="leading" secondItem="pz9-hN-MzY" secondAttribute="leading" constant="26" id="gPL-bX-e3y"/>
+                            <constraint firstItem="dcY-f0-Ish" firstAttribute="centerY" secondItem="cl1-3w-j86" secondAttribute="centerY" id="hVi-se-qbv"/>
                             <constraint firstItem="VcV-OZ-QRL" firstAttribute="top" secondItem="6o1-5A-OR6" secondAttribute="bottom" id="juG-n0-90d"/>
                             <constraint firstItem="Hcd-kq-qa8" firstAttribute="top" secondItem="NnY-QF-OC0" secondAttribute="bottom" id="kUs-os-bKQ"/>
                             <constraint firstAttribute="trailing" secondItem="j9k-7I-hQr" secondAttribute="trailing" constant="26" id="nQK-V4-Nh1"/>

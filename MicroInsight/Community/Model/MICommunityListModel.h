@@ -28,6 +28,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSString *videoUrl;
 @property (nonatomic, copy) NSString *createdAt;
 @property (nonatomic, copy) NSArray<MICommunityTagModel *> *tags;
+@property (nonatomic, copy) NSString *nickname;
+@property (nonatomic, copy) NSString *avatar;
 
 @end
 
@@ -45,6 +47,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSString *createdAt;
 @property (nonatomic, copy) NSArray<MICommunityTagModel *> *tags;
 @property (nonatomic, assign) BOOL isLike;
+@property (nonatomic, copy) NSString *nickname;
+@property (nonatomic, copy) NSString *avatar;
 
 @end
 
@@ -55,6 +59,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSString *username;
 @property (nonatomic, copy) NSString *content;
 @property (nonatomic, copy) NSString *createdAt;
+@property (nonatomic, copy) NSString *nickname;
+@property (nonatomic, copy) NSString *avatar;
 
 @end
 

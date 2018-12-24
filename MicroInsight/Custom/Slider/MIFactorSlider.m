@@ -61,4 +61,11 @@
     [self configBlock];
 }
 
+- (void)refreshCurrentFactor:(CGFloat)factor {
+    CGFloat totalWidth = self.width - 20;
+    CGFloat scale = _maxFactor / totalWidth;
+    _sliderBarConstant.constant = MIN(factor / scale, _sliderBar.maxX);
+    _sliderBarConstant.constant = MAX(factor / scale, _sliderBar.minX);
+}
+
 @end

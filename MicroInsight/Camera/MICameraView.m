@@ -13,7 +13,13 @@
 #import "MIFactorSlider.h"
 #import "MICameraFunctionView.h"
 
-@interface MICameraView() <MIHorizontalPickerViewDelegate, MIHorizontalPickerViewDataSource, MICameraFunctionViewDelegate>
+@interface MICameraView() <MIHorizontalPickerViewDelegate, MIHorizontalPickerViewDataSource, MICameraFunctionViewDelegate, UIGestureRecognizerDelegate>
+
+{
+    CGFloat lastScale;
+    CGFloat minScale;
+    CGFloat maxScale;
+}
 
 @property(nonatomic, strong) MIVideoPreview *previewView;
 @property (nonatomic, strong) UIView *bottomView;   // 下面的bar
@@ -93,8 +99,8 @@
         [self setupUI];
         [self configTopViewUI];
         [self configShootTypeMenuUI];
-//        [self configFactorSliderUI];
-//        [self configFocusSliderUI];
+        [self configFactorSliderUI];
+        [self configFocusSliderUI];
         [self registerNotification];
     }
     
@@ -103,11 +109,19 @@
 
 #pragma mark - 配置UI
 - (void)setupUI {
+    lastScale = 1.0;
+    minScale = 1.0;
+    maxScale = 6.0;
+    
     self.previewView = [[MIVideoPreview alloc] initWithFrame:CGRectMake(0, 0, self.width, self.height)];
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapAction:)];
     UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(doubleTapAction:)];
     doubleTap.numberOfTapsRequired = 2;
+    UIPinchGestureRecognizer *pinch = [[UIPinchGestureRecognizer alloc] init];
+    pinch.delegate = self;
+    [pinch addTarget:self action:@selector(pinchTouch:)];
+    [self.previewView addGestureRecognizer:pinch];
     [self.previewView addGestureRecognizer:tap];
     [self.previewView addGestureRecognizer:doubleTap];
     [tap requireGestureRecognizerToFail:doubleTap];
@@ -129,12 +143,12 @@
     [self.bottomView addSubview:_photoBtn];
     
     //手电筒
-    _torchBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(self.bottomView.width - 30 - 50 - 54, (self.bottomView.height - 44) / 2.0, 34, 44) normalTitle:nil normalTitleColor:nil highlightedTitleColor:nil selectedColor:nil titleFont:0 normalImage:[UIImage imageNamed:@"btn_shoot_flash_nor"] highlightedImage:nil selectedImage:[UIImage imageNamed:@"btn_shoot_flash_sel"] touchUpInSideTarget:self action:@selector(torchClick:)];
+    _torchBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(self.bottomView.width - 30 - 34, (self.bottomView.height - 44) / 2.0, 34, 44) normalTitle:nil normalTitleColor:nil highlightedTitleColor:nil selectedColor:nil titleFont:0 normalImage:[UIImage imageNamed:@"btn_shoot_flash_nor"] highlightedImage:nil selectedImage:[UIImage imageNamed:@"btn_shoot_flash_sel"] touchUpInSideTarget:self action:@selector(torchClick:)];
     [self.bottomView addSubview:_torchBtn];
     
-    //功能按钮
-    UIButton *funcBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(self.bottomView.width - 30 - 50, (self.bottomView.height - 50) / 2.0, 50, 50) normalTitle:nil normalTitleColor:nil highlightedTitleColor:nil selectedColor:nil titleFont:0 normalImage:[UIImage imageNamed:@"btn_shoot_func_nor"] highlightedImage:nil selectedImage:[UIImage imageNamed:@"btn_shoot_func_sel"] touchUpInSideTarget:self action:@selector(clickFunctionBtn:)];
-    [self.bottomView addSubview:funcBtn];
+//    //功能按钮
+//    UIButton *funcBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(self.bottomView.width - 30 - 50, (self.bottomView.height - 50) / 2.0, 50, 50) normalTitle:nil normalTitleColor:nil highlightedTitleColor:nil selectedColor:nil titleFont:0 normalImage:[UIImage imageNamed:@"btn_shoot_func_nor"] highlightedImage:nil selectedImage:[UIImage imageNamed:@"btn_shoot_func_sel"] touchUpInSideTarget:self action:@selector(clickFunctionBtn:)];
+//    [self.bottomView addSubview:funcBtn];
     
     _coverBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(30, (self.bottomView.height - 50) / 2.0, 50, 50) normalTitle:nil normalTitleColor:nil highlightedTitleColor:nil selectedColor:nil titleFont:0 normalImage:nil highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(reviewCoverImage:)];
     _coverBtn.imageView.contentMode = UIViewContentModeScaleAspectFill;
@@ -186,12 +200,14 @@
     
     WSWeak(weakSelf);
     _sliderView.sliderBarDidTrack = ^(CGFloat x) {
+        lastScale = x + 1;
         if ([weakSelf.delegate respondsToSelector:@selector(setDeviceZoomFactor:zoomFactor:)]) {
             [weakSelf.delegate setDeviceZoomFactor:weakSelf zoomFactor:x + 1];
         }
     };
     
     _sliderView.sliderBarDidEndTrack = ^(CGFloat x) {
+        lastScale = x + 1;
         if ([weakSelf.delegate respondsToSelector:@selector(setDeviceZoomFactor:zoomFactor:)]) {
             [weakSelf.delegate setDeviceZoomFactor:weakSelf zoomFactor:x + 1];
         }
@@ -262,6 +278,24 @@
 - (void)goBack:(UIButton *)sender {
     if ([_delegate respondsToSelector:@selector(goBackAction:)]) {
         [_delegate goBackAction:self];
+    }
+}
+
+- (void)pinchTouch:(UIPinchGestureRecognizer *)ges {
+    
+    if(lastScale > maxScale || lastScale < minScale) {
+        return;
+    }
+
+    lastScale *= ges.scale;
+    ges.scale = 1.0;
+    
+    lastScale = MIN(lastScale, 6);
+    lastScale = MAX(1, lastScale);
+    
+    [_sliderView refreshCurrentFactor:lastScale - 1];
+    if ([self.delegate respondsToSelector:@selector(setDeviceZoomFactor:zoomFactor:)]) {
+        [self.delegate setDeviceZoomFactor:self zoomFactor:lastScale];
     }
 }
 
@@ -582,6 +616,12 @@
 
 - (CGFloat)getDeviceMaxBalanceFactor:(MICameraFunctionView *)func {
     return [self.delegate getDeviceMaxBalanceFactor:self];
+}
+
+#pragma mark - UIGestureRecognizerDelegate
+//允许多个手势同时操作,默认为NO
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    return YES;
 }
 
 @end

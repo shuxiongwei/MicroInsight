@@ -20,8 +20,8 @@
     // Do any additional setup after loading the view.
     
     [self.navigationController.navigationBar setTitleTextAttributes:
-     @{NSFontAttributeName:[UIFont boldSystemFontOfSize:15],
-       NSForegroundColorAttributeName:UIColorFromRGBWithAlpha(0x999999, 1)}];
+     @{NSFontAttributeName:[UIFont boldSystemFontOfSize:18],
+       NSForegroundColorAttributeName:[UIColor whiteColor]}];
     self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
     self.navigationController.navigationBar.translucent = NO;
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];

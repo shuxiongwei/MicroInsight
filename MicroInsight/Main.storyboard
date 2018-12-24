@@ -69,7 +69,7 @@
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Aw-Hf-b5q">
                                 <rect key="frame" x="5" y="25" width="200" height="426.5"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="home_btn_social" translatesAutoresizingMaskIntoConstraints="NO" id="WBq-gr-cHq">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="home_btn_social" translatesAutoresizingMaskIntoConstraints="NO" id="WBq-gr-cHq">
                                         <rect key="frame" x="0.0" y="0.0" width="200" height="426.5"/>
                                     </imageView>
                                     <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z0a-Ah-22Q">
@@ -103,7 +103,11 @@
                                         <rect key="frame" x="0.0" y="0.0" width="160" height="182.5"/>
                                     </imageView>
                                     <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="27W-ke-MIf">
-                                        <rect key="frame" x="50" y="52.5" width="60" height="45"/>
+                                        <rect key="frame" x="55" y="47.5" width="50" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="50" id="M2W-Vv-M07"/>
+                                            <constraint firstAttribute="height" constant="50" id="nHf-9w-ghY"/>
+                                        </constraints>
                                         <state key="normal" image="icon_home_user_nor"/>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="登录" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bdw-VX-MAn">

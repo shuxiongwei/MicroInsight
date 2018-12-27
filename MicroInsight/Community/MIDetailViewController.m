@@ -12,9 +12,9 @@
 #import "UIImageView+WebCache.h"
 #import "UIButton+WebCache.h"
 #import "MIReviewImageViewController.h"
-#import "UIButton+Extension.h"
 #import "MICommunityRequest.h"
 #import "MIPlayerViewController.h"
+#import "MIThirdPartyLoginManager.h"
 
 
 static NSString * const commentID = @"MICommentCell";
@@ -203,7 +203,6 @@ static NSString * const commentID = @"MICommentCell";
 - (IBAction)playBtnClick:(UIButton *)sender {
 
     if (_VideoURLString.length > 0) {
-       
         MIPlayerViewController *vc = [[MIPlayerViewController alloc] init];
         vc.videoURL = _VideoURLString;
         [self.navigationController pushViewController:vc animated:YES];
@@ -259,6 +258,21 @@ static NSString * const commentID = @"MICommentCell";
     
     _commentTF.text = nil;
     [_commentTF resignFirstResponder];
+}
+
+- (IBAction)clickShareBtn:(UIButton *)sender {
+    
+    NSString *title = @"";
+    NSString *description = @"";
+    if (_contentType == 0) {
+        title = _detailModel.title;
+        description = @"图片";
+    } else {
+        title = _videoInfo.title;
+        description = @"视频";
+    }
+    
+    [[MIThirdPartyLoginManager shareManager] shareByWXWithTitle:title description:description imageUrl:_detailModel.url videoUrl:_videoInfo.playUrlList.firstObject.playUrl isVideo:_contentType];
 }
 
 #pragma mark - 手势

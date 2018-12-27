@@ -17,19 +17,17 @@
 #import <VODUpload/VODUploadClient.h>
 #import <VODUpload/VODUploadModel.h>
 #import <AVFoundation/AVFoundation.h>
-
+#import "MIPlayerViewController.h"
 
 @interface MIUploadViewController ()<UICollectionViewDelegate, UICollectionViewDataSource ,UICollectionViewDelegateFlowLayout>
 
+@property (weak, nonatomic) IBOutlet UIImageView *backImageView;
 @property (weak, nonatomic) IBOutlet UIView *playBgView;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UIButton *playBtn;
 @property (weak, nonatomic) IBOutlet UITextField *nameTF;
 @property (weak, nonatomic) IBOutlet UICollectionView *themCollection;
 @property (weak, nonatomic) IBOutlet UIButton *uploadBtn;
-@property (strong, nonatomic) AVPlayer *player;
-@property (strong, nonatomic) AVPlayerLayer *playerLayer;
-@property (strong, nonatomic) AVPlayerItem *curItem;
 @property (copy, nonatomic) NSArray *themes;
 @property (nonatomic, strong) MITheme *curTheme;
 
@@ -40,19 +38,17 @@
 static NSString *const CellId = @"MIThemeCell";
 
 #pragma mark - view life
-
-- (void)dealloc{
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     
-    [_player pause];
-    _player = nil;
-    
+    self.navigationController.navigationBarHidden = YES;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    // Do any additional setup after loading the view.
     
     [self requestThemeData];
-    
     [self configTopUIWithAsset:_assetUrl];
     
     UICollectionViewLeftAlignedLayout *flow = [[UICollectionViewLeftAlignedLayout alloc]init];
@@ -61,10 +57,9 @@ static NSString *const CellId = @"MIThemeCell";
     flow.sectionInset = UIEdgeInsetsMake(15, 10, 15, 10);
     self.themCollection.collectionViewLayout = flow;
     self.themes = [NSArray array];
-    // Do any additional setup after loading the view.
 }
 
-- (void)requestThemeData{
+- (void)requestThemeData {
     
     __weak typeof(self)weakSelf = self;
     MIAlbumRequest *rq = [[MIAlbumRequest alloc] init];
@@ -76,39 +71,27 @@ static NSString *const CellId = @"MIThemeCell";
     } failureResponse:^(NSError *error) {
         
     }];
-    
 }
 
-- (void)viewDidLayoutSubviews{
-    [super viewDidLayoutSubviews];
+- (void)configTopUIWithAsset:(NSString *)url {
     
-    _playerLayer.frame = self.playBgView.bounds;
-}
-
-
-- (void)configTopUIWithAsset:(NSString *)url{
-    
+    UIImage *img;
     if ([url.pathExtension isEqualToString:@"png"]) {
-        _imageView.hidden = NO;
         _playBtn.hidden = YES;
-        UIImage *img =  [UIImage imageWithContentsOfFile:url];
-        _imageView.image = img;
+        img =  [UIImage imageWithContentsOfFile:url];
     }
     
     if ([url.pathExtension isEqualToString:@"mov"]) {
-        
-        _imageView.hidden = YES;
         _playBtn.hidden = NO;
-        
-        
-        self.curItem = [AVPlayerItem playerItemWithURL:[NSURL fileURLWithPath:url]];
-        self.player = [AVPlayer playerWithPlayerItem:_curItem];;
-        self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:_player];
-        [self.playBgView.layer addSublayer:_playerLayer];
-        [_playBgView bringSubviewToFront:_playBtn];
+        AVAsset *asset = [AVAsset assetWithURL:[NSURL fileURLWithPath:url]];
+        img = [MIHelpTool fetchThumbnailWithAVAsset:asset curTime:0];
     }
+    
+    _imageView.image = img;
+    _backImageView.image = [MIUIFactory coreBlurImage:img];
 }
 
+#pragma mark - UICollectionViewDelegateFlowLayout
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     MITheme *t = _themes[indexPath.item];
     NSString *text = t.title;
@@ -117,7 +100,6 @@ static NSString *const CellId = @"MIThemeCell";
 }
 
 #pragma mark - UICollectionDelegate,UICollectionDatasource
-
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
     return 1;
 }
@@ -134,7 +116,7 @@ static NSString *const CellId = @"MIThemeCell";
     return cell;
 }
 
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
     MIThemeCell *cell = (MIThemeCell *)[collectionView cellForItemAtIndexPath:indexPath];
     cell.selected = !cell.selected;
@@ -142,19 +124,13 @@ static NSString *const CellId = @"MIThemeCell";
 }
 
 #pragma mark - IBAction
-
 - (IBAction)playerBtnClick:(UIButton *)sender {
-    
-    sender.selected = !sender.selected;
-    if (sender.selected) {
-        [_player play];
-    }else{
-        [_player pause];
-    }
+    MIPlayerViewController *vc = [[MIPlayerViewController alloc] init];
+    vc.videoURL = _assetUrl;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (IBAction)backBtnClick:(UIButton *)sender {
-    
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -163,7 +139,6 @@ static NSString *const CellId = @"MIThemeCell";
 }
 
 - (IBAction)didEndOnExit:(UITextField *)sender {
-    
     [sender resignFirstResponder];
 }
 
@@ -199,7 +174,7 @@ static NSString *const CellId = @"MIThemeCell";
                 [MIToastAlertView showAlertViewWithMessage:@"上传失败"];
             }
         }];
-    }else{
+    } else {
         NSString *text = _nameTF.text;
         WSWeak(weakSelf);
         MIAlbumRequest *rq = [[MIAlbumRequest alloc] init];

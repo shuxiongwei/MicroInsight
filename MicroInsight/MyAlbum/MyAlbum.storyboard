@@ -101,9 +101,9 @@
                                                     <rect key="frame" x="86.5" y="86.5" width="27" height="27"/>
                                                     <state key="normal" image="play_white"/>
                                                 </button>
-                                                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fml-kC-x8v">
-                                                    <rect key="frame" x="151" y="175" width="39" height="17"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fml-kC-x8v">
+                                                    <rect key="frame" x="155.5" y="176" width="36.5" height="16"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -129,7 +129,7 @@
                                             <constraint firstAttribute="bottom" secondItem="Iza-IM-e7i" secondAttribute="bottom" id="Ld1-D4-duq"/>
                                             <constraint firstItem="Iza-IM-e7i" firstAttribute="leading" secondItem="A16-gx-aHX" secondAttribute="leading" id="b0d-Yp-k9d"/>
                                             <constraint firstAttribute="trailing" secondItem="xDl-RP-Ucu" secondAttribute="trailing" id="bjc-vD-xzF"/>
-                                            <constraint firstAttribute="trailing" secondItem="Fml-kC-x8v" secondAttribute="trailing" constant="10" id="cVY-yG-h0p"/>
+                                            <constraint firstAttribute="trailing" secondItem="Fml-kC-x8v" secondAttribute="trailing" constant="8" id="cVY-yG-h0p"/>
                                             <constraint firstItem="HJS-G4-9N2" firstAttribute="centerY" secondItem="A16-gx-aHX" secondAttribute="centerY" id="hNq-tZ-zVJ"/>
                                             <constraint firstAttribute="bottom" secondItem="Fml-kC-x8v" secondAttribute="bottom" constant="8" id="p54-eM-DjS"/>
                                             <constraint firstItem="xDl-RP-Ucu" firstAttribute="leading" secondItem="A16-gx-aHX" secondAttribute="leading" id="x28-uR-ECu"/>
@@ -373,7 +373,10 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iRG-fU-DEA">
                                 <rect key="frame" x="0.0" y="64" width="375" height="210"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="wjZ-BY-4z5">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="xfS-4W-Oag">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="210"/>
+                                    </imageView>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="wjZ-BY-4z5">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="210"/>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5qh-Ju-6yX">
@@ -389,6 +392,10 @@
                                     <constraint firstAttribute="height" constant="210" id="3P5-nH-RAi"/>
                                     <constraint firstAttribute="trailing" secondItem="wjZ-BY-4z5" secondAttribute="trailing" id="An9-t5-FMs"/>
                                     <constraint firstItem="wjZ-BY-4z5" firstAttribute="top" secondItem="iRG-fU-DEA" secondAttribute="top" id="Bal-IQ-305"/>
+                                    <constraint firstAttribute="trailing" secondItem="xfS-4W-Oag" secondAttribute="trailing" id="Hny-Q1-yx3"/>
+                                    <constraint firstAttribute="bottom" secondItem="xfS-4W-Oag" secondAttribute="bottom" id="JnT-EP-xtp"/>
+                                    <constraint firstItem="xfS-4W-Oag" firstAttribute="leading" secondItem="iRG-fU-DEA" secondAttribute="leading" id="Op2-kw-Xej"/>
+                                    <constraint firstItem="xfS-4W-Oag" firstAttribute="top" secondItem="iRG-fU-DEA" secondAttribute="top" id="dxf-UK-mkm"/>
                                     <constraint firstAttribute="bottom" secondItem="wjZ-BY-4z5" secondAttribute="bottom" id="mgQ-LW-X7l"/>
                                     <constraint firstItem="wjZ-BY-4z5" firstAttribute="leading" secondItem="iRG-fU-DEA" secondAttribute="leading" id="xYh-Ip-ca9"/>
                                     <constraint firstItem="5qh-Ju-6yX" firstAttribute="centerX" secondItem="iRG-fU-DEA" secondAttribute="centerX" id="xq6-CO-Osa"/>
@@ -541,6 +548,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="backImageView" destination="xfS-4W-Oag" id="B0k-vD-tyJ"/>
                         <outlet property="imageView" destination="wjZ-BY-4z5" id="Sxt-EI-w2Y"/>
                         <outlet property="nameTF" destination="1TL-7z-ias" id="dGt-tY-zqs"/>
                         <outlet property="playBgView" destination="iRG-fU-DEA" id="jw3-Rg-n2N"/>

@@ -11,7 +11,7 @@
 #define kSinaAppKey         @"你自己微博的Appkey"
 #define kSinaRedirectURI    @"你设置的微博回调页"
 #define kTencentAppId       @"1107985469"
-#define kWeixinAppId        @"微信id"
+#define kWeixinAppId        @"wx082d77435fc5c327"
 #define kWeixinAppSecret    @"AppSecret"
 
 @interface MIThirdPartyLoginManager () <NSURLSessionTaskDelegate>
@@ -71,16 +71,56 @@ static MIThirdPartyLoginManager *_instance;
     }
 }
 
+- (void)shareByWXWithTitle:(NSString *)title description:(NSString *)description imageUrl:(NSString *)imageUrl videoUrl:(NSString *)videoUrl isVideo:(BOOL)isVideo {
+    
+    WXMediaMessage *message = [WXMediaMessage message];
+    message.title = title;
+    message.description = description;
+
+    if (isVideo) { //视频
+        // 多媒体消息中包含的视频数据对象
+        WXVideoObject *videoObject = [WXVideoObject object];
+        // 视频网页的url地址
+        videoObject.videoUrl = videoUrl;
+        // 视频lowband网页的url地址
+        videoObject.videoLowBandUrl = videoUrl;
+    } else { //图片
+        // 设置消息缩略图的方法
+//        [message setThumbImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageUrl]]]];
+        // 多媒体消息中包含的图片数据对象
+        WXImageObject *imageObject = [WXImageObject object];
+        // 图片真实数据内容
+        imageObject.imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageUrl]];
+        // 多媒体数据对象，可以为WXImageObject，WXMusicObject，WXVideoObject，WXWebpageObject等
+        message.mediaObject = imageObject;
+    }
+
+    SendMessageToWXReq *req = [[SendMessageToWXReq alloc] init];
+    req.bText = NO;
+    req.message = message;
+    req.scene = WXSceneTimeline;// 分享到朋友圈
+    [WXApi sendReq:req];
+}
+
 #pragma mark - WXApiDelegate
 - (void)onResp:(BaseResp *)resp {
-    SendAuthResp *aresp = (SendAuthResp *)resp;
     
-    if (resp.errCode == MILoginWeiXinErrCodeSuccess) {
-        NSString *code = aresp.code;
-        [self getWeiXinUserInfoWithCode:code];
-    } else {
-        if (self.resultBlock) {
-            self.resultBlock(nil, @"授权失败");
+    //登录
+    if ([resp isKindOfClass:[SendAuthResp class]]) {
+        if (resp.errCode == 0) {  //成功。
+            SendAuthResp *aresp = (SendAuthResp *)resp;
+            [self getWeiXinUserInfoWithCode:aresp.code];
+        } else {
+            if (self.resultBlock) {
+                self.resultBlock(nil, @"授权失败");
+            }
+        }
+    }
+    
+    //分享
+    if ([resp isKindOfClass:[SendMessageToWXResp class]]) {
+        if (resp.errCode == 0) {
+            [MIToastAlertView showAlertViewWithMessage:@"分享成功"];
         }
     }
 }

@@ -30,6 +30,24 @@ typedef void(^MIThirdPartyLoginResultBlock)(NSDictionary *loginResult, NSString 
 @interface MIThirdPartyLoginManager : NSObject<TencentSessionDelegate, TencentLoginDelegate, WBHttpRequestDelegate, WeiboSDKDelegate, WXApiDelegate>
 
 + (instancetype)shareManager;
+
+/**
+ 第三方登录
+
+ @param type 登录类型
+ @param result 回调
+ */
 - (void)getUserInfoWithWTLoginType:(MILoginType)type result:(MIThirdPartyLoginResultBlock)result;
+
+/**
+ 分享到微信朋友圈
+
+ @param title 标题
+ @param description 描述
+ @param imageUrl 图片地址
+ @param videoUrl 视频地址
+ @param isVideo 是否分享视频
+ */
+- (void)shareByWXWithTitle:(NSString *)title description:(NSString *)description imageUrl:(NSString *)imageUrl videoUrl:(NSString *)videoUrl isVideo:(BOOL)isVideo;
 
 @end

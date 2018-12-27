@@ -7,19 +7,20 @@
 //
 
 #import "MIPlayerViewController.h"
-#import <SuperPlayer/SuperPlayer.h>
+#import "MIPlayer.h"
+#import "Masonry.h"
 
-@interface MIPlayerViewController ()<SuperPlayerDelegate>
+@interface MIPlayerViewController ()
 
-@property (strong, nonatomic) SuperPlayerView *playerView;
+@property (nonatomic, strong) MIPlayer *player;
 
 @end
 
 @implementation MIPlayerViewController
 
-- (void)dealloc{
-    [_playerView pause];
-    _playerView = nil;
+- (void)dealloc {
+    [_player stop];
+    [self setPlayer:nil];
 }
 
 - (void)viewDidLoad {
@@ -27,46 +28,27 @@
     
     self.view.backgroundColor = [UIColor blackColor];
 
-    _playerView = [[SuperPlayerView alloc] init];
-    // 设置代理，用于接受事件
-    _playerView.delegate = self;
-    // 设置父View，_playerView会被自动添加到holderView下面
-    _playerView.fatherView = self.view;
-    
-    SuperPlayerModel *playerModel = [[SuperPlayerModel alloc] init];
-    // 设置播放地址，直播、点播都可以
-    playerModel.videoURL = _videoURL;
-    // 开始播放
-    [_playerView playWithModel:playerModel];
+    _player = [[MIPlayer alloc] initWithFrame:CGRectMake(0, 0, MIScreenWidth, MIScreenWidth * 9.0 / 16.0) videoUrl:_videoURL];
+    _player.mode = SBLayerVideoGravityResizeAspect;
+    WSWeak(weakSelf);
+    _player.goBack = ^{
+        [weakSelf.navigationController popViewControllerAnimated:YES];
+    };
+    [self.view addSubview:_player];
 }
 
-- (void)viewWillAppear:(BOOL)animated{
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
     self.navigationController.navigationBarHidden = YES;
+    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:NO];
 }
 
-- (void)viewWillDisappear:(BOOL)animated{
+- (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
     self.navigationController.navigationBarHidden = NO;
+    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:NO];
 }
-
-- (void)superPlayerBackAction:(SuperPlayerView *)player{
-    
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
 
 @end

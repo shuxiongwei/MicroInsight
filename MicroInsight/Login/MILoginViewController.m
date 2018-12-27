@@ -17,6 +17,7 @@ typedef NS_ENUM(NSInteger,MIModuleType) {
 
 @interface MILoginViewController ()
 
+@property (weak, nonatomic) IBOutlet UIButton *messageBtn;
 @property (weak, nonatomic) IBOutlet UILabel *loginTitle;
 @property (weak, nonatomic) IBOutlet UIButton *loginBtn;
 @property (weak, nonatomic) IBOutlet UIButton *signInBtn;
@@ -28,6 +29,9 @@ typedef NS_ENUM(NSInteger,MIModuleType) {
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *contentViewHeight;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *checkPsdTFHeight;
 @property (nonatomic, assign) MIModuleType type;
+@property (nonatomic, copy) NSString *token;
+@property (nonatomic, strong) NSTimer *timer;
+@property (nonatomic, assign) NSInteger downCount;
 
 @end
 
@@ -37,18 +41,45 @@ typedef NS_ENUM(NSInteger,MIModuleType) {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    _downCount = 60;
     _type = MIModuleTypeLogin;
     _checkPswTFSupView.hidden = YES;
     _contentViewHeight.constant = 200;
     _loginTitle.font = [UIFont captionFontWithName:@"custom" size:20];
+    _messageBtn.layer.cornerRadius = 5;
+    _messageBtn.layer.masksToBounds = YES;
+}
+
+#pragma mark - 定时器
+- (void)initTimer {
+    _timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerRun) userInfo:nil repeats:YES];
+}
+
+- (void)timerRun {
+    _downCount --;
+    if (_downCount == 0) {
+        _messageBtn.userInteractionEnabled = YES;
+        _messageBtn.backgroundColor = UIColorFromRGBWithAlpha(0x75AD0D, 1);
+        [_messageBtn setTitle:@"获取验证码" forState:UIControlStateNormal];
+        [self stopTimer];
+    } else {
+        _messageBtn.backgroundColor = [UIColor lightGrayColor];
+        [_messageBtn setTitle:[NSString stringWithFormat:@"%ld秒后获取", _downCount] forState:UIControlStateNormal];
+    }
+}
+
+- (void)stopTimer {
+    [_timer invalidate];
+    _timer = nil;
 }
 
 #pragma mark - IB Action
 - (IBAction)loginBtnClick:(UIButton *)sender {
     [self refreshUI];
-    [_bottomBtn setTitle:@"登录" forState:UIControlStateNormal];
+    [_bottomBtn setTitle:@"登   录" forState:UIControlStateNormal];
     _type = MIModuleTypeLogin;
     _checkPswTFSupView.hidden = YES;
+    _messageBtn.hidden = YES;
     _contentViewHeight.constant = 200;
     sender.titleLabel.font = [UIFont boldSystemFontOfSize:18];
     _signInBtn.titleLabel.font = [UIFont systemFontOfSize:14];
@@ -56,9 +87,10 @@ typedef NS_ENUM(NSInteger,MIModuleType) {
 
 - (IBAction)assignBtnClick:(UIButton *)sender {
     [self refreshUI];
-    [_bottomBtn setTitle:@"注册" forState:UIControlStateNormal];
+    [_bottomBtn setTitle:@"注   册" forState:UIControlStateNormal];
     _type = MIModuleTypAssign;
     _checkPswTFSupView.hidden = NO;
+    _messageBtn.hidden = NO;
     _contentViewHeight.constant = 250;
     sender.titleLabel.font = [UIFont boldSystemFontOfSize:18];
     _loginBtn.titleLabel.font = [UIFont systemFontOfSize:14];
@@ -72,7 +104,7 @@ typedef NS_ENUM(NSInteger,MIModuleType) {
     [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
     
     if (_accountTF.text.length == 0 || _passwordTF.text.length == 0) {
-        [self alertText:@"请输入账号或密码"];
+        [self alertText:@"请输入手机号或密码"];
         return;
     }
 
@@ -83,8 +115,8 @@ typedef NS_ENUM(NSInteger,MIModuleType) {
             return;
         }
     
-        if (![_passwordTF.text isEqualToString:_passwordCheckTF.text]) {
-            [self alertText:@"输入的确认密码不正确"];
+        if ([MIHelpTool isBlankString:_passwordCheckTF.text]) {
+            [self alertText:@"请输入短信验证码"];
             return;
         }
     }
@@ -106,11 +138,22 @@ typedef NS_ENUM(NSInteger,MIModuleType) {
             }
         }];
     } else {
-        [MIRequestManager registerWithUsername:_accountTF.text password:_passwordTF.text completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+//        [MIRequestManager registerWithUsername:_accountTF.text password:_passwordTF.text completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+//
+//            NSInteger code = [jsonData[@"code"] integerValue];
+//            if (code == 0) {
+//                [weakSelf loginBtnClick:weakSelf.loginBtn];
+//            } else {
+//                [weakSelf alertText:@"注册失败"];
+//            }
+//        }];
+        
+        [MIRequestManager registerWithMobile:_accountTF.text password:_passwordTF.text verifyToken:_token verifyCode:_passwordCheckTF.text completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
             
             NSInteger code = [jsonData[@"code"] integerValue];
             if (code == 0) {
                 [weakSelf loginBtnClick:weakSelf.loginBtn];
+                [weakSelf alertText:@"注册成功"];
             } else {
                 [weakSelf alertText:@"注册失败"];
             }
@@ -126,17 +169,17 @@ typedef NS_ENUM(NSInteger,MIModuleType) {
     
     WSWeak(weakSelf);
     [[MIThirdPartyLoginManager shareManager] getUserInfoWithWTLoginType:MILoginTypeTencent result:^(NSDictionary *loginResult, NSString *error) {
-        
+
         if ([MIHelpTool isBlankString:error]) {
             [MIRequestManager loginByQQWithOpenId:loginResult[@"openId"] accessToken:loginResult[@"accessToken"] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
-                
+
                 NSInteger code = [jsonData[@"code"] integerValue];
                 if (code == 0) {
                     NSDictionary *data = jsonData[@"data"];
                     NSDictionary *user = data[@"user"];
                     MIUserInfoModel *model = [MIUserInfoModel yy_modelWithDictionary:user];
                     [MILocalData saveCurrentLoginUserInfo:model];
-                    
+
                     [weakSelf.navigationController popViewControllerAnimated:YES];
                 } else {
                     [weakSelf alertText:@"登录失败"];
@@ -149,12 +192,22 @@ typedef NS_ENUM(NSInteger,MIModuleType) {
 }
 
 - (IBAction)thirdPartLoginByWX:(UIButton *)sender {
-    [MIRequestManager getMessageVerificationCodeWithMobile:@"13159166158" type:0 completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+//    [[MIThirdPartyLoginManager shareManager] getUserInfoWithWTLoginType:MILoginTypeWeiXin result:^(NSDictionary *loginResult, NSString *error) {
+//
+//    }];
+}
+
+- (IBAction)clickMessageBtn:(UIButton *)sender {
+    
+    WSWeak(weakSelf);
+    [MIRequestManager getMessageVerificationCodeWithMobile:_accountTF.text type:0 completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
         
-        NSDictionary *data = jsonData[@"data"];
-        [MIRequestManager registerWithMobile:@"13159166158" password:@"123456" verifyToken:data[@"verifyToken"] verifyCode:@"8888" completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
-            
-        }];
+        NSInteger code = [jsonData[@"code"] integerValue];
+        if (code == 0) {
+            NSDictionary *data = jsonData[@"data"];
+            weakSelf.token = data[@"verifyToken"];
+            [weakSelf initTimer];
+        }
     }];
 }
 

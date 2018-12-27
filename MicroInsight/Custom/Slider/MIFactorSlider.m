@@ -7,7 +7,7 @@
 //
 
 #import "MIFactorSlider.h"
-#import "UIButton+Extension.h"
+
 
 @implementation MIFactorSlider
 

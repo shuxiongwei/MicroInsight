@@ -20,10 +20,20 @@
 @property (weak, nonatomic) IBOutlet UILabel *nicknameLab;
 @property (weak, nonatomic) IBOutlet UILabel *genderLab;
 @property (weak, nonatomic) IBOutlet UILabel *birthdayLab;
+@property (nonatomic, strong) UIActivityIndicatorView *activityIndeView;
 
 @end
 
 @implementation MIMineViewController
+
+- (UIActivityIndicatorView *)activityIndeView {
+    if (!_activityIndeView) {
+        _activityIndeView = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake((self.view.bounds.size.width - 80) / 2.0, (self.view.bounds.size.height - 80) / 2.0, 80, 80)];
+        _activityIndeView.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhiteLarge;
+        _activityIndeView.hidesWhenStopped = YES;
+    }
+    return _activityIndeView;
+}
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -32,15 +42,13 @@
     [self.navigationController.navigationBar setBackgroundImage:[[UIImage alloc]init]
                                                   forBarMetrics:UIBarMetricsDefault];
     [self.navigationController.navigationBar setShadowImage:[[UIImage alloc]init]];
-    
     [self refreshMineUI];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    
-    //self.navigationController.navigationBar.barTintColor = UIColorFromRGBWithAlpha(0xFF8C00, 1);
+
     self.title = @"个人中心";
     [super configLeftBarButtonItem:@"返回"];
     [super configRightBarButtonItemWithType:UIButtonTypeCustom frame:CGRectMake(0, 0, 40, 30) normalTitle:@"编辑" normalTitleColor:[UIColor whiteColor] highlightedTitleColor:nil selectedColor:nil titleFont:15 normalImage:nil highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(clickEditBtn:)];
@@ -49,11 +57,17 @@
 }
 
 #pragma mark - 配置UI
-- (void)configMineUI {    
+- (void)configMineUI {
+    [self.view addSubview:self.activityIndeView];
     _headImageView.layer.cornerRadius = _headImageView.size.width / 2.0;
     _headImageView.layer.masksToBounds = YES;
     UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(touchHeadImageView:)];
     [_headImageView addGestureRecognizer:recognizer];
+    
+    MIUserInfoModel *model = [MILocalData getCurrentLoginUserInfo];
+    //等比缩放，限定在矩形框外
+    NSString *imgUrl = [NSString stringWithFormat:@"%@?x-oss-process=image/resize,m_fill,h_%ld,w_%ld", model.avatar, (NSInteger)_headImageView.size.width / 1, (NSInteger)_headImageView.size.width / 1];
+    [_headImageView sd_setImageWithURL:[NSURL URLWithString:imgUrl] placeholderImage:[UIImage imageNamed:@"account"] options:SDWebImageRetryFailed];
 }
 
 - (void)refreshMineUI {
@@ -62,10 +76,6 @@
     _genderLab.text = (model.gender == 0 ? @"男" : @"女");
     _birthdayLab.text = model.birthday;
     _userLab.text = model.username;
-    
-    //等比缩放，限定在矩形框外
-    NSString *imgUrl = [NSString stringWithFormat:@"%@?x-oss-process=image/resize,m_fill,h_%ld,w_%ld", model.avatar, (NSInteger)_headImageView.size.width / 1, (NSInteger)_headImageView.size.width / 1];
-    [_headImageView sd_setImageWithURL:[NSURL URLWithString:imgUrl] placeholderImage:[UIImage imageNamed:@"account"] options:SDWebImageRetryFailed];
 }
 
 #pragma mark - 修改头像
@@ -140,10 +150,8 @@
     } else {
         image = info[@"UIImagePickerControllerOriginalImage"];
     }
-    
-    [picker dismissViewControllerAnimated:YES completion:^{
-        [self modifyUserAvatar:image];
-    }];
+    [picker dismissViewControllerAnimated:YES completion:nil];
+    [self modifyUserAvatar:image];
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
@@ -151,15 +159,13 @@
 }
 
 - (void)modifyUserAvatar:(UIImage *)image {
-    [MBProgressHUD showStatus:@"头像设置中，请稍后！"];
-
+    if (!self.activityIndeView.isAnimating) {
+        [self.activityIndeView startAnimating];
+    }
+    
     WSWeak(weakSelf);
     NSString *fileName = [[MIHelpTool timeStampSecond] stringByAppendingString:@".jpg"];
     [MIRequestManager uploadUserAvatarWithFile:@"file" fileName:fileName avatar:image requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [MBProgressHUD hideHUD];
-        });
         
         NSInteger code = [jsonData[@"code"] integerValue];
         if (code == 0) {
@@ -169,6 +175,7 @@
             [MILocalData saveCurrentLoginUserInfo:model];
             
             weakSelf.headImageView.image = image;
+            [weakSelf.activityIndeView stopAnimating];
         } else {
             [MIToastAlertView showAlertViewWithMessage:@"头像设置失败"];
         }

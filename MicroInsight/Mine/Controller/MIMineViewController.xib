@@ -27,7 +27,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FgQ-Iw-sI5">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="211"/>
                     <subviews>
-                        <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="account" translatesAutoresizingMaskIntoConstraints="NO" id="n38-ca-aEN">
+                        <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="zh_300" translatesAutoresizingMaskIntoConstraints="NO" id="n38-ca-aEN">
                             <rect key="frame" x="127.5" y="45.5" width="120" height="120"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
@@ -176,7 +176,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AA0-jQ-lYT">
-                            <rect key="frame" x="340" y="14" width="15" height="22"/>
+                            <rect key="frame" x="335" y="14" width="20" height="22"/>
                             <state key="normal" image="btn_mine_right_nor"/>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jMr-Qp-LT6">
@@ -225,7 +225,7 @@
         </view>
     </objects>
     <resources>
-        <image name="account" width="20" height="20"/>
-        <image name="btn_mine_right_nor" width="15" height="15"/>
+        <image name="btn_mine_right_nor" width="20.5" height="20"/>
+        <image name="zh_300" width="150" height="150"/>
     </resources>
 </document>

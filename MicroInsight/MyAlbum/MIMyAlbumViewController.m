@@ -14,10 +14,11 @@
 #import <AVFoundation/AVFoundation.h>
 #import "MILoginViewController.h"
 #import "MIReviewImageViewController.h"
-#import "MIReviewVideoViewController.h"
+#import "MIPlayerViewController.h"
 
-@interface MIMyAlbumViewController () <UICollectionViewDelegate, UICollectionViewDataSource>{
- 
+@interface MIMyAlbumViewController () <UICollectionViewDelegate, UICollectionViewDataSource>
+
+{ 
     BOOL canSelected;
 }
 
@@ -30,7 +31,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *videoBtn;
 
 @property (strong, nonatomic) NSMutableArray *assets;
-@property (strong, nonatomic) NSMutableArray *seletedIndexPaths; //标识当前选择的item的indexPath数组
 
 @end
 
@@ -40,6 +40,7 @@ static NSString *const cellId = @"MIAlbumCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    // Do any additional setup after loading the view.
 
     [self refreshBtnSelected];
     self.assets = [self requestAssetsWithType:_albumType];
@@ -55,7 +56,6 @@ static NSString *const cellId = @"MIAlbumCell";
     CGFloat height = width * 123 / 118.0;
     layout.itemSize = CGSizeMake(width, height);
     self.albumCollectionView.collectionViewLayout = layout;
-    // Do any additional setup after loading the view.
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -113,7 +113,6 @@ static NSString *const cellId = @"MIAlbumCell";
 }
 
 #pragma mark - collectionDelegate,collectionDatasource
-
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
  
     return 1;
@@ -134,25 +133,23 @@ static NSString *const cellId = @"MIAlbumCell";
     if ([[url pathExtension] isEqualToString:@"png"]) {
         img = [UIImage imageWithContentsOfFile:url];
         cell.playBtn.hidden = YES;
+        cell.durationLb.hidden = YES;
     } else {
         AVAsset *asset = [AVAsset assetWithURL:[NSURL fileURLWithPath:url]];
         img = [MIHelpTool fetchThumbnailWithAVAsset:asset curTime:0.0];
         cell.playBtn.hidden = NO;
+        cell.durationLb.hidden = NO;
+        cell.durationLb.text = [self convertTime:asset.duration.value / (asset.duration.timescale * 1.0)];
     }
     cell.assetImgView.image = img;
     cell.isSelected = album.isSelected;
+    
     return cell;
 }
 
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
     if (canSelected) {
-//        if ([self.seletedIndexPaths containsObject:indexPath]) {
-//            [self.seletedIndexPaths removeObject:indexPath];
-//        } else {
-//            [self.seletedIndexPaths addObject:indexPath];
-//        }
-        
         MIAlbum *album = self.assets[indexPath.item];
         album.isSelected = !album.isSelected;
         MIAlbumCell *cell = (MIAlbumCell *)[collectionView cellForItemAtIndexPath:indexPath];
@@ -167,9 +164,9 @@ static NSString *const cellId = @"MIAlbumCell";
         imageVC.imgPath = album.fileUrl;
         [self.navigationController pushViewController:imageVC animated:YES];
     } else {
-        MIReviewVideoViewController *videoVC = [[MIReviewVideoViewController alloc] init];
-        videoVC.assetPath = album.fileUrl;
-        [self.navigationController pushViewController:videoVC animated:YES];
+        MIPlayerViewController *vc = [[MIPlayerViewController alloc] init];
+        vc.videoURL = album.fileUrl;
+        [self.navigationController pushViewController:vc animated:YES];
     }
 }
 
@@ -188,7 +185,6 @@ static NSString *const cellId = @"MIAlbumCell";
             album.isSelected = NO;
         }
         [_albumCollectionView reloadData];
-//        [self.seletedIndexPaths removeAllObjects];
     }
     _typeBottomView.hidden = canSelected;
     _manageBottomView.hidden = !canSelected;
@@ -200,7 +196,6 @@ static NSString *const cellId = @"MIAlbumCell";
         sender.selected = YES;
         _videoBtn.selected = NO;
         _albumType = MIAlbumTypePhoto;
-//        [self.seletedIndexPaths removeAllObjects];
         [self requestAssetsWithType:MIAlbumTypePhoto];
         [self showOrHideEmptyTipView];
         [self.albumCollectionView reloadData];
@@ -213,7 +208,6 @@ static NSString *const cellId = @"MIAlbumCell";
         sender.selected = YES;
         _photoBtn.selected = NO;
         _albumType = MIAlbumTypeVideo;
-//        [self.seletedIndexPaths removeAllObjects];
         [self requestAssetsWithType:MIAlbumTypeVideo];
         [self showOrHideEmptyTipView];
         [self.albumCollectionView reloadData];
@@ -234,10 +228,6 @@ static NSString *const cellId = @"MIAlbumCell";
         [MIToastAlertView showAlertViewWithMessage:@"请选择需要删除的图片或视频"];
         return;
     }
-//    if (self.seletedIndexPaths.count == 0) {
-//        [MIToastAlertView showAlertViewWithMessage:@"请选择需要删除的图片或视频"];
-//        return;
-//    }
     
     NSString *alertText = @"确定删除所选图片吗？";
     if (_albumType == MIAlbumTypeVideo) {
@@ -246,15 +236,6 @@ static NSString *const cellId = @"MIAlbumCell";
     
     [MIAlertView showAlertViewWithFrame:MIScreenBounds alertBounds:CGRectMake(0, 0, 331, 213) alertType:QSAlertMessage alertTitle:@"温馨提示" alertMessage:alertText alertInfo:@"删除" action:^(id alert) {
         
-//        for (NSInteger i = 0; i < self.seletedIndexPaths.count; i++) {
-//            NSIndexPath *indexP = self.seletedIndexPaths[i];
-//            MIAlbum *album = self.assets[indexP.item];
-//
-//            NSFileManager *fm = [NSFileManager defaultManager];
-//            if ([fm fileExistsAtPath:album.fileUrl]) {
-//                [fm removeItemAtPath:album.fileUrl error:nil];
-//            }
-//        }
         for (MIAlbum *asset in selectedAsset) {
             
             NSFileManager *fm = [NSFileManager defaultManager];
@@ -263,18 +244,13 @@ static NSString *const cellId = @"MIAlbumCell";
             }
         }
         [self.assets removeObjectsInArray:selectedAsset];
-//        [self requestAssetsWithType:self->_albumType];
         [self showOrHideEmptyTipView];
-//        [self.seletedIndexPaths removeAllObjects];
         [self.albumCollectionView reloadData];
     }];
 }
 
 - (IBAction)uploadBtnClick:(UIButton *)sender {
-//    if (self.seletedIndexPaths.count > 1) {
-//        [MIToastAlertView showAlertViewWithMessage:@"上传的图片或视频数量不得超过1个"];
-//        return;
-//    }
+
     NSMutableArray *selectedAsset = [NSMutableArray array];
     for (MIAlbum *album in _assets) {
         
@@ -295,8 +271,6 @@ static NSString *const cellId = @"MIAlbumCell";
     if ([MILocalData hasLogin]) {
         UIStoryboard *board = [UIStoryboard storyboardWithName:@"MyAlbum" bundle:nil];
         MIUploadViewController *vc = [board instantiateViewControllerWithIdentifier:@"MIUploadViewController"];
-//        MIAlbum *asset = self.seletedIndexPaths.firstObject;
-//        vc.assetUrl = asset.fileUrl;
         MIAlbum *asset = selectedAsset.firstObject;
         vc.assetUrl = asset.fileUrl;
         [self.navigationController pushViewController:vc animated:YES];
@@ -326,13 +300,17 @@ static NSString *const cellId = @"MIAlbumCell";
     }
 }
 
-#pragma mark - 懒加载
-//- (NSMutableArray *)seletedIndexPaths {
-//    if (!_seletedIndexPaths) {
-//        _seletedIndexPaths = [NSMutableArray arrayWithCapacity:0];
-//    }
-//
-//    return _seletedIndexPaths;
-//}
+//将数值转换成时间
+- (NSString *)convertTime:(CGFloat)second {
+    NSDate *d = [NSDate dateWithTimeIntervalSince1970:second];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    if (second/3600 >= 1) {
+        [formatter setDateFormat:@"HH:mm:ss"];
+    } else {
+        [formatter setDateFormat:@"mm:ss"];
+    }
+    NSString *showtimeNew = [formatter stringFromDate:d];
+    return showtimeNew;
+}
 
 @end

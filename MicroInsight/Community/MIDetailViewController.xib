@@ -90,11 +90,22 @@
                             </connections>
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="标题" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vgb-Or-wPw">
-                            <rect key="frame" x="43" y="10" width="182" height="18"/>
+                            <rect key="frame" x="43" y="10" width="142" height="18"/>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZrU-F8-p8u">
+                            <rect key="frame" x="195" y="4" width="30" height="30"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="30" id="BPf-Pf-9Gq"/>
+                                <constraint firstAttribute="height" constant="30" id="nGZ-wu-Th9"/>
+                            </constraints>
+                            <state key="normal" image="icon_share"/>
+                            <connections>
+                                <action selector="clickShareBtn:" destination="-1" eventType="touchUpInside" id="yI9-fm-KBK"/>
+                            </connections>
+                        </button>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="SgU-Hp-jUH">
                             <rect key="frame" x="10" y="5" width="28" height="28"/>
                             <constraints>
@@ -111,9 +122,11 @@
                         <constraint firstItem="Vgb-Or-wPw" firstAttribute="leading" secondItem="SgU-Hp-jUH" secondAttribute="trailing" constant="5" id="GR2-nD-tXY"/>
                         <constraint firstItem="SgU-Hp-jUH" firstAttribute="leading" secondItem="9lP-vl-fdZ" secondAttribute="leading" constant="10" id="JCv-2n-Rad"/>
                         <constraint firstItem="OFO-I2-5Ni" firstAttribute="centerY" secondItem="9lP-vl-fdZ" secondAttribute="centerY" id="LpP-Ur-MBi"/>
+                        <constraint firstItem="OFO-I2-5Ni" firstAttribute="leading" secondItem="ZrU-F8-p8u" secondAttribute="trailing" constant="20" id="Syb-Vs-vh7"/>
                         <constraint firstAttribute="height" constant="37.5" id="ZAW-DU-xvN"/>
-                        <constraint firstAttribute="trailing" secondItem="Vgb-Or-wPw" secondAttribute="trailing" constant="150" id="c8K-Yu-70f"/>
+                        <constraint firstItem="ZrU-F8-p8u" firstAttribute="leading" secondItem="Vgb-Or-wPw" secondAttribute="trailing" constant="10" id="c8K-Yu-70f"/>
                         <constraint firstItem="Vgb-Or-wPw" firstAttribute="centerY" secondItem="9lP-vl-fdZ" secondAttribute="centerY" id="cYg-LF-0f9"/>
+                        <constraint firstItem="OFO-I2-5Ni" firstAttribute="centerY" secondItem="ZrU-F8-p8u" secondAttribute="centerY" id="eCw-2V-7UA"/>
                         <constraint firstItem="MA0-sc-wKu" firstAttribute="leading" secondItem="OFO-I2-5Ni" secondAttribute="trailing" constant="30" id="etf-pp-LNf"/>
                     </constraints>
                 </view>
@@ -179,6 +192,7 @@
     </objects>
     <resources>
         <image name="comments" width="18" height="18"/>
+        <image name="icon_share" width="18" height="18"/>
         <image name="like" width="18" height="18"/>
         <image name="like_red" width="18" height="18"/>
         <image name="play" width="60" height="65"/>

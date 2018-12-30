@@ -161,7 +161,8 @@ static NSString *const cellId = @"MIAlbumCell";
     MIAlbum *album = self.assets[indexPath.item];
     if (_albumType == MIAlbumTypePhoto) {
         MIReviewImageViewController *imageVC = [[MIReviewImageViewController alloc] init];
-        imageVC.imgPath = album.fileUrl;
+        imageVC.imgList = self.assets;
+        imageVC.curIndex = indexPath.item;
         [self.navigationController pushViewController:imageVC animated:YES];
     } else {
         MIPlayerViewController *vc = [[MIPlayerViewController alloc] init];

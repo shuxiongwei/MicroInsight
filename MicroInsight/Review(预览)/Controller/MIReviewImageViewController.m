@@ -7,12 +7,10 @@
 //
 
 #import "MIReviewImageViewController.h"
-#import "MIReviewImageCell.h"
-#import "UIImageView+WebCache.h"
+#import "QSTilePreviewView.h"
+#import "MIAlbum.h"
 
-@interface MIReviewImageViewController () <UICollectionViewDataSource>
-
-@property (strong, nonatomic) UICollectionView *collectionView;
+@interface MIReviewImageViewController ()
 
 @end
 
@@ -22,53 +20,41 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    [super configLeftBarButtonItem:@"我的相册"];
+    [self configNavigationBarRightButton:_curIndex];
     [self configReviewImageUI];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
+- (void)configNavigationBarRightButton:(NSInteger)index {
     
-    self.navigationController.navigationBarHidden = YES;
+    if ([MIHelpTool isBlankString:_imgPath]) {
+        MIAlbum *album = _imgList[index];
+        NSString *time = [album.fileUrl.lastPathComponent stringByDeletingPathExtension];
+        NSArray *list = [time componentsSeparatedByString:@"+"];
+        NSString *text = [NSString stringWithFormat:@"%@ / %@", list.firstObject, list.lastObject];
+        
+        [super configRightBarButtonItemWithType:UIButtonTypeCustom frame:CGRectMake(0, 0, 200, 30) normalTitle:text normalTitleColor:[UIColor whiteColor] highlightedTitleColor:nil selectedColor:nil titleFont:15 normalImage:nil highlightedImage:nil selectedImage:nil touchUpInSideTarget:nil action:nil];
+    } else {
+        
+    }
 }
 
 - (void)configReviewImageUI {
-    
-    UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
-    flowLayout.itemSize = CGSizeMake(self.view.bounds.size.width, self.view.bounds.size.height);
-    flowLayout.sectionInset = UIEdgeInsetsMake(0, 0, 0, 0);
-    
-    _collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:flowLayout];
-    _collectionView.backgroundColor = [UIColor clearColor];
-    [_collectionView registerClass:[MIReviewImageCell class] forCellWithReuseIdentifier:@"reviewCell"];
-    _collectionView.pagingEnabled = YES;
-    _collectionView.alwaysBounceHorizontal = YES;
-    _collectionView.alwaysBounceVertical = YES;
-    _collectionView.dataSource = self;
-    _collectionView.showsVerticalScrollIndicator = NO;
-    _collectionView.showsHorizontalScrollIndicator = NO;
-    [self.view addSubview:_collectionView];
-    
-    [super configBackBtn];
-}
-
-#pragma mark - UICollectionViewDataSource
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    
-    return 1;
-}
-
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    
-    MIReviewImageCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"reviewCell" forIndexPath:indexPath];
-    
-    if ([_imgPath containsString:@"http"]) {
-        [cell.imgView sd_setImageWithURL:[NSURL URLWithString:_imgPath] placeholderImage:nil options:SDWebImageRetryFailed];
+    QSTilePreviewView *tileView = [[QSTilePreviewView alloc] initWithFrame:self.view.frame];
+    if ([MIHelpTool isBlankString:_imgPath]) {
+        tileView.imageList = _imgList;
+        [tileView selectCurrentImage:_curIndex];
     } else {
-        UIImage *image = [UIImage imageWithContentsOfFile:_imgPath];
-        cell.imgView.image = image;
+        MIAlbum *album = [[MIAlbum alloc] init];
+        album.fileUrl = _imgPath;
+        tileView.imageList = @[album];
     }
+    [self.view addSubview:tileView];
     
-    return cell;
+    WSWeak(weakSelf);
+    tileView.previewCurrentImage = ^(NSInteger index) {
+        [weakSelf configNavigationBarRightButton:index];
+    };
 }
 
 - (void)didReceiveMemoryWarning {

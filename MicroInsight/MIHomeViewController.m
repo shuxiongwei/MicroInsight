@@ -15,6 +15,7 @@
 #import "UIImageView+WebCache.h"
 #import "MIMineViewController.h"
 #import "UIButton+WebCache.h"
+#import "UICustomCarouselView.h"
 
 @interface MIHomeViewController ()
 
@@ -27,6 +28,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *username;
 @property (weak, nonatomic) IBOutlet UIImageView *albumImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *communityImageView;
+@property (nonatomic, strong) UICustomCarouselView *carouselView;
 
 @end
 
@@ -41,6 +43,8 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
     self.navigationController.navigationBarHidden = YES;
 }
 
@@ -48,19 +52,22 @@
     [super viewDidAppear:animated];
 
     MIUserInfoModel *model = [MILocalData getCurrentLoginUserInfo];
-    _username.text = model.nickname;
-    
+    if ([MIHelpTool isBlankString:model.nickname]) {
+        _username.text = @"登录";
+    } else {
+        _username.text = model.nickname;
+    }
     //等比缩放，限定在矩形框外
     NSString *imgUrl = [NSString stringWithFormat:@"%@?x-oss-process=image/resize,m_fill,h_%d,w_%d", model.avatar, 50, 50];
     [_userBtn sd_setImageWithURL:[NSURL URLWithString:imgUrl] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"icon_home_user_nor"] options:SDWebImageRetryFailed];
-    
+
     [self setCommunityBackgroundImage];
     [self setAlbumImageViewWithFirstLocalAssetThumbnail];
 }
 
 - (void)configHomeUI {
     
-    CGFloat width = (MIScreenWidth - 5 * 3) / 3.0 * 2.0;
+    CGFloat width = (MIScreenWidth - 5 * 3) * 2.0 / 3.0;
     _widthConstraint.constant = width;
     
     _albumView.layer.cornerRadius = 3;
@@ -87,6 +94,20 @@
     
     UITapGestureRecognizer *loginT = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(clickLoginView:)];
     [_loginView addGestureRecognizer:loginT];
+}
+
+- (void)configCommunityViewUI {
+    NSMutableArray *imgList = [NSMutableArray array];
+    for (NSInteger i = 0; i < 5; i++) {
+        NSString *path = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"img_community_%ld", i] ofType:@"jpg"];
+        [imgList addObject:path];
+    }
+    
+    CGFloat hgt1 = (MIScreenWidth - 5 * 2) * 9.0 / 16.0;
+    CGFloat hgt2 = (self.view.bounds.size.height - hgt1 - 5 * 3);
+    
+    _carouselView = [UICustomCarouselView customCarouselViewWithFrame:CGRectMake(0, 0, _widthConstraint.constant, hgt2) autoPlayWithDelay:2 modelsArray:imgList placeholderImageName:nil imageViewsContentMode:UIViewContentModeScaleAspectFill clickedCallBack:nil scrolledCallBack:nil];
+    [_communityView insertSubview:_carouselView belowSubview:_communityImageView];
 }
 
 #pragma mark - 手势
@@ -151,11 +172,10 @@
 
 - (void)setCommunityBackgroundImage {
     if ([MILocalData hasLogin]) {
-        [self requestFirstNetworkAssetThumbnailComplete:^(BOOL success) {
-            
-        }];
+        [self requestFirstNetworkAssetThumbnailComplete:nil];
     } else {
-        _communityImageView.image = [UIImage imageNamed:@"home_btn_social"];
+        _communityImageView.hidden = YES;
+        [self configCommunityViewUI];
     }
 }
 
@@ -179,11 +199,19 @@
                 } else {
                     [weakSelf.communityImageView sd_setImageWithURL:[NSURL URLWithString:[model.coverUrl stringByAppendingString:url]] placeholderImage:nil options:SDWebImageRetryFailed];
                 }
+                weakSelf.communityImageView.hidden = NO;
+                if (weakSelf.carouselView) {
+                    [weakSelf.carouselView clear];
+                    [weakSelf.carouselView removeFromSuperview];
+                    [weakSelf setCarouselView:nil];
+                }
             } else {
-                weakSelf.communityImageView.image = [UIImage imageNamed:@"home_btn_social"];
+                weakSelf.communityImageView.hidden = YES;
+                [weakSelf configCommunityViewUI];
             }
         } else {
-            weakSelf.communityImageView.image = [UIImage imageNamed:@"home_btn_social"];
+            weakSelf.communityImageView.hidden = YES;
+            [weakSelf configCommunityViewUI];
         }
     }];
 }

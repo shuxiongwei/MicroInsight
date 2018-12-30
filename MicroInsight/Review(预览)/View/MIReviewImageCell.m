@@ -42,13 +42,13 @@ const CGFloat maxZoomScale = 2.5;
     _scrollView.delegate = self;
     [self.contentView addSubview:_scrollView];
 
-    _imgView = [[UIImageView alloc] initWithFrame:_scrollView.bounds];
+    _imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, -64, _scrollView.bounds.size.width, _scrollView.bounds.size.height + 64)];
     _imgView.userInteractionEnabled = YES;
     _imgView.backgroundColor = [UIColor blackColor];
     _imgView.contentMode = UIViewContentModeScaleAspectFit;
     [_scrollView addSubview:_imgView];
     
-    UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
     tap.cancelsTouchesInView = NO;
     tap.numberOfTapsRequired = 2;
     [_imgView addGestureRecognizer:tap];

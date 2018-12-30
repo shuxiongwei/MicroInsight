@@ -88,12 +88,15 @@
     [super viewWillAppear:animated];
     
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
+    [self changeTorch:AVCaptureTorchModeOn];
+    [_cameraView changeTorch:YES];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
+    [self changeTorch:AVCaptureTorchModeOff];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -259,7 +262,7 @@
         
         NSFileManager *manager = [NSFileManager defaultManager];
         NSString *assetsPath = [MIHelpTool assetsPath];
-        NSString *name = [[MIHelpTool timeStampSecond] stringByAppendingString:@".png"];
+        NSString *name = [[MIHelpTool converDate:[NSDate date] toStringByFormat:@"yyyy-MM-dd+HH:mm:ss"] stringByAppendingString:@".png"];
         NSString *imgPath = [NSString stringWithFormat:@"%@/%@", assetsPath, name];
         self->_photoPath = imgPath;
         if ([manager fileExistsAtPath:imgPath]) {
@@ -331,7 +334,7 @@
     
     NSFileManager *manager = [NSFileManager defaultManager];
     NSString *assetsPath = [MIHelpTool assetsPath];
-    NSString *videoName = [MIHelpTool timeStampSecond];
+    NSString *videoName = [MIHelpTool converDate:[NSDate date] toStringByFormat:@"yyyy-MM-dd+HH:mm:ss"];
     NSString *videoPath = [NSString stringWithFormat:@"%@/%@.mov", assetsPath,videoName];
     _videoPath = videoPath;
     NSError *error;
@@ -345,6 +348,17 @@
 
 #pragma mark - 输出代理
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection {
+    
+    CFDictionaryRef metadataDict = CMCopyDictionaryOfAttachments(NULL,sampleBuffer, kCMAttachmentMode_ShouldPropagate);
+    NSDictionary *metadata = [[NSMutableDictionary alloc] initWithDictionary:(__bridge NSDictionary*)metadataDict];
+//    CFRelease(metadataDict);
+    NSDictionary *exifMetadata = [[metadata objectForKey:(NSString *)kCGImagePropertyExifDictionary] mutableCopy];
+    float brightnessValue = [[exifMetadata objectForKey:(NSString *)kCGImagePropertyExifBrightnessValue] floatValue];
+    NSLog(@"brightnessValue:%f", brightnessValue);
+    if (brightnessValue < 0.5) {
+        [self autoFocusAndExposureAction:_cameraView succ:nil fail:nil];
+    }
+    
     if (_recording && _movieWriter) {
         CFRetain(sampleBuffer);
         dispatch_async(_movieWritingQueue, ^{
@@ -636,6 +650,7 @@
             device.focusPointOfInterest = point;
             device.focusMode = AVCaptureFocusModeAutoFocus;
             [device unlockForConfiguration];
+            [_cameraView resetFocusSliderValue:device.lensPosition];
         }
         return error;
     }

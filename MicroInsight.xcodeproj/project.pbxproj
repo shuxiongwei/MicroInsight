@@ -40,6 +40,12 @@
 		700A64F721D22071003F0430 /* MIPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 700A64F421D22071003F0430 /* MIPlayer.m */; };
 		700F01C621B5447700D0D3EA /* MIRequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 700F01C521B5447700D0D3EA /* MIRequestManager.m */; };
 		700F01C921B5496400D0D3EA /* MILocalData.m in Sources */ = {isa = PBXBuildFile; fileRef = 700F01C821B5496400D0D3EA /* MILocalData.m */; };
+		7010352021D5111E008DBF3C /* img_community_3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7010351B21D5111E008DBF3C /* img_community_3.jpg */; };
+		7010352121D5111E008DBF3C /* img_community_1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7010351C21D5111E008DBF3C /* img_community_1.jpg */; };
+		7010352221D5111E008DBF3C /* img_community_4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7010351D21D5111E008DBF3C /* img_community_4.jpg */; };
+		7010352321D5111E008DBF3C /* img_community_2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7010351E21D5111E008DBF3C /* img_community_2.jpg */; };
+		7010352421D5111E008DBF3C /* img_community_0.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7010351F21D5111E008DBF3C /* img_community_0.jpg */; };
+		7010352721D51196008DBF3C /* UICustomCarouselView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7010352521D51196008DBF3C /* UICustomCarouselView.m */; };
 		702641AD20F6F15100B21AFC /* MIHelpTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 702641AA20F6F15100B21AFC /* MIHelpTool.m */; };
 		702641AE20F6F15100B21AFC /* MIUIFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 702641AB20F6F15100B21AFC /* MIUIFactory.m */; };
 		702641AF20F6F15100B21AFC /* MIToastAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 702641AC20F6F15100B21AFC /* MIToastAlertView.m */; };
@@ -109,6 +115,7 @@
 		70D277E021BCF87B007FEA63 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 70D277DC21BCF87B007FEA63 /* LICENSE */; };
 		70D277E121BCF87B007FEA63 /* README.mdown in Resources */ = {isa = PBXBuildFile; fileRef = 70D277DE21BCF87B007FEA63 /* README.mdown */; };
 		70D277E421BCF88A007FEA63 /* MBProgressHUD+MJ.m in Sources */ = {isa = PBXBuildFile; fileRef = 70D277E321BCF88A007FEA63 /* MBProgressHUD+MJ.m */; };
+		70E5A37821D8ADBE00DB99CC /* QSTilePreviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70E5A37721D8ADBE00DB99CC /* QSTilePreviewView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -190,6 +197,13 @@
 		700F01C521B5447700D0D3EA /* MIRequestManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MIRequestManager.m; sourceTree = "<group>"; };
 		700F01C721B5496400D0D3EA /* MILocalData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MILocalData.h; sourceTree = "<group>"; };
 		700F01C821B5496400D0D3EA /* MILocalData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MILocalData.m; sourceTree = "<group>"; };
+		7010351B21D5111E008DBF3C /* img_community_3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = img_community_3.jpg; sourceTree = "<group>"; };
+		7010351C21D5111E008DBF3C /* img_community_1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = img_community_1.jpg; sourceTree = "<group>"; };
+		7010351D21D5111E008DBF3C /* img_community_4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = img_community_4.jpg; sourceTree = "<group>"; };
+		7010351E21D5111E008DBF3C /* img_community_2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = img_community_2.jpg; sourceTree = "<group>"; };
+		7010351F21D5111E008DBF3C /* img_community_0.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = img_community_0.jpg; sourceTree = "<group>"; };
+		7010352521D51196008DBF3C /* UICustomCarouselView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UICustomCarouselView.m; sourceTree = "<group>"; };
+		7010352621D51196008DBF3C /* UICustomCarouselView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UICustomCarouselView.h; sourceTree = "<group>"; };
 		702641A720F6F15100B21AFC /* MIToastAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIToastAlertView.h; sourceTree = "<group>"; };
 		702641A820F6F15100B21AFC /* MIUIFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIUIFactory.h; sourceTree = "<group>"; };
 		702641A920F6F15100B21AFC /* MIHelpTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIHelpTool.h; sourceTree = "<group>"; };
@@ -318,6 +332,8 @@
 		70D277E221BCF88A007FEA63 /* MBProgressHUD+MJ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD+MJ.h"; sourceTree = "<group>"; };
 		70D277E321BCF88A007FEA63 /* MBProgressHUD+MJ.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MBProgressHUD+MJ.m"; sourceTree = "<group>"; };
 		70E1D22520F829F5007B07C2 /* MIReviewVideoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIReviewVideoViewController.h; sourceTree = "<group>"; };
+		70E5A37621D8ADBD00DB99CC /* QSTilePreviewView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSTilePreviewView.h; sourceTree = "<group>"; };
+		70E5A37721D8ADBE00DB99CC /* QSTilePreviewView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSTilePreviewView.m; sourceTree = "<group>"; };
 		D6210C935518D5CD3C8D161A /* Pods-MicroInsight.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MicroInsight.release.xcconfig"; path = "Pods/Target Support Files/Pods-MicroInsight/Pods-MicroInsight.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -513,6 +529,18 @@
 			path = "Request(数据请求)";
 			sourceTree = "<group>";
 		};
+		7010351A21D51040008DBF3C /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				7010351F21D5111E008DBF3C /* img_community_0.jpg */,
+				7010351C21D5111E008DBF3C /* img_community_1.jpg */,
+				7010351E21D5111E008DBF3C /* img_community_2.jpg */,
+				7010351B21D5111E008DBF3C /* img_community_3.jpg */,
+				7010351D21D5111E008DBF3C /* img_community_4.jpg */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		702641A620F6F15100B21AFC /* MIHelpTool */ = {
 			isa = PBXGroup;
 			children = (
@@ -563,6 +591,8 @@
 				700A64EE21D2203F003F0430 /* Player */,
 				7029477E212D5E6700B3732A /* MIReviewImageCell.h */,
 				7029477F212D5E6700B3732A /* MIReviewImageCell.m */,
+				70E5A37621D8ADBD00DB99CC /* QSTilePreviewView.h */,
+				70E5A37721D8ADBE00DB99CC /* QSTilePreviewView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -635,6 +665,7 @@
 		70710C5B20F476A300052929 /* MicroInsight */ = {
 			isa = PBXGroup;
 			children = (
+				7010351A21D51040008DBF3C /* Resources */,
 				70D277D921BCF84D007FEA63 /* Vender */,
 				700F01C021B5443D00D0D3EA /* Request(数据请求) */,
 				3B6D661221AE3AA8005CAE9A /* Network */,
@@ -713,6 +744,8 @@
 				70A80998212D77C9003ED7D2 /* Slider */,
 				70710CA720F4917E00052929 /* MIHorizontalPickerView */,
 				70B50A1121B806E700BBB2A9 /* MICommonFile.h */,
+				7010352621D51196008DBF3C /* UICustomCarouselView.h */,
+				7010352521D51196008DBF3C /* UICustomCarouselView.m */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -978,7 +1011,11 @@
 				090240A121969F6E0003D686 /* MyAlbum.storyboard in Resources */,
 				70AFE0B921CFBD45000585D0 /* WeiboSDK.bundle in Resources */,
 				70AFE07721CD29FD000585D0 /* MIMineEditViewController.xib in Resources */,
+				7010352421D5111E008DBF3C /* img_community_0.jpg in Resources */,
 				70AFE07221CD1AC7000585D0 /* MIMineViewController.xib in Resources */,
+				7010352321D5111E008DBF3C /* img_community_2.jpg in Resources */,
+				7010352021D5111E008DBF3C /* img_community_3.jpg in Resources */,
+				7010352121D5111E008DBF3C /* img_community_1.jpg in Resources */,
 				0902409D21969F4C0003D686 /* Community.storyboard in Resources */,
 				70AFE08221CDC0DA000585D0 /* MIDatePickerView.xib in Resources */,
 				70D277E021BCF87B007FEA63 /* LICENSE in Resources */,
@@ -991,6 +1028,7 @@
 				0902409F21969F600003D686 /* Photography.storyboard in Resources */,
 				70710C6620F476A400052929 /* Assets.xcassets in Resources */,
 				70D277E121BCF87B007FEA63 /* README.mdown in Resources */,
+				7010352221D5111E008DBF3C /* img_community_4.jpg in Resources */,
 				3B830AE521AC084B00EC7746 /* Main.storyboard in Resources */,
 				70A80994212D7744003ED7D2 /* MIFactorSlider.xib in Resources */,
 				090240A3219726420003D686 /* Login.storyboard in Resources */,
@@ -1071,6 +1109,8 @@
 				70710CB020F4917E00052929 /* MIHorizontalPickerView.m in Sources */,
 				70D277DF21BCF87B007FEA63 /* MBProgressHUD.m in Sources */,
 				70294783212D5F8A00B3732A /* MIReviewImageViewController.m in Sources */,
+				7010352721D51196008DBF3C /* UICustomCarouselView.m in Sources */,
+				70E5A37821D8ADBE00DB99CC /* QSTilePreviewView.m in Sources */,
 				70710CAE20F4917E00052929 /* MIHorizontalPickerViewCell.m in Sources */,
 				3B76AE2F21B8C4F50021F9E9 /* MIDataConvertion.m in Sources */,
 				70294789212D63BC00B3732A /* MIReviewVideoViewController.m in Sources */,

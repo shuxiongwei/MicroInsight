@@ -10,6 +10,8 @@
 
 @interface MIReviewImageViewController : MIBaseViewController
 
-@property (nonatomic,copy) NSString *imgPath;
+@property (nonatomic,copy) NSString *imgPath; // 不为空，则代表是网络图片
+@property (nonatomic, strong) NSArray *imgList;
+@property (nonatomic, assign) NSInteger curIndex;
 
 @end

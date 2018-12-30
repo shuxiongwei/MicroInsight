@@ -69,7 +69,7 @@
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Aw-Hf-b5q">
                                 <rect key="frame" x="5" y="25" width="200" height="426.5"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="home_btn_social" translatesAutoresizingMaskIntoConstraints="NO" id="WBq-gr-cHq">
+                                    <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="home_btn_social" translatesAutoresizingMaskIntoConstraints="NO" id="WBq-gr-cHq">
                                         <rect key="frame" x="0.0" y="0.0" width="200" height="426.5"/>
                                     </imageView>
                                     <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z0a-Ah-22Q">

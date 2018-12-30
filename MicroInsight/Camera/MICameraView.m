@@ -38,6 +38,7 @@
 @property (nonatomic, strong) MIFactorSlider *focusSlider; //对焦视图
 @property (nonatomic, strong) UISlider *focusSliderView; //对焦视图
 @property (nonatomic, strong) MICameraFunctionView *functionView;
+@property (nonatomic, strong) UILabel *curFactorLab;
 
 @end
 
@@ -111,7 +112,7 @@
 - (void)setupUI {
     lastScale = 1.0;
     minScale = 1.0;
-    maxScale = 6.0;
+    maxScale = 11.0;
     
     self.previewView = [[MIVideoPreview alloc] initWithFrame:CGRectMake(0, 0, self.width, self.height)];
     
@@ -144,6 +145,7 @@
     
     //手电筒
     _torchBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(self.bottomView.width - 30 - 34, (self.bottomView.height - 44) / 2.0, 34, 44) normalTitle:nil normalTitleColor:nil highlightedTitleColor:nil selectedColor:nil titleFont:0 normalImage:[UIImage imageNamed:@"btn_shoot_flash_nor"] highlightedImage:nil selectedImage:[UIImage imageNamed:@"btn_shoot_flash_sel"] touchUpInSideTarget:self action:@selector(torchClick:)];
+    [_torchBtn setEnlargeEdgeWithTop:20 right:30 bottom:20 left:30];
     [self.bottomView addSubview:_torchBtn];
     
 //    //功能按钮
@@ -165,6 +167,7 @@
     UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     backBtn.bounds = CGRectMake(0, 0, 20, 20);
     backBtn.center = CGPointMake(25, 25);
+    [backBtn setEnlargeEdge:15];
     [backBtn setImage:[UIImage imageNamed:@"icon_review_close_nor"] forState:UIControlStateNormal];
     [backBtn addTarget:self action:@selector(goBack:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:backBtn];
@@ -194,13 +197,18 @@
 }
 
 - (void)configFactorSliderUI {
-    _sliderView = [[MIFactorSlider alloc] initWithFrame:CGRectMake(60, self.height - 160, self.width - 70, 40)];
-    _sliderView.maxFactor = 5;
+    _sliderView = [[MIFactorSlider alloc] initWithFrame:CGRectMake(90, self.height - 160, self.width - 140, 40)];
+    _sliderView.maxFactor = 10;
     [self addSubview:_sliderView];
     
     WSWeak(weakSelf);
     _sliderView.sliderBarDidTrack = ^(CGFloat x) {
         lastScale = x + 1;
+        if (lastScale > 10) {
+            weakSelf.curFactorLab.text = @"x10.0";
+        } else {
+            weakSelf.curFactorLab.text = [NSString stringWithFormat:@"x%.1f", lastScale];
+        }
         if ([weakSelf.delegate respondsToSelector:@selector(setDeviceZoomFactor:zoomFactor:)]) {
             [weakSelf.delegate setDeviceZoomFactor:weakSelf zoomFactor:x + 1];
         }
@@ -208,6 +216,11 @@
     
     _sliderView.sliderBarDidEndTrack = ^(CGFloat x) {
         lastScale = x + 1;
+        if (lastScale > 10) {
+            weakSelf.curFactorLab.text = @"x10.0";
+        } else {
+            weakSelf.curFactorLab.text = [NSString stringWithFormat:@"x%.1f", lastScale];
+        }
         if ([weakSelf.delegate respondsToSelector:@selector(setDeviceZoomFactor:zoomFactor:)]) {
             [weakSelf.delegate setDeviceZoomFactor:weakSelf zoomFactor:x + 1];
         }
@@ -218,6 +231,15 @@
     factorLab.layer.cornerRadius = 5;
     factorLab.layer.masksToBounds = YES;
     [self addSubview:factorLab];
+    
+    UILabel *minFactorLab = [MIUIFactory createLabelWithCenter:CGPointMake(75, _sliderView.centerY) withBounds:CGRectMake(0, 0, 30, 20) withText:@"x1.0" withFont:13 withTextColor:[UIColor whiteColor] withTextAlignment:NSTextAlignmentLeft];
+    [self addSubview:minFactorLab];
+    
+    UILabel *maxFactorLab = [MIUIFactory createLabelWithCenter:CGPointMake(MIScreenWidth - 30, _sliderView.centerY) withBounds:CGRectMake(0, 0, 40, 20) withText:@"x10.0" withFont:13 withTextColor:[UIColor whiteColor] withTextAlignment:NSTextAlignmentRight];
+    [self addSubview:maxFactorLab];
+    
+    _curFactorLab = [MIUIFactory createLabelWithCenter:CGPointMake(90 + _sliderView.width / 2.0, _sliderView.origin.y - 5) withBounds:CGRectMake(0, 0, 50, 20) withText:@"x1.0" withFont:15 withTextColor:[UIColor whiteColor] withTextAlignment:NSTextAlignmentCenter];
+    [self addSubview:_curFactorLab];
 }
 
 //- (void)configFocusSliderUI {
@@ -290,10 +312,17 @@
     lastScale *= ges.scale;
     ges.scale = 1.0;
     
-    lastScale = MIN(lastScale, 6);
+    lastScale = MIN(lastScale, 11);
     lastScale = MAX(1, lastScale);
     
     [_sliderView refreshCurrentFactor:lastScale - 1];
+    
+    if (lastScale > 10) {
+        _curFactorLab.text = @"x10.0";
+    } else {
+       _curFactorLab.text = [NSString stringWithFormat:@"x%.1f", lastScale];
+    }
+    
     if ([self.delegate respondsToSelector:@selector(setDeviceZoomFactor:zoomFactor:)]) {
         [self.delegate setDeviceZoomFactor:self zoomFactor:lastScale];
     }
@@ -559,6 +588,10 @@
         
         [_coverBtn setImage:image forState:UIControlStateNormal];
     }
+}
+
+- (void)resetFocusSliderValue:(CGFloat)value {
+    [_focusSliderView setValue:value];
 }
 
 #pragma mark - QSHorizontalPickerViewDelegate

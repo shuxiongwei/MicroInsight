@@ -212,4 +212,6 @@
  */
 - (void)resetCoverBtnImageWithAssetPath:(NSString *)path;
 
+- (void)resetFocusSliderValue:(CGFloat)value;
+
 @end

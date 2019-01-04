@@ -80,7 +80,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="j9k-7I-hQr">
-                                <rect key="frame" x="20" y="114" width="335" height="250"/>
+                                <rect key="frame" x="20" y="114" width="335" height="265"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tm3-Lh-wpc">
                                         <rect key="frame" x="30" y="187" width="275" height="38"/>
@@ -181,13 +181,35 @@
                                             <action selector="clickMessageBtn:" destination="yLL-6f-lTC" eventType="touchUpInside" id="Qwg-u7-qGv"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZCR-Zl-NyM">
+                                        <rect key="frame" x="77" y="239" width="44" height="16"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <state key="normal" title=" 同意" image="btn_login_rember_nor">
+                                            <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <state key="selected" image="btn_login_rember_sel"/>
+                                        <connections>
+                                            <action selector="clickAgreementBtn:" destination="yLL-6f-lTC" eventType="touchUpInside" id="7tI-sP-jaJ"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gHT-Q9-qJ1">
+                                        <rect key="frame" x="121" y="233" width="133" height="28"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <state key="normal" title="《肯维捷斯服务协议》">
+                                            <color key="titleColor" red="0.45855034719999999" green="0.67835828990000002" blue="0.052408854169999998" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="clickCompanyBtn:" destination="yLL-6f-lTC" eventType="touchUpInside" id="pRY-gV-Vna"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="K17-lm-gEv" firstAttribute="top" secondItem="pCR-st-R9U" secondAttribute="bottom" constant="19" id="2mc-DK-GWT"/>
                                     <constraint firstItem="S94-Ci-JIF" firstAttribute="leading" secondItem="P7C-tP-pbW" secondAttribute="trailing" constant="24" id="3ft-AA-RHH"/>
+                                    <constraint firstItem="ZCR-Zl-NyM" firstAttribute="trailing" secondItem="gHT-Q9-qJ1" secondAttribute="leading" id="3mg-g5-2pv"/>
                                     <constraint firstItem="hvU-k2-Ed1" firstAttribute="leading" secondItem="K17-lm-gEv" secondAttribute="leading" id="6QD-aw-WVy"/>
-                                    <constraint firstAttribute="height" constant="250" id="77K-wb-JlY"/>
+                                    <constraint firstAttribute="height" constant="265" id="77K-wb-JlY"/>
                                     <constraint firstAttribute="trailing" secondItem="Tm3-Lh-wpc" secondAttribute="trailing" constant="30" id="7Xx-tT-Gcv"/>
                                     <constraint firstAttribute="trailing" secondItem="Uhe-8e-AGW" secondAttribute="trailing" constant="30" id="8BW-YJ-o4Y"/>
                                     <constraint firstItem="Uhe-8e-AGW" firstAttribute="leading" secondItem="K17-lm-gEv" secondAttribute="trailing" constant="24" id="Chy-1u-N6B"/>
@@ -195,6 +217,7 @@
                                     <constraint firstItem="Bc4-Bf-SLD" firstAttribute="centerY" secondItem="P7C-tP-pbW" secondAttribute="centerY" id="EJY-gv-cXP"/>
                                     <constraint firstItem="P7C-tP-pbW" firstAttribute="top" secondItem="j9k-7I-hQr" secondAttribute="top" constant="30" id="KbL-we-FGG"/>
                                     <constraint firstItem="P7C-tP-pbW" firstAttribute="leading" secondItem="j9k-7I-hQr" secondAttribute="leading" constant="30" id="M0r-mO-0S1"/>
+                                    <constraint firstItem="ZCR-Zl-NyM" firstAttribute="centerY" secondItem="gHT-Q9-qJ1" secondAttribute="centerY" id="ON3-Tw-pQq"/>
                                     <constraint firstItem="Uhe-8e-AGW" firstAttribute="centerY" secondItem="K17-lm-gEv" secondAttribute="centerY" id="RPO-BR-5f0"/>
                                     <constraint firstItem="Tm3-Lh-wpc" firstAttribute="leading" secondItem="j9k-7I-hQr" secondAttribute="leading" constant="30" id="S5B-DZ-GQc"/>
                                     <constraint firstItem="K17-lm-gEv" firstAttribute="leading" secondItem="P7C-tP-pbW" secondAttribute="leading" id="VH4-pc-x0Q"/>
@@ -202,9 +225,11 @@
                                     <constraint firstItem="pCR-st-R9U" firstAttribute="leading" secondItem="j9k-7I-hQr" secondAttribute="leading" constant="30" id="YBy-eL-TEt"/>
                                     <constraint firstAttribute="trailing" secondItem="pCR-st-R9U" secondAttribute="trailing" constant="34" id="ide-dR-6Rg"/>
                                     <constraint firstAttribute="trailing" secondItem="hvU-k2-Ed1" secondAttribute="trailing" constant="30" id="ir9-x9-kt7"/>
+                                    <constraint firstItem="gHT-Q9-qJ1" firstAttribute="centerX" secondItem="j9k-7I-hQr" secondAttribute="centerX" constant="20" id="jli-89-ZAi"/>
+                                    <constraint firstAttribute="bottom" secondItem="ZCR-Zl-NyM" secondAttribute="bottom" constant="10" id="lXO-bZ-lij"/>
                                     <constraint firstItem="pCR-st-R9U" firstAttribute="top" secondItem="j9k-7I-hQr" secondAttribute="top" constant="65" id="nAJ-xl-AQG"/>
                                     <constraint firstItem="hvU-k2-Ed1" firstAttribute="top" secondItem="Uhe-8e-AGW" secondAttribute="bottom" constant="15" id="npd-t4-Bo0"/>
-                                    <constraint firstAttribute="bottom" secondItem="Tm3-Lh-wpc" secondAttribute="bottom" constant="25" id="q7x-cr-hVa"/>
+                                    <constraint firstAttribute="bottom" secondItem="Tm3-Lh-wpc" secondAttribute="bottom" constant="40" id="q7x-cr-hVa"/>
                                     <constraint firstAttribute="trailing" secondItem="Bc4-Bf-SLD" secondAttribute="trailing" constant="30" id="xbc-VD-WuU"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
@@ -220,14 +245,14 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cl1-3w-j86">
-                                <rect key="frame" x="212.5" y="582" width="40" height="40"/>
+                                <rect key="frame" x="167.5" y="582" width="40" height="40"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" image="qq"/>
                                 <connections>
                                     <action selector="thirdPartLoginByQQ:" destination="yLL-6f-lTC" eventType="touchUpInside" id="YYV-sM-QWT"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dcY-f0-Ish">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dcY-f0-Ish">
                                 <rect key="frame" x="122.5" y="582" width="40" height="40"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" image="wechat"/>
@@ -247,12 +272,12 @@
                             <constraint firstItem="5W3-Uf-dPK" firstAttribute="centerX" secondItem="pz9-hN-MzY" secondAttribute="centerX" id="6Oh-G3-ptA"/>
                             <constraint firstItem="ev3-Qw-5Mf" firstAttribute="centerX" secondItem="pz9-hN-MzY" secondAttribute="centerX" id="6ii-Jh-N7I"/>
                             <constraint firstAttribute="trailing" secondItem="NnY-QF-OC0" secondAttribute="trailing" id="8J0-sT-wRd"/>
-                            <constraint firstAttribute="centerX" secondItem="cl1-3w-j86" secondAttribute="leading" constant="-25" id="9R5-02-4Xa"/>
                             <constraint firstItem="NnY-QF-OC0" firstAttribute="top" secondItem="pz9-hN-MzY" secondAttribute="top" id="ASJ-9n-pNj"/>
                             <constraint firstAttribute="trailing" secondItem="VcV-OZ-QRL" secondAttribute="trailing" constant="10" id="BfQ-R2-asU"/>
                             <constraint firstItem="cl1-3w-j86" firstAttribute="top" secondItem="5W3-Uf-dPK" secondAttribute="bottom" constant="10" id="Ddr-Hh-HBM"/>
                             <constraint firstItem="VcV-OZ-QRL" firstAttribute="centerY" secondItem="ev3-Qw-5Mf" secondAttribute="centerY" id="HFM-wj-fef"/>
                             <constraint firstItem="j9k-7I-hQr" firstAttribute="top" secondItem="fep-uM-RQl" secondAttribute="bottom" constant="15" id="MMC-g6-jgt"/>
+                            <constraint firstItem="cl1-3w-j86" firstAttribute="centerX" secondItem="pz9-hN-MzY" secondAttribute="centerX" id="McT-Yw-p5V"/>
                             <constraint firstItem="NnY-QF-OC0" firstAttribute="leading" secondItem="pz9-hN-MzY" secondAttribute="leading" id="PpP-qh-XIg"/>
                             <constraint firstItem="dcY-f0-Ish" firstAttribute="trailing" secondItem="pz9-hN-MzY" secondAttribute="centerX" constant="-25" id="QUP-vg-rjP"/>
                             <constraint firstItem="Hcd-kq-qa8" firstAttribute="top" secondItem="cl1-3w-j86" secondAttribute="bottom" constant="45" id="Uxf-mZ-bd0"/>
@@ -267,9 +292,12 @@
                     </view>
                     <connections>
                         <outlet property="accountTF" destination="S94-Ci-JIF" id="38B-oi-S9s"/>
+                        <outlet property="agreementBtn" destination="ZCR-Zl-NyM" id="WEN-wK-SGB"/>
                         <outlet property="bottomBtn" destination="Tm3-Lh-wpc" id="eaH-hG-69F"/>
+                        <outlet property="bottomHeight" destination="q7x-cr-hVa" id="qUy-Vu-OXy"/>
                         <outlet property="checkPsdTFHeight" destination="8vJ-An-LmE" id="ex6-pq-d71"/>
                         <outlet property="checkPswTFSupView" destination="hvU-k2-Ed1" id="QOE-ra-seu"/>
+                        <outlet property="companyBtn" destination="gHT-Q9-qJ1" id="JqO-QQ-oJy"/>
                         <outlet property="contentViewHeight" destination="77K-wb-JlY" id="0fS-Tv-KlH"/>
                         <outlet property="loginBtn" destination="0D8-Bi-c9g" id="tDh-pO-n4r"/>
                         <outlet property="loginTitle" destination="ev3-Qw-5Mf" id="neo-fc-E4c"/>
@@ -286,6 +314,8 @@
     </scenes>
     <resources>
         <image name="account" width="20" height="20"/>
+        <image name="btn_login_rember_nor" width="13.5" height="13.5"/>
+        <image name="btn_login_rember_sel" width="13.5" height="13.5"/>
         <image name="close_white" width="20" height="20"/>
         <image name="login_end" width="375" height="667"/>
         <image name="password" width="20" height="20"/>

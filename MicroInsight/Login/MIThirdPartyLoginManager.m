@@ -11,7 +11,7 @@
 #define kSinaAppKey         @"你自己微博的Appkey"
 #define kSinaRedirectURI    @"你设置的微博回调页"
 #define kTencentAppId       @"1107985469"
-#define kWeixinAppId        @"wx082d77435fc5c327"
+#define kWeixinAppId        @"wx00800a91db54370d"
 #define kWeixinAppSecret    @"AppSecret"
 
 @interface MIThirdPartyLoginManager () <NSURLSessionTaskDelegate>

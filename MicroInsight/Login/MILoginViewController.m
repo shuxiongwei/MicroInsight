@@ -9,6 +9,7 @@
 
 #import "MILoginViewController.h"
 #import "MIThirdPartyLoginManager.h"
+#import "MIUserAgreementView.h"
 
 typedef NS_ENUM(NSInteger,MIModuleType) {
     MIModuleTypeLogin,
@@ -28,6 +29,9 @@ typedef NS_ENUM(NSInteger,MIModuleType) {
 @property (weak, nonatomic) IBOutlet UIView *checkPswTFSupView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *contentViewHeight;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *checkPsdTFHeight;
+@property (weak, nonatomic) IBOutlet UIButton *agreementBtn;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomHeight;
+@property (weak, nonatomic) IBOutlet UIButton *companyBtn;
 @property (nonatomic, assign) MIModuleType type;
 @property (nonatomic, copy) NSString *token;
 @property (nonatomic, strong) NSTimer *timer;
@@ -45,6 +49,9 @@ typedef NS_ENUM(NSInteger,MIModuleType) {
     _type = MIModuleTypeLogin;
     _checkPswTFSupView.hidden = YES;
     _contentViewHeight.constant = 200;
+    _bottomHeight.constant = 25;
+    _agreementBtn.hidden = YES;
+    _companyBtn.hidden = YES;
     _loginTitle.font = [UIFont captionFontWithName:@"custom" size:20];
     _messageBtn.layer.cornerRadius = 5;
     _messageBtn.layer.masksToBounds = YES;
@@ -81,6 +88,9 @@ typedef NS_ENUM(NSInteger,MIModuleType) {
     _checkPswTFSupView.hidden = YES;
     _messageBtn.hidden = YES;
     _contentViewHeight.constant = 200;
+    _bottomHeight.constant = 25;
+    _agreementBtn.hidden = YES;
+    _companyBtn.hidden = YES;
     sender.titleLabel.font = [UIFont boldSystemFontOfSize:18];
     _signInBtn.titleLabel.font = [UIFont systemFontOfSize:14];
 }
@@ -91,7 +101,10 @@ typedef NS_ENUM(NSInteger,MIModuleType) {
     _type = MIModuleTypAssign;
     _checkPswTFSupView.hidden = NO;
     _messageBtn.hidden = NO;
-    _contentViewHeight.constant = 250;
+    _contentViewHeight.constant = 270;
+    _bottomHeight.constant = 40;
+    _agreementBtn.hidden = NO;
+    _companyBtn.hidden = NO;
     sender.titleLabel.font = [UIFont boldSystemFontOfSize:18];
     _loginBtn.titleLabel.font = [UIFont systemFontOfSize:14];
 }
@@ -117,6 +130,11 @@ typedef NS_ENUM(NSInteger,MIModuleType) {
     
         if ([MIHelpTool isBlankString:_passwordCheckTF.text]) {
             [self alertText:@"请输入短信验证码"];
+            return;
+        }
+        
+        if (!_agreementBtn.selected) {
+            [self alertText:@"注册需同意用户协议"];
             return;
         }
     }
@@ -209,6 +227,15 @@ typedef NS_ENUM(NSInteger,MIModuleType) {
             [weakSelf initTimer];
         }
     }];
+}
+
+- (IBAction)clickAgreementBtn:(UIButton *)sender {
+    sender.selected = !sender.selected;
+}
+
+- (IBAction)clickCompanyBtn:(UIButton *)sender {
+    MIUserAgreementView *userV = [[MIUserAgreementView alloc] initWithFrame:self.view.frame];
+    [self.view addSubview:userV];
 }
 
 - (void)refreshUI {

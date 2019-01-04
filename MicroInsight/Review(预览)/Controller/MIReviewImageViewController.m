@@ -7,7 +7,7 @@
 //
 
 #import "MIReviewImageViewController.h"
-#import "QSTilePreviewView.h"
+#import "MIReviewImageView.h"
 #import "MIAlbum.h"
 
 @interface MIReviewImageViewController ()
@@ -40,7 +40,7 @@
 }
 
 - (void)configReviewImageUI {
-    QSTilePreviewView *tileView = [[QSTilePreviewView alloc] initWithFrame:self.view.frame];
+    MIReviewImageView *tileView = [[MIReviewImageView alloc] initWithFrame:self.view.frame];
     if ([MIHelpTool isBlankString:_imgPath]) {
         tileView.imageList = _imgList;
         [tileView selectCurrentImage:_curIndex];

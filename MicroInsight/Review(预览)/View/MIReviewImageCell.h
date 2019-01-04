@@ -1,6 +1,6 @@
 //
 //  MIReviewImageCell.h
-//  QShoot
+//  MicroInsight
 //
 //  Created by 舒雄威 on 2018/4/19.
 //  Copyright © 2018年 QiShon. All rights reserved.

@@ -115,7 +115,9 @@
 		70D277E021BCF87B007FEA63 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 70D277DC21BCF87B007FEA63 /* LICENSE */; };
 		70D277E121BCF87B007FEA63 /* README.mdown in Resources */ = {isa = PBXBuildFile; fileRef = 70D277DE21BCF87B007FEA63 /* README.mdown */; };
 		70D277E421BCF88A007FEA63 /* MBProgressHUD+MJ.m in Sources */ = {isa = PBXBuildFile; fileRef = 70D277E321BCF88A007FEA63 /* MBProgressHUD+MJ.m */; };
-		70E5A37821D8ADBE00DB99CC /* QSTilePreviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70E5A37721D8ADBE00DB99CC /* QSTilePreviewView.m */; };
+		70D76D3721DF9D5D00EC5EF9 /* user_agreement.html in Resources */ = {isa = PBXBuildFile; fileRef = 70D76D3621DF9D5D00EC5EF9 /* user_agreement.html */; };
+		70D76D3B21DF9D9E00EC5EF9 /* MIUserAgreementView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70D76D3921DF9D9E00EC5EF9 /* MIUserAgreementView.m */; };
+		70E5A37821D8ADBE00DB99CC /* MIReviewImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70E5A37721D8ADBE00DB99CC /* MIReviewImageView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -331,9 +333,12 @@
 		70D277DE21BCF87B007FEA63 /* README.mdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.mdown; sourceTree = "<group>"; };
 		70D277E221BCF88A007FEA63 /* MBProgressHUD+MJ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD+MJ.h"; sourceTree = "<group>"; };
 		70D277E321BCF88A007FEA63 /* MBProgressHUD+MJ.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MBProgressHUD+MJ.m"; sourceTree = "<group>"; };
+		70D76D3621DF9D5D00EC5EF9 /* user_agreement.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = user_agreement.html; sourceTree = "<group>"; };
+		70D76D3921DF9D9E00EC5EF9 /* MIUserAgreementView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIUserAgreementView.m; sourceTree = "<group>"; };
+		70D76D3A21DF9D9E00EC5EF9 /* MIUserAgreementView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIUserAgreementView.h; sourceTree = "<group>"; };
 		70E1D22520F829F5007B07C2 /* MIReviewVideoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIReviewVideoViewController.h; sourceTree = "<group>"; };
-		70E5A37621D8ADBD00DB99CC /* QSTilePreviewView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSTilePreviewView.h; sourceTree = "<group>"; };
-		70E5A37721D8ADBE00DB99CC /* QSTilePreviewView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSTilePreviewView.m; sourceTree = "<group>"; };
+		70E5A37621D8ADBD00DB99CC /* MIReviewImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIReviewImageView.h; sourceTree = "<group>"; };
+		70E5A37721D8ADBE00DB99CC /* MIReviewImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIReviewImageView.m; sourceTree = "<group>"; };
 		D6210C935518D5CD3C8D161A /* Pods-MicroInsight.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MicroInsight.release.xcconfig"; path = "Pods/Target Support Files/Pods-MicroInsight/Pods-MicroInsight.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -421,6 +426,7 @@
 		0902409B21969F1F0003D686 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				70D76D3821DF9D8300EC5EF9 /* View */,
 				70AFE09F21CFBD45000585D0 /* Lib */,
 				70AFE0BD21CFBE06000585D0 /* MIThirdPartyLoginManager.h */,
 				70AFE0BE21CFBE06000585D0 /* MIThirdPartyLoginManager.m */,
@@ -591,8 +597,8 @@
 				700A64EE21D2203F003F0430 /* Player */,
 				7029477E212D5E6700B3732A /* MIReviewImageCell.h */,
 				7029477F212D5E6700B3732A /* MIReviewImageCell.m */,
-				70E5A37621D8ADBD00DB99CC /* QSTilePreviewView.h */,
-				70E5A37721D8ADBE00DB99CC /* QSTilePreviewView.m */,
+				70E5A37621D8ADBD00DB99CC /* MIReviewImageView.h */,
+				70E5A37721D8ADBE00DB99CC /* MIReviewImageView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -726,6 +732,7 @@
 				70C4318921B604C4001D56C4 /* MIHomeViewController.m */,
 				70710C6520F476A400052929 /* Assets.xcassets */,
 				707A5BD1212EAA90002D61BC /* font.ttf */,
+				70D76D3621DF9D5D00EC5EF9 /* user_agreement.html */,
 				70710C6720F476A400052929 /* LaunchScreen.storyboard */,
 				70710C6A20F476A400052929 /* Info.plist */,
 				70710C6B20F476A400052929 /* main.m */,
@@ -883,6 +890,15 @@
 			path = MBProgressHUD;
 			sourceTree = "<group>";
 		};
+		70D76D3821DF9D8300EC5EF9 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				70D76D3A21DF9D9E00EC5EF9 /* MIUserAgreementView.h */,
+				70D76D3921DF9D9E00EC5EF9 /* MIUserAgreementView.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		F5BCF343CFAB0749216AB255 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -1008,6 +1024,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				70D76D3721DF9D5D00EC5EF9 /* user_agreement.html in Resources */,
 				090240A121969F6E0003D686 /* MyAlbum.storyboard in Resources */,
 				70AFE0B921CFBD45000585D0 /* WeiboSDK.bundle in Resources */,
 				70AFE07721CD29FD000585D0 /* MIMineEditViewController.xib in Resources */,
@@ -1110,7 +1127,7 @@
 				70D277DF21BCF87B007FEA63 /* MBProgressHUD.m in Sources */,
 				70294783212D5F8A00B3732A /* MIReviewImageViewController.m in Sources */,
 				7010352721D51196008DBF3C /* UICustomCarouselView.m in Sources */,
-				70E5A37821D8ADBE00DB99CC /* QSTilePreviewView.m in Sources */,
+				70E5A37821D8ADBE00DB99CC /* MIReviewImageView.m in Sources */,
 				70710CAE20F4917E00052929 /* MIHorizontalPickerViewCell.m in Sources */,
 				3B76AE2F21B8C4F50021F9E9 /* MIDataConvertion.m in Sources */,
 				70294789212D63BC00B3732A /* MIReviewVideoViewController.m in Sources */,
@@ -1124,6 +1141,7 @@
 				70294780212D5E6700B3732A /* MIReviewImageCell.m in Sources */,
 				3B9C19A121BE716600E5B544 /* MICommunityRequest.m in Sources */,
 				70710CAF20F4917E00052929 /* MIHorizontalPickerViewCellItem.m in Sources */,
+				70D76D3B21DF9D9E00EC5EF9 /* MIUserAgreementView.m in Sources */,
 				70C4319221B620FC001D56C4 /* MICommunityListModel.m in Sources */,
 				70A80996212D7744003ED7D2 /* MIFactorSlider.m in Sources */,
 				70C4318B21B604C4001D56C4 /* MIHomeViewController.m in Sources */,
@@ -1330,7 +1348,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 4K3S4Y778M;
+				DEVELOPMENT_TEAM = 2WHXP7FN9G;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1348,7 +1366,7 @@
 					"$(PROJECT_DIR)/MicroInsight/Login/Lib/WeChatSDK_1.7.1",
 					"$(PROJECT_DIR)/MicroInsight/Login/Lib/libWeiboSDK",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.sxw.t;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sxw.ts;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1363,7 +1381,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 4K3S4Y778M;
+				DEVELOPMENT_TEAM = 2WHXP7FN9G;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1381,7 +1399,7 @@
 					"$(PROJECT_DIR)/MicroInsight/Login/Lib/WeChatSDK_1.7.1",
 					"$(PROJECT_DIR)/MicroInsight/Login/Lib/libWeiboSDK",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.sxw.t;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sxw.ts;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";

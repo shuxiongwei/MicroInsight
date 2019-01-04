@@ -1,24 +1,24 @@
 //
-//  QSTilePreviewView.m
-//  QShoot
+//  MIReviewImageView.m
+//  MicroInsight
 //
 //  Created by 舒雄威 on 2018/4/19.
 //  Copyright © 2018年 QiShon. All rights reserved.
 //
 
-#import "QSTilePreviewView.h"
+#import "MIReviewImageView.h"
 #import "MIReviewImageCell.h"
 #import "MIAlbum.h"
 #import "UIImageView+WebCache.h"
 
-@interface QSTilePreviewView () <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
+@interface MIReviewImageView () <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
 @property (strong, nonatomic) UICollectionView *collectionView;
 
 @end
 
 
-@implementation QSTilePreviewView
+@implementation MIReviewImageView
 
 - (void)setImageList:(NSArray *)imageList {
     _imageList = imageList;

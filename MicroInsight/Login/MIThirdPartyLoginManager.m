@@ -12,7 +12,7 @@
 #define kSinaRedirectURI    @"你设置的微博回调页"
 #define kTencentAppId       @"1107985469"
 #define kWeixinAppId        @"wx00800a91db54370d"
-#define kWeixinAppSecret    @"AppSecret"
+#define kWeixinAppSecret    @"bb59534de82274b4ee215ce231febd8b"
 
 @interface MIThirdPartyLoginManager () <NSURLSessionTaskDelegate>
 
@@ -109,7 +109,10 @@ static MIThirdPartyLoginManager *_instance;
     if ([resp isKindOfClass:[SendAuthResp class]]) {
         if (resp.errCode == 0) {  //成功。
             SendAuthResp *aresp = (SendAuthResp *)resp;
-            [self getWeiXinUserInfoWithCode:aresp.code];
+//            [self getWeiXinUserInfoWithCode:aresp.code];
+            
+            NSDictionary *paramter = @{@"code" : aresp.code};
+            self.resultBlock(paramter, nil);
         } else {
             if (self.resultBlock) {
                 self.resultBlock(nil, @"授权失败");

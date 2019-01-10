@@ -210,9 +210,29 @@ typedef NS_ENUM(NSInteger,MIModuleType) {
 }
 
 - (IBAction)thirdPartLoginByWX:(UIButton *)sender {
-//    [[MIThirdPartyLoginManager shareManager] getUserInfoWithWTLoginType:MILoginTypeWeiXin result:^(NSDictionary *loginResult, NSString *error) {
-//
-//    }];
+    
+    WSWeak(weakSelf);
+    [[MIThirdPartyLoginManager shareManager] getUserInfoWithWTLoginType:MILoginTypeWeiXin result:^(NSDictionary *loginResult, NSString *error) {
+
+        if ([MIHelpTool isBlankString:error]) {
+            [MIRequestManager loginByWXWithCode:loginResult[@"code"] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+                
+                NSInteger code = [jsonData[@"code"] integerValue];
+                if (code == 0) {
+                    NSDictionary *data = jsonData[@"data"];
+                    NSDictionary *user = data[@"user"];
+                    MIUserInfoModel *model = [MIUserInfoModel yy_modelWithDictionary:user];
+                    [MILocalData saveCurrentLoginUserInfo:model];
+                    
+                    [weakSelf.navigationController popViewControllerAnimated:YES];
+                } else {
+                    [weakSelf alertText:@"登录失败"];
+                }
+            }];
+        } else {
+            [MIToastAlertView showAlertViewWithMessage:error];
+        }
+    }];
 }
 
 - (IBAction)clickMessageBtn:(UIButton *)sender {

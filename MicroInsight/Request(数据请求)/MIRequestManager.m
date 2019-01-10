@@ -14,6 +14,7 @@ static NSString * const messageCodeUrl = @"/site/send-sms-verify-code";
 static NSString * const mobileRegisterUrl = @"/site/register-mobile";
 static NSString * const loginUrl = @"/site/login";
 static NSString * const loginByQQUrl = @"/site/qq-login";
+static NSString * const loginByWXUrl = @"/site/weixin-login";
 static NSString * const communityListUrl = @"/node/list";
 static NSString * const myCommunityListUrl = @"/node/my";
 static NSString * const communityDetailUrl = @"/image/detail";
@@ -171,6 +172,18 @@ static NSString * const getUserInfoUrl = @"/user/info";
     params[@"accessToken"] = token;
     
     NSString *url = [requestUrl stringByAppendingString:loginByQQUrl];
+    [MIRequestManager postApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+        
+        completed(jsonData, error);
+    }];
+}
+
++ (void)loginByWXWithCode:(NSString *)code completed:(void (^)(id jsonData, NSError *error))completed {
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"code"] = code;
+    
+    NSString *url = [requestUrl stringByAppendingString:loginByWXUrl];
     [MIRequestManager postApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
         
         completed(jsonData, error);

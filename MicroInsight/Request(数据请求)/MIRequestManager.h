@@ -86,6 +86,14 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (void)loginByQQWithOpenId:(NSString *)openId accessToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed;
 
+/**
+ 微信登录
+
+ @param code code
+ @param completed 完成回调
+ */
++ (void)loginByWXWithCode:(NSString *)code completed:(void (^)(id jsonData, NSError *error))completed;
+
 #pragma mark - 社区
 /**
  获取社区数据列表

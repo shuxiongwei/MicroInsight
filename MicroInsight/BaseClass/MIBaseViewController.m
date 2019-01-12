@@ -64,6 +64,7 @@
                      touchUpInSideTarget:(id)target
                                   action:(SEL)action {
     UIButton *rightBtn = [MIUIFactory createButtonWithType:type frame:frame normalTitle:title normalTitleColor:norColor highlightedTitleColor:hgtColor selectedColor:selColor titleFont:font normalImage:norImage highlightedImage:highImage selectedImage:selImage touchUpInSideTarget:target action:action];
+    [rightBtn layoutButtonWithEdgeInsetsStyle:MIButtonEdgeInsetsStyleLeft imageTitleSpace:5];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightBtn];
 }
 

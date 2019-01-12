@@ -23,6 +23,8 @@ static NSString * const praiseUrl = @"/node/like";
 static NSString * const commentUrl = @"/node/comment";
 static NSString * const uploadImageUrl = @"/image/upload";
 static NSString * const uploadVideoUrl = @"/video/create";
+static NSString * const checkSensitiveWordUrl = @"/site/check-sensitive-word";
+static NSString * const reportUserUrl = @"/user-report/report";
 static NSString * const modifyUserInfoUrl = @"/user/update-profile";
 static NSString * const uploadUserAvatarUrl = @"/user/upload-avatar";
 static NSString * const getUserInfoUrl = @"/user/info";
@@ -298,6 +300,33 @@ static NSString * const getUserInfoUrl = @"/user/info";
     params[@"tags"] = tags;
     
     NSString *url = [requestUrl stringByAppendingString:uploadVideoUrl];
+    url = [url stringByAppendingString:[NSString stringWithFormat:@"?token=%@", token]];
+    
+    [MIRequestManager postApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+        
+        completed(jsonData, error);
+    }];
+}
+
++ (void)checkSensitiveWord:(NSString *)content completed:(void (^)(id _Nonnull, NSError * _Nonnull))completed {
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"text"] = content;
+    
+    NSString *url = [requestUrl stringByAppendingString:checkSensitiveWordUrl];
+    [MIRequestManager postApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+        
+        completed(jsonData, error);
+    }];
+}
+
++ (void)reportUseWithUserId:(NSString *)userId reportContent:(NSString *)content requestToken:(NSString *)token completed:(void (^)(id _Nonnull, NSError * _Nonnull))completed {
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"userId"] = userId;
+    params[@"content"] = content;
+    
+    NSString *url = [requestUrl stringByAppendingString:reportUserUrl];
     url = [url stringByAppendingString:[NSString stringWithFormat:@"?token=%@", token]];
     
     [MIRequestManager postApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {

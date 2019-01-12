@@ -171,6 +171,24 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (void)uploadVideoWithTitle:(NSString *)title videoId:(NSString *)videoId tags:(NSArray *)tags requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed;
 
+/**
+ 敏感词检测
+
+ @param content 需要检测的内容
+ @param completed 完成回调
+ */
++ (void)checkSensitiveWord:(NSString *)content completed:(void (^)(id jsonData, NSError *error))completed;
+
+/**
+ 用户举报
+
+ @param userId 用户id
+ @param content 举报内容
+ @param token token
+ @param completed 完成回调
+ */
++ (void)reportUseWithUserId:(NSString *)userId reportContent:(NSString *)content requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed;
+
 #pragma mark - 个人中心
 /**
  获取当前登录的用户信息

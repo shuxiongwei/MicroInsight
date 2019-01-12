@@ -15,7 +15,7 @@
 #import "MICommunityRequest.h"
 #import "MIPlayerViewController.h"
 #import "MIThirdPartyLoginManager.h"
-
+#import "MIReportView.h"
 
 static NSString * const commentID = @"MICommentCell";
 
@@ -43,6 +43,8 @@ static NSString * const commentID = @"MICommentCell";
 @property (weak, nonatomic) IBOutlet UIView *playerBackView;
 @property (nonatomic, strong) MICommunityVideoInfo *videoInfo;
 
+@property (nonatomic, strong) MIReportView *reportView;
+
 @end
 
 @implementation MIDetailViewController
@@ -56,6 +58,7 @@ static NSString * const commentID = @"MICommentCell";
     // Do any additional setup after loading the view from its nib.
     
     [super configLeftBarButtonItem:@"社区"];
+    [super configRightBarButtonItemWithType:UIButtonTypeCustom frame:CGRectMake(0, 0, 60, 30) normalTitle:@"举报" normalTitleColor:UIColorFromRGBWithAlpha(0x535353, 1) highlightedTitleColor:nil selectedColor:nil titleFont:16 normalImage:[UIImage imageNamed:@"btn_report"] highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(showReportView)];
     [self configDetailUI];
     
     if (_contentType == 0) {
@@ -240,24 +243,32 @@ static NSString * const commentID = @"MICommentCell";
     }
     
     WSWeak(weakSelf);
-    [MIRequestManager commentWithContentId:_contentId contentType:_contentType content:_commentTF.text requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+    [MIRequestManager checkSensitiveWord:_commentTF.text completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
         
         NSInteger code = [jsonData[@"code"] integerValue];
         if (code == 0) {
-            if (weakSelf.contentType == 0) {
-                [self requestImageData:YES];
-            } else {
-                [self requestVideoInfo:YES];
-            }
-            
-            [self requestCommentData:YES];
-        } else {
-            [MIToastAlertView showAlertViewWithMessage:@"评论失败"];
+            [MIRequestManager commentWithContentId:weakSelf.contentId contentType:weakSelf.contentType content:weakSelf.commentTF.text requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+                
+                NSInteger code = [jsonData[@"code"] integerValue];
+                if (code == 0) {
+                    if (weakSelf.contentType == 0) {
+                        [weakSelf requestImageData:YES];
+                    } else {
+                        [weakSelf requestVideoInfo:YES];
+                    }
+                    
+                    [weakSelf requestCommentData:YES];
+                } else {
+                    [MIToastAlertView showAlertViewWithMessage:@"评论失败"];
+                }
+            }];
+        } else if (code == -1) {
+            [MIToastAlertView showAlertViewWithMessage:@"评论不能含有敏感词"];
         }
+        
+        weakSelf.commentTF.text = nil;
+        [weakSelf.commentTF resignFirstResponder];
     }];
-    
-    _commentTF.text = nil;
-    [_commentTF resignFirstResponder];
 }
 
 - (IBAction)clickShareBtn:(UIButton *)sender {
@@ -294,6 +305,37 @@ static NSString * const commentID = @"MICommentCell";
     [UIView animateWithDuration:duration animations:^{
         // 自动布局的view改变约束后,需要强制布局
         [self.view layoutIfNeeded];
+    }];
+}
+
+#pragma mark - 举报相关
+- (void)showReportView {
+    if (!_reportView) {
+        _reportView = [[MIReportView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height, self.view.bounds.size.width, self.view.bounds.size.height)];
+        [self.view addSubview:_reportView];
+        
+        WSWeak(weakSelf);
+        _reportView.selectReportContent = ^(NSString * _Nonnull content) {
+            
+            NSString *userId;
+            if (weakSelf.contentType == 0) {
+                userId = weakSelf.detailModel.userId;
+            } else {
+                userId = weakSelf.videoInfo.userId;
+            }
+            
+            [MIRequestManager reportUseWithUserId:userId reportContent:content requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+                
+                NSInteger code = [jsonData[@"code"] integerValue];
+                if (code == 0) {
+                    [MIToastAlertView showAlertViewWithMessage:@"举报成功"];
+                }
+            }];
+        };
+    }
+    
+    [UIView animateWithDuration:0.3 animations:^{
+        _reportView.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height);
     }];
 }
 

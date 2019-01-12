@@ -149,95 +149,104 @@ static NSString *const CellId = @"MIThemeCell";
         return;
     }
     
-    if (!_curTheme) {
-        [MIToastAlertView showAlertViewWithMessage:@"请选择主题"];
-        return;
-    }
-    
-    if ([_assetUrl.pathExtension isEqualToString:@"png"]) {
-        [MBProgressHUD showStatus:@"图片上传中，请稍后"];
+    WSWeak(weakSelf);
+    [MIRequestManager checkSensitiveWord:_nameTF.text completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
         
-        NSString *fileName = [[MIHelpTool timeStampSecond] stringByAppendingString:@".jpg"];
-        NSMutableArray *tags = [NSMutableArray arrayWithObject:@([_curTheme.themeId integerValue])];
-
-        [MIRequestManager uploadImageWithFile:@"file" fileName:fileName filePath:_assetUrl title:_nameTF.text tags:tags requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [MBProgressHUD hideHUD];
-            });
-            
-            NSInteger code = [jsonData[@"code"] integerValue];
-            if (code == 0) {
-                [MIToastAlertView showAlertViewWithMessage:@"上传成功"];
-                [self.navigationController popViewControllerAnimated:YES];
-            } else {
-                [MIToastAlertView showAlertViewWithMessage:@"上传失败"];
+        NSInteger code = [jsonData[@"code"] integerValue];
+        if (code == 0) {
+            if (!weakSelf.curTheme) {
+                [MIToastAlertView showAlertViewWithMessage:@"请选择主题"];
+                return;
             }
-        }];
-    } else {
-        NSString *text = _nameTF.text;
-        WSWeak(weakSelf);
-        MIAlbumRequest *rq = [[MIAlbumRequest alloc] init];
-        [rq videoInfoWithTitle:_assetUrl.lastPathComponent SuccessResponse:^(MIUploadVidoInfo * _Nonnull info) {
             
-            VODUploadListener *listener = [[VODUploadListener alloc] init];
-            listener.retry = ^{
+            if ([weakSelf.assetUrl.pathExtension isEqualToString:@"png"]) {
+                [MBProgressHUD showStatus:@"图片上传中，请稍后"];
                 
-                NSLog(@"%s", __PRETTY_FUNCTION__);
-            };
-            listener.retryResume = ^{
-                NSLog(@"%s", __PRETTY_FUNCTION__);
-            };
-            listener.finish = ^(UploadFileInfo *fileInfo, VodUploadResult *result) {
-                
+                NSString *fileName = [[MIHelpTool timeStampSecond] stringByAppendingString:@".jpg"];
                 NSMutableArray *tags = [NSMutableArray arrayWithObject:@([weakSelf.curTheme.themeId integerValue])];
-                [MIRequestManager uploadVideoWithTitle:text videoId:result.videoId tags:tags requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+                
+                [MIRequestManager uploadImageWithFile:@"file" fileName:fileName filePath:weakSelf.assetUrl title:weakSelf.nameTF.text tags:tags requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [MBProgressHUD hideHUD];
+                    });
                     
                     NSInteger code = [jsonData[@"code"] integerValue];
                     if (code == 0) {
-                        [MIToastAlertView showAlertViewWithMessage:@"视频上传成功"];
+                        [MIToastAlertView showAlertViewWithMessage:@"上传成功"];
                         [weakSelf.navigationController popViewControllerAnimated:YES];
+                    } else {
+                        [MIToastAlertView showAlertViewWithMessage:@"上传失败"];
                     }
                 }];
-                
-                NSLog(@"%s", __PRETTY_FUNCTION__);
-            };
-            listener.failure = ^(UploadFileInfo *fileInfo, NSString *code, NSString *message) {
-                [SVProgressHUD showErrorWithStatus:@"上传失败"];
-                NSLog(@"%s", __PRETTY_FUNCTION__);
-            };
-            listener.started = ^(UploadFileInfo *fileInfo) {
-                NSLog(@"%s", __PRETTY_FUNCTION__);
-            };
-            listener.progress = ^(UploadFileInfo *fileInfo, long uploadedSize, long totalSize) {
-                CGFloat uploadedS = uploadedSize;
-                [SVProgressHUD showProgress:uploadedS / totalSize status:@"视频上传中..."];
-                if (uploadedSize >= totalSize) {
-                    [SVProgressHUD dismiss];
-                }
-                NSLog(@"%s", __PRETTY_FUNCTION__);
-            };
-  
-            listener.expire = ^{
-                [SVProgressHUD showErrorWithStatus:@"上传失败"];
-                NSLog(@"%s", __PRETTY_FUNCTION__);
-            };
-            
-            VodInfo *uploadVodInfo = [[VodInfo alloc] init];
-            uploadVodInfo.title = self->_nameTF.text;
-            uploadVodInfo.templateGroupId = info.TemplateGroupId;
-            uploadVodInfo.cateId = @(0);
-            
-            VODUploadClient *uploadClient = [[VODUploadClient alloc] init];
-            [uploadClient init:info.AccessKeyId accessKeySecret:info.AccessKeySecret secretToken:info.SecurityToken expireTime:info.Expiration listener:listener];
-            [uploadClient addFile:self.assetUrl vodInfo:uploadVodInfo];
-            [uploadClient start];
-            [SVProgressHUD showProgress:0 status:@"视频上传中..."];
-            
-        } failureResponse:^(NSError *error) {
-            
-        }];
-    }
+            } else {
+                NSString *text = weakSelf.nameTF.text;
+                WSWeak(weakSelf);
+                MIAlbumRequest *rq = [[MIAlbumRequest alloc] init];
+                [rq videoInfoWithTitle:weakSelf.assetUrl.lastPathComponent SuccessResponse:^(MIUploadVidoInfo * _Nonnull info) {
+                    
+                    VODUploadListener *listener = [[VODUploadListener alloc] init];
+                    listener.retry = ^{
+                        
+                        NSLog(@"%s", __PRETTY_FUNCTION__);
+                    };
+                    listener.retryResume = ^{
+                        NSLog(@"%s", __PRETTY_FUNCTION__);
+                    };
+                    listener.finish = ^(UploadFileInfo *fileInfo, VodUploadResult *result) {
+                        
+                        NSMutableArray *tags = [NSMutableArray arrayWithObject:@([weakSelf.curTheme.themeId integerValue])];
+                        [MIRequestManager uploadVideoWithTitle:text videoId:result.videoId tags:tags requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+                            
+                            NSInteger code = [jsonData[@"code"] integerValue];
+                            if (code == 0) {
+                                [MIToastAlertView showAlertViewWithMessage:@"视频上传成功"];
+                                [weakSelf.navigationController popViewControllerAnimated:YES];
+                            }
+                        }];
+                        
+                        NSLog(@"%s", __PRETTY_FUNCTION__);
+                    };
+                    listener.failure = ^(UploadFileInfo *fileInfo, NSString *code, NSString *message) {
+                        [SVProgressHUD showErrorWithStatus:@"上传失败"];
+                        NSLog(@"%s", __PRETTY_FUNCTION__);
+                    };
+                    listener.started = ^(UploadFileInfo *fileInfo) {
+                        NSLog(@"%s", __PRETTY_FUNCTION__);
+                    };
+                    listener.progress = ^(UploadFileInfo *fileInfo, long uploadedSize, long totalSize) {
+                        CGFloat uploadedS = uploadedSize;
+                        [SVProgressHUD showProgress:uploadedS / totalSize status:@"视频上传中..."];
+                        if (uploadedSize >= totalSize) {
+                            [SVProgressHUD dismiss];
+                        }
+                        NSLog(@"%s", __PRETTY_FUNCTION__);
+                    };
+                    
+                    listener.expire = ^{
+                        [SVProgressHUD showErrorWithStatus:@"上传失败"];
+                        NSLog(@"%s", __PRETTY_FUNCTION__);
+                    };
+                    
+                    VodInfo *uploadVodInfo = [[VodInfo alloc] init];
+                    uploadVodInfo.title = weakSelf.nameTF.text;
+                    uploadVodInfo.templateGroupId = info.TemplateGroupId;
+                    uploadVodInfo.cateId = @(0);
+                    
+                    VODUploadClient *uploadClient = [[VODUploadClient alloc] init];
+                    [uploadClient init:info.AccessKeyId accessKeySecret:info.AccessKeySecret secretToken:info.SecurityToken expireTime:info.Expiration listener:listener];
+                    [uploadClient addFile:weakSelf.assetUrl vodInfo:uploadVodInfo];
+                    [uploadClient start];
+                    [SVProgressHUD showProgress:0 status:@"视频上传中..."];
+                    
+                } failureResponse:^(NSError *error) {
+                    
+                }];
+            }
+        } else if (code == -1) {
+            [MIToastAlertView showAlertViewWithMessage:@"标题不能含有敏感词"];
+        }
+    }];
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {

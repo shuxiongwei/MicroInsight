@@ -245,15 +245,15 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cl1-3w-j86">
-                                <rect key="frame" x="167.5" y="582" width="40" height="40"/>
+                                <rect key="frame" x="202.5" y="582" width="40" height="40"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" image="qq"/>
                                 <connections>
                                     <action selector="thirdPartLoginByQQ:" destination="yLL-6f-lTC" eventType="touchUpInside" id="YYV-sM-QWT"/>
                                 </connections>
                             </button>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dcY-f0-Ish">
-                                <rect key="frame" x="122.5" y="582" width="40" height="40"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dcY-f0-Ish">
+                                <rect key="frame" x="132.5" y="582" width="40" height="40"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" image="wechat"/>
                                 <connections>
@@ -277,9 +277,9 @@
                             <constraint firstItem="cl1-3w-j86" firstAttribute="top" secondItem="5W3-Uf-dPK" secondAttribute="bottom" constant="10" id="Ddr-Hh-HBM"/>
                             <constraint firstItem="VcV-OZ-QRL" firstAttribute="centerY" secondItem="ev3-Qw-5Mf" secondAttribute="centerY" id="HFM-wj-fef"/>
                             <constraint firstItem="j9k-7I-hQr" firstAttribute="top" secondItem="fep-uM-RQl" secondAttribute="bottom" constant="15" id="MMC-g6-jgt"/>
-                            <constraint firstItem="cl1-3w-j86" firstAttribute="centerX" secondItem="pz9-hN-MzY" secondAttribute="centerX" id="McT-Yw-p5V"/>
+                            <constraint firstItem="cl1-3w-j86" firstAttribute="leading" secondItem="pz9-hN-MzY" secondAttribute="centerX" constant="15" id="McT-Yw-p5V"/>
                             <constraint firstItem="NnY-QF-OC0" firstAttribute="leading" secondItem="pz9-hN-MzY" secondAttribute="leading" id="PpP-qh-XIg"/>
-                            <constraint firstItem="dcY-f0-Ish" firstAttribute="trailing" secondItem="pz9-hN-MzY" secondAttribute="centerX" constant="-25" id="QUP-vg-rjP"/>
+                            <constraint firstItem="dcY-f0-Ish" firstAttribute="trailing" secondItem="pz9-hN-MzY" secondAttribute="centerX" constant="-15" id="QUP-vg-rjP"/>
                             <constraint firstItem="Hcd-kq-qa8" firstAttribute="top" secondItem="cl1-3w-j86" secondAttribute="bottom" constant="45" id="Uxf-mZ-bd0"/>
                             <constraint firstItem="j9k-7I-hQr" firstAttribute="top" secondItem="ev3-Qw-5Mf" secondAttribute="bottom" constant="60" id="Wm1-Lk-tH5"/>
                             <constraint firstItem="j9k-7I-hQr" firstAttribute="leading" secondItem="pz9-hN-MzY" secondAttribute="leading" constant="20" id="gPL-bX-e3y"/>

@@ -37,7 +37,7 @@ typedef void(^MIThirdPartyLoginResultBlock)(NSDictionary *loginResult, NSString 
  @param type 登录类型
  @param result 回调
  */
-- (void)getUserInfoWithWTLoginType:(MILoginType)type result:(MIThirdPartyLoginResultBlock)result;
+- (void)getUserInfoWithWTLoginType:(MILoginType)type result:(MIThirdPartyLoginResultBlock)result showViewController:(UIViewController *)vc;
 
 /**
  分享到微信朋友圈

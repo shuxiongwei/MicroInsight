@@ -54,7 +54,7 @@ static MIThirdPartyLoginManager *_instance;
                                                            kOPEN_PERMISSION_GET_INFO]];
 }
 
-- (void)getUserInfoWithWTLoginType:(MILoginType)type result:(MIThirdPartyLoginResultBlock)result {
+- (void)getUserInfoWithWTLoginType:(MILoginType)type result:(MIThirdPartyLoginResultBlock)result showViewController:(UIViewController *)vc {
     _instance.resultBlock = result;
     _instance.loginType = type;
     
@@ -66,8 +66,12 @@ static MIThirdPartyLoginManager *_instance;
         [_instance.tencentOAuth authorize:_instance.tencentPermissions];
     } else if (type == MILoginTypeWeiXin) {
         SendAuthReq *req =[[SendAuthReq alloc] init];
-        req.scope = @"snsapi_userinfo" ;
-        [WXApi sendReq:req];
+        if ([WXApi isWXAppInstalled]) {
+            req.scope = @"snsapi_userinfo" ;
+            [WXApi sendReq:req];
+        } else {
+            [WXApi sendAuthReq:req viewController:vc delegate:self];
+        }
     }
 }
 

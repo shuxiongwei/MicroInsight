@@ -206,7 +206,7 @@ typedef NS_ENUM(NSInteger,MIModuleType) {
         } else {
             [MIToastAlertView showAlertViewWithMessage:error];
         }
-    }];
+    } showViewController:self];
 }
 
 - (IBAction)thirdPartLoginByWX:(UIButton *)sender {
@@ -232,7 +232,7 @@ typedef NS_ENUM(NSInteger,MIModuleType) {
         } else {
             [MIToastAlertView showAlertViewWithMessage:error];
         }
-    }];
+    } showViewController:self];
 }
 
 - (IBAction)clickMessageBtn:(UIButton *)sender {

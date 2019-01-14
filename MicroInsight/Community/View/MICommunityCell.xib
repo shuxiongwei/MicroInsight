@@ -23,7 +23,7 @@
                     </constraints>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="标题" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eWD-LD-WeG">
-                    <rect key="frame" x="40" y="172.5" width="252" height="16"/>
+                    <rect key="frame" x="90" y="172.5" width="202" height="16"/>
                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <nil key="highlightedColor"/>
@@ -78,7 +78,7 @@
                 <constraint firstItem="PLa-Rv-vds" firstAttribute="centerY" secondItem="qfE-kD-3l6" secondAttribute="centerY" id="Diy-l3-o4j"/>
                 <constraint firstItem="qfE-kD-3l6" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="5" id="LXl-M2-SX8"/>
                 <constraint firstItem="eWD-LD-WeG" firstAttribute="top" secondItem="jau-dm-uwL" secondAttribute="bottom" constant="6" id="Pc4-G3-PCV"/>
-                <constraint firstItem="eWD-LD-WeG" firstAttribute="leading" secondItem="ZOy-pH-ZAy" secondAttribute="leading" constant="10" id="R9N-zN-Qgs"/>
+                <constraint firstItem="eWD-LD-WeG" firstAttribute="leading" secondItem="ZOy-pH-ZAy" secondAttribute="trailing" constant="10" id="R9N-zN-Qgs"/>
                 <constraint firstItem="Nlt-8o-e1S" firstAttribute="centerX" secondItem="jau-dm-uwL" secondAttribute="centerX" id="T3h-IB-vNU"/>
                 <constraint firstItem="jau-dm-uwL" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Yej-fj-NTf"/>
                 <constraint firstItem="Nlt-8o-e1S" firstAttribute="centerY" secondItem="jau-dm-uwL" secondAttribute="centerY" id="a8G-ho-4Tb"/>

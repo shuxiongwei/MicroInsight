@@ -58,7 +58,12 @@ static NSString * const commentID = @"MICommentCell";
     // Do any additional setup after loading the view from its nib.
     
     [super configLeftBarButtonItem:@"社区"];
-    [super configRightBarButtonItemWithType:UIButtonTypeCustom frame:CGRectMake(0, 0, 60, 30) normalTitle:@"举报" normalTitleColor:UIColorFromRGBWithAlpha(0x535353, 1) highlightedTitleColor:nil selectedColor:nil titleFont:16 normalImage:[UIImage imageNamed:@"btn_report"] highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(showReportView)];
+    
+    MIUserInfoModel *userInfo = [MILocalData getCurrentLoginUserInfo];
+    if (userInfo.uid != _userId.integerValue) {
+        [super configRightBarButtonItemWithType:UIButtonTypeCustom frame:CGRectMake(0, 0, 30, 30) normalTitle:nil normalTitleColor:nil highlightedTitleColor:nil selectedColor:nil titleFont:0 normalImage:[UIImage imageNamed:@"btn_more_p"] highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(showReportView)];
+    }
+    
     [self configDetailUI];
     
     if (_contentType == 0) {
@@ -310,33 +315,64 @@ static NSString * const commentID = @"MICommentCell";
 
 #pragma mark - 举报相关
 - (void)showReportView {
-    if (!_reportView) {
-        _reportView = [[MIReportView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height, self.view.bounds.size.width, self.view.bounds.size.height)];
-        [self.view addSubview:_reportView];
-        
-        WSWeak(weakSelf);
-        _reportView.selectReportContent = ^(NSString * _Nonnull content) {
-            
-            NSString *userId;
-            if (weakSelf.contentType == 0) {
-                userId = weakSelf.detailModel.userId;
-            } else {
-                userId = weakSelf.videoInfo.userId;
-            }
-            
-            [MIRequestManager reportUseWithUserId:userId reportContent:content requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
-                
-                NSInteger code = [jsonData[@"code"] integerValue];
-                if (code == 0) {
-                    [MIToastAlertView showAlertViewWithMessage:@"举报成功"];
-                }
-            }];
-        };
-    }
+    WSWeak(weakSelf);
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle: UIAlertControllerStyleActionSheet];
     
-    [UIView animateWithDuration:0.3 animations:^{
-        _reportView.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height);
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+    UIAlertAction *reportAction = [UIAlertAction actionWithTitle:@"举报" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+        if (!weakSelf.reportView) {
+            weakSelf.reportView = [[MIReportView alloc] initWithFrame:CGRectMake(0, weakSelf.view.bounds.size.height, weakSelf.view.bounds.size.width, weakSelf.view.bounds.size.height)];
+            [weakSelf.view addSubview:weakSelf.reportView];
+            
+            weakSelf.reportView.selectReportContent = ^(NSString * _Nonnull content) {
+                
+                NSString *userId;
+                if (weakSelf.contentType == 0) {
+                    userId = weakSelf.detailModel.userId;
+                } else {
+                    userId = weakSelf.videoInfo.userId;
+                }
+                
+                [MIRequestManager reportUseWithUserId:userId reportContent:content requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+                    
+                    NSInteger code = [jsonData[@"code"] integerValue];
+                    if (code == 0) {
+                        [MIToastAlertView showAlertViewWithMessage:@"举报成功"];
+                    }
+                }];
+            };
+        }
+        
+        [UIView animateWithDuration:0.3 animations:^{
+            weakSelf.reportView.frame = CGRectMake(0, 0, weakSelf.view.bounds.size.width, weakSelf.view.bounds.size.height);
+        }];
     }];
+    
+    UIAlertAction *blackAction = [UIAlertAction actionWithTitle:@"拉黑" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+        NSString *userId;
+        if (weakSelf.contentType == 0) {
+            userId = weakSelf.detailModel.userId;
+        } else {
+            userId = weakSelf.videoInfo.userId;
+        }
+        
+        [MIRequestManager addBlackListWithUserId:userId requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+            
+            NSInteger code = [jsonData[@"code"] integerValue];
+            if (code == 0) {
+                [MIToastAlertView showAlertViewWithMessage:@"拉黑成功"];
+                [[NSNotificationCenter defaultCenter] postNotificationName:blackListNotification object:nil];
+                [self.navigationController popViewControllerAnimated:YES];
+            }
+        }];
+    }];
+    
+    [alertController addAction:cancelAction];
+    [alertController addAction:reportAction];
+    [alertController addAction:blackAction];
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 #pragma mark - UITableViewDelegate

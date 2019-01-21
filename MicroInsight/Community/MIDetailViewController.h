@@ -10,8 +10,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+static NSString * const blackListNotification = @"blackListNotification";
+
 @interface MIDetailViewController : MIBaseViewController
 
+@property (nonatomic, copy) NSString *userId;
 @property (nonatomic, copy) NSString *contentId;
 @property (nonatomic, assign) NSInteger contentType;
 

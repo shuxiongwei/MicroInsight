@@ -12,6 +12,7 @@
 #import "MIMineEditViewController.h"
 #import "UIImageView+WebCache.h"
 #import "MICommunityViewController.h"
+#import "MIBlackListViewController.h"
 
 @interface MIMineViewController () <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 
@@ -133,6 +134,11 @@
     UIStoryboard *board = [UIStoryboard storyboardWithName:@"Community" bundle:nil];
     MICommunityViewController *vc = [board instantiateViewControllerWithIdentifier:@"MICommunityViewController"];
     vc.isMine = YES;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (IBAction)gotoMineBlackList:(UIButton *)sender {
+    MIBlackListViewController *vc = [[MIBlackListViewController alloc] initWithNibName:@"MIBlackListViewController" bundle:nil];
     [self.navigationController pushViewController:vc animated:YES];
 }
 

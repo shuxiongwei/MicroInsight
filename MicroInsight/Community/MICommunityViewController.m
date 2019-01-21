@@ -32,11 +32,17 @@
 @property (nonatomic, assign) NSInteger searchPageCount;
 @property (nonatomic, strong) NSMutableArray *searchDataList;
 
+@property (nonatomic, assign) BOOL addBlackList; //标识是否是拉黑后返回当前控制器
+
 @end
 
 @implementation MICommunityViewController
 
 static NSString * const MICellID = @"MICommunityCell";
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:blackListNotification object:nil];
+}
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -63,6 +69,8 @@ static NSString * const MICellID = @"MICommunityCell";
     
     MIUserInfoModel *model = [MILocalData getCurrentLoginUserInfo];
     _titleLab.text = model.nickname;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hasAddBlackList) name:blackListNotification object:nil];
 }
 
 - (void)configCollectionView {
@@ -190,6 +198,16 @@ static NSString * const MICellID = @"MICommunityCell";
     }];
 }
 
+- (void)hasAddBlackList {
+    _addBlackList = YES;
+    _currentPage = 1;
+    _searchPage = 1;
+    _pageSize = 10;
+    [_collectionV.mj_footer resetNoMoreData];
+    [_searchCollectionV.mj_footer resetNoMoreData];
+    [self refreshUI:MIRefreshNormal];
+}
+
 #pragma mark - IB
 - (IBAction)homeBtnClick:(UIButton *)sender {
     [self.navigationController popViewControllerAnimated:YES];
@@ -258,6 +276,7 @@ static NSString * const MICellID = @"MICommunityCell";
     }
     
     MIDetailViewController *detailVC = [[MIDetailViewController alloc] initWithNibName:@"MIDetailViewController" bundle:nil];
+    detailVC.userId = listM.userId;
     detailVC.contentId = listM.contentId;
     detailVC.contentType = [listM.contentType integerValue];
     [self.navigationController pushViewController:detailVC animated:YES];
@@ -285,6 +304,11 @@ static NSString * const MICellID = @"MICommunityCell";
     searchBar.text = nil;
     _searchBackView.hidden = YES;
     _searchCollectionV.hidden = YES;
+    
+    if (_addBlackList) {
+        _addBlackList = NO;
+        [self refreshUI:MIRefreshNormal];
+    }
 }
 
 #pragma mark - 懒加载

@@ -28,6 +28,9 @@ static NSString * const reportUserUrl = @"/user-report/report";
 static NSString * const modifyUserInfoUrl = @"/user/update-profile";
 static NSString * const uploadUserAvatarUrl = @"/user/upload-avatar";
 static NSString * const getUserInfoUrl = @"/user/info";
+static NSString * const addBlackListUrl = @"/user-black/add";
+static NSString * const cancelBlackListUrl = @"/user-black/cancel";
+static NSString * const blackListUrl = @"/user-black/list";
 
 @implementation MIRequestManager
 
@@ -378,6 +381,46 @@ static NSString * const getUserInfoUrl = @"/user/info";
         completed(responseObject, nil);
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         completed(nil, error);
+    }];
+}
+
++ (void)addBlackListWithUserId:(NSString *)userId requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed {
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"userId"] = userId;
+    
+    NSString *url = [requestUrl stringByAppendingString:addBlackListUrl];
+    url = [url stringByAppendingString:[NSString stringWithFormat:@"?token=%@", token]];
+    
+    [MIRequestManager postApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+        
+        completed(jsonData, error);
+    }];
+}
+
++ (void)cancelBlackListWithUserId:(NSString *)userId requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed {
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"userId"] = userId;
+    
+    NSString *url = [requestUrl stringByAppendingString:cancelBlackListUrl];
+    url = [url stringByAppendingString:[NSString stringWithFormat:@"?token=%@", token]];
+    
+    [MIRequestManager postApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+        
+        completed(jsonData, error);
+    }];
+}
+
++ (void)getBlackListWithRequestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed {
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"token"] = token;
+    
+    NSString *url = [requestUrl stringByAppendingString:blackListUrl];
+    [MIRequestManager getApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+        
+        completed(jsonData, error);
     }];
 }
 

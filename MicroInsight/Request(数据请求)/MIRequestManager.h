@@ -220,6 +220,32 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (void)uploadUserAvatarWithFile:(NSString *)file fileName:(NSString *)fileName avatar:(UIImage *)avatar requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed;
 
+/**
+ 拉黑
+
+ @param userId 用户id
+ @param token token
+ @param completed 完成回调
+ */
++ (void)addBlackListWithUserId:(NSString *)userId requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed;
+
+/**
+ 取消拉黑
+
+ @param userId 用户id
+ @param token token
+ @param completed 完成回调
+ */
++ (void)cancelBlackListWithUserId:(NSString *)userId requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed;
+
+/**
+ 获取黑名单
+
+ @param token token
+ @param completed 完成回调
+ */
++ (void)getBlackListWithRequestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed;
+
 @end
 
 NS_ASSUME_NONNULL_END

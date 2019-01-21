@@ -71,6 +71,11 @@
 		707A5BC9212E390E002D61BC /* UIButton+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 707A5BC8212E390E002D61BC /* UIButton+Extension.m */; };
 		707A5BD0212EAA02002D61BC /* UIFont+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 707A5BCF212EAA02002D61BC /* UIFont+Extension.m */; };
 		707A5BD2212EAA90002D61BC /* font.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 707A5BD1212EAA90002D61BC /* font.ttf */; };
+		707FC34A21F34DA000B714F6 /* MIBlackListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 707FC34821F34DA000B714F6 /* MIBlackListViewController.m */; };
+		707FC34B21F34DA000B714F6 /* MIBlackListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 707FC34921F34DA000B714F6 /* MIBlackListViewController.xib */; };
+		707FC35021F3501B00B714F6 /* MIBlackListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 707FC34E21F3501B00B714F6 /* MIBlackListCell.m */; };
+		707FC35121F3501B00B714F6 /* MIBlackListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 707FC34F21F3501B00B714F6 /* MIBlackListCell.xib */; };
+		707FC35421F3553800B714F6 /* MIBlackListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 707FC35321F3553800B714F6 /* MIBlackListModel.m */; };
 		7096B560213784CF003B1D3F /* MICameraFunctionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7096B55F213784CF003B1D3F /* MICameraFunctionView.m */; };
 		70A80994212D7744003ED7D2 /* MIFactorSlider.xib in Resources */ = {isa = PBXBuildFile; fileRef = 70A8098F212D7744003ED7D2 /* MIFactorSlider.xib */; };
 		70A80995212D7744003ED7D2 /* OMSliderBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 70A80991212D7744003ED7D2 /* OMSliderBar.m */; };
@@ -257,6 +262,14 @@
 		707A5BCE212EAA02002D61BC /* UIFont+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIFont+Extension.h"; sourceTree = "<group>"; };
 		707A5BCF212EAA02002D61BC /* UIFont+Extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIFont+Extension.m"; sourceTree = "<group>"; };
 		707A5BD1212EAA90002D61BC /* font.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = font.ttf; sourceTree = "<group>"; };
+		707FC34721F34DA000B714F6 /* MIBlackListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIBlackListViewController.h; sourceTree = "<group>"; };
+		707FC34821F34DA000B714F6 /* MIBlackListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MIBlackListViewController.m; sourceTree = "<group>"; };
+		707FC34921F34DA000B714F6 /* MIBlackListViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MIBlackListViewController.xib; sourceTree = "<group>"; };
+		707FC34D21F3501B00B714F6 /* MIBlackListCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIBlackListCell.h; sourceTree = "<group>"; };
+		707FC34E21F3501B00B714F6 /* MIBlackListCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MIBlackListCell.m; sourceTree = "<group>"; };
+		707FC34F21F3501B00B714F6 /* MIBlackListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MIBlackListCell.xib; sourceTree = "<group>"; };
+		707FC35221F3553800B714F6 /* MIBlackListModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIBlackListModel.h; sourceTree = "<group>"; };
+		707FC35321F3553800B714F6 /* MIBlackListModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MIBlackListModel.m; sourceTree = "<group>"; };
 		7096B55E213784CF003B1D3F /* MICameraFunctionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MICameraFunctionView.h; sourceTree = "<group>"; };
 		7096B55F213784CF003B1D3F /* MICameraFunctionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MICameraFunctionView.m; sourceTree = "<group>"; };
 		70A8098F212D7744003ED7D2 /* MIFactorSlider.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MIFactorSlider.xib; sourceTree = "<group>"; };
@@ -727,6 +740,16 @@
 			path = MIHorizontalPickerView;
 			sourceTree = "<group>";
 		};
+		707FC34C21F3500100B714F6 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				707FC34D21F3501B00B714F6 /* MIBlackListCell.h */,
+				707FC34E21F3501B00B714F6 /* MIBlackListCell.m */,
+				707FC34F21F3501B00B714F6 /* MIBlackListCell.xib */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		70A8098E212D663B003ED7D2 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
@@ -778,6 +801,7 @@
 			isa = PBXGroup;
 			children = (
 				70AFE07921CDBCBC000585D0 /* Model */,
+				707FC34C21F3500100B714F6 /* View */,
 				70AFE07821CDBCBC000585D0 /* Controller */,
 			);
 			path = Mine;
@@ -792,6 +816,9 @@
 				70AFE07321CD29FD000585D0 /* MIMineEditViewController.h */,
 				70AFE07421CD29FD000585D0 /* MIMineEditViewController.m */,
 				70AFE07521CD29FD000585D0 /* MIMineEditViewController.xib */,
+				707FC34721F34DA000B714F6 /* MIBlackListViewController.h */,
+				707FC34821F34DA000B714F6 /* MIBlackListViewController.m */,
+				707FC34921F34DA000B714F6 /* MIBlackListViewController.xib */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -801,6 +828,8 @@
 			children = (
 				70AFE07A21CDBD04000585D0 /* MIUserInfoModel.h */,
 				70AFE07B21CDBD04000585D0 /* MIUserInfoModel.m */,
+				707FC35221F3553800B714F6 /* MIBlackListModel.h */,
+				707FC35321F3553800B714F6 /* MIBlackListModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1040,9 +1069,11 @@
 				7010352121D5111E008DBF3C /* img_community_1.jpg in Resources */,
 				0902409D21969F4C0003D686 /* Community.storyboard in Resources */,
 				70AFE08221CDC0DA000585D0 /* MIDatePickerView.xib in Resources */,
+				707FC35121F3501B00B714F6 /* MIBlackListCell.xib in Resources */,
 				70D277E021BCF87B007FEA63 /* LICENSE in Resources */,
 				70B509ED21B754B300BBB2A9 /* MIDetailViewController.xib in Resources */,
 				70AFE0BB21CFBD45000585D0 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
+				707FC34B21F34DA000B714F6 /* MIBlackListViewController.xib in Resources */,
 				70B509F221B7593500BBB2A9 /* MICommentCell.xib in Resources */,
 				707A5BD2212EAA90002D61BC /* font.ttf in Resources */,
 				70710C6920F476A400052929 /* LaunchScreen.storyboard in Resources */,
@@ -1126,6 +1157,7 @@
 				3B5FDB8921A2A38500DDCD1E /* MILoginViewController.m in Sources */,
 				3B7464CF21B901F1007F3820 /* MIUploadVidoInfo.m in Sources */,
 				3B6D661C21AE3AA8005CAE9A /* MINetworkConstant.m in Sources */,
+				707FC34A21F34DA000B714F6 /* MIBlackListViewController.m in Sources */,
 				3B6D661B21AE3AA8005CAE9A /* MIHTTPSessionManager.m in Sources */,
 				70710C6120F476A300052929 /* MIPhotographyViewController.m in Sources */,
 				70710CB020F4917E00052929 /* MIHorizontalPickerView.m in Sources */,
@@ -1146,9 +1178,11 @@
 				707A5BC9212E390E002D61BC /* UIButton+Extension.m in Sources */,
 				70294780212D5E6700B3732A /* MIReviewImageCell.m in Sources */,
 				3B9C19A121BE716600E5B544 /* MICommunityRequest.m in Sources */,
+				707FC35021F3501B00B714F6 /* MIBlackListCell.m in Sources */,
 				70710CAF20F4917E00052929 /* MIHorizontalPickerViewCellItem.m in Sources */,
 				70D76D3B21DF9D9E00EC5EF9 /* MIUserAgreementView.m in Sources */,
 				70C4319221B620FC001D56C4 /* MICommunityListModel.m in Sources */,
+				707FC35421F3553800B714F6 /* MIBlackListModel.m in Sources */,
 				70A80996212D7744003ED7D2 /* MIFactorSlider.m in Sources */,
 				70C4318B21B604C4001D56C4 /* MIHomeViewController.m in Sources */,
 				70B50A0A21B7E7D900BBB2A9 /* MICommunityCollectionLayout.m in Sources */,

@@ -21,6 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MICommunityListModel : MIBaseModel
 
 @property (nonatomic, copy) NSString *contentId;
+@property (nonatomic, copy) NSString *userId;
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) NSString *contentType;
 @property (nonatomic, copy) NSString *url;

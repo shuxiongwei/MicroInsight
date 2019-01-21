@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="52" id="KGk-i7-Jjw" customClass="MIBlackListCell">
+            <rect key="frame" x="0.0" y="0.0" width="334" height="52"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="334" height="51.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="OIv-YZ-88R">
+                        <rect key="frame" x="10" y="11" width="30" height="30"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="30" id="5rJ-hv-Ok6"/>
+                            <constraint firstAttribute="width" constant="30" id="OmX-3E-d5L"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Og2-g7-RDc">
+                        <rect key="frame" x="50" y="26" width="184" height="0.0"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="取消拉黑" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9ha-Ud-jJy">
+                        <rect key="frame" x="254" y="13.5" width="70" height="25"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="25" id="BHe-1o-f7g"/>
+                            <constraint firstAttribute="width" constant="70" id="dGc-kG-isH"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <constraints>
+                    <constraint firstItem="Og2-g7-RDc" firstAttribute="leading" secondItem="OIv-YZ-88R" secondAttribute="trailing" constant="10" id="1eK-3w-PWq"/>
+                    <constraint firstItem="Og2-g7-RDc" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="9ie-IX-itU"/>
+                    <constraint firstItem="OIv-YZ-88R" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Dv4-s1-EcF"/>
+                    <constraint firstItem="9ha-Ud-jJy" firstAttribute="leading" secondItem="Og2-g7-RDc" secondAttribute="trailing" constant="20" id="UwN-hK-fPL"/>
+                    <constraint firstAttribute="trailing" secondItem="9ha-Ud-jJy" secondAttribute="trailing" constant="10" id="WLE-b7-iwp"/>
+                    <constraint firstItem="9ha-Ud-jJy" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="jHF-3t-WS9"/>
+                    <constraint firstItem="OIv-YZ-88R" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="jLA-Ju-w6K"/>
+                </constraints>
+            </tableViewCellContentView>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <connections>
+                <outlet property="cancelLab" destination="9ha-Ud-jJy" id="zHa-nw-tvv"/>
+                <outlet property="imgView" destination="OIv-YZ-88R" id="aff-Qo-KHv"/>
+                <outlet property="userName" destination="Og2-g7-RDc" id="bzt-go-gbd"/>
+            </connections>
+            <point key="canvasLocation" x="-43" y="142"/>
+        </tableViewCell>
+    </objects>
+</document>

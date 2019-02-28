@@ -110,7 +110,7 @@
 //会话
 - (void)setupSession:(NSError **)error {
     _session = [[AVCaptureSession alloc] init];
-    _session.sessionPreset = AVCaptureSessionPresetPhoto;
+    _session.sessionPreset = AVCaptureSessionPresetHigh;
     
     [self setupSessionInputs:error];
     [self setupSessionOutputs:error];

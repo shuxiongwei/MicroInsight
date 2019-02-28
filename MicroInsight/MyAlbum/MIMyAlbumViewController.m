@@ -42,6 +42,12 @@ static NSString *const cellId = @"MIAlbumCell";
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 
+    NSString *assetPath = [MIHelpTool assetsPath];
+    NSString *path = [NSString stringWithFormat:@"%@/%@", assetPath, @"movie.mov"];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
+        [[NSFileManager defaultManager] removeItemAtPath:path error:nil];
+    };
+    
     [self refreshBtnSelected];
     self.assets = [self requestAssetsWithType:_albumType];
     [self showOrHideEmptyTipView];
@@ -62,12 +68,6 @@ static NSString *const cellId = @"MIAlbumCell";
     [super viewWillAppear:animated];
     
     self.navigationController.navigationBarHidden = YES;
-    
-    NSString *assetPath = [MIHelpTool assetsPath];
-    NSString *path = [NSString stringWithFormat:@"%@/%@", assetPath, @"movie.mov"];
-    if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
-        [[NSFileManager defaultManager] removeItemAtPath:path error:nil];
-    };
 }
 
 - (NSMutableArray *)requestAssetsWithType:(MIAlbumType)type {

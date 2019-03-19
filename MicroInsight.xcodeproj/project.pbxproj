@@ -54,6 +54,9 @@
 		70294783212D5F8A00B3732A /* MIReviewImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70294782212D5F8A00B3732A /* MIReviewImageViewController.m */; };
 		70294787212D626D00B3732A /* MIBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70294786212D626D00B3732A /* MIBaseViewController.m */; };
 		70294789212D63BC00B3732A /* MIReviewVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70294788212D63BC00B3732A /* MIReviewVideoViewController.m */; };
+		7034EC5E22392EDB007DB87D /* img_home_bg_0.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7034EC5B22392EDA007DB87D /* img_home_bg_0.jpg */; };
+		7034EC5F22392EDB007DB87D /* img_home_bg_2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7034EC5C22392EDB007DB87D /* img_home_bg_2.jpg */; };
+		7034EC6022392EDB007DB87D /* img_home_bg_1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7034EC5D22392EDB007DB87D /* img_home_bg_1.jpg */; };
 		706A6E1920F6F7390097C577 /* MIMotionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 706A6E1720F6F7390097C577 /* MIMotionManager.m */; };
 		706A6E1D20F6F9180097C577 /* UIView+CCAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 706A6E1C20F6F9180097C577 /* UIView+CCAdditions.m */; };
 		706A6E2120F6FA7A0097C577 /* MIVideoPreview.m in Sources */ = {isa = PBXBuildFile; fileRef = 706A6E2020F6FA7A0097C577 /* MIVideoPreview.m */; };
@@ -227,6 +230,9 @@
 		70294785212D626D00B3732A /* MIBaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIBaseViewController.h; sourceTree = "<group>"; };
 		70294786212D626D00B3732A /* MIBaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MIBaseViewController.m; sourceTree = "<group>"; };
 		70294788212D63BC00B3732A /* MIReviewVideoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIReviewVideoViewController.m; sourceTree = "<group>"; };
+		7034EC5B22392EDA007DB87D /* img_home_bg_0.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = img_home_bg_0.jpg; sourceTree = "<group>"; };
+		7034EC5C22392EDB007DB87D /* img_home_bg_2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = img_home_bg_2.jpg; sourceTree = "<group>"; };
+		7034EC5D22392EDB007DB87D /* img_home_bg_1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = img_home_bg_1.jpg; sourceTree = "<group>"; };
 		706A6E1720F6F7390097C577 /* MIMotionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIMotionManager.m; sourceTree = "<group>"; };
 		706A6E1820F6F7390097C577 /* MIMotionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIMotionManager.h; sourceTree = "<group>"; };
 		706A6E1B20F6F9180097C577 /* UIView+CCAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+CCAdditions.h"; sourceTree = "<group>"; };
@@ -556,6 +562,9 @@
 		7010351A21D51040008DBF3C /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				7034EC5B22392EDA007DB87D /* img_home_bg_0.jpg */,
+				7034EC5D22392EDB007DB87D /* img_home_bg_1.jpg */,
+				7034EC5C22392EDB007DB87D /* img_home_bg_2.jpg */,
 				7010351F21D5111E008DBF3C /* img_community_0.jpg */,
 				7010351C21D5111E008DBF3C /* img_community_1.jpg */,
 				7010351E21D5111E008DBF3C /* img_community_2.jpg */,
@@ -1074,13 +1083,16 @@
 				70B509ED21B754B300BBB2A9 /* MIDetailViewController.xib in Resources */,
 				70AFE0BB21CFBD45000585D0 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				707FC34B21F34DA000B714F6 /* MIBlackListViewController.xib in Resources */,
+				7034EC5F22392EDB007DB87D /* img_home_bg_2.jpg in Resources */,
 				70B509F221B7593500BBB2A9 /* MICommentCell.xib in Resources */,
 				707A5BD2212EAA90002D61BC /* font.ttf in Resources */,
 				70710C6920F476A400052929 /* LaunchScreen.storyboard in Resources */,
 				70AFE0B721CFBD45000585D0 /* README.txt in Resources */,
 				0902409F21969F600003D686 /* Photography.storyboard in Resources */,
 				70710C6620F476A400052929 /* Assets.xcassets in Resources */,
+				7034EC6022392EDB007DB87D /* img_home_bg_1.jpg in Resources */,
 				70D277E121BCF87B007FEA63 /* README.mdown in Resources */,
+				7034EC5E22392EDB007DB87D /* img_home_bg_0.jpg in Resources */,
 				7010352221D5111E008DBF3C /* img_community_4.jpg in Resources */,
 				3B830AE521AC084B00EC7746 /* Main.storyboard in Resources */,
 				70A80994212D7744003ED7D2 /* MIFactorSlider.xib in Resources */,

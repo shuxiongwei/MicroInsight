@@ -66,7 +66,7 @@ const NSInteger maxLength = 10;
 
 #pragma mark - 注销登录
 - (IBAction)logout:(UIButton *)sender {
-    UIAlertController *alertVC = [MIUIFactory createAlertControllerWithTitle:nil titleColor:nil titleFont:0 message:@"您确定要注销登录" messageColor:[UIColor darkGrayColor] messageFont:18 alertStyle:UIAlertControllerStyleAlert actionLeftTitle:@"取消" actionLeftStyle:UIAlertActionStyleDefault actionRightTitle:@"确定" actionRightStyle:UIAlertActionStyleDefault actionTitleColor:[UIColor darkGrayColor] selectAction:^{
+    UIAlertController *alertVC = [MIUIFactory createAlertControllerWithTitle:nil titleColor:nil titleFont:0 message:@"您确定要注销登录" messageColor:[UIColor darkGrayColor] messageFont:18 alertStyle:UIAlertControllerStyleAlert actionLeftTitle:@"取消" actionLeftStyle:UIAlertActionStyleDefault actionRightTitle:@"确定" actionRightStyle:UIAlertActionStyleDefault actionTitleColor:[UIColor darkGrayColor] selectAction:^(BOOL select){
         
         
     }];

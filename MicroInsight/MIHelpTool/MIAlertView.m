@@ -13,7 +13,8 @@
 @interface MIAlertView () <UITextFieldDelegate>
 
 @property (nonatomic, assign) MIAlertType alertType;
-@property (nonatomic, copy) void (^action)(id);
+@property (nonatomic, copy) void (^leftAction)(id);
+@property (nonatomic, copy) void (^rightAction)(id);
 @property (nonatomic, strong) UIView *alertView;
 @property (nonatomic, strong) UITextField *textField;
 @property (nonatomic, strong) UIView *progressView;
@@ -34,7 +35,8 @@
                     alertTitle:(NSString *)title
                   alertMessage:(NSString *)message
                      alertInfo:(id)alertInfo
-                        action:(void(^)(id alert))action {
+                    leftAction:(void(^)(id alert))leftAction
+                   rightAction:(void(^)(id alert))rightAction {
     
     dispatch_async(dispatch_get_main_queue(), ^{
         //先移除之前的提示
@@ -43,7 +45,7 @@
             [v removeFromSuperview];
         }
         
-        MIAlertView *alertView = [[MIAlertView alloc] initWithFrame:frame alertBounds:bounds alertType:type alertTitle:title alertMessage:message alertInfo:alertInfo action:action];
+        MIAlertView *alertView = [[MIAlertView alloc] initWithFrame:frame alertBounds:bounds alertType:type alertTitle:title alertMessage:message alertInfo:alertInfo leftAction:leftAction rightAction:rightAction];
         [[UIApplication sharedApplication].keyWindow addSubview:alertView];
     });
 }
@@ -54,11 +56,13 @@
                    alertTitle:(NSString *)title
                  alertMessage:(NSString *)message
                     alertInfo:(id)alertInfo
-                       action:(void(^)(id alert))action {
+                   leftAction:(void(^)(id alert))leftAction
+                  rightAction:(void(^)(id alert))rightAction {
     
     if (self = [super initWithFrame:frame]) {
         _alertType = type;
-        _action = action;
+        _leftAction = leftAction;
+        _rightAction = rightAction;
         _title = title;
         _message = message;
         _alertInfo = alertInfo;
@@ -97,7 +101,7 @@
     
     //右边按钮(确定)
     UIButton *rightBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectZero normalTitle:rightText normalTitleColor:[UIColor whiteColor] highlightedTitleColor:nil selectedColor:nil titleFont:15 normalImage:nil highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(clickRightBtn:)];
-    rightBtn.backgroundColor = UIColorFromRGBWithAlpha(0x0070F9, 1);
+    rightBtn.backgroundColor = [UIColor redColor];
     rightBtn.layer.cornerRadius = 3;
     rightBtn.layer.masksToBounds = YES;
     if (_alertType == QSAlertProgress) {
@@ -114,7 +118,15 @@
     
     if (_alertType != QSAlertProgress && _alertType != QSAlertStatus) {
         //左边按钮(取消)
-        UIButton *leftBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectZero normalTitle:@"取消" normalTitleColor:UIColorFromRGBWithAlpha(0x9FB1C1, 1) highlightedTitleColor:nil selectedColor:nil titleFont:15 normalImage:nil highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(clickLeftBtn:)];
+        NSString *leftT = @"取消";
+        if ([rightText isEqualToString:@"重新标定"]) {
+            rightBtn.backgroundColor = UIColorFromRGBWithAlpha(0x0070F9, 1);
+            leftT = @"已标定值";
+        }
+        UIButton *leftBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectZero normalTitle:leftT normalTitleColor:[UIColor whiteColor] highlightedTitleColor:nil selectedColor:nil titleFont:15 normalImage:nil highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(clickLeftBtn:)];
+        leftBtn.backgroundColor = [UIColor orangeColor];
+        leftBtn.layer.cornerRadius = 3;
+        leftBtn.layer.masksToBounds = YES;
         [_alertView addSubview:leftBtn];
         [leftBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.equalTo(rightBtn.mas_left).offset(-12);
@@ -217,15 +229,15 @@
 
 #pragma mark - 按钮点击事件
 - (void)clickRightBtn:(UIButton *)sender {
-    if (_action) {
+    if (_rightAction) {
         if (_alertType == QSAlertTextField) {
             if ([MIHelpTool isBlankString:_textField.text]) {
                 return;
             }
             
-            _action(_textField.text);
+            _rightAction(_textField.text);
         } else {
-            _action(_alertInfo);
+            _rightAction(_alertInfo);
         }
     }
 
@@ -233,6 +245,10 @@
 }
 
 - (void)clickLeftBtn:(UIButton *)sender {
+    if (_leftAction) {
+        _leftAction(nil);
+    }
+    
     [self removeFromSuperview];
 }
 

@@ -7,13 +7,15 @@
 //
 
 #import "MICameraView.h"
-#import "MIHorizontalPickerView.h"
-#import "MIHorizontalPickerViewCell.h"
-#import "MIHorizontalPickerViewCellItem.h"
-#import "MIFactorSlider.h"
-#import "MICameraFunctionView.h"
+#import "Masonry.h"
 
-@interface MICameraView() <MIHorizontalPickerViewDelegate, MIHorizontalPickerViewDataSource, MICameraFunctionViewDelegate, UIGestureRecognizerDelegate>
+typedef NS_ENUM(NSInteger, MIDemarcateType) {
+    MIDemarcateCancel,
+    MIDemarcateSave,
+    MIDemarcateReset,
+};
+
+@interface MICameraView() <UIGestureRecognizerDelegate>
 
 {
     CGFloat lastScale;
@@ -21,8 +23,7 @@
     CGFloat maxScale;
 }
 
-@property(nonatomic, strong) MIVideoPreview *previewView;
-@property (nonatomic, strong) UIView *bottomView;   // 下面的bar
+@property (nonatomic, strong) MIVideoPreview *previewView;
 @property (nonatomic, strong) UIView *focusView;    // 聚焦动画view
 @property (nonatomic, strong) UIView *exposureView; // 曝光动画view
 @property (nonatomic, strong) UIButton *torchBtn;
@@ -30,15 +31,25 @@
 @property (nonatomic, strong) UIButton *videoBtn;
 @property (nonatomic, strong) UIButton *coverBtn;
 @property (nonatomic, strong) UILabel *recordTitle;
-@property (nonatomic, strong) MIHorizontalPickerView *shootTypeMenu; //拍摄类型菜单
-@property (nonatomic, strong) NSMutableArray *shootTypeList;
 @property (nonatomic, strong) NSTimer *recordTimer;
 @property (nonatomic, assign) NSInteger recordSecond;
-@property (nonatomic, strong) MIFactorSlider *sliderView; //变焦视图
-@property (nonatomic, strong) MIFactorSlider *focusSlider; //对焦视图
-@property (nonatomic, strong) UISlider *focusSliderView; //对焦视图
-@property (nonatomic, strong) MICameraFunctionView *functionView;
+@property (nonatomic, strong) UIButton *backBtn;
+
 @property (nonatomic, strong) UILabel *curFactorLab;
+@property (nonatomic, strong) UIView *rulerView;
+
+@property (nonatomic, strong) UISlider *focalSliderView; //变焦条
+@property (nonatomic, strong) UIImageView *reduceV;
+@property (nonatomic, strong) UIImageView *addV;
+@property (nonatomic, strong) UIButton *rulerBtn;
+@property (nonatomic, strong) UILabel *unitLab;
+
+/* 相机标定相关 */
+@property (nonatomic, assign) BOOL isDemarcating; //相机标定中
+@property (nonatomic, strong) UIView *startV; //标定的起点
+@property (nonatomic, strong) UIView *endV; //标定的终点
+@property (nonatomic, strong) CAShapeLayer *demarcateLayer;
+@property (nonatomic, strong) UIView *demarcateSaveView;
 
 @end
 
@@ -48,26 +59,17 @@
 - (UILabel *)recordTitle {
     if (_recordTitle == nil) {
         _recordTitle = [MIUIFactory createLabelWithCenter:CGPointMake(self.width - 60, 25) withBounds:CGRectMake(0, 0, 120, 50) withText:@"00:00:00" withFont:15 withTextColor:[UIColor whiteColor] withTextAlignment:NSTextAlignmentCenter];
-//        _recordTitle.backgroundColor = UIColorFromRGBWithAlpha(000000, 0.5);
         [self addSubview:_recordTitle];
     }
     
     return _recordTitle;
 }
 
-- (UIView *)bottomView {
-    if (_bottomView == nil) {
-        _bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, self.height - 80, self.width, 80)];
-//        _bottomView.backgroundColor = UIColorFromRGBWithAlpha(000000, 0.7);
-    }
-    return _bottomView;
-}
-
 - (UIView *)focusView {
     if (_focusView == nil) {
         _focusView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 150, 150.0f)];
         _focusView.backgroundColor = [UIColor clearColor];
-        _focusView.layer.borderColor = [UIColor blueColor].CGColor;
+        _focusView.layer.borderColor = [UIColor yellowColor].CGColor;
         _focusView.layer.borderWidth = 1.0f;
         _focusView.hidden = YES;
     }
@@ -78,7 +80,7 @@
     if (_exposureView == nil) {
         _exposureView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 150, 150.0f)];
         _exposureView.backgroundColor = [UIColor clearColor];
-        _exposureView.layer.borderColor = [UIColor purpleColor].CGColor;
+        _exposureView.layer.borderColor = [UIColor orangeColor].CGColor;
         _exposureView.layer.borderWidth = 1.0f;
         _exposureView.hidden = YES;
     }
@@ -93,15 +95,43 @@
     return _recordTimer;
 }
 
+- (UIView *)demarcateSaveView {
+    if (!_demarcateSaveView) {
+        _demarcateSaveView = [[UIView alloc] initWithFrame:CGRectMake(0, self.height - 120, self.width, 120)];
+        _demarcateSaveView.backgroundColor = [UIColor clearColor];
+        [self.previewView addSubview:_demarcateSaveView];
+        
+        //取消标定
+        UIButton *cancelDemarcateBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(50, (_demarcateSaveView.height - 30) / 2.0, 60, 30) normalTitle:@"取消标定" normalTitleColor:[UIColor whiteColor] highlightedTitleColor:nil selectedColor:nil titleFont:13 normalImage:nil highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(cancelDemarcate:)];
+        cancelDemarcateBtn.backgroundColor = [UIColor redColor];
+        cancelDemarcateBtn.layer.cornerRadius = 5;
+        cancelDemarcateBtn.layer.masksToBounds = YES;
+        [_demarcateSaveView addSubview:cancelDemarcateBtn];
+        
+        //保存标定
+        UIButton *saveDemarcateBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(0, (_demarcateSaveView.height - 30) / 2.0, 60, 30) normalTitle:@"保存标定" normalTitleColor:[UIColor whiteColor] highlightedTitleColor:nil selectedColor:nil titleFont:13 normalImage:nil highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(saveDemarcate:)];
+        saveDemarcateBtn.centerX = self.previewView.centerX;
+        saveDemarcateBtn.backgroundColor = UIColorFromRGBWithAlpha(0x55BE50, 1);
+        saveDemarcateBtn.layer.cornerRadius = 5;
+        saveDemarcateBtn.layer.masksToBounds = YES;
+        [_demarcateSaveView addSubview:saveDemarcateBtn];
+        
+        //重新标定
+        UIButton *resetDemarcateBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(_demarcateSaveView.width - 50 - 60, (_demarcateSaveView.height - 30) / 2.0, 60, 30) normalTitle:@"重新标定" normalTitleColor:[UIColor whiteColor] highlightedTitleColor:nil selectedColor:nil titleFont:13 normalImage:nil highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(resetDemarcate:)];
+        resetDemarcateBtn.backgroundColor = [UIColor orangeColor];
+        resetDemarcateBtn.layer.cornerRadius = 5;
+        resetDemarcateBtn.layer.masksToBounds = YES;
+        [_demarcateSaveView addSubview:resetDemarcateBtn];
+    }
+    
+    return _demarcateSaveView;
+}
+
 #pragma mark - 初始化
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
-        _type = 1;
+        _type = 0;
         [self setupUI];
-        [self configTopViewUI];
-        [self configShootTypeMenuUI];
-        [self configFactorSliderUI];
-        [self configFocusSliderUI];
         [self registerNotification];
     }
     
@@ -112,7 +142,7 @@
 - (void)setupUI {
     lastScale = 1.0;
     minScale = 1.0;
-    maxScale = 11.0;
+    maxScale = 10.0;
     
     self.previewView = [[MIVideoPreview alloc] initWithFrame:CGRectMake(0, 0, self.width, self.height)];
     
@@ -128,164 +158,137 @@
     [tap requireGestureRecognizerToFail:doubleTap];
     
     [self addSubview:self.previewView];
-    [self addSubview:self.bottomView];
     [self.previewView addSubview:self.focusView];
     [self.previewView addSubview:self.exposureView];
     
-    //视频按钮
-    _videoBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(0, 0, 66, 66) normalTitle:nil normalTitleColor:nil highlightedTitleColor:nil selectedColor:nil titleFont:0 normalImage:[UIImage imageNamed:@"icon_record_btn_normal"] highlightedImage:nil selectedImage:[UIImage imageNamed:@"icon_stop_record_normal"] touchUpInSideTarget:self action:@selector(recordVideo:)];
-    _videoBtn.center = CGPointMake(self.bottomView.centerX, self.bottomView.height / 2.0);
-    _videoBtn.hidden = YES;
-    [self.bottomView addSubview:_videoBtn];
-    
-    //拍照按钮
-    _photoBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(0, 0, 66, 66) normalTitle:nil normalTitleColor:nil highlightedTitleColor:nil selectedColor:nil titleFont:0 normalImage:[UIImage imageNamed:@"icon_camera_click_normal"] highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(takePhoto:)];
-    _photoBtn.center = CGPointMake(self.bottomView.centerX, self.bottomView.height / 2.0);
-    [self.bottomView addSubview:_photoBtn];
-    
-    //手电筒
-    _torchBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(self.bottomView.width - 30 - 34, (self.bottomView.height - 44) / 2.0, 34, 44) normalTitle:nil normalTitleColor:nil highlightedTitleColor:nil selectedColor:nil titleFont:0 normalImage:[UIImage imageNamed:@"btn_shoot_flash_nor"] highlightedImage:nil selectedImage:[UIImage imageNamed:@"btn_shoot_flash_sel"] touchUpInSideTarget:self action:@selector(torchClick:)];
-    [_torchBtn setEnlargeEdgeWithTop:20 right:30 bottom:20 left:30];
-    [self.bottomView addSubview:_torchBtn];
-    
-//    //功能按钮
-//    UIButton *funcBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(self.bottomView.width - 30 - 50, (self.bottomView.height - 50) / 2.0, 50, 50) normalTitle:nil normalTitleColor:nil highlightedTitleColor:nil selectedColor:nil titleFont:0 normalImage:[UIImage imageNamed:@"btn_shoot_func_nor"] highlightedImage:nil selectedImage:[UIImage imageNamed:@"btn_shoot_func_sel"] touchUpInSideTarget:self action:@selector(clickFunctionBtn:)];
-//    [self.bottomView addSubview:funcBtn];
-    
-    _coverBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(30, (self.bottomView.height - 50) / 2.0, 50, 50) normalTitle:nil normalTitleColor:nil highlightedTitleColor:nil selectedColor:nil titleFont:0 normalImage:nil highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(reviewCoverImage:)];
-    _coverBtn.imageView.contentMode = UIViewContentModeScaleAspectFill;
-    _coverBtn.layer.cornerRadius = 3;
-    _coverBtn.layer.masksToBounds = YES;
-    [self.bottomView addSubview:_coverBtn];
+    [self configTopViewUI];
+    [self configMiddleUI];
+    [self configBottomUI];
+    [self configFocalSliderUI];
+    [self configRulerUI];
 }
 
+//配置顶部视图
 - (void)configTopViewUI {
     UILabel *appLab = [MIUIFactory createLabelWithCenter:CGPointMake(self.centerX, 25) withBounds:CGRectMake(0, 0, self.width, 50) withText:@"TipScope" withFont:20 withTextColor:[UIColor whiteColor] withTextAlignment:NSTextAlignmentCenter];
     appLab.font = [UIFont captionFontWithName:@"custom" size:20];
     [self addSubview:appLab];
     
-    UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    backBtn.bounds = CGRectMake(0, 0, 20, 20);
-    backBtn.center = CGPointMake(25, 25);
-    [backBtn setEnlargeEdge:15];
-    [backBtn setImage:[UIImage imageNamed:@"icon_review_close_nor"] forState:UIControlStateNormal];
-    [backBtn addTarget:self action:@selector(goBack:) forControlEvents:UIControlEventTouchUpInside];
-    [self addSubview:backBtn];
+    _backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    _backBtn.bounds = CGRectMake(0, 0, 20, 20);
+    _backBtn.center = CGPointMake(25, 25);
+    [_backBtn setEnlargeEdge:15];
+    [_backBtn setImage:[UIImage imageNamed:@"icon_review_close_nor"] forState:UIControlStateNormal];
+    [_backBtn addTarget:self action:@selector(goBack:) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:_backBtn];
 }
 
-- (void)configShootTypeMenuUI {
+//配置中间视图
+- (void)configMiddleUI {
+
+    //手电筒
+    _torchBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(self.width - 40 - 25, self.height - 235 - 40, 40, 40) normalTitle:nil normalTitleColor:nil highlightedTitleColor:nil selectedColor:nil titleFont:0 normalImage:[UIImage imageNamed:@"icon_shoot_flash_close"] highlightedImage:nil selectedImage:[UIImage imageNamed:@"icon_shoot_flash_open"] touchUpInSideTarget:self action:@selector(torchClick:)];
+    [self addSubview:_torchBtn];
     
-    NSArray *list = @[@"照片", @"视频"];
-    _shootTypeList = [NSMutableArray arrayWithCapacity:list.count];
-    for (NSInteger i = 0; i < list.count; i++) {
-        MIHorizontalPickerViewCellItem *item = [[MIHorizontalPickerViewCellItem alloc] init];
-        item.title = list[i];
-        [_shootTypeList addObject:item];
-    }
-    
-    CGFloat x = 0;
-    CGFloat y = self.height - 110;
-    CGFloat width = self.width;
-    CGFloat height = 30;
-    CGRect frame = CGRectMake(x, y, width, height);
-    
-    _shootTypeMenu = [[MIHorizontalPickerView alloc] initWithFrame:frame capacityOfDisplayCell:6 delegate:self dataSource:self];
-//    _shootTypeMenu.backgroundColor = UIColorFromRGBWithAlpha(000000, 0.7);
-    _shootTypeMenu.delegate = self;
-    _shootTypeMenu.dataSource = self;
-    [self addSubview:_shootTypeMenu];
+    //刻度尺
+    _rulerBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(self.width - 40 - 25, self.height - 180 - 40, 40, 40) normalTitle:nil normalTitleColor:nil highlightedTitleColor:nil selectedColor:nil titleFont:0 normalImage:[UIImage imageNamed:@"icon_shoot_ruler_nor"] highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(clickRulerBtn:)];
+    [self addSubview:_rulerBtn];
 }
 
-- (void)configFactorSliderUI {
-    _sliderView = [[MIFactorSlider alloc] initWithFrame:CGRectMake(90, self.height - 160, self.width - 140, 40)];
-    _sliderView.maxFactor = 10;
-    [self addSubview:_sliderView];
+//配置底部视图
+- (void)configBottomUI {
     
-    WSWeak(weakSelf);
-    _sliderView.sliderBarDidTrack = ^(CGFloat x) {
-        lastScale = x + 1;
-        if (lastScale > 10) {
-            weakSelf.curFactorLab.text = @"x10.0";
-        } else {
-            weakSelf.curFactorLab.text = [NSString stringWithFormat:@"x%.1f", lastScale];
-        }
-        if ([weakSelf.delegate respondsToSelector:@selector(setDeviceZoomFactor:zoomFactor:)]) {
-            [weakSelf.delegate setDeviceZoomFactor:weakSelf zoomFactor:x + 1];
-        }
-    };
+    //缩略图
+    _coverBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(40, self.height - 30 - 72, 72, 72) normalTitle:nil normalTitleColor:nil highlightedTitleColor:nil selectedColor:nil titleFont:0 normalImage:[UIImage imageNamed:@"home_btn_album"] highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(reviewCoverImage:)];
+    _coverBtn.imageView.contentMode = UIViewContentModeScaleAspectFill;
+    _coverBtn.layer.cornerRadius = 36;
+    _coverBtn.layer.masksToBounds = YES;
+    [self addSubview:_coverBtn];
     
-    _sliderView.sliderBarDidEndTrack = ^(CGFloat x) {
-        lastScale = x + 1;
-        if (lastScale > 10) {
-            weakSelf.curFactorLab.text = @"x10.0";
-        } else {
-            weakSelf.curFactorLab.text = [NSString stringWithFormat:@"x%.1f", lastScale];
-        }
-        if ([weakSelf.delegate respondsToSelector:@selector(setDeviceZoomFactor:zoomFactor:)]) {
-            [weakSelf.delegate setDeviceZoomFactor:weakSelf zoomFactor:x + 1];
-        }
-    };
+    //拍照按钮
+    _photoBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(0, 0, 72, 72) normalTitle:nil normalTitleColor:nil highlightedTitleColor:nil selectedColor:nil titleFont:0 normalImage:[UIImage imageNamed:@"icon_shoot_photo_nor"] highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(takePhoto:)];
+    _photoBtn.center = CGPointMake(self.centerX, self.height - 30 - 36);
+    [self addSubview:_photoBtn];
     
-    UILabel *factorLab = [MIUIFactory createLabelWithCenter:CGPointMake(30, _sliderView.centerY) withBounds:CGRectMake(0, 0, 40, 20) withText:@"放大" withFont:13 withTextColor:[UIColor blackColor] withTextAlignment:NSTextAlignmentCenter];
-    factorLab.backgroundColor = [UIColor whiteColor];
-    factorLab.layer.cornerRadius = 5;
-    factorLab.layer.masksToBounds = YES;
-    [self addSubview:factorLab];
-    
-    UILabel *minFactorLab = [MIUIFactory createLabelWithCenter:CGPointMake(75, _sliderView.centerY) withBounds:CGRectMake(0, 0, 30, 20) withText:@"x1.0" withFont:13 withTextColor:[UIColor whiteColor] withTextAlignment:NSTextAlignmentLeft];
-    [self addSubview:minFactorLab];
-    
-    UILabel *maxFactorLab = [MIUIFactory createLabelWithCenter:CGPointMake(MIScreenWidth - 30, _sliderView.centerY) withBounds:CGRectMake(0, 0, 40, 20) withText:@"x10.0" withFont:13 withTextColor:[UIColor whiteColor] withTextAlignment:NSTextAlignmentRight];
-    [self addSubview:maxFactorLab];
-    
-    _curFactorLab = [MIUIFactory createLabelWithCenter:CGPointMake(90 + _sliderView.width / 2.0, _sliderView.origin.y - 5) withBounds:CGRectMake(0, 0, 50, 20) withText:@"x1.0" withFont:15 withTextColor:[UIColor whiteColor] withTextAlignment:NSTextAlignmentCenter];
-    [self addSubview:_curFactorLab];
+    //视频按钮
+    _videoBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(0, 0, 72, 72) normalTitle:nil normalTitleColor:nil highlightedTitleColor:nil selectedColor:nil titleFont:0 normalImage:[UIImage imageNamed:@"icon_shoot_video_nor"] highlightedImage:nil selectedImage:[UIImage imageNamed:@"icon_shoot_video_sel"] touchUpInSideTarget:self action:@selector(recordVideo:)];
+    _videoBtn.center = CGPointMake(self.width - 40 - 36, self.height - 30 - 36);
+    [self addSubview:_videoBtn];
 }
 
-//- (void)configFocusSliderUI {
-//    _focusSlider = [[MIFactorSlider alloc] initWithFrame:CGRectMake(60, self.height - 200, self.width - 70, 40)];
-//    _focusSlider.maxFactor = 1;
-//    [self addSubview:_focusSlider];
-//
-//    WSWeak(weakSelf);
-//    _focusSlider.sliderBarDidTrack = ^(CGFloat x) {
-//        if ([weakSelf.delegate respondsToSelector:@selector(setDeviceFocusFactor:focusFactor:)]) {
-//            [weakSelf.delegate setDeviceFocusFactor:weakSelf focusFactor:x];
-//        }
-//    };
-//
-//    _focusSlider.sliderBarDidEndTrack = ^(CGFloat x) {
-//        if ([weakSelf.delegate respondsToSelector:@selector(setDeviceFocusFactor:focusFactor:)]) {
-//            [weakSelf.delegate setDeviceFocusFactor:weakSelf focusFactor:x];
-//        }
-//    };
-//
-//    UILabel *focusLab = [MIUIFactory createLabelWithCenter:CGPointMake(30, _focusSlider.centerY) withBounds:CGRectMake(0, 0, 40, 20) withText:@"调焦" withFont:13 withTextColor:[UIColor blackColor] withTextAlignment:NSTextAlignmentCenter];
-//    focusLab.backgroundColor = [UIColor whiteColor];
-//    focusLab.layer.cornerRadius = 5;
-//    focusLab.layer.masksToBounds = YES;
-//    [self addSubview:focusLab];
-//}
-
-- (void)configFocusSliderUI {
+//配置变焦条
+- (void)configFocalSliderUI {
     
-    UILabel *focusLab = [MIUIFactory createLabelWithCenter:CGPointMake(30, CGRectGetMinY(_sliderView.frame) - 30) withBounds:CGRectMake(0, 0, 40, 20) withText:@"调焦" withFont:13 withTextColor:[UIColor blackColor] withTextAlignment:NSTextAlignmentCenter];
-    focusLab.backgroundColor = [UIColor whiteColor];
-    focusLab.layer.cornerRadius = 5;
-    focusLab.layer.masksToBounds = YES;
-    [self addSubview:focusLab];
+    _reduceV = [[UIImageView alloc] initWithFrame:CGRectMake(20, self.height - 160, 8, 1)];
+    _reduceV.image = [UIImage imageNamed:@"icon_shoot_focal_reduce"];
+    [self addSubview:_reduceV];
     
-    _focusSliderView = [[UISlider alloc] initWithFrame:CGRectMake(15, 50 + (CGRectGetMinY(focusLab.frame) - 70) / 2.0, CGRectGetMinY(focusLab.frame) - 70, 20)];
-    _focusSliderView.centerX = focusLab.centerX;
+    _addV = [[UIImageView alloc] initWithFrame:CGRectMake(20, 70, 8, 8)];
+    _addV.image = [UIImage imageNamed:@"icon_shoot_focal_add"];
+    [self addSubview:_addV];
+    
+    _focalSliderView = [[UISlider alloc] initWithFrame:CGRectMake(0, 78 + 8 - 10 + (self.height - 78 - 161 - 16) / 2.0, self.height - 78 - 161 - 16, 20)];
+    _focalSliderView.centerX = _reduceV.centerX;
     CGAffineTransform rotation = CGAffineTransformMakeRotation(-M_PI/2);
-    [_focusSliderView setTransform:rotation];
-    [_focusSliderView setThumbImage:[UIImage imageNamed:@"icon_camera_circle_normal"] forState:UIControlStateNormal];
-    _focusSliderView.minimumTrackTintColor = [UIColor whiteColor];
-    _focusSliderView.maximumTrackTintColor = [UIColor whiteColor];
-    _focusSliderView.minimumValue = 0;
-    _focusSliderView.maximumValue = 1;
-    [_focusSliderView addTarget:self action:@selector(changeFocus:) forControlEvents:UIControlEventValueChanged];
-    [self addSubview:_focusSliderView];
+    [_focalSliderView setTransform:rotation];
+    [_focalSliderView setThumbImage:[UIImage imageNamed:@"icon_camera_circle_normal"] forState:UIControlStateNormal];
+    _focalSliderView.minimumTrackTintColor = [UIColor whiteColor];
+    _focalSliderView.maximumTrackTintColor = [UIColor whiteColor];
+    _focalSliderView.minimumValue = 1;
+    _focalSliderView.maximumValue = 10;
+    [_focalSliderView addTarget:self action:@selector(changeFocal:) forControlEvents:UIControlEventValueChanged];
+    [self addSubview:_focalSliderView];
+}
+
+//配置刻度尺
+- (void)configRulerUI {
+    _unitLab = [MIUIFactory createLabelWithCenter:CGPointMake(self.centerX, self.height - 140) withBounds:CGRectMake(0, 0, self.width, 20) withText:@"1 mm" withFont:15 withTextColor:[UIColor whiteColor] withTextAlignment:NSTextAlignmentCenter];
+    _unitLab.hidden = YES;
+    [self addSubview:_unitLab];
+    
+    _rulerView = [[UIView alloc] init];
+    _rulerView.backgroundColor = [UIColor whiteColor];
+    _rulerView.hidden = YES;
+    [self addSubview:_rulerView];
+    WSWeak(weakSelf);
+    [_rulerView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self);
+        make.top.mas_equalTo(weakSelf.unitLab.mas_bottom).offset(5);
+        make.height.mas_equalTo(@1);
+        make.width.mas_equalTo(@([MILocalData getCurrentDemarcateInfo] * weakSelf.focalSliderView.value));
+    }];
+    
+    UIView *leftV = [[UIView alloc] init];
+    leftV.backgroundColor = [UIColor whiteColor];
+    [_rulerView addSubview:leftV];
+    [leftV mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(weakSelf.rulerView).offset(0);
+        make.bottom.mas_equalTo(weakSelf.rulerView.mas_top).offset(0);
+        make.height.mas_equalTo(@3);
+        make.width.mas_equalTo(@1);
+    }];
+    
+//    UIView *middleV = [[UIView alloc] init];
+//    middleV.backgroundColor = [UIColor whiteColor];
+//    [_rulerView addSubview:middleV];
+//    [middleV mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.centerX.equalTo(weakSelf.rulerView);
+//        make.bottom.mas_equalTo(weakSelf.rulerView.mas_top).offset(0);
+//        make.height.mas_equalTo(@2);
+//        make.width.mas_equalTo(@1);
+//    }];
+    
+    UIView *rightV = [[UIView alloc] init];
+    rightV.backgroundColor = [UIColor whiteColor];
+    [_rulerView addSubview:rightV];
+    [rightV mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(weakSelf.rulerView).offset(0);
+        make.bottom.mas_equalTo(weakSelf.rulerView.mas_top).offset(0);
+        make.height.mas_equalTo(@3);
+        make.width.mas_equalTo(@1);
+    }];
+    
+    [self drawDividingLine];
 }
 
 - (void)registerNotification {
@@ -303,44 +306,99 @@
     }
 }
 
+- (void)clickRulerBtn:(UIButton *)sender {
+
+    if (!_rulerView.hidden) {
+        _unitLab.hidden = YES;
+        _rulerView.hidden = YES;
+    } else {
+        CGFloat length = [MILocalData getCurrentDemarcateInfo];
+        //还未进行相机标定
+        if (length == 0) {
+            [self executeCameraDemarcate:MIDemarcateReset];
+        } else {
+            WSWeak(weakSelf);
+            [MIAlertView showAlertViewWithFrame:MIScreenBounds alertBounds:CGRectMake(0, 0, 331, 213) alertType:QSAlertMessage alertTitle:@"温馨提示" alertMessage:@"请选择重新进行相机标定或使用已经保存的标定值" alertInfo:@"重新标定" leftAction:^(id alert) {
+                
+                weakSelf.unitLab.hidden = NO;
+                weakSelf.rulerView.hidden = NO;
+            } rightAction:^(id alert) {
+                [self executeCameraDemarcate:MIDemarcateReset];
+            }];
+        }
+    }
+}
+
 - (void)pinchTouch:(UIPinchGestureRecognizer *)ges {
+    if (_isDemarcating) {
+        return;
+    }
     
-    if(lastScale > maxScale || lastScale < minScale) {
+    if (lastScale > maxScale || lastScale < minScale) {
         return;
     }
 
     lastScale *= ges.scale;
     ges.scale = 1.0;
-    
-    lastScale = MIN(lastScale, 11);
+    lastScale = MIN(lastScale, 10);
     lastScale = MAX(1, lastScale);
     
-    [_sliderView refreshCurrentFactor:lastScale - 1];
-    
-    if (lastScale > 10) {
-        _curFactorLab.text = @"x10.0";
-    } else {
-       _curFactorLab.text = [NSString stringWithFormat:@"x%.1f", lastScale];
-    }
+    _focalSliderView.value = lastScale;
     
     if ([self.delegate respondsToSelector:@selector(setDeviceZoomFactor:zoomFactor:)]) {
         [self.delegate setDeviceZoomFactor:self zoomFactor:lastScale];
     }
+    
+    [_rulerView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.width.mas_equalTo(@([MILocalData getCurrentDemarcateInfo] * self->lastScale));
+    }];
+    [self drawDividingLine];
 }
 
 //聚焦
 - (void)tapAction:(UIGestureRecognizer *)tap {
-    if ([_delegate respondsToSelector:@selector(focusAction:point:succ:fail:)]) {
+
+    if (_isDemarcating) {
+        if (_startV && _endV) {
+            return;
+        }
+        
         CGPoint point = [tap locationInView:self.previewView];
-        [self runFocusAnimation:self.focusView point:point];
-        [_delegate focusAction:self point:[self.previewView captureDevicePointForPoint:point] succ:nil fail:^(NSError *error) {
-            [MIToastAlertView showAlertViewWithMessage:error.localizedDescription];
-        }];
+        
+        if (!_startV) {
+            _startV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 5, 5)];
+            _startV.center = point;
+            _startV.backgroundColor = [UIColor redColor];
+            _startV.layer.cornerRadius = 2.5;
+            _startV.layer.masksToBounds = YES;
+            [self.previewView addSubview:_startV];
+        } else {
+            _endV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 5, 5)];
+            _endV.center = point;
+            _endV.backgroundColor = [UIColor redColor];
+            _endV.layer.cornerRadius = 2.5;
+            _endV.layer.masksToBounds = YES;
+            [self.previewView addSubview:_endV];
+            
+            [self drawDemarcateLine];
+        }
+    } else {
+        if ([_delegate respondsToSelector:@selector(focusAction:point:succ:fail:)]) {
+            CGPoint point = [tap locationInView:self.previewView];
+            [self runFocusAnimation:self.focusView point:point];
+            [_delegate focusAction:self point:[self.previewView captureDevicePointForPoint:point] succ:nil fail:^(NSError *error) {
+                [MIToastAlertView showAlertViewWithMessage:error.localizedDescription];
+            }];
+        }
     }
 }
 
 //曝光
 - (void)doubleTapAction:(UIGestureRecognizer *)tap {
+    if (_isDemarcating) {
+        return;
+    }
+    
     if ([_delegate respondsToSelector:@selector(exposAction:point:succ:fail:)]) {
         CGPoint point = [tap locationInView:self.previewView];
         [self runFocusAnimation:self.exposureView point:point];
@@ -352,35 +410,48 @@
 
 //录制视频
 - (void)recordVideo:(UIButton *)btn {
-    _recordTitle.text = @"00:00:00";
-    btn.selected = !btn.selected;
-    if (btn.selected) {
-        _recordSecond = 0;
-        [self.recordTimer fire];
-        _coverBtn.hidden = YES;
-        _torchBtn.hidden = YES;
-        _shootTypeMenu.hidden = YES;
-        
-        if ([_delegate respondsToSelector:@selector(startRecordVideoAction:)]) {
-            [_delegate startRecordVideoAction:self];
-        }
+    
+    if (_type == 0) {
+        _type = 1;
+        _photoBtn.center = CGPointMake(self.width - 40 - 36, self.height - 30 - 36);
+        _videoBtn.center = CGPointMake(self.centerX, self.height - 30 - 36);
     } else {
-        [_recordTimer invalidate];
-        _recordTimer = nil;
-        _coverBtn.hidden = NO;
-        _torchBtn.hidden = NO;
-        _shootTypeMenu.hidden = NO;
-        
-        if ([_delegate respondsToSelector:@selector(stopRecordVideoAction:)]) {
-            [_delegate stopRecordVideoAction:self];
+        self.recordTitle.text = @"00:00:00";
+        btn.selected = !btn.selected;
+        if (btn.selected) {
+            _recordSecond = 0;
+            [self.recordTimer fire];
+            _coverBtn.hidden = YES;
+            _torchBtn.hidden = YES;
+            _photoBtn.hidden = YES;
+            
+            if ([_delegate respondsToSelector:@selector(startRecordVideoAction:)]) {
+                [_delegate startRecordVideoAction:self];
+            }
+        } else {
+            [_recordTimer invalidate];
+            _recordTimer = nil;
+            _coverBtn.hidden = NO;
+            _torchBtn.hidden = NO;
+            _photoBtn.hidden = NO;
+            
+            if ([_delegate respondsToSelector:@selector(stopRecordVideoAction:)]) {
+                [_delegate stopRecordVideoAction:self];
+            }
         }
     }
 }
 
 //拍照
 - (void)takePhoto:(UIButton *)btn {
-    if ([_delegate respondsToSelector:@selector(takePhotoAction:)]) {
-        [_delegate takePhotoAction:self];
+    if (_type == 0) {
+        if ([_delegate respondsToSelector:@selector(takePhotoAction:)]) {
+            [_delegate takePhotoAction:self];
+        }
+    } else {
+        _type = 0;
+        _photoBtn.center = CGPointMake(self.centerX, self.height - 30 - 36);
+        _videoBtn.center = CGPointMake(self.width - 40 - 36, self.height - 30 - 36);
     }
 }
 
@@ -395,76 +466,50 @@
     }
 }
 
-//功能按钮
-- (void)clickFunctionBtn:(UIButton *)btn {
-    btn.selected = !btn.selected;
-    if (btn.selected) {
-        if (!_functionView) {
-            _functionView = [[MICameraFunctionView alloc] initWithFrame:CGRectMake(0, 50, self.width, self.height - 160) delegate:self];
-            [self addSubview:_functionView];
-            
-            WSWeak(weakSelf);
-            _functionView.changeTorchFactor = ^(CGFloat factor) {
-                if (factor < 0.01) {
-                    weakSelf.torchBtn.selected = NO;
-                } else {
-                    weakSelf.torchBtn.selected = YES;
-                }
-                
-                if ([weakSelf.delegate respondsToSelector:@selector(setDeviceForchFactor:focusFactor:)]) {
-                    [weakSelf.delegate setDeviceForchFactor:weakSelf focusFactor:factor];
-                }
-            };
-            
-            _functionView.changeFocalFactor = ^(CGFloat factor) {
-                if ([weakSelf.delegate respondsToSelector:@selector(setDeviceZoomFactor:zoomFactor:)]) {
-                    [weakSelf.delegate setDeviceZoomFactor:weakSelf zoomFactor:factor];
-                }
-            };
-            
-            _functionView.changeFocusFactor = ^(CGFloat factor) {
-                if ([weakSelf.delegate respondsToSelector:@selector(setDeviceFocusFactor:focusFactor:)]) {
-                    [weakSelf.delegate setDeviceFocusFactor:weakSelf focusFactor:factor];
-                }
-            };
-            
-            _functionView.changeExposureDurationAndIsoFactor = ^(CGFloat duration, CGFloat iso) {
-                if ([weakSelf.delegate respondsToSelector:@selector(setDeviceExposureDurationAndIsoFactor:durationFactor:isoFactor:)]) {
-                    [weakSelf.delegate setDeviceExposureDurationAndIsoFactor:weakSelf durationFactor:duration isoFactor:iso];
-                }
-            };
-            
-            _functionView.changeExposureBiasFactor = ^(CGFloat factor) {
-                if ([weakSelf.delegate respondsToSelector:@selector(setDeviceExposureBiasFactor:biasFactor:)]) {
-                    [weakSelf.delegate setDeviceExposureBiasFactor:weakSelf biasFactor:factor];
-                }
-            };
-            
-            _functionView.changeBalanceFactor = ^(CGFloat red, CGFloat green, CGFloat blue) {
-                if ([weakSelf.delegate respondsToSelector:@selector(setDeviceBalanceFactor:redFactor:greenFactor:blueFactor:)]) {
-                    [weakSelf.delegate setDeviceBalanceFactor:weakSelf redFactor:red greenFactor:green blueFactor:blue];
-                }
-            };
-        } else {
-            _functionView.hidden = NO;
-        }
-    } else {
-        _functionView.hidden = YES;
-    }
-}
-
 //预览图片
 - (void)reviewCoverImage:(UIButton *)btn {
     if ([self.delegate respondsToSelector:@selector(reviewCoverImageOrVideo:resourceType:)]) {
-        [self.delegate reviewCoverImageOrVideo:self resourceType:_shootTypeMenu.selectedIndex];
+        [self.delegate reviewCoverImageOrVideo:self resourceType:_type];
     }
 }
 
 //对焦
-- (void)changeFocus:(UISlider *)slider {
-    if ([self.delegate respondsToSelector:@selector(setDeviceFocusFactor:focusFactor:)]) {
-        [self.delegate setDeviceFocusFactor:self focusFactor:slider.value];
+- (void)changeFocal:(UISlider *)slider {
+    if ([self.delegate respondsToSelector:@selector(setDeviceZoomFactor:zoomFactor:)]) {
+        [self.delegate setDeviceZoomFactor:self zoomFactor:slider.value];
     }
+    
+    [_rulerView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.width.mas_equalTo(@([MILocalData getCurrentDemarcateInfo] * slider.value));
+    }];
+    [self drawDividingLine];
+}
+
+//取消标定
+- (void)cancelDemarcate:(UIButton *)sender {
+    [self executeCameraDemarcate:MIDemarcateCancel];
+}
+
+//保存标定
+- (void)saveDemarcate:(UIButton *)sender {
+    CGFloat length = sqrt(pow(fabs(_endV.center.x - _startV.center.x), 2) + pow(fabs(_endV.center.y - _startV.center.y), 2)) / _focalSliderView.value;
+    [MILocalData saveCurrentDemarcateInfo:length];
+    [self drawDividingLine];
+    
+    _unitLab.hidden = NO;
+    _rulerView.hidden = NO;
+    
+    WSWeak(weakSelf);
+    [_rulerView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.width.mas_equalTo(@([MILocalData getCurrentDemarcateInfo] * weakSelf.focalSliderView.value));
+    }];
+    
+    [self executeCameraDemarcate:MIDemarcateSave];
+}
+
+//重新标定
+- (void)resetDemarcate:(UIButton *)sender {
+    [self executeCameraDemarcate:MIDemarcateReset];
 }
 
 #pragma mark - Private methods
@@ -521,6 +566,83 @@
     NSString *mString = m > 9?[NSString stringWithFormat:@"%ld",(long)m]:[NSString stringWithFormat:@"0%ld",(long)m];
     NSString *sString = s > 9?[NSString stringWithFormat:@"%ld",(long)s]:[NSString stringWithFormat:@"0%ld",(long)s];
     _recordTitle.text = [NSString stringWithFormat:@"%@:%@:%@",hString,mString,sString];
+}
+
+//执行相机标定
+- (void)executeCameraDemarcate:(MIDemarcateType)type {
+    BOOL execute = (type == MIDemarcateReset ? YES : NO);
+    
+    _isDemarcating = execute;
+    _backBtn.hidden = execute;
+    _torchBtn.hidden = execute;
+    _rulerBtn.hidden = execute;
+    _photoBtn.hidden = execute;
+    _videoBtn.hidden = execute;
+    _coverBtn.hidden = execute;
+    _focalSliderView.hidden = execute;
+    _reduceV.hidden = execute;
+    _addV.hidden = execute;
+    self.demarcateSaveView.hidden = !execute;
+    
+    [_startV removeFromSuperview];
+    _startV = nil;
+    [_endV removeFromSuperview];
+    _endV = nil;
+    [_demarcateLayer removeFromSuperlayer];
+    _demarcateLayer = nil;
+}
+
+//绘制刻度线
+- (void)drawDividingLine {
+    CGFloat length = [MILocalData getCurrentDemarcateInfo] * _focalSliderView.value;
+    if (length == 0) {
+        return;
+    }
+    
+    NSInteger num = ceil(length / 30.0);
+    CGFloat width = length / (num * 1.0);
+    
+    for (UIView *v in _rulerView.subviews) {
+        if (v.tag == 100) {
+            [v removeFromSuperview];
+        }
+    }
+    
+    for (NSInteger i = 1; i <= num - 1; i++) {
+        UIView *v = [[UIView alloc] initWithFrame:CGRectMake(i * width, -2, 1, 2)];
+        v.backgroundColor = [UIColor whiteColor];
+        v.tag = 100;
+        [_rulerView addSubview:v];
+    }
+    
+    _unitLab.text = [NSString stringWithFormat:@"%ld gird/mm", num];
+}
+
+#pragma mark - 绘制标定线段
+- (void)drawDemarcateLine {
+    CGMutablePathRef dotteShapePath = CGPathCreateMutable();
+    _demarcateLayer = [CAShapeLayer layer];
+    [_demarcateLayer setStrokeColor:[[UIColor redColor] CGColor]];
+    _demarcateLayer.lineWidth = 1.0f ;
+    
+    //第一个3代表线段的长度，第二个3代表间隙的长度
+    NSArray *dotteShapeArr = [[NSArray alloc] initWithObjects:[NSNumber numberWithInt:3],[NSNumber numberWithInt:3], nil];
+    [_demarcateLayer setLineDashPattern:dotteShapeArr];
+    CGPathMoveToPoint(dotteShapePath, NULL, _startV.center.x ,_startV.center.y);
+    CGPathAddLineToPoint(dotteShapePath, NULL, _endV.center.x, _endV.center.y);
+    [_demarcateLayer setPath:dotteShapePath];
+    CGPathRelease(dotteShapePath);
+    
+    [self.previewView.layer addSublayer:_demarcateLayer];
+    [self setAnimationWithShapeLay:_demarcateLayer Time:1];
+}
+
+- (void)setAnimationWithShapeLay:(CAShapeLayer *)layer Time:(CGFloat)duration {
+    CABasicAnimation *pathAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
+    pathAnimation.duration = duration;
+    pathAnimation.fromValue = [NSNumber numberWithFloat:0.0f];
+    pathAnimation.toValue = [NSNumber numberWithFloat:1.0f];
+    [layer addAnimation:pathAnimation forKey:nil];
 }
 
 #pragma mark - public methods
@@ -591,64 +713,7 @@
 }
 
 - (void)resetFocusSliderValue:(CGFloat)value {
-    [_focusSliderView setValue:value];
-}
-
-#pragma mark - QSHorizontalPickerViewDelegate
-- (void)horizontalPickerView:(MIHorizontalPickerView *)hpv didHighlightHorizontalPickerViewCell:(MIHorizontalPickerViewCell *)hpvc atIndex:(NSInteger)index {
     
-    [hpvc setHighlightState];
-    
-    if (index == 0) {
-        _recordTitle.hidden = YES;
-        _photoBtn.hidden = NO;
-        _videoBtn.hidden = YES;
-    } else {
-        self.recordTitle.hidden = NO;
-        _photoBtn.hidden = YES;
-        _videoBtn.hidden = NO;
-    }
-    //TODO
-//    [self resetCoverBtnImageWithAssetPath:<#(NSString *)#>];
-}
-
-- (void)horizontalPickerView:(MIHorizontalPickerView *)hpv didUnhighlightHorizontalPickerViewCell:(MIHorizontalPickerViewCell *)hpvc atIndex:(NSInteger)index {
-    
-    [hpvc setNormalState];
-}
-
-#pragma mark - QSHorizontalPickerViewDataSource
-- (NSInteger)numberOfColumnInHorizontalPickerView:(MIHorizontalPickerView *)hpv {
-    return _shootTypeList.count;
-}
-
-- (MIHorizontalPickerViewCell *)horizontalPickerView:(MIHorizontalPickerView *)hpv cellForColumnAtIndex:(NSInteger)index {
-    
-    MIHorizontalPickerViewCellItem *item = _shootTypeList[index];
-    MIHorizontalPickerViewCell *cell = [[MIHorizontalPickerViewCell alloc] initWithHorizontalPickerViewCellItem:item];
-    cell.currentIndex = index;
-    cell.HorizontalPickerViewCellSelectBlock = ^(NSInteger index) {
-        hpv.selectedIndex = index;
-    };
-    
-    return cell;
-}
-
-#pragma mark - MICameraFunctionViewDelegate
-- (CGPoint)getDeviceMinAndMaxExposureDurationFactor:(MICameraFunctionView *)func {
-    return [self.delegate getDeviceMinAndMaxExposureDurationFactor:self];
-}
-
-- (CGPoint)getDeviceMinAndMaxExposureIsoFactor:(MICameraFunctionView *)func {
-    return [self.delegate getDeviceMinAndMaxExposureIsoFactor:self];
-}
-
-- (CGPoint)getDeviceMinAndMaxExposureBiasFactor:(MICameraFunctionView *)func {
-    return [self.delegate getDeviceMinAndMaxExposureBiasFactor:self];
-}
-
-- (CGFloat)getDeviceMaxBalanceFactor:(MICameraFunctionView *)func {
-    return [self.delegate getDeviceMaxBalanceFactor:self];
 }
 
 #pragma mark - UIGestureRecognizerDelegate

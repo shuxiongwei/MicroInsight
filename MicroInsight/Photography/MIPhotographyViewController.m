@@ -650,7 +650,7 @@
             device.focusPointOfInterest = point;
             device.focusMode = AVCaptureFocusModeAutoFocus;
             [device unlockForConfiguration];
-            [_cameraView resetFocusSliderValue:device.lensPosition];
+//            [_cameraView resetFocusSliderValue:device.lensPosition];
         }
         return error;
     }

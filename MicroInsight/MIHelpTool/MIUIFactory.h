@@ -167,6 +167,6 @@
                                      actionRightTitle:(NSString *)rightTitle
                                      actionRightStyle:(UIAlertActionStyle)rightStyle
                                      actionTitleColor:(UIColor *)actionTitleColor
-                                         selectAction:(void(^)(void))select;
+                                         selectAction:(void(^)(BOOL select))select;
 
 @end

@@ -204,7 +204,7 @@
                                      actionRightTitle:(NSString *)rightTitle
                                      actionRightStyle:(UIAlertActionStyle)rightStyle
                                      actionTitleColor:(UIColor *)actionTitleColor
-                                         selectAction:(void(^)(void))select {
+                                         selectAction:(void(^)(BOOL select))select {
     
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:style];
     
@@ -225,14 +225,18 @@
     }
     
     if (![MIHelpTool isBlankString:leftTitle]) {
-        UIAlertAction *leftAction = [UIAlertAction actionWithTitle:leftTitle style:leftStyle handler:nil];
+        UIAlertAction *leftAction = [UIAlertAction actionWithTitle:leftTitle style:leftStyle handler:^(UIAlertAction * _Nonnull action) {
+            if (select) {
+                select(NO);
+            }
+        }];
         [leftAction setValue:actionTitleColor forKey:@"titleTextColor"];
         [alertController addAction:leftAction];
     }
     if (![MIHelpTool isBlankString:rightTitle]) {
         UIAlertAction *rightAction = [UIAlertAction actionWithTitle:rightTitle style:rightStyle handler:^(UIAlertAction * _Nonnull action) {
             if (select) {
-                select();
+                select(YES);
             }
         }];
         [rightAction setValue:actionTitleColor forKey:@"titleTextColor"];

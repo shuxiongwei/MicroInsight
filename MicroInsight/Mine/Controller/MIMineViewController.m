@@ -88,9 +88,11 @@
         
         AVAuthorizationStatus AVstatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
         if (AVstatus == AVAuthorizationStatusDenied) {
-            UIAlertController *alertVC = [MIUIFactory createAlertControllerWithTitle:@"无法访问相机" titleColor:[UIColor darkGrayColor] titleFont:16 message:@"请在iPhone的\"设置-隐私-相机\"中允许访问相机" messageColor:[UIColor darkGrayColor] messageFont:18 alertStyle:UIAlertControllerStyleAlert actionLeftTitle:@"取消" actionLeftStyle:UIAlertActionStyleDefault actionRightTitle:@"设置" actionRightStyle:UIAlertActionStyleDefault actionTitleColor:[UIColor darkGrayColor] selectAction:^{
+            UIAlertController *alertVC = [MIUIFactory createAlertControllerWithTitle:@"无法访问相机" titleColor:[UIColor darkGrayColor] titleFont:16 message:@"请在iPhone的\"设置-隐私-相机\"中允许访问相机" messageColor:[UIColor darkGrayColor] messageFont:18 alertStyle:UIAlertControllerStyleAlert actionLeftTitle:@"取消" actionLeftStyle:UIAlertActionStyleDefault actionRightTitle:@"设置" actionRightStyle:UIAlertActionStyleDefault actionTitleColor:[UIColor darkGrayColor] selectAction:^(BOOL select){
                 
-                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+                if (select) {
+                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+                }
             }];
             [self presentViewController:alertVC animated:YES completion:nil];
             return;
@@ -122,10 +124,12 @@
 
 #pragma mark - 注销登录
 - (IBAction)logout:(UIButton *)sender {
-    UIAlertController *alertVC = [MIUIFactory createAlertControllerWithTitle:nil titleColor:nil titleFont:0 message:@"您确定要注销登录" messageColor:[UIColor darkGrayColor] messageFont:18 alertStyle:UIAlertControllerStyleAlert actionLeftTitle:@"取消" actionLeftStyle:UIAlertActionStyleDefault actionRightTitle:@"确定" actionRightStyle:UIAlertActionStyleDefault actionTitleColor:[UIColor darkGrayColor] selectAction:^{
+    UIAlertController *alertVC = [MIUIFactory createAlertControllerWithTitle:nil titleColor:nil titleFont:0 message:@"您确定要注销登录" messageColor:[UIColor darkGrayColor] messageFont:18 alertStyle:UIAlertControllerStyleAlert actionLeftTitle:@"取消" actionLeftStyle:UIAlertActionStyleDefault actionRightTitle:@"确定" actionRightStyle:UIAlertActionStyleDefault actionTitleColor:[UIColor darkGrayColor] selectAction:^(BOOL select){
         
-        [MILocalData saveCurrentLoginUserInfo:nil];
-        [self.navigationController popViewControllerAnimated:YES];
+        if (select) {
+            [MILocalData saveCurrentLoginUserInfo:nil];
+            [self.navigationController popViewControllerAnimated:YES];
+        }
     }];
     [self presentViewController:alertVC animated:YES completion:nil];
 }

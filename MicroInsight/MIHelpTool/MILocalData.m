@@ -9,6 +9,7 @@
 #import "MILocalData.h"
 
 static NSString * const currentLoginUserInfo = @"currentLoginUserInfo";
+static NSString * const currentDemarcateInfo = @"currentDemarcateInfo";
 
 @implementation MILocalData
 
@@ -60,6 +61,17 @@ static NSString * const currentLoginUserInfo = @"currentLoginUserInfo";
     }
     
     return NO;
+}
+
++ (void)saveCurrentDemarcateInfo:(CGFloat)length {
+    NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+    [def setValue:@(length) forKey:currentDemarcateInfo];
+}
+
++ (CGFloat)getCurrentDemarcateInfo {
+    NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+    NSNumber *length = [def valueForKey:currentDemarcateInfo];
+    return length.floatValue;
 }
 
 @end

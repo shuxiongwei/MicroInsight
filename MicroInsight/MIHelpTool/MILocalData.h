@@ -48,6 +48,20 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (BOOL)hasLogin;
 
+/**
+ 保存当前相机的标定信息
+
+ @param length 长度(代表1mm)
+ */
++ (void)saveCurrentDemarcateInfo:(CGFloat)length;
+
+/**
+ 获取当前相机的标定信息
+
+ @return 返回值
+ */
++ (CGFloat)getCurrentDemarcateInfo;
+
 @end
 
 NS_ASSUME_NONNULL_END

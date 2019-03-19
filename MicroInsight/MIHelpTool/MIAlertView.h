@@ -27,7 +27,8 @@ typedef NS_ENUM(NSInteger, MIAlertType) {
  @param title 提示标题
  @param message 提示信息
  @param alertInfo 记录提示信息
- @param action 响应
+ @param leftAction 左边按钮响应
+ @param rightAction 右边按钮响应
  */
 + (void)showAlertViewWithFrame:(CGRect)frame
                    alertBounds:(CGRect)bounds
@@ -35,7 +36,8 @@ typedef NS_ENUM(NSInteger, MIAlertType) {
                     alertTitle:(NSString *)title
                   alertMessage:(NSString *)message
                      alertInfo:(id)alertInfo
-                        action:(void(^)(id alert))action;
+                    leftAction:(void(^)(id alert))leftAction
+                   rightAction:(void(^)(id alert))rightAction;
 
 /**
  初始化
@@ -46,7 +48,8 @@ typedef NS_ENUM(NSInteger, MIAlertType) {
  @param title 提示标题
  @param message 提示信息
  @param alertInfo 记录提示信息
- @param action 响应
+ @param leftAction 左边按钮响应
+ @param rightAction 右边按钮响应
  @return 返回值
  */
 - (instancetype)initWithFrame:(CGRect)frame
@@ -55,7 +58,8 @@ typedef NS_ENUM(NSInteger, MIAlertType) {
                    alertTitle:(NSString *)title
                  alertMessage:(NSString *)message
                     alertInfo:(id)alertInfo
-                       action:(void(^)(id alert))action;
+                   leftAction:(void(^)(id alert))leftAction
+                  rightAction:(void(^)(id alert))rightAction;
 
 /**
  刷新进度

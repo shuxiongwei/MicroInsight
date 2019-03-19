@@ -198,7 +198,7 @@
 
 @property(nonatomic, weak) id <MICameraViewDelegate> delegate;
 @property(nonatomic, strong, readonly) MIVideoPreview *previewView;
-@property(nonatomic, assign, readonly) NSInteger type; // 1：拍照 2：视频
+@property(nonatomic, assign, readonly) NSInteger type; // 0：拍照 1：视频
 
 /**
  改变手电筒

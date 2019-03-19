@@ -235,8 +235,8 @@ static NSString *const cellId = @"MIAlbumCell";
         alertText = @"确定删除所选视频吗？";
     }
     
-    [MIAlertView showAlertViewWithFrame:MIScreenBounds alertBounds:CGRectMake(0, 0, 331, 213) alertType:QSAlertMessage alertTitle:@"温馨提示" alertMessage:alertText alertInfo:@"删除" action:^(id alert) {
-        
+    [MIAlertView showAlertViewWithFrame:MIScreenBounds alertBounds:CGRectMake(0, 0, 331, 213) alertType:QSAlertMessage alertTitle:@"温馨提示" alertMessage:alertText alertInfo:@"删除" leftAction:nil rightAction:^(id alert) {
+
         for (MIAlbum *asset in selectedAsset) {
             
             NSFileManager *fm = [NSFileManager defaultManager];

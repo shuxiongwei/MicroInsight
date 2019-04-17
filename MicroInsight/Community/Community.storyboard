@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment version="2304" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -37,8 +37,8 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="玩转社区" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hfR-Ub-2l4">
-                                        <rect key="frame" x="155" y="38" width="65.5" height="8"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
+                                        <rect key="frame" x="157" y="35" width="61.5" height="14"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -58,7 +58,7 @@
                                     <constraint firstItem="bEc-55-fP8" firstAttribute="leading" secondItem="u33-sx-U94" secondAttribute="leading" constant="10" id="jGg-bv-h9i"/>
                                     <constraint firstItem="aRs-Of-oZV" firstAttribute="centerY" secondItem="bEc-55-fP8" secondAttribute="centerY" id="mxP-gC-5wR"/>
                                     <constraint firstAttribute="bottom" secondItem="bEc-55-fP8" secondAttribute="bottom" id="naW-8t-9dp"/>
-                                    <constraint firstAttribute="bottom" secondItem="hfR-Ub-2l4" secondAttribute="bottom" constant="18" id="qr7-pi-14L"/>
+                                    <constraint firstAttribute="bottom" secondItem="hfR-Ub-2l4" secondAttribute="bottom" constant="15" id="qr7-pi-14L"/>
                                     <constraint firstItem="hfR-Ub-2l4" firstAttribute="centerX" secondItem="u33-sx-U94" secondAttribute="centerX" id="vL4-ul-heB"/>
                                 </constraints>
                             </view>

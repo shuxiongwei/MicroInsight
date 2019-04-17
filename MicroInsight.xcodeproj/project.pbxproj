@@ -39,6 +39,7 @@
 		700A64F521D22071003F0430 /* MISlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 700A64EF21D22070003F0430 /* MISlider.m */; };
 		700A64F621D22071003F0430 /* MIControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = 700A64F221D22070003F0430 /* MIControlView.m */; };
 		700A64F721D22071003F0430 /* MIPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 700A64F421D22071003F0430 /* MIPlayer.m */; };
+		700C1BB12265D9E9003A34AF /* MIDemarcateAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 700C1BB02265D9E9003A34AF /* MIDemarcateAlertView.m */; };
 		700F01C621B5447700D0D3EA /* MIRequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 700F01C521B5447700D0D3EA /* MIRequestManager.m */; };
 		700F01C921B5496400D0D3EA /* MILocalData.m in Sources */ = {isa = PBXBuildFile; fileRef = 700F01C821B5496400D0D3EA /* MILocalData.m */; };
 		7010352021D5111E008DBF3C /* img_community_3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7010351B21D5111E008DBF3C /* img_community_3.jpg */; };
@@ -206,6 +207,8 @@
 		700A64F221D22070003F0430 /* MIControlView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIControlView.m; sourceTree = "<group>"; };
 		700A64F321D22070003F0430 /* MIPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIPlayer.h; sourceTree = "<group>"; };
 		700A64F421D22071003F0430 /* MIPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIPlayer.m; sourceTree = "<group>"; };
+		700C1BAF2265D9E9003A34AF /* MIDemarcateAlertView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIDemarcateAlertView.h; sourceTree = "<group>"; };
+		700C1BB02265D9E9003A34AF /* MIDemarcateAlertView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MIDemarcateAlertView.m; sourceTree = "<group>"; };
 		700F01C421B5447700D0D3EA /* MIRequestManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIRequestManager.h; sourceTree = "<group>"; };
 		700F01C521B5447700D0D3EA /* MIRequestManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MIRequestManager.m; sourceTree = "<group>"; };
 		700F01C721B5496400D0D3EA /* MILocalData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MILocalData.h; sourceTree = "<group>"; };
@@ -669,6 +672,8 @@
 				706A6E2320F6FB530097C577 /* MICameraView.m */,
 				7096B55E213784CF003B1D3F /* MICameraFunctionView.h */,
 				7096B55F213784CF003B1D3F /* MICameraFunctionView.m */,
+				700C1BAF2265D9E9003A34AF /* MIDemarcateAlertView.h */,
+				700C1BB02265D9E9003A34AF /* MIDemarcateAlertView.m */,
 			);
 			path = Camera;
 			sourceTree = "<group>";
@@ -1236,6 +1241,7 @@
 				70AFE08521CDC0FB000585D0 /* NSDate+Extension.m in Sources */,
 				70AFE07121CD1AC7000585D0 /* MIMineViewController.m in Sources */,
 				3B5FDB8C21A2C4BB00DDCD1E /* MICommunityViewController.m in Sources */,
+				700C1BB12265D9E9003A34AF /* MIDemarcateAlertView.m in Sources */,
 				706A6E1920F6F7390097C577 /* MIMotionManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

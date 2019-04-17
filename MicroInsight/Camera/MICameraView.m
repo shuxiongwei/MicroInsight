@@ -8,6 +8,7 @@
 
 #import "MICameraView.h"
 #import "Masonry.h"
+#import "MIDemarcateAlertView.h"
 
 typedef NS_ENUM(NSInteger, MIDemarcateType) {
     MIDemarcateCancel,
@@ -43,6 +44,7 @@ typedef NS_ENUM(NSInteger, MIDemarcateType) {
 @property (nonatomic, strong) UIImageView *addV;
 @property (nonatomic, strong) UIButton *rulerBtn;
 @property (nonatomic, strong) UILabel *unitLab;
+@property (nonatomic, strong) UILabel *totalLab;
 
 /* 相机标定相关 */
 @property (nonatomic, assign) BOOL isDemarcating; //相机标定中
@@ -102,23 +104,23 @@ typedef NS_ENUM(NSInteger, MIDemarcateType) {
         [self.previewView addSubview:_demarcateSaveView];
         
         //取消标定
-        UIButton *cancelDemarcateBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(50, (_demarcateSaveView.height - 30) / 2.0, 60, 30) normalTitle:@"取消标定" normalTitleColor:[UIColor whiteColor] highlightedTitleColor:nil selectedColor:nil titleFont:13 normalImage:nil highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(cancelDemarcate:)];
-        cancelDemarcateBtn.backgroundColor = [UIColor redColor];
+        UIButton *cancelDemarcateBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(50, (_demarcateSaveView.height - 30) / 2.0, 60, 30) normalTitle:@"取消标定" normalTitleColor:[UIColor blackColor] highlightedTitleColor:nil selectedColor:nil titleFont:13 normalImage:nil highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(cancelDemarcate:)];
+        cancelDemarcateBtn.backgroundColor = UIColorFromRGBWithAlpha(0xF2F3F5, 1);
         cancelDemarcateBtn.layer.cornerRadius = 5;
         cancelDemarcateBtn.layer.masksToBounds = YES;
         [_demarcateSaveView addSubview:cancelDemarcateBtn];
         
         //保存标定
-        UIButton *saveDemarcateBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(0, (_demarcateSaveView.height - 30) / 2.0, 60, 30) normalTitle:@"保存标定" normalTitleColor:[UIColor whiteColor] highlightedTitleColor:nil selectedColor:nil titleFont:13 normalImage:nil highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(saveDemarcate:)];
+        UIButton *saveDemarcateBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(0, (_demarcateSaveView.height - 30) / 2.0, 60, 30) normalTitle:@"保存标定" normalTitleColor:[UIColor blackColor] highlightedTitleColor:nil selectedColor:nil titleFont:13 normalImage:nil highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(saveDemarcate:)];
         saveDemarcateBtn.centerX = self.previewView.centerX;
-        saveDemarcateBtn.backgroundColor = UIColorFromRGBWithAlpha(0x55BE50, 1);
+        saveDemarcateBtn.backgroundColor = UIColorFromRGBWithAlpha(0xC6E377, 1);
         saveDemarcateBtn.layer.cornerRadius = 5;
         saveDemarcateBtn.layer.masksToBounds = YES;
         [_demarcateSaveView addSubview:saveDemarcateBtn];
         
         //重新标定
-        UIButton *resetDemarcateBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(_demarcateSaveView.width - 50 - 60, (_demarcateSaveView.height - 30) / 2.0, 60, 30) normalTitle:@"重新标定" normalTitleColor:[UIColor whiteColor] highlightedTitleColor:nil selectedColor:nil titleFont:13 normalImage:nil highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(resetDemarcate:)];
-        resetDemarcateBtn.backgroundColor = [UIColor orangeColor];
+        UIButton *resetDemarcateBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(_demarcateSaveView.width - 50 - 60, (_demarcateSaveView.height - 30) / 2.0, 60, 30) normalTitle:@"重新标定" normalTitleColor:[UIColor blackColor] highlightedTitleColor:nil selectedColor:nil titleFont:13 normalImage:nil highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(resetDemarcate:)];
+        resetDemarcateBtn.backgroundColor = UIColorFromRGBWithAlpha(0xFFC15E, 1);
         resetDemarcateBtn.layer.cornerRadius = 5;
         resetDemarcateBtn.layer.masksToBounds = YES;
         [_demarcateSaveView addSubview:resetDemarcateBtn];
@@ -191,7 +193,7 @@ typedef NS_ENUM(NSInteger, MIDemarcateType) {
     [self addSubview:_torchBtn];
     
     //刻度尺
-    _rulerBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(self.width - 40 - 25, self.height - 180 - 40, 40, 40) normalTitle:nil normalTitleColor:nil highlightedTitleColor:nil selectedColor:nil titleFont:0 normalImage:[UIImage imageNamed:@"icon_shoot_ruler_nor"] highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(clickRulerBtn:)];
+    _rulerBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(self.width - 40 - 25, self.height - 180 - 40, 40, 40) normalTitle:nil normalTitleColor:nil highlightedTitleColor:nil selectedColor:nil titleFont:0 normalImage:[UIImage imageNamed:@"icon_shoot_ruler_sel"] highlightedImage:nil selectedImage:[UIImage imageNamed:@"icon_shoot_ruler_nor"] touchUpInSideTarget:self action:@selector(clickRulerBtn:)];
     [self addSubview:_rulerBtn];
 }
 
@@ -242,9 +244,13 @@ typedef NS_ENUM(NSInteger, MIDemarcateType) {
 
 //配置刻度尺
 - (void)configRulerUI {
-    _unitLab = [MIUIFactory createLabelWithCenter:CGPointMake(self.centerX, self.height - 140) withBounds:CGRectMake(0, 0, self.width, 20) withText:@"1 mm" withFont:15 withTextColor:[UIColor whiteColor] withTextAlignment:NSTextAlignmentCenter];
+    _unitLab = [MIUIFactory createLabelWithCenter:CGPointMake(self.centerX, self.height - 160) withBounds:CGRectMake(0, 0, self.width, 20) withText:@"1 mm" withFont:15 withTextColor:[UIColor whiteColor] withTextAlignment:NSTextAlignmentCenter];
     _unitLab.hidden = YES;
     [self addSubview:_unitLab];
+    
+    _totalLab = [MIUIFactory createLabelWithCenter:CGPointMake(self.centerX, self.height - 130) withBounds:CGRectMake(0, 0, self.width, 20) withText:@"total 1 mm" withFont:15 withTextColor:[UIColor whiteColor] withTextAlignment:NSTextAlignmentCenter];
+    _totalLab.hidden = YES;
+    [self addSubview:_totalLab];
     
     _rulerView = [[UIView alloc] init];
     _rulerView.backgroundColor = [UIColor whiteColor];
@@ -311,6 +317,8 @@ typedef NS_ENUM(NSInteger, MIDemarcateType) {
     if (!_rulerView.hidden) {
         _unitLab.hidden = YES;
         _rulerView.hidden = YES;
+        _totalLab.hidden = YES;
+        sender.selected = !sender.selected;
     } else {
         CGFloat length = [MILocalData getCurrentDemarcateInfo];
         //还未进行相机标定
@@ -318,12 +326,25 @@ typedef NS_ENUM(NSInteger, MIDemarcateType) {
             [self executeCameraDemarcate:MIDemarcateReset];
         } else {
             WSWeak(weakSelf);
-            [MIAlertView showAlertViewWithFrame:MIScreenBounds alertBounds:CGRectMake(0, 0, 331, 213) alertType:QSAlertMessage alertTitle:@"温馨提示" alertMessage:@"请选择重新进行相机标定或使用已经保存的标定值" alertInfo:@"重新标定" leftAction:^(id alert) {
+            [MIDemarcateAlertView showAlertViewWithFrame:MIScreenBounds alertTitle:@"温馨提示" alertMessage:@"请选择重新进行相机标定或使用已经保存的标定值\n请对准1mm的物体进行标定。" leftTitle:@"重新标定" rightTitle:@"已标定值" leftAction:^(BOOL alert) {
                 
-                weakSelf.unitLab.hidden = NO;
-                weakSelf.rulerView.hidden = NO;
-            } rightAction:^(id alert) {
-                [self executeCameraDemarcate:MIDemarcateReset];
+                if (alert) {
+                    [MIDemarcateAlertView showAlertViewWithFrame:MIScreenBounds alertTitle:@"标定教程" alertMessage:@"①请对准一毫米标尺\n②点击标尺两侧\n③确定标点准确减少误差" leftTitle:@"取消" rightTitle:@"确定" leftAction:^(BOOL alert) {
+                        
+                    } rightAction:^(BOOL alert) {
+                        if (alert) {
+                            [weakSelf executeCameraDemarcate:MIDemarcateReset];
+                        }
+                    }];
+                }
+            } rightAction:^(BOOL alert) {
+                
+                if (!alert) {
+                    weakSelf.unitLab.hidden = NO;
+                    weakSelf.rulerView.hidden = NO;
+                    weakSelf.totalLab.hidden = NO;
+                    sender.selected = !sender.selected;
+                }
             }];
         }
     }
@@ -492,12 +513,18 @@ typedef NS_ENUM(NSInteger, MIDemarcateType) {
 
 //保存标定
 - (void)saveDemarcate:(UIButton *)sender {
+    if (!_endV) {
+        return;
+    }
+    
     CGFloat length = sqrt(pow(fabs(_endV.center.x - _startV.center.x), 2) + pow(fabs(_endV.center.y - _startV.center.y), 2)) / _focalSliderView.value;
     [MILocalData saveCurrentDemarcateInfo:length];
     [self drawDividingLine];
     
     _unitLab.hidden = NO;
     _rulerView.hidden = NO;
+    _totalLab.hidden = NO;
+    _rulerBtn.selected = !_rulerBtn.selected;
     
     WSWeak(weakSelf);
     [_rulerView mas_updateConstraints:^(MASConstraintMaker *make) {

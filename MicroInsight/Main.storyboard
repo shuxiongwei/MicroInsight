@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="0IF-6w-PqQ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="0IF-6w-PqQ">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -56,14 +56,14 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dgf-PS-kNi">
-                                        <rect key="frame" x="337" y="11" width="18" height="22"/>
+                                        <rect key="frame" x="333" y="11" width="22" height="22"/>
                                         <state key="normal" image="icon_home_user_nor"/>
                                         <connections>
                                             <action selector="clickUserBtn:" destination="Y2n-7e-tPh" eventType="touchUpInside" id="wsc-Kc-h5V"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DUQ-59-EpL">
-                                        <rect key="frame" x="289" y="11" width="20" height="22"/>
+                                        <rect key="frame" x="283" y="11" width="22" height="22"/>
                                         <state key="normal" image="icon_home_community_nor"/>
                                         <connections>
                                             <action selector="clickCommunityBtn:" destination="Y2n-7e-tPh" eventType="touchUpInside" id="cDt-7M-3Qf"/>
@@ -82,14 +82,14 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dCb-Kw-JGU">
-                                <rect key="frame" x="155" y="246" width="65" height="65"/>
+                                <rect key="frame" x="148" y="246" width="79.5" height="79"/>
                                 <state key="normal" image="icon_home_camera_nor"/>
                                 <connections>
                                     <action selector="clickCameraBtn:" destination="Y2n-7e-tPh" eventType="touchUpInside" id="8u6-tQ-0P4"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cma-kn-SZe">
-                                <rect key="frame" x="155" y="357" width="65" height="65"/>
+                                <rect key="frame" x="148" y="371" width="79.5" height="79"/>
                                 <state key="normal" image="icon_home_album_nor"/>
                                 <connections>
                                     <action selector="clickAlbumBtn:" destination="Y2n-7e-tPh" eventType="touchUpInside" id="CCi-pn-4nd"/>
@@ -100,7 +100,7 @@
                         <constraints>
                             <constraint firstItem="dCb-Kw-JGU" firstAttribute="centerX" secondItem="IqY-Tf-QoK" secondAttribute="centerX" id="0tK-dU-j50"/>
                             <constraint firstItem="2gv-4j-7mg" firstAttribute="leading" secondItem="IqY-Tf-QoK" secondAttribute="leading" id="3za-Ut-IuI"/>
-                            <constraint firstItem="1Cm-Qi-9K7" firstAttribute="top" secondItem="5I9-nc-br0" secondAttribute="bottom" id="5tL-fy-0GR"/>
+                            <constraint firstAttribute="bottom" secondItem="5I9-nc-br0" secondAttribute="bottom" id="5tL-fy-0GR"/>
                             <constraint firstItem="oi4-LD-egf" firstAttribute="leading" secondItem="IqY-Tf-QoK" secondAttribute="leading" id="Bhb-p4-fzL"/>
                             <constraint firstItem="5I9-nc-br0" firstAttribute="top" secondItem="2gv-4j-7mg" secondAttribute="bottom" id="PnK-VA-jt7"/>
                             <constraint firstItem="Cma-kn-SZe" firstAttribute="centerX" secondItem="IqY-Tf-QoK" secondAttribute="centerX" id="Spe-fa-byA"/>
@@ -126,9 +126,9 @@
         </scene>
     </scenes>
     <resources>
-        <image name="icon_home_album_nor" width="65.5" height="65.5"/>
-        <image name="icon_home_camera_nor" width="65.5" height="65.5"/>
-        <image name="icon_home_community_nor" width="20" height="18.5"/>
-        <image name="icon_home_user_nor" width="18" height="18.5"/>
+        <image name="icon_home_album_nor" width="79.5" height="79"/>
+        <image name="icon_home_camera_nor" width="79.5" height="79"/>
+        <image name="icon_home_community_nor" width="22" height="22"/>
+        <image name="icon_home_user_nor" width="22" height="22"/>
     </resources>
 </document>

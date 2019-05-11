@@ -29,7 +29,6 @@
 
     NSFileManager *fm = [NSFileManager defaultManager];
     if (![fm fileExistsAtPath:[MIHelpTool assetsPath]]) {
-        
         [MIHelpTool createAssetsPath];
     }
     return YES;

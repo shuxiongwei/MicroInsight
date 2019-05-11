@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -285,7 +285,7 @@
                             <constraint firstItem="j9k-7I-hQr" firstAttribute="leading" secondItem="pz9-hN-MzY" secondAttribute="leading" constant="20" id="gPL-bX-e3y"/>
                             <constraint firstItem="dcY-f0-Ish" firstAttribute="centerY" secondItem="cl1-3w-j86" secondAttribute="centerY" id="hVi-se-qbv"/>
                             <constraint firstItem="VcV-OZ-QRL" firstAttribute="top" secondItem="6o1-5A-OR6" secondAttribute="bottom" id="juG-n0-90d"/>
-                            <constraint firstItem="Hcd-kq-qa8" firstAttribute="top" secondItem="NnY-QF-OC0" secondAttribute="bottom" id="kUs-os-bKQ"/>
+                            <constraint firstAttribute="bottom" secondItem="NnY-QF-OC0" secondAttribute="bottom" id="kUs-os-bKQ"/>
                             <constraint firstAttribute="trailing" secondItem="j9k-7I-hQr" secondAttribute="trailing" constant="20" id="nQK-V4-Nh1"/>
                             <constraint firstItem="fep-uM-RQl" firstAttribute="leading" secondItem="pz9-hN-MzY" secondAttribute="leading" constant="40" id="zbm-1E-AB2"/>
                         </constraints>

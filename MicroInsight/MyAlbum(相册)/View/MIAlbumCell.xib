@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="MIAlbumCell">
+            <rect key="frame" x="0.0" y="0.0" width="132" height="166"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="132" height="166"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="TZf-J0-m8H">
+                        <rect key="frame" x="0.0" y="0.0" width="132" height="166"/>
+                    </imageView>
+                    <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NrJ-LI-bul">
+                        <rect key="frame" x="51" y="66" width="30" height="34"/>
+                    </button>
+                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ufp-w7-jbs">
+                        <rect key="frame" x="93" y="146.5" width="34" height="14.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mGZ-j5-POn">
+                        <rect key="frame" x="0.0" y="0.0" width="132" height="166"/>
+                        <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="0.6013484589041096" colorSpace="calibratedRGB"/>
+                    </view>
+                    <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z1F-eC-cBS">
+                        <rect key="frame" x="112" y="5" width="15" height="15"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="15" id="Fs1-9z-DDD"/>
+                            <constraint firstAttribute="width" constant="15" id="SYh-Ha-WXg"/>
+                        </constraints>
+                        <state key="normal" image="icon_album_select_nor"/>
+                        <state key="selected" image="icon_album_select_sel"/>
+                    </button>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="Ufp-w7-jbs" secondAttribute="trailing" constant="5" id="4Zw-H2-OsA"/>
+                <constraint firstAttribute="bottom" secondItem="Ufp-w7-jbs" secondAttribute="bottom" constant="5" id="6h2-yc-LzU"/>
+                <constraint firstAttribute="bottom" secondItem="TZf-J0-m8H" secondAttribute="bottom" id="Hz2-bi-RGY"/>
+                <constraint firstItem="NrJ-LI-bul" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="Jhf-Cw-7be"/>
+                <constraint firstItem="NrJ-LI-bul" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="LAq-qU-B0h"/>
+                <constraint firstAttribute="trailing" secondItem="mGZ-j5-POn" secondAttribute="trailing" id="N3N-xO-6G0"/>
+                <constraint firstAttribute="trailing" secondItem="Z1F-eC-cBS" secondAttribute="trailing" constant="5" id="NQr-KL-Omf"/>
+                <constraint firstAttribute="bottom" secondItem="mGZ-j5-POn" secondAttribute="bottom" id="an2-7y-ES5"/>
+                <constraint firstItem="mGZ-j5-POn" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="eLI-6f-TL7"/>
+                <constraint firstItem="mGZ-j5-POn" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="gQf-pb-Iam"/>
+                <constraint firstItem="Z1F-eC-cBS" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="5" id="ghq-qN-37x"/>
+                <constraint firstItem="TZf-J0-m8H" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="mjc-l3-5mz"/>
+                <constraint firstItem="TZf-J0-m8H" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="pIt-H6-Pkd"/>
+                <constraint firstAttribute="trailing" secondItem="TZf-J0-m8H" secondAttribute="trailing" id="tMS-iA-d2r"/>
+            </constraints>
+            <size key="customSize" width="132" height="166"/>
+            <connections>
+                <outlet property="durationLab" destination="Ufp-w7-jbs" id="kbq-Ho-AvL"/>
+                <outlet property="imgView" destination="TZf-J0-m8H" id="BAK-do-OzB"/>
+                <outlet property="maskView" destination="mGZ-j5-POn" id="VXm-OA-19q"/>
+                <outlet property="playBtn" destination="NrJ-LI-bul" id="GU0-l7-kji"/>
+                <outlet property="selectBtn" destination="Z1F-eC-cBS" id="cSu-YC-pgm"/>
+            </connections>
+            <point key="canvasLocation" x="-42.028985507246382" y="75"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="icon_album_select_nor" width="15" height="15"/>
+        <image name="icon_album_select_sel" width="15" height="15"/>
+    </resources>
+</document>

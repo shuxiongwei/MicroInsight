@@ -94,6 +94,27 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (void)loginByWXWithCode:(NSString *)code completed:(void (^)(id jsonData, NSError *error))completed;
 
+/**
+ 账号密码登录
+ 
+ @param username 用户名
+ @param password 密码
+ @param verifyToken 短信验证token
+ @param verifyCode 短信验证码
+ @param completed 完成回调
+ */
++ (void)forgetPasswordLoginWithUsername:(NSString *)username password:(NSString *)password verifyToken:(NSString *)verifyToken verifyCode:(NSString *)verifyCode completed:(void (^)(id jsonData, NSError *error))completed;
+
+/**
+ 验证码登录
+
+ @param mobile 手机号
+ @param verifyToken 短信验证token
+ @param verifyCode 短信验证码
+ @param completed 完成回掉
+ */
++ (void)loginWithMobile:(NSString *)mobile verifyToken:(NSString *)verifyToken verifyCode:(NSString *)verifyCode completed:(void (^)(id jsonData, NSError *error))completed;
+
 #pragma mark - 社区
 /**
  获取社区数据列表

@@ -7,7 +7,7 @@
 //
 
 #import "MIPlayer.h"
-#import "Masonry.h"
+
 
 @interface MIPlayer () <SBControlViewDelegate, UIGestureRecognizerDelegate>
 

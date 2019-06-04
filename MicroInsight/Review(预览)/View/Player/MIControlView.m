@@ -8,7 +8,7 @@
 
 #import "MIControlView.h"
 #import "MISlider.h"
-#import "Masonry.h"
+
 
 @interface MIControlView ()
 

@@ -8,7 +8,10 @@
 
 #import "MIRequestManager.h"
 
-static NSString * const requestUrl = @"https://api.tipscope.com/";
+//测试地址
+static NSString * const requestUrl = @"http://122.14.225.235:8080/test/api/web/index.php";
+//正式地址
+//static NSString * const requestUrl = @"https://api.tipscope.com";
 static NSString * const registerUrl = @"/site/register";
 static NSString * const messageCodeUrl = @"/site/send-sms-verify-code";
 static NSString * const mobileRegisterUrl = @"/site/register-mobile";
@@ -31,6 +34,8 @@ static NSString * const getUserInfoUrl = @"/user/info";
 static NSString * const addBlackListUrl = @"/user-black/add";
 static NSString * const cancelBlackListUrl = @"/user-black/cancel";
 static NSString * const blackListUrl = @"/user-black/list";
+static NSString * const forgetPasswordUrl = @"/site/forget-login";
+static NSString * const loginByAuthCodeUrl = @"/site/login-mobile";
 
 @implementation MIRequestManager
 
@@ -189,6 +194,35 @@ static NSString * const blackListUrl = @"/user-black/list";
     params[@"code"] = code;
     
     NSString *url = [requestUrl stringByAppendingString:loginByWXUrl];
+    [MIRequestManager postApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+        
+        completed(jsonData, error);
+    }];
+}
+
++ (void)forgetPasswordLoginWithUsername:(NSString *)username password:(NSString *)password verifyToken:(NSString *)verifyToken verifyCode:(NSString *)verifyCode completed:(void (^)(id jsonData, NSError *error))completed {
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"mobile"] = username;
+    params[@"password"] = password;
+    params[@"verifyToken"] = verifyToken;
+    params[@"verifyCode"] = verifyCode;
+    
+    NSString *url = [requestUrl stringByAppendingString:forgetPasswordUrl];
+    [MIRequestManager postApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+        
+        completed(jsonData, error);
+    }];
+}
+
++ (void)loginWithMobile:(NSString *)mobile verifyToken:(NSString *)verifyToken verifyCode:(NSString *)verifyCode completed:(void (^)(id jsonData, NSError *error))completed {
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"mobile"] = mobile;
+    params[@"verifyToken"] = verifyToken;
+    params[@"verifyCode"] = verifyCode;
+    
+    NSString *url = [requestUrl stringByAppendingString:forgetPasswordUrl];
     [MIRequestManager postApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
         
         completed(jsonData, error);

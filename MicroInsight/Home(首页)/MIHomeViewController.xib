@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MIHomeViewController" customModule="MicroInsight" customModuleProvider="target">
+            <connections>
+                <outlet property="albumBtn" destination="sEk-DD-Tan" id="fgq-Pa-chR"/>
+                <outlet property="bgView" destination="b9o-mW-rd4" id="bBw-OK-t1T"/>
+                <outlet property="cameraBtn" destination="QQf-si-e5C" id="nTo-Pv-INt"/>
+                <outlet property="communityBtn" destination="h3C-21-wPd" id="dGs-yl-EQ9"/>
+                <outlet property="msgBtn" destination="7wq-90-6z5" id="4LX-Vy-aU6"/>
+                <outlet property="navHeightConstraint" destination="cgO-Cl-igC" id="8By-VE-k43"/>
+                <outlet property="recommendBtn" destination="bNC-4H-EzB" id="xK6-f1-KEY"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nI5-hm-U3g">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
+                    <subviews>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_home_logo_nor" translatesAutoresizingMaskIntoConstraints="NO" id="IYi-Ba-9T6">
+                            <rect key="frame" x="133" y="31" width="109" height="22"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="109" id="Aj6-Ah-st2"/>
+                                <constraint firstAttribute="height" constant="22" id="xLR-xW-F85"/>
+                            </constraints>
+                        </imageView>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0PR-eQ-eUr">
+                            <rect key="frame" x="15" y="31" width="19" height="22"/>
+                            <state key="normal" image="icon_home_menu_nor"/>
+                            <connections>
+                                <action selector="clickHomeMenuBtn:" destination="-1" eventType="touchUpInside" id="qyJ-7J-lfZ"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7wq-90-6z5">
+                            <rect key="frame" x="342" y="31" width="18" height="22"/>
+                            <state key="normal" image="icon_home_msg_nor"/>
+                            <connections>
+                                <action selector="clickMsgBtn:" destination="-1" eventType="touchUpInside" id="nzh-2e-11y"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="7wq-90-6z5" secondAttribute="trailing" constant="15" id="Ggq-pZ-k95"/>
+                        <constraint firstItem="IYi-Ba-9T6" firstAttribute="centerY" secondItem="0PR-eQ-eUr" secondAttribute="centerY" id="Plt-uy-cby"/>
+                        <constraint firstItem="7wq-90-6z5" firstAttribute="centerY" secondItem="0PR-eQ-eUr" secondAttribute="centerY" id="UJe-16-0i9"/>
+                        <constraint firstAttribute="height" constant="64" id="cgO-Cl-igC"/>
+                        <constraint firstItem="IYi-Ba-9T6" firstAttribute="centerX" secondItem="nI5-hm-U3g" secondAttribute="centerX" id="eRZ-rC-3cG"/>
+                        <constraint firstItem="0PR-eQ-eUr" firstAttribute="leading" secondItem="nI5-hm-U3g" secondAttribute="leading" constant="15" id="hvH-aS-UhA"/>
+                        <constraint firstAttribute="bottom" secondItem="IYi-Ba-9T6" secondAttribute="bottom" constant="11" id="qCS-WG-faT"/>
+                    </constraints>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OlB-Ny-Ked">
+                    <rect key="frame" x="0.0" y="64" width="375" height="260"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="OlB-Ny-Ked" secondAttribute="height" multiplier="375:260" id="WgX-b1-oN5"/>
+                    </constraints>
+                    <state key="normal" backgroundImage="img_home_topBg_nor"/>
+                    <connections>
+                        <action selector="clickTopBannerBtn:" destination="-1" eventType="touchUpInside" id="H2O-Qa-qqW"/>
+                    </connections>
+                </button>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="b9o-mW-rd4">
+                    <rect key="frame" x="20" y="285" width="335" height="360"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QQf-si-e5C">
+                            <rect key="frame" x="20" y="20" width="143" height="155.5"/>
+                            <color key="backgroundColor" red="0.96862745098039216" green="0.75686274509803919" blue="0.40784313725490196" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                            <state key="normal" title="相机" image="icon_home_camera_nor"/>
+                            <connections>
+                                <action selector="clickCameraBtn:" destination="-1" eventType="touchUpInside" id="ED1-7K-aqG"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sEk-DD-Tan">
+                            <rect key="frame" x="172" y="20" width="143" height="155.5"/>
+                            <color key="backgroundColor" red="0.72156862745098038" green="0.90588235294117647" blue="0.69803921568627447" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                            <state key="normal" title="相册" image="icon_home_photo_nor"/>
+                            <connections>
+                                <action selector="clickAlbumBtn:" destination="-1" eventType="touchUpInside" id="dEh-y9-u8i"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h3C-21-wPd">
+                            <rect key="frame" x="20" y="184.5" width="143" height="155.5"/>
+                            <color key="backgroundColor" red="0.55686274509803924" green="0.80784313725490198" blue="0.9882352941176471" alpha="1" colorSpace="calibratedRGB"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                            <state key="normal" title="社区" image="icon_home_community_nor"/>
+                            <connections>
+                                <action selector="clickCommunityBtn:" destination="-1" eventType="touchUpInside" id="i2x-p6-piE"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bNC-4H-EzB">
+                            <rect key="frame" x="172" y="184.5" width="143" height="155.5"/>
+                            <color key="backgroundColor" red="0.58431372549019611" green="0.59999999999999998" blue="0.88627450980392153" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                            <state key="normal" title="推荐" image="icon_home_recommend_nor"/>
+                            <connections>
+                                <action selector="clickRecommendBtn:" destination="-1" eventType="touchUpInside" id="HJb-9k-ju6"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="b9o-mW-rd4" secondAttribute="height" multiplier="335:360" id="5X2-MC-COQ"/>
+                        <constraint firstItem="h3C-21-wPd" firstAttribute="top" secondItem="b9o-mW-rd4" secondAttribute="centerY" constant="4.5" id="6H2-1v-uW6"/>
+                        <constraint firstAttribute="centerY" secondItem="sEk-DD-Tan" secondAttribute="bottom" constant="4.5" id="6gG-PN-G8V"/>
+                        <constraint firstAttribute="centerX" secondItem="h3C-21-wPd" secondAttribute="trailing" constant="4.5" id="8OZ-Rz-fMd"/>
+                        <constraint firstItem="bNC-4H-EzB" firstAttribute="top" secondItem="b9o-mW-rd4" secondAttribute="centerY" constant="4.5" id="Gti-rt-4HT"/>
+                        <constraint firstAttribute="trailing" secondItem="sEk-DD-Tan" secondAttribute="trailing" constant="20" id="KNH-zM-z58"/>
+                        <constraint firstItem="h3C-21-wPd" firstAttribute="leading" secondItem="b9o-mW-rd4" secondAttribute="leading" constant="20" id="Qc0-XR-bhN"/>
+                        <constraint firstItem="QQf-si-e5C" firstAttribute="top" secondItem="b9o-mW-rd4" secondAttribute="top" constant="20" id="Tir-hG-Asp"/>
+                        <constraint firstAttribute="centerX" secondItem="QQf-si-e5C" secondAttribute="trailing" constant="4.5" id="aXn-lq-dCq"/>
+                        <constraint firstAttribute="bottom" secondItem="h3C-21-wPd" secondAttribute="bottom" constant="20" id="bTS-91-7qM"/>
+                        <constraint firstAttribute="centerY" secondItem="QQf-si-e5C" secondAttribute="bottom" constant="4.5" id="cyX-mQ-pRU"/>
+                        <constraint firstItem="sEk-DD-Tan" firstAttribute="top" secondItem="b9o-mW-rd4" secondAttribute="top" constant="20" id="ev4-7N-e3Q"/>
+                        <constraint firstAttribute="trailing" secondItem="bNC-4H-EzB" secondAttribute="trailing" constant="20" id="f2h-xX-gCu"/>
+                        <constraint firstItem="bNC-4H-EzB" firstAttribute="leading" secondItem="b9o-mW-rd4" secondAttribute="centerX" constant="4.5" id="gQE-GY-ZJa"/>
+                        <constraint firstItem="sEk-DD-Tan" firstAttribute="leading" secondItem="b9o-mW-rd4" secondAttribute="centerX" constant="4.5" id="kmn-Ov-g53"/>
+                        <constraint firstAttribute="bottom" secondItem="bNC-4H-EzB" secondAttribute="bottom" constant="20" id="sHl-0w-ySS"/>
+                        <constraint firstItem="QQf-si-e5C" firstAttribute="leading" secondItem="b9o-mW-rd4" secondAttribute="leading" constant="20" id="tGg-f6-Zad"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="0.97647058823529409" green="0.97647058823529409" blue="0.97647058823529409" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="OlB-Ny-Ked" firstAttribute="top" secondItem="nI5-hm-U3g" secondAttribute="bottom" id="0A0-xg-2jY"/>
+                <constraint firstItem="nI5-hm-U3g" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="55y-Gj-q6h"/>
+                <constraint firstAttribute="trailing" secondItem="b9o-mW-rd4" secondAttribute="trailing" constant="20" id="Jeg-mo-nJE"/>
+                <constraint firstAttribute="trailing" secondItem="OlB-Ny-Ked" secondAttribute="trailing" id="MgC-jy-faa"/>
+                <constraint firstAttribute="trailing" secondItem="nI5-hm-U3g" secondAttribute="trailing" id="OcW-L0-nFW"/>
+                <constraint firstItem="b9o-mW-rd4" firstAttribute="top" secondItem="nI5-hm-U3g" secondAttribute="bottom" constant="221" id="RL1-LD-L4r"/>
+                <constraint firstItem="b9o-mW-rd4" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="Sm6-UU-3if"/>
+                <constraint firstItem="OlB-Ny-Ked" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="ZZb-DS-9Ax"/>
+                <constraint firstItem="nI5-hm-U3g" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="hCY-bR-6vZ"/>
+            </constraints>
+        </view>
+    </objects>
+    <resources>
+        <image name="icon_home_camera_nor" width="69" height="54.5"/>
+        <image name="icon_home_community_nor" width="61" height="64"/>
+        <image name="icon_home_menu_nor" width="19" height="14.5"/>
+        <image name="icon_home_msg_nor" width="17.5" height="19"/>
+        <image name="icon_home_photo_nor" width="66.5" height="54"/>
+        <image name="icon_home_recommend_nor" width="63" height="63"/>
+        <image name="img_home_logo_nor" width="109" height="21.5"/>
+        <image name="img_home_topBg_nor" width="375" height="260"/>
+    </resources>
+</document>

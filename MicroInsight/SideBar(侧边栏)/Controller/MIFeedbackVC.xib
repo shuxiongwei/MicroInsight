@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MIFeedbackVC" customModule="MicroInsight" customModuleProvider="target">
+            <connections>
+                <outlet property="commitBtn" destination="xLg-nd-JdU" id="BpC-aX-kkK"/>
+                <outlet property="textView" destination="0sl-UK-jZ1" id="xxq-vu-HRe"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="0sl-UK-jZ1" customClass="MIPlaceholderTextView" customModule="MicroInsight" customModuleProvider="target">
+                    <rect key="frame" x="15" y="15" width="384" height="190.5"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="0sl-UK-jZ1" secondAttribute="height" multiplier="345:171" id="vqu-bp-y7n"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                </textView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xLg-nd-JdU">
+                    <rect key="frame" x="40" y="235.5" width="334" height="40"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="KNG-pO-vym"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <state key="normal" title="提交"/>
+                    <connections>
+                        <action selector="clickCommitBtn:" destination="-1" eventType="touchUpInside" id="Znd-c5-tsv"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="0.94901960784313721" green="0.95294117647058818" blue="0.96078431372549022" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="0sl-UK-jZ1" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="15" id="748-i6-44d"/>
+                <constraint firstItem="0sl-UK-jZ1" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="15" id="KcF-vW-wBB"/>
+                <constraint firstAttribute="trailing" secondItem="0sl-UK-jZ1" secondAttribute="trailing" constant="15" id="Q2N-zr-sFm"/>
+                <constraint firstItem="xLg-nd-JdU" firstAttribute="top" secondItem="0sl-UK-jZ1" secondAttribute="bottom" constant="30" id="QCL-Fg-Q1E"/>
+                <constraint firstAttribute="trailing" secondItem="xLg-nd-JdU" secondAttribute="trailing" constant="40" id="XHh-XU-Tc2"/>
+                <constraint firstItem="xLg-nd-JdU" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="40" id="dY9-Gf-ckF"/>
+            </constraints>
+        </view>
+    </objects>
+</document>

@@ -9,7 +9,7 @@
 #ifndef MicroInsight_pch
 #define MicroInsight_pch
 
-
+#import "MMDrawerController.h"
 #import "MIHelpTool.h"
 #import "MIUIFactory.h"
 #import "MIToastAlertView.h"
@@ -25,12 +25,31 @@
 #import "MBProgressHUD+MJ.h"
 #import "MIUserInfoModel.h"
 #import "UIButton+Extension.h"
+#import "MIHudView.h"
+#import "UIView+Extension.h"
+#import "Masonry.h"
+#import "MICustomAlertView.h"
 
 #define MIIOS9  ([UIDevice currentDevice].systemVersion.floatValue >= 9.0f)
 
 #define MIScreenBounds [UIScreen mainScreen].bounds
 #define MIScreenWidth   MIScreenBounds.size.width
 #define MIScreenHeight  MIScreenBounds.size.height
+#define MIMaximumLeftDrawerWidth MIScreenWidth - MIScreenWidth / 375.0 * 65.0;
+
+// 判断是否为iPhone X 系列  这样写消除了在Xcode10上的警告。
+#define KIsiPhoneX \
+({BOOL isPhoneX = NO;\
+if (@available(iOS 11.0, *)) {\
+isPhoneX = [[UIApplication sharedApplication] delegate].window.safeAreaInsets.bottom > 0.0;\
+}\
+(isPhoneX);})
+
+//导航栏高度
+#define KNaviBarAllHeight (KIsiPhoneX ? 88 : 64)
+
+//状态栏高度
+#define StatusBarHeight  [UIApplication sharedApplication].statusBarFrame.size.height
 
 #define WSWeak(weakSelf)        __weak __typeof(&*self)weakSelf = self;
 

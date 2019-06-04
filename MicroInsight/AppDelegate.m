@@ -8,8 +8,9 @@
 
 #import "AppDelegate.h"
 #import "MIHelpTool.h"
-#import "MIPhotographyViewController.h"
 #import "MIThirdPartyLoginManager.h"
+#import "MIHomessViewController.h"
+#import "MicroInsight-Swift.h"
 
 @interface AppDelegate ()
 
@@ -22,15 +23,37 @@
     // Override point for customization after application launch.
     
     //设置状态栏白色模式
-    application.statusBarStyle = UIStatusBarStyleLightContent;
+//    application.statusBarStyle = UIStatusBarStyleLightContent;
 
     //延迟加载
     [NSThread sleepForTimeInterval:1.0];
+    
+    //设置语言环境
+    if ([MILocalData getAppLanguage] == nil) {
+        [MILocalData setAppLanguage:@"zh-Hans"];
+        [MILocalData setLanguageMapping];
+    }
 
+    _window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    _window.backgroundColor = [UIColor whiteColor];
+    
+//    MISideBarViewController *sideBarVC = [[MISideBarViewController alloc] initWithNibName:@"MISideBarViewController" bundle:nil];
+//    UINavigationController *sideBarNav = [[UINavigationController alloc] initWithRootViewController:sideBarVC];
+    MIHomeViewController *homeVC = [[MIHomeViewController alloc] initWithNibName:@"MIHomeViewController" bundle:nil];
+    UINavigationController *homeNav = [[UINavigationController alloc] initWithRootViewController:homeVC];
+//    _drawerController = [[MMDrawerController alloc] initWithCenterViewController:homeNav leftDrawerViewController:sideBarNav];
+//    _drawerController.openDrawerGestureModeMask = MMOpenDrawerGestureModeBezelPanningCenterView;
+//    _drawerController.closeDrawerGestureModeMask = MMCloseDrawerGestureModeAll;
+//    _drawerController.maximumLeftDrawerWidth = MIMaximumLeftDrawerWidth;
+    
+    _window.rootViewController = homeNav;
+    [_window makeKeyAndVisible];
+    
     NSFileManager *fm = [NSFileManager defaultManager];
     if (![fm fileExistsAtPath:[MIHelpTool assetsPath]]) {
         [MIHelpTool createAssetsPath];
     }
+    
     return YES;
 }
 

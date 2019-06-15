@@ -52,6 +52,54 @@ class MIActivityDetailVC: MIBaseViewController {
     }
 
     @objc private func clickUploadBtn(_ sender: UIButton) {
+        let selectV = MISelectPhotoView.init(frame: ScreenBounds)
+        let window = (UIApplication.shared.delegate!.window)!;
+        window?.addSubview(selectV)
         
+        weak var weakSelf = self
+        selectV.selectBlcok = { (type: Int) in
+            if type == 1 {
+                let avStatus = AVCaptureDevice.authorizationStatus(for: .video)
+                if avStatus == .denied {
+                    MICustomAlertView.show(withFrame: ScreenBounds, alertTitle: "温馨提示", alertMessage: "请在iPhone的\"设置-隐私-相机\"中允许访问相机", leftAction: {
+                        
+                    }, rightAction: {
+                        UIApplication.shared.openURL(NSURL(string: UIApplication.openSettingsURLString)! as URL)
+                    })
+                } else if avStatus == .notDetermined {
+                    MIHudView.showMsg("此设备不支持拍照")
+                }
+                
+                let pickerVC = UIImagePickerController.init()
+                pickerVC.allowsEditing = true
+                pickerVC.delegate = self
+                pickerVC.sourceType = .camera
+                weakSelf?.present(pickerVC, animated: true, completion: nil)
+            } else {
+                let pickerVC = UIImagePickerController.init()
+                pickerVC.allowsEditing = true
+                pickerVC.delegate = self
+                pickerVC.sourceType = .photoLibrary
+                weakSelf?.present(pickerVC, animated: true, completion: nil)
+            }
+        }
+    }
+}
+
+extension MIActivityDetailVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        let image: UIImage!
+        if picker.allowsEditing {
+            image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage;
+        } else {
+            image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage;
+        }
+        picker.dismiss(animated: true, completion: nil)
+
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
     }
 }

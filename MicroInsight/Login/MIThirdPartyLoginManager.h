@@ -15,9 +15,10 @@
 
 
 typedef NS_ENUM(NSInteger, MILoginType) {
-    MILoginTypeWeiBo = 0,   // 新浪微博
+    MILoginTypeWeiBo = 0,    // 新浪微博
     MILoginTypeTencent,      // QQ
-    MILoginTypeWeiXin       // 微信
+    MILoginTypeWeiXin,       // 微信
+    MILoginTypeFacebook      //facebook
 };
 
 typedef NS_ENUM(NSInteger, MILoginWeiXinErrCode) {

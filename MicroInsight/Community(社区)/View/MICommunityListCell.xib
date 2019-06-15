@@ -23,13 +23,17 @@
                         <constraint firstAttribute="width" constant="40" id="PQJ-Yf-UqM"/>
                     </constraints>
                     <state key="normal" image="icon_personal_head_nor"/>
+                    <connections>
+                        <action selector="clickUserIconBtn:" destination="iN0-l3-epB" eventType="touchUpInside" id="XGh-On-nQJ"/>
+                    </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jTq-z3-KSE">
+                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jTq-z3-KSE">
                     <rect key="frame" x="41" y="41" width="14" height="14"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="14" id="9Sh-t6-Yms"/>
                         <constraint firstAttribute="width" constant="14" id="XT0-8B-tXY"/>
                     </constraints>
+                    <state key="normal" image="img_recommend_tag_nor"/>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nRX-rr-hYp">
                     <rect key="frame" x="70" y="16" width="193" height="18"/>
@@ -44,6 +48,9 @@
                         <constraint firstAttribute="height" constant="30" id="7X9-k0-Cmk"/>
                     </constraints>
                     <state key="normal" image="icon_community_more_nor"/>
+                    <connections>
+                        <action selector="clickExtendBtn:" destination="iN0-l3-epB" eventType="touchUpInside" id="vdD-1Q-x4K"/>
+                    </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T0c-yR-lFa">
                     <rect key="frame" x="70" y="42" width="21.5" height="10"/>
@@ -51,6 +58,13 @@
                     <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="taV-1o-gKz">
+                    <rect key="frame" x="106.5" y="42" width="13" height="10"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                    <state key="normal" image="icon_community_reading_nor">
+                        <color key="titleColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kjG-xu-vzG">
                     <rect key="frame" x="0.0" y="371" width="179.5" height="35"/>
                     <constraints>
@@ -103,7 +117,7 @@
                     </constraints>
                 </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dzg-fq-uDo">
-                    <rect key="frame" x="106.5" y="39.5" width="30" height="15"/>
+                    <rect key="frame" x="134.5" y="39.5" width="30" height="15"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="30" id="U68-vi-v4I"/>
                         <constraint firstAttribute="height" constant="15" id="d1K-cU-Wkp"/>
@@ -127,13 +141,15 @@
                 <constraint firstItem="dzg-fq-uDo" firstAttribute="centerY" secondItem="T0c-yR-lFa" secondAttribute="centerY" id="HAa-fL-7AB"/>
                 <constraint firstAttribute="trailing" secondItem="oJs-wP-4EL" secondAttribute="trailing" constant="16" id="JH2-FN-1FZ"/>
                 <constraint firstAttribute="bottom" secondItem="kjG-xu-vzG" secondAttribute="bottom" constant="15" id="JN8-r7-A2z"/>
-                <constraint firstItem="dzg-fq-uDo" firstAttribute="leading" secondItem="T0c-yR-lFa" secondAttribute="trailing" constant="15" id="K51-pf-kC3"/>
+                <constraint firstItem="dzg-fq-uDo" firstAttribute="leading" secondItem="taV-1o-gKz" secondAttribute="trailing" constant="15" id="K51-pf-kC3"/>
                 <constraint firstAttribute="trailing" secondItem="0os-Pk-VKc" secondAttribute="trailing" id="L6y-GU-sWs"/>
+                <constraint firstItem="taV-1o-gKz" firstAttribute="centerY" secondItem="T0c-yR-lFa" secondAttribute="centerY" id="NsU-rz-Qaq"/>
                 <constraint firstItem="nnN-MK-YMw" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="15" id="OI1-Ca-NRw"/>
                 <constraint firstItem="0os-Pk-VKc" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="OTE-WJ-RaR"/>
                 <constraint firstItem="kjG-xu-vzG" firstAttribute="top" secondItem="Wa9-OO-hrt" secondAttribute="bottom" id="VXE-vC-PPF"/>
                 <constraint firstItem="84g-TO-f4j" firstAttribute="centerY" secondItem="nRX-rr-hYp" secondAttribute="centerY" id="Y0v-ve-O5g"/>
                 <constraint firstAttribute="trailing" secondItem="84g-TO-f4j" secondAttribute="trailing" constant="16" id="YhI-44-dFh"/>
+                <constraint firstItem="taV-1o-gKz" firstAttribute="leading" secondItem="T0c-yR-lFa" secondAttribute="trailing" constant="15" id="ZGr-V8-ZYZ"/>
                 <constraint firstItem="oJs-wP-4EL" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="aw9-39-esk"/>
                 <constraint firstItem="nnN-MK-YMw" firstAttribute="bottom" secondItem="jTq-z3-KSE" secondAttribute="bottom" id="c3L-VT-THq"/>
                 <constraint firstAttribute="trailing" secondItem="rEu-t7-MAs" secondAttribute="trailing" id="dZw-hw-OtL"/>
@@ -156,6 +172,7 @@
                 <outlet property="imgView" destination="mIQ-h3-42x" id="c1J-qh-9ZN"/>
                 <outlet property="nameLab" destination="nRX-rr-hYp" id="AiV-VJ-mkn"/>
                 <outlet property="praiseBtn" destination="rEu-t7-MAs" id="WIk-rf-Equ"/>
+                <outlet property="readingBtn" destination="taV-1o-gKz" id="wc9-n7-PQB"/>
                 <outlet property="recommendBtn" destination="jTq-z3-KSE" id="0gw-3m-Yoc"/>
                 <outlet property="tagTitle" destination="dzg-fq-uDo" id="7zi-YR-YDn"/>
                 <outlet property="timeLab" destination="T0c-yR-lFa" id="FJT-YR-W5m"/>
@@ -169,6 +186,8 @@
         <image name="icon_community_more_nor" width="22" height="4"/>
         <image name="icon_community_praise_nor" width="19" height="18.5"/>
         <image name="icon_community_praise_sel" width="19" height="18.5"/>
+        <image name="icon_community_reading_nor" width="13" height="9"/>
         <image name="icon_personal_head_nor" width="60" height="60"/>
+        <image name="img_recommend_tag_nor" width="13.5" height="13.5"/>
     </resources>
 </document>

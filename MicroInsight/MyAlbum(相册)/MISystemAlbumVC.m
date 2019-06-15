@@ -64,7 +64,7 @@ static NSString * const cellId = @"cellId";
 - (void)configSystemAlbumUI {
     self.view.backgroundColor = [UIColor whiteColor];
     
-    _cancelBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(0, 0, 38, 28) normalTitle:nil normalTitleColor:UIColorFromRGBWithAlpha(0x333333, 1) highlightedTitleColor:nil selectedColor:nil titleFont:12 normalImage:[UIImage imageNamed:@"icon_login_back_nor"] highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(clickCancelBtn)];
+    _cancelBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(0, 0, 60, 28) normalTitle:nil normalTitleColor:UIColorFromRGBWithAlpha(0x333333, 1) highlightedTitleColor:nil selectedColor:nil titleFont:12 normalImage:[UIImage imageNamed:@"icon_login_back_nor"] highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(clickCancelBtn)];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_cancelBtn];
     
     _selectLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 80, 20)];
@@ -120,11 +120,11 @@ static NSString * const cellId = @"cellId";
 - (void)configAlbumViewWithHeight:(CGFloat)height {
     if (!_albumListView) {
         [self.view addSubview:self.albumsBgView];
-        _albumListView = [[MIAlbumListView alloc] initWithFrame:CGRectMake(0, -height, self.view.frame.size.width, height)];
+        _albumListView = [[MIAlbumListView alloc] initWithFrame:CGRectMake(0, -1000, self.view.frame.size.width, height)];
         _albumListView.delegate = self;
         [self.view addSubview:_albumListView];
     } else {
-        _albumListView.y = -height;
+        _albumListView.y = -1000;
         _albumListView.height = height;
     }
 }
@@ -185,7 +185,7 @@ static NSString * const cellId = @"cellId";
         }];
     } else {
         [UIView animateWithDuration:0.25 animations:^{
-            _albumListView.frame = CGRectMake(0, -_albumListView.height, self.view.frame.size.width, _albumListView.height);
+            _albumListView.frame = CGRectMake(0, -1000, self.view.frame.size.width, _albumListView.height);
             self.albumsBgView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0];
             sender.imageView.transform = CGAffineTransformMakeRotation(M_PI * 2);
         } completion:^(BOOL finished) {
@@ -298,6 +298,7 @@ static NSString * const cellId = @"cellId";
     MIPhotoModel *model = self.dataArray[indexPath.item];
     
     cell.selectBtn.selected = model.isSelected;
+    cell.maskView.hidden = !model.isSelected;
     
     if ([MIHelpTool isBlankString:model.filePath]) {
         if (model.asset.mediaType == PHAssetMediaTypeImage) {

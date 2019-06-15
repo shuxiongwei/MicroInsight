@@ -25,14 +25,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface MICommunityVideoInfo : NSObject
+@interface MICommunityVideoInfo : MIBaseModel
 
 @property (nonatomic, copy) NSString *videoId;
 @property (nonatomic, copy) NSString *userId;
 @property (nonatomic, copy) NSString *username;
 @property (nonatomic, copy) NSString *title;
-@property (nonatomic, copy) NSString *goodNum;
-@property (nonatomic, copy) NSString *commentNum;
+@property (nonatomic, copy) NSString *likes;
+@property (nonatomic, copy) NSString *comments;
 @property (nonatomic, copy) NSString *createdAt;
 @property (nonatomic, copy) NSArray<MIVideoTag *> *tags;
 @property (nonatomic, copy) NSString *coverUrl;
@@ -40,6 +40,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL isLike;
 @property (nonatomic, copy) NSString *nickname;
 @property (nonatomic, copy) NSString *avatar;
+@property (nonatomic, assign) NSInteger readings;
+
+@property (nonatomic, assign) CGFloat viewHeight; //自定义字段
 
 @end
 

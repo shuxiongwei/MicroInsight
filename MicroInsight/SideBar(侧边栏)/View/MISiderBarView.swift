@@ -46,6 +46,8 @@ class MISiderBarView: UIView {
         let navVC = MIGetNavigationViewController()
         if MILocalData.hasLogin() {
             let personalVC: MIPersonalVC = MIPersonalVC.init()
+            let userInfo = MILocalData.getCurrentLoginUserInfo()
+            personalVC.userId = userInfo.uid
             navVC.pushViewController(personalVC, animated: true)
         } else {
             let loginVC: MILoginViewController = MILoginViewController(nibName: "MILoginViewController", bundle: nil)
@@ -60,9 +62,15 @@ class MISiderBarView: UIView {
     }
     
     @IBAction func clickPersonalPageBtn(_ sender: UIButton) {
-        let personalVC: MIPersonalVC = MIPersonalVC.init()
-        let navVC = MIGetNavigationViewController()
-        navVC.pushViewController(personalVC, animated: true)
+        if MILocalData.hasLogin() {
+            let personalVC: MIPersonalVC = MIPersonalVC.init()
+            let userInfo = MILocalData.getCurrentLoginUserInfo()
+            personalVC.userId = userInfo.uid
+            let navVC = MIGetNavigationViewController()
+            navVC.pushViewController(personalVC, animated: true)
+        } else {
+            clickLoginBtn(loginBtn)
+        }
     }
     
     @IBAction func clickSetLanguageBtn(_ sender: UIButton) {

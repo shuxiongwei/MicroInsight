@@ -25,8 +25,21 @@ class MIEditOrUploadVC: MIBaseViewController {
     
     private func configUI() {
         super.configLeftBarButtonItem(nil)
-        super.configRightBarButtonItem(with: .custom, frame: CGRect(x: 0, y: 0, width: 49, height: 24), normalTitle: "上传", normalTitleColor: MIRgbaColor(rgbValue: 0xF9F9F9, alpha: 1), highlightedTitleColor: nil, selectedColor: nil, titleFont: 12, normalImage: nil, highlightedImage: nil, selectedImage: nil, backgroundColor: MIRgbaColor(rgbValue: 0x4A9DD5, alpha: 1), touchUpInSideTarget: self, action: #selector(clickUploadBtn))
         self.view.backgroundColor = UIColor.white
+        
+        let rightView = UIView.init(frame: CGRect(x: 0, y: 0, width: 60, height: 30))
+        view.backgroundColor = UIColor.clear
+        
+        let rightBtn = UIButton(type: .custom)
+        rightBtn.frame = CGRect(x: 5.5, y: 3, width: 49, height: 24)
+        rightBtn.setTitle("上传", for: .normal)
+        rightBtn.titleLabel?.font = UIFont.systemFont(ofSize: 12)
+        rightBtn.setTitleColor(MIRgbaColor(rgbValue: 0xF9F9F9, alpha: 1), for: .normal)
+        rightBtn.backgroundColor = MIRgbaColor(rgbValue: 0x4A9DD5, alpha: 1)
+        rightBtn.round(3, rectCorners: .allCorners)
+        rightBtn.addTarget(self, action: #selector(clickUploadBtn), for: .touchUpInside)
+        rightView.addSubview(rightBtn)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(customView: rightView)
         
         imgView = UIImageView.init(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: ScreenHeight - MINavigationBarHeight(vc: self) - MIStatusBarHeight() - 60))
         imgView.contentMode = .scaleAspectFill
@@ -56,7 +69,9 @@ class MIEditOrUploadVC: MIBaseViewController {
     }
     
     @objc private func clickEditBtn(_ sender: UIButton) {
-        
+        let editVC = MIImageEditVC.init()
+        editVC.image = imgView.image!
+        self.navigationController?.pushViewController(editVC, animated: true)
     }
     
     @objc private func clickUploadBtn() {

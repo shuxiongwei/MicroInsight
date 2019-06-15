@@ -25,7 +25,7 @@
     _titleLab.text = model.title;
     
     NSString *url;
-    if ([model.contentType isEqualToString:@"0"]) {
+    if (model.contentType == 0) {
         url = model.url;
         _playBtn.hidden = YES;
     } else {

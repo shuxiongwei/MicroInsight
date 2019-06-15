@@ -35,11 +35,11 @@
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
 //    [self setStatusBarBackgroundColor:[UIColor whiteColor]];
     
-//    self.navigationController.interactivePopGestureRecognizer.delegate = self;
-//    //开启侧滑返回
-//    if([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
-//        self.navigationController.interactivePopGestureRecognizer.enabled = YES;
-//    }
+    self.navigationController.interactivePopGestureRecognizer.delegate = self;
+    //开启侧滑返回
+    if([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
+        self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+    }
 }
 
 - (void)configBackBtn {
@@ -49,8 +49,9 @@
 
 #pragma mark - 配置导航栏左边视图
 - (void)configLeftBarButtonItem:(NSString *)text {
-    UIButton *leftBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(0, 0, 38, 28) normalTitle:text normalTitleColor:[UIColor whiteColor] highlightedTitleColor:nil selectedColor:nil titleFont:15 normalImage:[UIImage imageNamed:@"icon_login_back_nor"] highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(popToForwardViewController)];
+    UIButton *leftBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(0, 0, 60, 28) normalTitle:text normalTitleColor:[UIColor whiteColor] highlightedTitleColor:nil selectedColor:nil titleFont:15 normalImage:[UIImage imageNamed:@"icon_login_back_nor"] highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(popToForwardViewController)];
     [leftBtn layoutButtonWithEdgeInsetsStyle:MIButtonEdgeInsetsStyleLeft imageTitleSpace:5];
+    [leftBtn setEnlargeEdge:15];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
 }
 

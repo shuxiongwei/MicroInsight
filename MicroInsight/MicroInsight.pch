@@ -16,6 +16,7 @@
 #import "UIView+CCAdditions.h"
 #import "MIBaseViewController.h"
 #import "UIFont+Extension.h"
+#import "UILabel+Extension.h"
 #import "MIRequestManager.h"
 #import "MILocalData.h"
 #import "MIAlertView.h"
@@ -25,10 +26,31 @@
 #import "MBProgressHUD+MJ.h"
 #import "MIUserInfoModel.h"
 #import "UIButton+Extension.h"
+#import "UILabel+YBAttributeTextTapAction.h"
 #import "MIHudView.h"
 #import "UIView+Extension.h"
 #import "Masonry.h"
 #import "MICustomAlertView.h"
+#import "UIBarButtonItem+SXCreate.h"
+#import "MicroInsight-Swift.h"
+
+#import <UMSocialCore/UMSocialCore.h>
+// 友盟分享
+#import "UMSocialWechatHandler.h"       // 微信
+#import "UMSocialSinaHandler.h"      // 微博
+#import "UMSocialQQHandler.h"           // QQ和QQ空间
+#import "QZShareMgr.h"
+
+
+#define kUMAppKey           @"5cf7834b3fc19529860009ef"
+#define kSinaAppKey         @"2558983710"
+#define kSinaAppSecret      @"ccb298de169a47c1e0d3129addef4412"
+#define kSinaRedirectURI    @""
+#define kTencentAppId       @"1107985469"
+#define kWeixinAppId        @"wx00800a91db54370d"
+#define kWeixinAppSecret    @"bb59534de82274b4ee215ce231febd8b"
+#define kFacebookAppId      @"396521724534538"
+
 
 #define MIIOS9  ([UIDevice currentDevice].systemVersion.floatValue >= 9.0f)
 
@@ -50,6 +72,8 @@ isPhoneX = [[UIApplication sharedApplication] delegate].window.safeAreaInsets.bo
 
 //状态栏高度
 #define StatusBarHeight  [UIApplication sharedApplication].statusBarFrame.size.height
+
+#define kBottomViewH (KIsiPhoneX ? 70 : 50)
 
 #define WSWeak(weakSelf)        __weak __typeof(&*self)weakSelf = self;
 

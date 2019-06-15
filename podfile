@@ -8,7 +8,6 @@ pod 'SVProgressHUD'
 pod 'MJRefresh'
 pod 'SDWebImage'
 pod 'VODUpload'
-pod 'SuperPlayer'
 pod 'MMDrawerController'
 
 end

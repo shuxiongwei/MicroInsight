@@ -11,6 +11,7 @@
 #import "MIThirdPartyLoginManager.h"
 #import "MIHomessViewController.h"
 #import "MicroInsight-Swift.h"
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
 
 @interface AppDelegate ()
 
@@ -54,6 +55,10 @@
         [MIHelpTool createAssetsPath];
     }
     
+    [[FBSDKApplicationDelegate sharedInstance] application:application
+                             didFinishLaunchingWithOptions:launchOptions];
+    [[QZShareMgr shareManager] setShareAppKey];
+    
     return YES;
 }
 
@@ -80,6 +85,8 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    
+    [FBSDKAppEvents activateApp];
 }
 
 
@@ -97,6 +104,11 @@
             return [WXApi handleOpenURL:url delegate:[MIThirdPartyLoginManager shareManager]];
         } else if ([options[UIApplicationOpenURLOptionsSourceApplicationKey] isEqualToString:@"com.tencent.mqq"]) {
             return [TencentOAuth HandleOpenURL:url];
+        } else {
+            return [[FBSDKApplicationDelegate sharedInstance] application:app
+                                                                  openURL:url
+                                                        sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey]
+                                                               annotation:options[UIApplicationOpenURLOptionsAnnotationKey]];
         }
     } else {
         // Fallback on earlier versions
@@ -114,6 +126,11 @@
         return [WXApi handleOpenURL:url delegate:[MIThirdPartyLoginManager shareManager]];
     } else if ([sourceApplication isEqualToString:@"com.tencent.mqq"]) {
         return [TencentOAuth HandleOpenURL:url];
+    } else {
+        return [[FBSDKApplicationDelegate sharedInstance] application:application
+                                                              openURL:url
+                                                    sourceApplication:sourceApplication
+                                                           annotation:annotation];
     }
     
     return YES;

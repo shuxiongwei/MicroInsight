@@ -24,9 +24,18 @@ class MIEditPersonalInfoVC: MIBaseViewController {
     @IBOutlet weak var saveBtn: UIButton!
     @IBOutlet weak var jumpBtn: UIButton!
     
+    private lazy var activityView: UIActivityIndicatorView = {
+        let v = UIActivityIndicatorView.init(frame: CGRect(x: (ScreenWidth - 80) / 2.0, y:(ScreenHeight - 80) / 2.0, width: 80, height: 80))
+        v.style = .whiteLarge
+        v.hidesWhenStopped = true
+        self.view.addSubview(v)
+
+        return v
+    }()
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        super.setStatusBarBackgroundColor(UIColor.clear)
+//        super.setStatusBarBackgroundColor(UIColor.clear)
     }
     
     override func viewDidLoad() {
@@ -43,6 +52,16 @@ class MIEditPersonalInfoVC: MIBaseViewController {
         if MILocalData.hasLogin() {
             self.title = "个人资料"
             jumpBtn .setTitle("退出登录", for: .normal)
+            let userInfo = MILocalData.getCurrentLoginUserInfo()
+            
+            let iconUrl = userInfo.avatar + "?x-oss-process=image/resize,m_fill,h_60,w_60"
+            headIconBtn.sd_setImage(with: NSURL(string: iconUrl) as URL?, for: .normal, placeholderImage: UIImage(named: "icon_personal_head_nor"), options: .retryFailed, completed: nil)
+            
+            inputBtn.setTitle(userInfo.nickname, for: .normal)
+            genderSelectBtn.setTitle((userInfo.gender == 0 ? "男" : "女"), for: .normal)
+            let strs = userInfo.birthday.components(separatedBy: " ")
+            birthdaySelectBtn.setTitle(strs.first, for: .normal)
+            jobSelectBtn.setTitle(userInfo.profession, for: .normal)
         } else {
             self.title = "完善个人资料"
             jumpBtn .setTitle("跳过", for: .normal)
@@ -53,18 +72,53 @@ class MIEditPersonalInfoVC: MIBaseViewController {
         saveBtn.round(2, rectCorners: .allCorners)
         jumpBtn.round(2, rectCorners: .allCorners)
     }
+    
+    func changeHeadIcon() {
+        let alertVC = UIAlertController.init(title: nil, message: nil, preferredStyle: .actionSheet)
+        let cancelAction = UIAlertAction.init(title: "取消", style: .cancel, handler: nil)
+        let cameraAction = UIAlertAction.init(title: "拍照", style: .default) { (action) in
+            
+            let avStatus = AVCaptureDevice.authorizationStatus(for: .video)
+            if avStatus == .denied {
+                MICustomAlertView.show(withFrame: ScreenBounds, alertTitle: "温馨提示", alertMessage: "请在iPhone的\"设置-隐私-相机\"中允许访问相机", leftAction: {
+                    
+                }, rightAction: {
+                    UIApplication.shared.openURL(NSURL(string: UIApplication.openSettingsURLString)! as URL)
+                })
+            } else if avStatus == .notDetermined {
+                MIHudView.showMsg("此设备不支持拍照")
+            }
+            
+            let pickerVC = UIImagePickerController.init()
+            pickerVC.allowsEditing = true
+            pickerVC.delegate = self
+            pickerVC.sourceType = .camera
+            self.present(pickerVC, animated: true, completion: nil)
+        }
+        let photoAction = UIAlertAction.init(title: "从相册上传", style: .default) { (action) in
+            let pickerVC = UIImagePickerController.init()
+            pickerVC.allowsEditing = true
+            pickerVC.delegate = self
+            pickerVC.sourceType = .photoLibrary
+            self.present(pickerVC, animated: true, completion: nil)
+        }
+        alertVC.addAction(cancelAction)
+        alertVC.addAction(cameraAction)
+        alertVC.addAction(photoAction)
+        self.present(alertVC, animated: true, completion: nil)
+    }
 
     @IBAction func clickHeadIconBtn(_ sender: UIButton) {
-        
+        changeHeadIcon()
     }
     
     @IBAction func clickChangeHeadBtn(_ sender: UIButton) {
-        
+        changeHeadIcon()
     }
     
     @IBAction func clickInputBtn(_ sender: UIButton) {
         let inputV = MIInputView.init(frame: ScreenBounds, nickName: sender.titleLabel?.text ?? "请输入您的昵称")
-        let window = (UIApplication.shared.delegate!.window)!;
+        let window = (UIApplication.shared.delegate!.window)!
         window?.addSubview(inputV)
         
         weak var weakSelf = self
@@ -75,7 +129,7 @@ class MIEditPersonalInfoVC: MIBaseViewController {
     
     @IBAction func clickGenderSelectBtn(_ sender: UIButton) {
         let genderV = MIGenderView.init(frame: ScreenBounds, genderText: sender.titleLabel!.text!)
-        let window = (UIApplication.shared.delegate!.window)!;
+        let window = (UIApplication.shared.delegate!.window)!
         window?.addSubview(genderV)
         
         weak var weakSelf = self
@@ -94,7 +148,7 @@ class MIEditPersonalInfoVC: MIBaseViewController {
         }
         birthdayV.scrollToDate = date
         
-        let window = (UIApplication.shared.delegate!.window)!;
+        let window = (UIApplication.shared.delegate!.window)!
         window?.addSubview(birthdayV)
         
         weak var weakSelf = self
@@ -110,7 +164,7 @@ class MIEditPersonalInfoVC: MIBaseViewController {
         let list = ["程序", "科研", "教育", "收藏", "美业", "其他"]
         
         let pickerV = MIPickerView.init(frame: ScreenBounds, bounds: bounds, title: title, list: list)
-        let window = (UIApplication.shared.delegate!.window)!;
+        let window = (UIApplication.shared.delegate!.window)!
         window?.addSubview(pickerV)
         
         weak var weakSelf = self
@@ -120,7 +174,43 @@ class MIEditPersonalInfoVC: MIBaseViewController {
     }
     
     @IBAction func clickSaveBtn(_ sender: UIButton) {
+        if inputBtn.titleLabel?.text == nil {
+            MIHudView.showMsg("请输入昵称")
+            return
+        }
         
+        if genderSelectBtn.titleLabel?.text != "男" && genderSelectBtn.titleLabel?.text != "女" {
+            MIHudView.showMsg("请选择性别")
+            return
+        }
+        
+        if birthdaySelectBtn.titleLabel?.text == nil || birthdaySelectBtn.titleLabel?.text == "请选择" {
+            MIHudView.showMsg("请选择生日")
+            return
+        }
+        
+        var job = jobSelectBtn.titleLabel?.text
+        if jobSelectBtn.titleLabel?.text == nil || jobSelectBtn.titleLabel?.text == "请选择" {
+            job = "其他"
+        }
+        
+        weak var weakSelf = self
+        MIRequestManager.modifyUserInfo(withNickname: inputBtn.titleLabel!.text!, gender: (genderSelectBtn.titleLabel?.text == "男" ? 0 : 1), birthday: birthdaySelectBtn.titleLabel!.text!, profession: job! , requestToken: MILocalData.getCurrentRequestToken()) { (jsonData, error) in
+            
+            let dic: [String : AnyObject] = jsonData as! Dictionary
+            let code = dic["code"]?.int64Value
+            if code == 0 {
+                let model: MIUserInfoModel = MILocalData.getCurrentLoginUserInfo()
+                model.nickname = (weakSelf?.inputBtn.titleLabel!.text)!
+                model.gender = (weakSelf?.genderSelectBtn.titleLabel?.text == "男" ? 0 : 1)
+                model.birthday = (weakSelf?.birthdaySelectBtn.titleLabel!.text)!
+                model.profession = job!
+                MILocalData.saveCurrentLoginUserInfo(model)
+            }
+ 
+            let msg = dic["message"] as! String
+            MIHudView.showMsg(msg)
+        }
     }
     
     @IBAction func clickJumpBtn(_ sender: UIButton) {
@@ -134,5 +224,50 @@ class MIEditPersonalInfoVC: MIBaseViewController {
         } else {
             
         }
+    }
+    
+    func modifyUserAvatar(image: UIImage) {
+        if !self.activityView.isAnimating {
+            self.activityView.startAnimating()
+        }
+        
+        var fileName: String = MIHelpTool.timeStampSecond()
+        fileName.append(".jpg")
+        
+        weak var weakSelf = self
+        MIRequestManager.uploadUserAvatar(withFile: "file", fileName: fileName, avatar: image, requestToken: MILocalData.getCurrentRequestToken()) { (jsonData, error) in
+        
+            let dic: [String : AnyObject] = jsonData as! Dictionary
+            let code = dic["code"]?.int64Value
+            if code == 0 {
+                let model: MIUserInfoModel = MILocalData.getCurrentLoginUserInfo()
+                let data = dic["data"]
+                model.avatar = data!["avatar"] as! String
+                MILocalData.saveCurrentLoginUserInfo(model)
+                
+                weakSelf?.headIconBtn .setImage(image, for: .normal)
+                weakSelf?.activityView.stopAnimating()
+            } else {
+                MIHudView.showMsg("头像设置失败")
+            }
+        }
+    }
+}
+
+extension MIEditPersonalInfoVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        let image: UIImage!
+        if picker.allowsEditing {
+            image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage;
+        } else {
+            image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage;
+        }
+        picker.dismiss(animated: true, completion: nil)
+        modifyUserAvatar(image: image)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
     }
 }

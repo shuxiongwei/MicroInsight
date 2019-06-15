@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="83" id="KGk-i7-Jjw" customClass="MIPraiseCell">
+            <rect key="frame" x="0.0" y="0.0" width="340" height="83"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="340" height="82.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Ot-P5-Bbe">
+                        <rect key="frame" x="20" y="21.5" width="40" height="40"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="40" id="JzU-8g-juS"/>
+                            <constraint firstAttribute="height" constant="40" id="jVf-uj-agX"/>
+                        </constraints>
+                        <connections>
+                            <action selector="clickUserIconBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="pcn-BE-DwB"/>
+                        </connections>
+                    </button>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nvV-wB-Cif">
+                        <rect key="frame" x="75" y="31" width="165" height="14.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QLz-ie-fLr">
+                        <rect key="frame" x="75" y="45.5" width="165" height="11"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                        <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kaR-kS-Coj">
+                        <rect key="frame" x="301" y="32" width="19" height="18.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                        <state key="normal" image="icon_community_praise_sel">
+                            <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                        </state>
+                        <connections>
+                            <action selector="clickPraiseBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="zQ2-RC-AfN"/>
+                        </connections>
+                    </button>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kUd-7F-ZpT">
+                        <rect key="frame" x="75" y="81.5" width="265" height="1"/>
+                        <color key="backgroundColor" red="0.94901960784313721" green="0.95294117647058818" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="mhJ-ag-W6U"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="bottom" secondItem="kUd-7F-ZpT" secondAttribute="bottom" id="4ap-Sw-UDY"/>
+                    <constraint firstAttribute="trailing" secondItem="kaR-kS-Coj" secondAttribute="trailing" constant="20" id="8jq-Dk-YZ5"/>
+                    <constraint firstItem="QLz-ie-fLr" firstAttribute="leading" secondItem="3Ot-P5-Bbe" secondAttribute="trailing" constant="15" id="ODm-sW-KUk"/>
+                    <constraint firstItem="QLz-ie-fLr" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="centerY" constant="4" id="Upi-XQ-xt2"/>
+                    <constraint firstAttribute="trailing" secondItem="nvV-wB-Cif" secondAttribute="trailing" constant="100" id="XZT-IL-m9z"/>
+                    <constraint firstItem="3Ot-P5-Bbe" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="i1q-ad-k7B"/>
+                    <constraint firstItem="3Ot-P5-Bbe" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="nhQ-0K-sGL"/>
+                    <constraint firstAttribute="centerY" secondItem="nvV-wB-Cif" secondAttribute="bottom" constant="-4" id="s47-Rn-Xzg"/>
+                    <constraint firstAttribute="trailing" secondItem="kUd-7F-ZpT" secondAttribute="trailing" id="u3Z-n2-ghn"/>
+                    <constraint firstItem="kaR-kS-Coj" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="uHS-n9-qyR"/>
+                    <constraint firstItem="nvV-wB-Cif" firstAttribute="leading" secondItem="3Ot-P5-Bbe" secondAttribute="trailing" constant="15" id="vBo-My-IH3"/>
+                    <constraint firstAttribute="trailing" secondItem="QLz-ie-fLr" secondAttribute="trailing" constant="100" id="woI-LY-5cy"/>
+                    <constraint firstItem="kUd-7F-ZpT" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="75" id="z6f-kz-Ei3"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="nicknameLab" destination="nvV-wB-Cif" id="Cfc-Rx-SJA"/>
+                <outlet property="praiseBtn" destination="kaR-kS-Coj" id="e2R-oI-2mq"/>
+                <outlet property="timeLab" destination="QLz-ie-fLr" id="UNn-8W-HVE"/>
+                <outlet property="userIconBtn" destination="3Ot-P5-Bbe" id="Bg0-Eg-kOL"/>
+            </connections>
+            <point key="canvasLocation" x="152.17391304347828" y="125.55803571428571"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="icon_community_praise_sel" width="19" height="18.5"/>
+    </resources>
+</document>

@@ -7,12 +7,8 @@
 //
 
 #import "MIThirdPartyLoginManager.h"
-
-#define kSinaAppKey         @"你自己微博的Appkey"
-#define kSinaRedirectURI    @"你设置的微博回调页"
-#define kTencentAppId       @"1107985469"
-#define kWeixinAppId        @"wx00800a91db54370d"
-#define kWeixinAppSecret    @"bb59534de82274b4ee215ce231febd8b"
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import <FBSDKLoginKit/FBSDKLoginKit.h>
 
 @interface MIThirdPartyLoginManager () <NSURLSessionTaskDelegate>
 
@@ -38,6 +34,7 @@ static MIThirdPartyLoginManager *_instance;
 
 // 注册app
 - (void)setRegisterApps {
+    [FBSDKSettings setAppID:kFacebookAppId];
     // 注册Sina微博
     [WeiboSDK registerApp:kSinaAppKey];
     // 微信注册
@@ -72,6 +69,8 @@ static MIThirdPartyLoginManager *_instance;
         } else {
             [WXApi sendAuthReq:req viewController:vc delegate:self];
         }
+    } else if (type == MILoginTypeFacebook) {
+        [self fetchFaceBookToken:vc];
     }
 }
 
@@ -228,6 +227,65 @@ static MIThirdPartyLoginManager *_instance;
     
     // 启动任务
     [task resume];
+}
+
+#pragma mark - facebook
+- (void)fetchFaceBookToken:(UIViewController *)vc {
+    
+    WSWeak(weakSelf)
+    
+    FBSDKAccessToken *fbToken = [FBSDKAccessToken currentAccessToken];
+    // 已有token，且在有效期范围内
+    if (fbToken.tokenString && [fbToken.expirationDate compare:[NSDate date]] != NSOrderedAscending) {
+        [self fetchFaceBookUserinfo:fbToken.userID];
+        return;
+    }
+
+    FBSDKLoginManager *login = [[FBSDKLoginManager alloc] init];
+    // 设置请求权限，公开的权限为@"public_profile",@"email",@"user_friends"，其它权限均需要facebook通过审核后使用
+    [login logInWithReadPermissions: @[@"public_profile",@"email",@"user_friends"]
+                 fromViewController:vc
+                            handler:^(FBSDKLoginManagerLoginResult *result, NSError *error) {
+                                
+                                if (!error) {
+                                    if (!result.isCancelled) {
+                                        
+                                        // 第一步：拿到了token
+                                        // 第二步：获取用户信息
+                                        [weakSelf fetchFaceBookUserinfo:result.token.userID];
+                                    } else {
+                                        [MIHudView showMsg:@"Facebook登录取消了"];
+                                    }
+                                } else {
+                                    
+                                }
+                                
+                            }];
+}
+
+- (void)fetchFaceBookUserinfo:(NSString *)userId {
+
+    // 关于权限及字段详见：https://developers.facebook.com/docs/facebook-login/permissions
+    // 设置请求的字段，很重要的
+    NSDictionary *params = @{@"fields": @"id, name, first_name, last_name, age_range, link, gender, locale, picture, timezone, updated_time, verified, email, birthday"};
+    FBSDKGraphRequest *request = [[FBSDKGraphRequest alloc] initWithGraphPath:@"me"
+                                                                   parameters:params
+                                                                   HTTPMethod:@"GET"];
+    [request startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
+        
+        if (error) {
+            NSLog(@"Error: %@",error);
+        } else if (result) {
+            NSLog(@"UserInfo: %@",result);
+            if ([result isKindOfClass:[NSDictionary class]]) {
+                
+                NSDictionary *dict = (NSDictionary *)result;
+                if (self.resultBlock) {
+                    self.resultBlock(dict, nil);
+                }
+            }
+        }
+    }];
 }
 
 @end

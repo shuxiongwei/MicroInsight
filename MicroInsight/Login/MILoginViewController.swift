@@ -30,7 +30,7 @@ class MILoginViewController: MIBaseViewController {
     
     private func configLoginUI() {
         super.configLeftBarButtonItem(nil)
-        super.configRightBarButtonItem(with: .custom, frame: CGRect(x: 0, y: 0, width: 30, height: 30), normalTitle: MILocalData.appLanguage("login_key_2"), normalTitleColor: MIRgbaColor(rgbValue: 0x333333, alpha: 1), highlightedTitleColor: nil, selectedColor: nil, titleFont: 12, normalImage: nil, highlightedImage: nil, selectedImage: nil, touchUpInSideTarget: self, action: #selector(clickRegisterBtn(_:)))
+        super.configRightBarButtonItem(with: .custom, frame: CGRect(x: 0, y: 0, width: 60, height: 30), normalTitle: MILocalData.appLanguage("login_key_2"), normalTitleColor: MIRgbaColor(rgbValue: 0x333333, alpha: 1), highlightedTitleColor: nil, selectedColor: nil, titleFont: 12, normalImage: nil, highlightedImage: nil, selectedImage: nil, touchUpInSideTarget: self, action: #selector(clickRegisterBtn(_:)))
         
         topConstraint.constant = 178 - MINavigationBarHeight(vc: self)
         loginBtn.layer.cornerRadius = 2
@@ -121,7 +121,30 @@ class MILoginViewController: MIBaseViewController {
     
     //facebook登录
     @IBAction func loginByFacebook(_ sender: UIButton) {
-        
+        weak var weakSelf = self
+        MIThirdPartyLoginManager.share()?.getUserInfo(withWTLoginType: .facebook, result: { (result: Dictionary?, error: String?) in
+            
+            if (MIHelpTool.isBlankString(error)) {
+                MIRequestManager.loginByFacebook(withDic: result as! Dictionary, completed: { (jsonData: Any?, err: Error?) in
+                    
+                    let dic: [String : AnyObject] = jsonData as! Dictionary
+                    let code = dic["code"]?.int64Value
+                    if code == 0 {
+                        let data = dic["data"]
+                        let user = data?["user"]
+                        let model = MIUserInfoModel.yy_model(with: user as! [AnyHashable : Any])
+                        MILocalData.saveCurrentLoginUserInfo(model)
+                        
+                        weakSelf?.navigationController?.popToRootViewController(animated: true)
+                    } else {
+                        let msg = dic["message"] as! String
+                        MIHudView.showMsg(msg)
+                    }
+                })
+            } else {
+                MIHudView.showMsg(error)
+            }
+        }, show: self)
     }
     
     //微信登录

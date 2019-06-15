@@ -119,7 +119,7 @@ class MICommunityVC: MIBaseViewController {
         let cameraItem = UIBarButtonItem.init(customView: cameraBtn)
         
         let messageBtn = UIButton(type: .custom)
-        messageBtn.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        messageBtn.frame = CGRect(x: 0, y: 0, width: 50, height: 30)
         messageBtn.setImage(UIImage(named: "icon_community_message_nor"), for: .normal)
         messageBtn.addTarget(self, action: #selector(clickMessageBtn), for: .touchUpInside)
         let messageItem = UIBarButtonItem.init(customView: messageBtn)
@@ -247,11 +247,42 @@ class MICommunityVC: MIBaseViewController {
     }
     
     @objc func clickCameraBtn() {
+        let selectV = MISelectPhotoView.init(frame: ScreenBounds)
+        let window = (UIApplication.shared.delegate!.window)!;
+        window?.addSubview(selectV)
         
+        weak var weakSelf = self
+        selectV.selectBlcok = { (type: Int) in
+            if type == 1 {
+                let avStatus = AVCaptureDevice.authorizationStatus(for: .video)
+                if avStatus == .denied {
+                    MICustomAlertView.show(withFrame: ScreenBounds, alertTitle: "温馨提示", alertMessage: "请在iPhone的\"设置-隐私-相机\"中允许访问相机", leftAction: {
+                        
+                    }, rightAction: {
+                        UIApplication.shared.openURL(NSURL(string: UIApplication.openSettingsURLString)! as URL)
+                    })
+                } else if avStatus == .notDetermined {
+                    MIHudView.showMsg("此设备不支持拍照")
+                }
+                
+                let pickerVC = UIImagePickerController.init()
+                pickerVC.allowsEditing = true
+                pickerVC.delegate = self
+                pickerVC.sourceType = .camera
+                weakSelf?.present(pickerVC, animated: true, completion: nil)
+            } else {
+                let pickerVC = UIImagePickerController.init()
+                pickerVC.allowsEditing = true
+                pickerVC.delegate = self
+                pickerVC.sourceType = .photoLibrary
+                weakSelf?.present(pickerVC, animated: true, completion: nil)
+            }
+        }
     }
     
     @objc func clickMessageBtn() {
-        
+        let messageVC = MIMessageVC.init()
+        self.navigationController?.pushViewController(messageVC, animated: true)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -274,7 +305,20 @@ extension MICommunityVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+        var model: MICommunityListModel!
+        if tableView.tag == 1000 {
+            model = self.dataList[indexPath.row]
+        } else {
+            model = self.searchDataList[indexPath.row]
+        }
         
+        let detailVC = MICommunityDetailVC.init()
+        detailVC.communityModel = model
+        detailVC.praiseBlock = { (mod: MICommunityListModel) in
+            model = mod
+            tableView.reloadRows(at: [indexPath], with: .none)
+        }
+        self.navigationController?.pushViewController(detailVC, animated: true)
     }
 }
 
@@ -298,6 +342,20 @@ extension MICommunityVC: UITableViewDataSource {
             model = self.searchDataList[indexPath.row]
         }
         cell.setCell(model: model)
+        
+        weak var weakSelf = self
+        cell.clickUserIconBlock = { (userId: Int) in
+            let personalVC: MIPersonalVC = MIPersonalVC.init()
+            personalVC.userId = userId
+            weakSelf?.navigationController?.pushViewController(personalVC, animated: true)
+        }
+        
+        cell.clickExtendBtnBlock = { (userId: Int) in
+            QZShareMgr.shareManager()?.show(.normal, inVC: nil)
+            QZShareMgr.shareManager()?.shareWebUrl = "http://www.tipscope.com/node.html?token=v_arO1gCPMXRNvog1rcUAnCeY1JAEkxc" + "&contentId=\(model.contentId)" + "&contentType\(model.contentType)"
+            QZShareMgr.shareManager()?.shareImg = UIImage(named: "AppIcon")
+            QZShareMgr.shareManager()?.title = model.title
+        }
         
         return cell
     }
@@ -332,6 +390,24 @@ extension MICommunityVC: UITextFieldDelegate {
         emptyView.isHidden = true
         
         return false
+    }
+}
+
+extension MICommunityVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        let image: UIImage!
+        if picker.allowsEditing {
+            image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage;
+        } else {
+            image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage;
+        }
+        picker.dismiss(animated: true, completion: nil)
+        
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
     }
 }
 

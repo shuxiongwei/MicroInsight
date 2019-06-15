@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="245" id="KGk-i7-Jjw" customClass="MIRecommendDetailCell">
+            <rect key="frame" x="0.0" y="0.0" width="353" height="245"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="353" height="244.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="xUj-bb-iEL">
+                        <rect key="frame" x="10" y="38.5" width="333" height="201"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="xUj-bb-iEL" secondAttribute="height" multiplier="315:190" id="NPf-3D-KCn"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9kZ-Po-DCO">
+                        <rect key="frame" x="0.0" y="5" width="353" height="17"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OXm-5X-hgO">
+                        <rect key="frame" x="151.5" y="114" width="50" height="50"/>
+                        <state key="normal" image="icon_community_play_nor"/>
+                        <connections>
+                            <action selector="clickPlayBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="467-rl-Xub"/>
+                        </connections>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="xUj-bb-iEL" secondAttribute="trailing" constant="10" id="1N5-zF-qcc"/>
+                    <constraint firstItem="9kZ-Po-DCO" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="3G0-TI-Lgm"/>
+                    <constraint firstItem="xUj-bb-iEL" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="4NW-xG-HfN"/>
+                    <constraint firstItem="OXm-5X-hgO" firstAttribute="centerY" secondItem="xUj-bb-iEL" secondAttribute="centerY" id="9mu-cY-Xsd"/>
+                    <constraint firstItem="OXm-5X-hgO" firstAttribute="centerX" secondItem="xUj-bb-iEL" secondAttribute="centerX" id="Vj8-8V-iDO"/>
+                    <constraint firstAttribute="bottom" secondItem="xUj-bb-iEL" secondAttribute="bottom" constant="5" id="XEh-mZ-Quo"/>
+                    <constraint firstItem="9kZ-Po-DCO" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="ceA-ih-ZJh"/>
+                    <constraint firstAttribute="trailing" secondItem="9kZ-Po-DCO" secondAttribute="trailing" id="xiG-Ej-h7P"/>
+                </constraints>
+            </tableViewCellContentView>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <connections>
+                <outlet property="contentLab" destination="9kZ-Po-DCO" id="ZH4-pj-0f9"/>
+                <outlet property="imgView" destination="xUj-bb-iEL" id="Zh2-GT-nQz"/>
+                <outlet property="playBtn" destination="OXm-5X-hgO" id="Uhb-8V-obO"/>
+            </connections>
+            <point key="canvasLocation" x="15.217391304347828" y="94.754464285714278"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="icon_community_play_nor" width="50" height="50"/>
+    </resources>
+</document>

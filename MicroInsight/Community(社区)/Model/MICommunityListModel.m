@@ -7,6 +7,7 @@
 //
 
 #import "MICommunityListModel.h"
+#import "YYText.h"
 
 @implementation MICommunityTagModel
 
@@ -28,6 +29,10 @@
     return @{@"contentId" : @"id"};
 }
 
++ (NSDictionary<NSString *, id> *)modelContainerPropertyGenericClass {
+    return @{@"tags" : [MICommunityTagModel class]};
+}
+
 @end
 
 
@@ -40,4 +45,56 @@
 @end
 
 
+@implementation MIChildCommentModel
 
++ (NSDictionary *)modelCustomPropertyMapper {
+    return @{@"modelId" : @"id"};
+}
+
+@end
+
+
+@implementation MICommentModel
+
++ (NSDictionary *)modelCustomPropertyMapper {
+    return @{@"modelId" : @"id"};
+}
+
++ (NSDictionary<NSString *, id> *)modelContainerPropertyGenericClass {
+    return @{@"child" : [MIChildCommentModel class]};
+}
+
+- (CGFloat)getRowHeight {
+    
+    CGFloat otherHeight = 63 + 15 + 20;
+    CGFloat tableViewHeight = [self getChildCommentTableViewHeight];
+    YYTextLayout *layout = [self getContentHeightWithStr:_content width:MIScreenWidth - 95 font:12 lineSpace:5 maxRow:3];
+
+    return otherHeight + tableViewHeight + layout.textBoundingSize.height;
+}
+
+- (CGFloat)getChildCommentTableViewHeight {
+    if (self.child.count == 0) {
+        return 0;
+    } else {
+        NSInteger line = 0;
+        if (self.child.count < 4) {
+            line = self.child.count;
+        } else {
+            line = 3;
+        }
+        
+        return 22 * line;
+    }
+}
+
+@end
+
+
+@implementation MIPraiseModel
+
++ (NSDictionary *)modelCustomPropertyMapper {
+    return @{@"modelId" : @"id"};
+}
+
+@end

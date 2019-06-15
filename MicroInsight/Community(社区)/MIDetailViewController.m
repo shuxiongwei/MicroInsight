@@ -112,8 +112,8 @@ static NSString * const commentID = @"MICommentCell";
     [rq videoInfoWithVideoId:_contentId SuccessResponse:^(MICommunityVideoInfo * _Nonnull info) {
         
         weakSelf.videoInfo = info;
-        [weakSelf.commentBtn setTitle:info.commentNum forState:UIControlStateNormal];
-        [weakSelf.praiseBtn setTitle:info.goodNum forState:UIControlStateNormal];
+        [weakSelf.commentBtn setTitle:info.comments forState:UIControlStateNormal];
+        [weakSelf.praiseBtn setTitle:info.likes forState:UIControlStateNormal];
         weakSelf.praiseBtn.selected = info.isLike;
         
         if (!isComment) {
@@ -155,8 +155,8 @@ static NSString * const commentID = @"MICommentCell";
  @param isComment 是否是评论后的刷新
  */
 - (void)refreshUI:(BOOL)isComment {
-    [_commentBtn setTitle:_detailModel.commentNum forState:UIControlStateNormal];
-    [_praiseBtn setTitle:_detailModel.goodNum forState:UIControlStateNormal];
+    [_commentBtn setTitle:_detailModel.comments forState:UIControlStateNormal];
+    [_praiseBtn setTitle:_detailModel.likes forState:UIControlStateNormal];
     _praiseBtn.selected = _detailModel.isLike;
     
     if (!isComment) {
@@ -329,7 +329,7 @@ static NSString * const commentID = @"MICommentCell";
                 
                 NSString *userId;
                 if (weakSelf.contentType == 0) {
-                    userId = weakSelf.detailModel.userId;
+                    userId = [NSString stringWithFormat:@"%ld", weakSelf.detailModel.userId];
                 } else {
                     userId = weakSelf.videoInfo.userId;
                 }
@@ -353,7 +353,7 @@ static NSString * const commentID = @"MICommentCell";
         
         NSString *userId;
         if (weakSelf.contentType == 0) {
-            userId = weakSelf.detailModel.userId;
+            userId = [NSString stringWithFormat:@"%ld", weakSelf.detailModel.userId];
         } else {
             userId = weakSelf.videoInfo.userId;
         }

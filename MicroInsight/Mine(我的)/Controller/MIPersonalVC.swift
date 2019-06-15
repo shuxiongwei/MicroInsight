@@ -8,8 +8,10 @@
 
 import UIKit
 
+@objcMembers
 class MIPersonalVC: MIBaseViewController {
 
+    var userId: Int = 0
     var userIconBtn: UIButton!
     var userNameLab: UILabel!
     var genderLab: UILabel!
@@ -42,12 +44,24 @@ class MIPersonalVC: MIBaseViewController {
         weak var weakSelf = self
         v.mj_header = MJRefreshGifHeader.init(refreshingBlock: {
             weakSelf?.curPage = 1;
-            weakSelf?.requestCommunityList(isRefresh: true)
+            
+            let userInfo = MILocalData.getCurrentLoginUserInfo()
+            if userInfo.uid == weakSelf?.userId {
+                weakSelf?.requestMyCommunityList(isRefresh: true)
+            } else {
+                weakSelf?.requestOtherCommunityList(isRefresh: true)
+            }
         })
         
         v.mj_footer = MJRefreshAutoNormalFooter.init(refreshingBlock: {
             weakSelf?.curPage += 1
-            weakSelf?.requestCommunityList(isRefresh: false)
+            
+            let userInfo = MILocalData.getCurrentLoginUserInfo()
+            if userInfo.uid == weakSelf?.userId {
+                weakSelf?.requestMyCommunityList(isRefresh: false)
+            } else {
+                weakSelf?.requestOtherCommunityList(isRefresh: false)
+            }
         })
         
         return v
@@ -56,7 +70,7 @@ class MIPersonalVC: MIBaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        super.setStatusBarBackgroundColor(UIColor.clear)
+//        super.setStatusBarBackgroundColor(UIColor.clear)
         self.navigationController?.isNavigationBarHidden = true
     }
     
@@ -67,7 +81,6 @@ class MIPersonalVC: MIBaseViewController {
         
         curPage = 1
         configPersonalUI()
-        requestCommunityList(isRefresh: true)
     }
     
     private func configPersonalUI() {
@@ -80,7 +93,7 @@ class MIPersonalVC: MIBaseViewController {
         view.addSubview(topBtn)
         
         let backBtn = UIButton(type: .custom)
-        backBtn.frame = CGRect(x: 15, y: 35, width: 19, height: 14)
+        backBtn.frame = CGRect(x: 0, y: 30, width: 60, height: 30)
         backBtn.setImage(UIImage(named: "icon_login_back_nor"), for: .normal)
         backBtn.addTarget(self, action: #selector(clickBackBtn(_ :)), for: .touchUpInside)
         view.addSubview(backBtn)
@@ -129,15 +142,6 @@ class MIPersonalVC: MIBaseViewController {
         jobLab.textAlignment = .left
         bgView.addSubview(jobLab)
         
-        let editBtn = UIButton(type: .custom)
-        editBtn.frame = CGRect(x: bgView.width - 80, y: 34, width: 60, height: 20)
-        editBtn.rounded(2, width: 1, color: MIRgbaColor(rgbValue: 0x48A1D8, alpha: 1))
-        editBtn.setTitle("修改资料", for: .normal)
-        editBtn.titleLabel?.font = UIFont.systemFont(ofSize: 10)
-        editBtn.setTitleColor(MIRgbaColor(rgbValue: 0x48A1D8, alpha: 1), for: .normal)
-        editBtn.addTarget(self, action: #selector(clickEditBtn(_ :)), for: .touchUpInside)
-        bgView.addSubview(editBtn)
-        
         let allLab = UILabel.init(frame: CGRect(x: 20, y: bgView.bottom + 25, width: 31, height: 15))
         allLab.text = "全部"
         allLab.textColor = MIRgbaColor(rgbValue: 0x333333, alpha: 1)
@@ -156,9 +160,42 @@ class MIPersonalVC: MIBaseViewController {
         lineView = UIView.init(frame: CGRect(x: 20, y: allLab.bottom + 15, width: ScreenWidth - 40, height: 1))
         lineView.backgroundColor = MIRgbaColor(rgbValue: 0xD7D7D7, alpha: 1)
         view.addSubview(lineView)
+        
+        let userInfo = MILocalData.getCurrentLoginUserInfo()
+        if userInfo.uid == userId {
+            let editBtn = UIButton(type: .custom)
+            editBtn.frame = CGRect(x: bgView.width - 80, y: 34, width: 60, height: 20)
+            editBtn.rounded(2, width: 1, color: MIRgbaColor(rgbValue: 0x48A1D8, alpha: 1))
+            editBtn.setTitle("修改资料", for: .normal)
+            editBtn.titleLabel?.font = UIFont.systemFont(ofSize: 10)
+            editBtn.setTitleColor(MIRgbaColor(rgbValue: 0x48A1D8, alpha: 1), for: .normal)
+            editBtn.addTarget(self, action: #selector(clickEditBtn(_ :)), for: .touchUpInside)
+            bgView.addSubview(editBtn)
+            
+            refreshSubViews(model: userInfo)
+            requestMyCommunityList(isRefresh: true)
+        } else {
+            requestOtherUserInfo()
+            requestOtherCommunityList(isRefresh: true)
+        }
     }
     
-    private func requestCommunityList(isRefresh: Bool) {
+    private func requestOtherUserInfo() {
+        weak var weakSelf = self
+        MIRequestManager.getOtherUserInfo(withUserId: userId, requestToken: MILocalData.getCurrentRequestToken()) { (jsonData, error) in
+            
+            let dic: [String : AnyObject] = jsonData as! Dictionary
+            let code = dic["code"]?.int64Value
+            if code == 0 {
+                let data: [String: AnyObject] = dic["data"] as! Dictionary
+                let user: [String: AnyObject] = data["user"] as! Dictionary
+                let model = MIUserInfoModel.yy_model(with: user)
+                weakSelf?.refreshSubViews(model: model!)
+            }
+        }
+    }
+    
+    private func requestMyCommunityList(isRefresh: Bool) {
         
         weak var weakSelf = self
         MIRequestManager.getCommunityDataList(withSearchTitle: "", requestToken: MILocalData.getCurrentRequestToken(), page: curPage, pageSize: 10, isMine: true) { (jsonData, error) in
@@ -173,8 +210,11 @@ class MIPersonalVC: MIBaseViewController {
                 }
                 
                 let data: [String: AnyObject] = dic["data"] as! Dictionary
-                let list: Array = data["list"] as! Array<[String: AnyObject]>
+                let pagination: Dictionary = data["pagination"] as! [String: Int]
+                let totalCount: Int = pagination["totalCount"]!
+                weakSelf?.countLab.text = "共\(totalCount)个"
                 
+                let list: Array = data["list"] as! Array<[String: AnyObject]>
                 for modelDic: [String: AnyObject] in list {
                     let model = MICommunityListModel.yy_model(with: modelDic)
                     weakSelf?.dataList.append(model!)
@@ -204,6 +244,66 @@ class MIPersonalVC: MIBaseViewController {
             }
         }
     }
+    
+    private func requestOtherCommunityList(isRefresh: Bool) {
+        
+        weak var weakSelf = self
+        MIRequestManager.getOtherCommunityDataList(withUserId: userId, requestToken: MILocalData.getCurrentRequestToken(), page: curPage, pageSize: 10) { (jsonData, error) in
+        
+            let dic: [String : AnyObject] = jsonData as! Dictionary
+            let code = dic["code"]?.int64Value
+            if code == 0 {
+                
+                if isRefresh {
+                    weakSelf?.dataList.removeAll()
+                    weakSelf?.collectionV.mj_header.endRefreshing()
+                }
+                
+                let data: [String: AnyObject] = dic["data"] as! Dictionary
+                let pagination: Dictionary = data["pagination"] as! [String: Int]
+                let totalCount: Int = pagination["totalCount"]!
+                weakSelf?.countLab.text = "共\(totalCount)个"
+                
+                let list: Array = data["list"] as! Array<[String: AnyObject]>
+                for modelDic: [String: AnyObject] in list {
+                    let model = MICommunityListModel.yy_model(with: modelDic)
+                    weakSelf?.dataList.append(model!)
+                }
+                
+                if list.count > 0 {
+                    weakSelf?.collectionV.isHidden = false
+                    weakSelf?.lineView.isHidden = true
+                }
+                
+                if list.count < 10 {
+                    //没有数据
+                    if list.count == 0 && weakSelf?.curPage == 1 {
+                        weakSelf?.collectionV.isHidden = true
+                        weakSelf?.lineView.isHidden = false
+                    }
+                    weakSelf?.collectionV.mj_footer.endRefreshingWithNoMoreData()
+                } else {
+                    weakSelf?.collectionV.mj_footer.endRefreshing()
+                }
+                
+                weakSelf?.collectionV.reloadData()
+            } else {
+                weakSelf?.collectionV.mj_footer.endRefreshing()
+                let msg = dic["message"] as! String
+                MIHudView.showMsg(msg)
+            }
+        }
+    }
+    
+    private func refreshSubViews(model: MIUserInfoModel) {
+        let iconUrl = model.avatar + "?x-oss-process=image/resize,m_fill,h_60,w_60"
+        userIconBtn.sd_setImage(with: NSURL(string: iconUrl) as URL?, for: .normal, placeholderImage: UIImage(named: "icon_personal_head_nor"), options: .retryFailed, completed: nil)
+        
+        userNameLab.text = model.nickname
+        genderLab.text = (model.gender == 0 ? "男" : "女")
+        jobLab.text = model.profession
+        ageLab.text = "\(model.age)"
+    }
 
     @objc private func clickBackBtn(_ sender: UIButton) {
         self.navigationController?.popViewController(animated: true)
@@ -213,11 +313,16 @@ class MIPersonalVC: MIBaseViewController {
         let editVC = MIEditPersonalInfoVC.init(nibName: "MIEditPersonalInfoVC", bundle: nil)
         self.navigationController?.pushViewController(editVC, animated: true)
     }
-
 }
 
 extension MIPersonalVC: UICollectionViewDelegate {
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        let model = self.dataList[indexPath.item]
+        let detailVC = MICommunityDetailVC.init()
+        detailVC.communityModel = model
+        self.navigationController?.pushViewController(detailVC, animated: true)
+    }
 }
 
 extension MIPersonalVC: UICollectionViewDataSource {

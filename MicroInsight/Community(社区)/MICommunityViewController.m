@@ -251,7 +251,7 @@ static NSString * const MICellID = @"MICommunityCell";
     //通过阿里云的处理，图片固定宽高，自动裁剪
     NSString *url = [NSString stringWithFormat:@"?x-oss-process=image/resize,m_fill,h_%ld,w_%ld", (NSInteger)cell.imgView.size.height / 1, (NSInteger)cell.imgView.size.width / 1];
 
-    if (listM.contentType.integerValue == 0) { //图片
+    if (listM.contentType == 0) { //图片
         cell.playIcon.hidden = YES;
         [cell.imgView sd_setImageWithURL:[NSURL URLWithString:[listM.url stringByAppendingString:url]] placeholderImage:nil options:SDWebImageRetryFailed];
     } else { //视频
@@ -276,9 +276,9 @@ static NSString * const MICellID = @"MICommunityCell";
     }
     
     MIDetailViewController *detailVC = [[MIDetailViewController alloc] initWithNibName:@"MIDetailViewController" bundle:nil];
-    detailVC.userId = listM.userId;
-    detailVC.contentId = listM.contentId;
-    detailVC.contentType = [listM.contentType integerValue];
+    detailVC.userId = [NSString stringWithFormat:@"%ld", listM.userId];
+    detailVC.contentId = [NSString stringWithFormat:@"%ld", listM.contentId];
+    detailVC.contentType = listM.contentType;
     [self.navigationController pushViewController:detailVC animated:YES];
 }
 

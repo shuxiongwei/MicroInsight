@@ -10,7 +10,6 @@
 
 #define WIDTH (frame.size.width)
 #define HEIGHT (self.bounds.size.height)
-#define NAVIGATIONVIEWHEIGHT (64)
 
 @interface MIUserAgreementView ()
 
@@ -48,7 +47,7 @@
 }
 
 - (void)addNavigtaionViewWithFrame:(CGRect)frame {
-    self.navigationView.frame = CGRectMake(0, 0, WIDTH, NAVIGATIONVIEWHEIGHT);
+    self.navigationView.frame = CGRectMake(0, 0, WIDTH, KNaviBarAllHeight);
     self.navigationView.backgroundColor = [UIColor whiteColor];
     [self.navigationView addSubview:[self addGObackButton]];
     [self.navigationView addSubview:[self addTitle]];
@@ -57,7 +56,8 @@
 
 //返回按钮
 - (UIButton *)addGObackButton {
-    UIButton *gobackButton = [[UIButton alloc] initWithFrame:CGRectMake(2, 11, 50, 50)];
+    CGFloat y = (KIsiPhoneX ? 30 : 10);
+    UIButton *gobackButton = [[UIButton alloc] initWithFrame:CGRectMake(2, y, 50, 50)];
     [gobackButton setImage:[UIImage imageNamed:@"icon_review_close_nor"] forState:UIControlStateNormal];
     [gobackButton addTarget:self action:@selector(goBackView) forControlEvents:UIControlEventTouchDown];
     return gobackButton;
@@ -69,7 +69,8 @@
 
 //title
 - (UILabel *)addTitle {
-    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(self.bounds.size.width / 2 - 100, 10, 200, 44)];
+    CGFloat y = (KIsiPhoneX ? 30 : 10);
+    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(self.bounds.size.width / 2 - 100, y, 200, 44)];
     title.text = @"用户服务协议";
     title.font = [UIFont systemFontOfSize:18];
     title.textAlignment = NSTextAlignmentCenter;
@@ -78,7 +79,7 @@
 
 //本地html 协议
 - (void)addWebViewWithFrame:(CGRect)frame {
-    self.serviceDelegateWebView.frame = CGRectMake(0, NAVIGATIONVIEWHEIGHT, WIDTH, HEIGHT - NAVIGATIONVIEWHEIGHT);
+    self.serviceDelegateWebView.frame = CGRectMake(0, KNaviBarAllHeight, WIDTH, HEIGHT - KNaviBarAllHeight);
     
     NSURL *fileURL = [[NSBundle mainBundle] URLForResource:@"user_agreement.html" withExtension:nil];
     NSURLRequest *request = [NSURLRequest requestWithURL:fileURL];

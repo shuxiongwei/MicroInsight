@@ -16,6 +16,7 @@
 #import "MIReviewVideoViewController.h"
 #import "MIReviewImageViewController.h"
 #import "MIMyAlbumViewController.h"
+#import "MILocalAlbumVC.h"
 
 @interface MIPhotographyViewController () <AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptureAudioDataOutputSampleBufferDelegate, MICameraViewDelegate>
 
@@ -530,9 +531,12 @@
 //        [self presentViewController:videoVC animated:YES completion:nil];
 //    }
     
-    UIStoryboard *board = [UIStoryboard storyboardWithName:@"MyAlbum" bundle:nil];
-    MIMyAlbumViewController *vc = [board instantiateViewControllerWithIdentifier:@"MIMyAlbumViewController"];
-    vc.albumType = type + 1;
+//    UIStoryboard *board = [UIStoryboard storyboardWithName:@"MyAlbum" bundle:nil];
+//    MIMyAlbumViewController *vc = [board instantiateViewControllerWithIdentifier:@"MIMyAlbumViewController"];
+//    vc.albumType = type + 1;
+    
+    MILocalAlbumVC *vc = [[MILocalAlbumVC alloc] init];
+    vc.type = type + 1;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

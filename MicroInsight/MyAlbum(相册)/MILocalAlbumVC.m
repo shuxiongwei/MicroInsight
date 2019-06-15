@@ -10,7 +10,6 @@
 #import "MIAlbumCell.h"
 #import "MIPhotoModel.h"
 #import "MIAlbumCollectionLayout.h"
-#import "MicroInsight-Swift.h"
 #import "MISystemAlbumVC.h"
 
 static NSString * const allCellId = @"allCellId";
@@ -88,10 +87,10 @@ static NSString * const videoCellId = @"videoCellId";
 - (void)configLocalAlbumUI {
     self.view.backgroundColor = [UIColor whiteColor];
     
-    _cancelBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(0, 0, 38, 28) normalTitle:nil normalTitleColor:UIColorFromRGBWithAlpha(0x333333, 1) highlightedTitleColor:nil selectedColor:nil titleFont:12 normalImage:[UIImage imageNamed:@"icon_login_back_nor"] highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(clickCancelBtn)];
+    _cancelBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(0, 0, 60, 28) normalTitle:nil normalTitleColor:UIColorFromRGBWithAlpha(0x333333, 1) highlightedTitleColor:nil selectedColor:nil titleFont:12 normalImage:[UIImage imageNamed:@"icon_login_back_nor"] highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(clickCancelBtn)];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_cancelBtn];
     
-    _phoneAlbumBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(0, 0, 60, 30) normalTitle:@"手机相册" normalTitleColor:UIColorFromRGBWithAlpha(0x333333, 1) highlightedTitleColor:nil selectedColor:nil titleFont:12 normalImage:nil highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(selectPhotoFromSystemAlbum)];
+    _phoneAlbumBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(0, 0, 80, 30) normalTitle:@"手机相册" normalTitleColor:UIColorFromRGBWithAlpha(0x333333, 1) highlightedTitleColor:nil selectedColor:nil titleFont:12 normalImage:nil highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(selectPhotoFromSystemAlbum)];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_phoneAlbumBtn];
     
     _titleLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
@@ -143,7 +142,7 @@ static NSString * const videoCellId = @"videoCellId";
 }
 
 - (void)configSelectBottomView {
-    CGFloat hgt = [MIUIFactory getNavigitionBarHeight:self] + StatusBarHeight;
+    CGFloat hgt = KNaviBarAllHeight;
     _selectView = [[UIView alloc] initWithFrame:CGRectMake(0, MIScreenHeight - hgt - 60, MIScreenWidth, 60)];
     [self.view addSubview:_selectView];
     
@@ -160,6 +159,14 @@ static NSString * const videoCellId = @"videoCellId";
     _videoBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(MIScreenWidth - 109 - 15, 0, 109, 60) normalTitle:@"视频" normalTitleColor:UIColorFromRGBWithAlpha(0x333333, 1) highlightedTitleColor:nil selectedColor:nil titleFont:15 normalImage:[UIImage imageNamed:@"icon_album_line_nor"] highlightedImage:nil selectedImage:[UIImage imageNamed:@"icon_album_line_sel"] touchUpInSideTarget:self action:@selector(clickVideoBtn:)];
     [_videoBtn layoutButtonWithEdgeInsetsStyle:MIButtonEdgeInsetsStyleBottom imageTitleSpace:5];
     [_selectView addSubview:_videoBtn];
+    
+    if (_type == 0) {
+        [self clickAllBtn:_allBtn];
+    } else if (_type == 1) {
+        [self clickPhotoBtn:_photoBtn];
+    } else {
+        [self clickVideoBtn:_videoBtn];
+    }
 }
 
 - (void)configUploadBottomView {

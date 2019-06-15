@@ -18,10 +18,12 @@ static NSString * const mobileRegisterUrl = @"/site/register-mobile";
 static NSString * const loginUrl = @"/site/login";
 static NSString * const loginByQQUrl = @"/site/qq-login";
 static NSString * const loginByWXUrl = @"/site/weixin-login";
+static NSString * const loginByFacebookUrl = @"/site/facebook-login";
 static NSString * const communityListUrl = @"/node/list";
 static NSString * const myCommunityListUrl = @"/node/my";
-static NSString * const communityDetailUrl = @"/image/detail";
-static NSString * const communityCommentUrl = @"/node/comment-list";
+static NSString * const otherCommunityListUrl = @"/node/visitor";
+static NSString * const communityDetailUrl = @"/node/get-detail";
+static NSString * const communityCommentUrl = @"/node/comment-lists";
 static NSString * const praiseUrl = @"/node/like";
 static NSString * const commentUrl = @"/node/comment";
 static NSString * const uploadImageUrl = @"/image/upload";
@@ -36,6 +38,10 @@ static NSString * const cancelBlackListUrl = @"/user-black/cancel";
 static NSString * const blackListUrl = @"/user-black/list";
 static NSString * const forgetPasswordUrl = @"/site/forget-login";
 static NSString * const loginByAuthCodeUrl = @"/site/login-mobile";
+static NSString * const recommendListUrl = @"/tweet/get-tweets";
+static NSString * const getAllNotReadMessageUrl = @"/message/get-messages";
+static NSString * const getSingleTweetUrl = @"/tweet/get-tweet";
+static NSString * const otherProductionListUrl = @"/user/user-info";
 
 @implementation MIRequestManager
 
@@ -200,6 +206,26 @@ static NSString * const loginByAuthCodeUrl = @"/site/login-mobile";
     }];
 }
 
++ (void)loginByFacebookWithDic:(NSDictionary *)dic completed:(void (^)(id jsonData, NSError *error))completed {
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"userId"] = [NSString stringWithFormat:@"%ld", [dic[@"id"] integerValue]];
+    params[@"userName"] = dic[@"name"];
+    if ([dic[@"gender"] isEqualToString:@"male"]) {
+        params[@"gender"] = @"0";
+    } else {
+       params[@"gender"] = @"1";
+    }
+    params[@"avatar"] = [[[dic objectForKey:@"picture"] objectForKey:@"data"] objectForKey:@"url"];
+    params[@"email"] = dic[@"email"];
+    
+    NSString *url = [requestUrl stringByAppendingString:loginByFacebookUrl];
+    [MIRequestManager postApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+        
+        completed(jsonData, error);
+    }];
+}
+
 + (void)forgetPasswordLoginWithUsername:(NSString *)username password:(NSString *)password verifyToken:(NSString *)verifyToken verifyCode:(NSString *)verifyCode completed:(void (^)(id jsonData, NSError *error))completed {
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
@@ -222,7 +248,7 @@ static NSString * const loginByAuthCodeUrl = @"/site/login-mobile";
     params[@"verifyToken"] = verifyToken;
     params[@"verifyCode"] = verifyCode;
     
-    NSString *url = [requestUrl stringByAppendingString:forgetPasswordUrl];
+    NSString *url = [requestUrl stringByAppendingString:loginByAuthCodeUrl];
     [MIRequestManager postApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
         
         completed(jsonData, error);
@@ -248,10 +274,40 @@ static NSString * const loginByAuthCodeUrl = @"/site/login-mobile";
     }];
 }
 
++ (void)getOtherCommunityDataListWithUserId:(NSInteger)userId requestToken:(NSString *)token page:(NSInteger)page pageSize:(NSInteger)pageSize completed:(void (^)(id jsonData, NSError *error))completed {
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"id"] = @(userId);
+    params[@"token"] = token;
+    params[@"page"] = @(page);
+    params[@"pageSize"] = @(pageSize);
+    
+    NSString *url = [requestUrl stringByAppendingString:otherCommunityListUrl];
+    
+    [MIRequestManager getApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+        
+        completed(jsonData, error);
+    }];
+}
+
 + (void)getCommunityDetailDataWithContentId:(NSString *)contentId requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed {
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"imageId"] = @(contentId.integerValue);
+    params[@"token"] = token;
+    
+    NSString *url = [requestUrl stringByAppendingString:communityDetailUrl];
+    [MIRequestManager getApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+        
+        completed(jsonData, error);
+    }];
+}
+
++ (void)getCommunityDetailDataWithContentId:(NSInteger)contentId contentType:(NSInteger)contentType requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed {
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"contentId"] = @(contentId);
+    params[@"contentType"] = @(contentType);
     params[@"token"] = token;
     
     NSString *url = [requestUrl stringByAppendingString:communityDetailUrl];
@@ -275,11 +331,11 @@ static NSString * const loginByAuthCodeUrl = @"/site/login-mobile";
     }];
 }
 
-+ (void)praiseWithContentId:(NSString *)contentId contentType:(NSInteger)contentType requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed {
++ (void)praiseWithContentId:(NSInteger)contentId contentType:(NSInteger)contentType requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed {
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"contentType"] = @(contentType);
-    params[@"contentId"] = @(contentId.integerValue);
+    params[@"contentId"] = @(contentId);
     
     NSString *url = [requestUrl stringByAppendingString:praiseUrl];
     url = [url stringByAppendingString:[NSString stringWithFormat:@"?token=%@", token]];
@@ -400,6 +456,24 @@ static NSString * const loginByAuthCodeUrl = @"/site/login-mobile";
     }];
 }
 
++ (void)modifyUserInfoWithNickname:(NSString *)nickname gender:(NSInteger)gender birthday:(NSString *)birthday profession:(NSString *)profession requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed {
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"nickname"] = nickname;
+    params[@"gender"] = @(gender);
+    params[@"birthday"] = birthday;
+//    params[@"profession"] = profession;
+    params[@"profession"] = @(0);
+    
+    NSString *url = [requestUrl stringByAppendingString:modifyUserInfoUrl];
+    url = [url stringByAppendingString:[NSString stringWithFormat:@"?token=%@", token]];
+    
+    [MIRequestManager postApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+        
+        completed(jsonData, error);
+    }];
+}
+
 + (void)uploadUserAvatarWithFile:(NSString *)file fileName:(NSString *)fileName avatar:(UIImage *)avatar requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed {
     
     NSString *url = [requestUrl stringByAppendingString:uploadUserAvatarUrl];
@@ -452,6 +526,76 @@ static NSString * const loginByAuthCodeUrl = @"/site/login-mobile";
     params[@"token"] = token;
     
     NSString *url = [requestUrl stringByAppendingString:blackListUrl];
+    [MIRequestManager getApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+        
+        completed(jsonData, error);
+    }];
+}
+
++ (void)getOtherUserInfoWithUserId:(NSInteger)userId requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed {
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"token"] = token;
+    params[@"id"] = @(userId);
+    
+    NSString *url = [requestUrl stringByAppendingString:otherProductionListUrl];
+    [MIRequestManager getApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+        
+        completed(jsonData, error);
+    }];
+}
+
++ (void)getRecommendDataListWithSearchTitle:(NSString *)title requestToken:(NSString *)token page:(NSInteger)page pageSize:(NSInteger)pageSize completed:(void (^)(id jsonData, NSError *error))completed {
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"title"] = title;
+    params[@"token"] = token;
+    params[@"page"] = @(page);
+    params[@"pageSize"] = @(pageSize);
+    
+    NSString *url = [requestUrl stringByAppendingString:recommendListUrl];
+    
+    [MIRequestManager getApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+        
+        completed(jsonData, error);
+    }];
+}
+
++ (void)getSingleTweetWithId:(NSInteger)tweetId requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed {
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"id"] = @(tweetId);
+    params[@"token"] = token;
+    
+    NSString *url = [requestUrl stringByAppendingString:getSingleTweetUrl];
+    
+    [MIRequestManager getApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+        
+        completed(jsonData, error);
+    }];
+}
+
++ (void)getAllNotReadMessageWithRequestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed {
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"token"] = token;
+
+    NSString *url = [requestUrl stringByAppendingString:getAllNotReadMessageUrl];
+    
+    [MIRequestManager getApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+        
+        completed(jsonData, error);
+    }];
+}
+
++ (void)getCommunityCommentsWithContentId:(NSInteger )contentId contentType:(NSInteger)contentType requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed {
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"contentId"] = @(contentId);
+    params[@"contentType"] = @(contentType);
+    params[@"token"] = token;
+    
+    NSString *url = [requestUrl stringByAppendingString:communityCommentUrl];
     [MIRequestManager getApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
         
         completed(jsonData, error);

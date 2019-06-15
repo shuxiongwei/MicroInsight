@@ -12,6 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MILocalAlbumVC : MIBaseViewController
 
+@property (nonatomic, assign) NSInteger type;
+
 @end
 
 NS_ASSUME_NONNULL_END

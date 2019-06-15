@@ -21,15 +21,11 @@ class MIHomeViewController: MIBaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+//        super.setStatusBarBackgroundColor(.clear)
         self.navigationController?.setNavigationBarHidden(true, animated: true)
         siderBar.refreshTopView()
     }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        super.setStatusBarBackgroundColor(.clear)
-    }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -86,17 +82,23 @@ class MIHomeViewController: MIBaseViewController {
     }
     
     @IBAction func clickCommunityBtn(_ sender: UIButton) {
-        let vc = MICommunityVC.init()
-        self.navigationController?.pushViewController(vc, animated: true)
+        if MILocalData.hasLogin() {
+            let vc = MICommunityVC.init()
+            self.navigationController?.pushViewController(vc, animated: true)
+        } else {
+            let loginVC: MILoginViewController = MILoginViewController(nibName: "MILoginViewController", bundle: nil)
+            self.navigationController?.pushViewController(loginVC, animated: true)
+        }
     }
     
     @IBAction func clickRecommendBtn(_ sender: UIButton) {
-        
+        let vc = MIRecommendVC.init()
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @IBAction func clickTopBannerBtn(_ sender: UIButton) {
-        let vc = MIActivityDetailVC.init()
-        self.navigationController?.pushViewController(vc, animated: true)
+//        let vc = MIActivityDetailVC.init()
+//        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc func swipeRightAction(_ rec: UIGestureRecognizer) {

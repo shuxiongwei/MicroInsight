@@ -101,30 +101,21 @@ typedef NS_ENUM(NSInteger, MIDemarcateType) {
 
 - (UIView *)demarcateSaveView {
     if (!_demarcateSaveView) {
-        _demarcateSaveView = [[UIView alloc] initWithFrame:CGRectMake(0, self.height - 120, self.width, 120)];
-        _demarcateSaveView.backgroundColor = [UIColor clearColor];
-        [self.previewView addSubview:_demarcateSaveView];
+        _demarcateSaveView = [[UIView alloc] initWithFrame:CGRectMake(0, self.height - 60, self.width, 60)];
+        _demarcateSaveView.backgroundColor = [UIColor whiteColor];
+        [self addSubview:_demarcateSaveView];
         
         //取消标定
-        UIButton *cancelDemarcateBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(50, (_demarcateSaveView.height - 30) / 2.0, 60, 30) normalTitle:@"取消标定" normalTitleColor:[UIColor blackColor] highlightedTitleColor:nil selectedColor:nil titleFont:13 normalImage:nil highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(cancelDemarcate:)];
-        cancelDemarcateBtn.backgroundColor = UIColorFromRGBWithAlpha(0xF2F3F5, 1);
-        cancelDemarcateBtn.layer.cornerRadius = 5;
-        cancelDemarcateBtn.layer.masksToBounds = YES;
+        UIButton *cancelDemarcateBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(30, (_demarcateSaveView.height - 20) / 2.0, 60, 20) normalTitle:@"取消" normalTitleColor:UIColorFromRGBWithAlpha(0x333333, 1) highlightedTitleColor:nil selectedColor:nil titleFont:15 normalImage:nil highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(cancelDemarcate:)];
         [_demarcateSaveView addSubview:cancelDemarcateBtn];
         
         //保存标定
-        UIButton *saveDemarcateBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(0, (_demarcateSaveView.height - 30) / 2.0, 60, 30) normalTitle:@"保存标定" normalTitleColor:[UIColor blackColor] highlightedTitleColor:nil selectedColor:nil titleFont:13 normalImage:nil highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(saveDemarcate:)];
+        UIButton *saveDemarcateBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(0, (_demarcateSaveView.height - 20) / 2.0, 60, 20) normalTitle:@"保存" normalTitleColor:UIColorFromRGBWithAlpha(0x333333, 1) highlightedTitleColor:nil selectedColor:nil titleFont:15 normalImage:nil highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(saveDemarcate:)];
         saveDemarcateBtn.centerX = self.previewView.centerX;
-        saveDemarcateBtn.backgroundColor = UIColorFromRGBWithAlpha(0xC6E377, 1);
-        saveDemarcateBtn.layer.cornerRadius = 5;
-        saveDemarcateBtn.layer.masksToBounds = YES;
         [_demarcateSaveView addSubview:saveDemarcateBtn];
         
         //重新标定
-        UIButton *resetDemarcateBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(_demarcateSaveView.width - 50 - 60, (_demarcateSaveView.height - 30) / 2.0, 60, 30) normalTitle:@"重新标定" normalTitleColor:[UIColor blackColor] highlightedTitleColor:nil selectedColor:nil titleFont:13 normalImage:nil highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(resetDemarcate:)];
-        resetDemarcateBtn.backgroundColor = UIColorFromRGBWithAlpha(0xFFC15E, 1);
-        resetDemarcateBtn.layer.cornerRadius = 5;
-        resetDemarcateBtn.layer.masksToBounds = YES;
+        UIButton *resetDemarcateBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(_demarcateSaveView.width - 30 - 60, (_demarcateSaveView.height - 20) / 2.0, 60, 20) normalTitle:@"重置" normalTitleColor:UIColorFromRGBWithAlpha(0x333333, 1) highlightedTitleColor:nil selectedColor:nil titleFont:15 normalImage:nil highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(resetDemarcate:)];
         [_demarcateSaveView addSubview:resetDemarcateBtn];
     }
     
@@ -148,7 +139,7 @@ typedef NS_ENUM(NSInteger, MIDemarcateType) {
     minScale = 1.0;
     maxScale = 10.0;
     
-    self.previewView = [[MIVideoPreview alloc] initWithFrame:CGRectMake(0, 0, self.width, self.height - 110)];
+    self.previewView = [[MIVideoPreview alloc] initWithFrame:CGRectMake(0, 0, self.width, self.height)];
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapAction:)];
     UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleTapAction:)];
@@ -345,12 +336,19 @@ typedef NS_ENUM(NSInteger, MIDemarcateType) {
         _totalLab.hidden = YES;
         sender.selected = !sender.selected;
     } else {
+        WSWeak(weakSelf);
         CGFloat length = [MILocalData getCurrentDemarcateInfo];
         //还未进行相机标定
         if (length == 0) {
-            [self executeCameraDemarcate:MIDemarcateReset];
+//            [self executeCameraDemarcate:MIDemarcateReset];
+            [MIDemarcateAlertView showAlertViewWithFrame:MIScreenBounds alertTitle:@"标定教程" alertMessage:@"①请对准一毫米标尺\n②点击标尺两侧\n③确定标点准确减少误差" leftTitle:@"取消" rightTitle:@"确定" leftAction:^(BOOL alert) {
+                
+            } rightAction:^(BOOL alert) {
+                if (alert) {
+                    [weakSelf executeCameraDemarcate:MIDemarcateReset];
+                }
+            }];
         } else {
-            WSWeak(weakSelf);
             [MIDemarcateAlertView showAlertViewWithFrame:MIScreenBounds alertTitle:@"温馨提示" alertMessage:@"请选择重新进行相机标定或使用已经保存的标定值\n请对准1mm的物体进行标定。" leftTitle:@"重新标定" rightTitle:@"已标定值" leftAction:^(BOOL alert) {
                 
                 if (alert) {
@@ -634,6 +632,7 @@ typedef NS_ENUM(NSInteger, MIDemarcateType) {
     _photoBtn.hidden = execute;
     _videoBtn.hidden = execute;
     _coverBtn.hidden = execute;
+    _bottomV.hidden = execute;
     _focalSliderView.hidden = execute;
     _reduceV.hidden = execute;
     _addV.hidden = execute;

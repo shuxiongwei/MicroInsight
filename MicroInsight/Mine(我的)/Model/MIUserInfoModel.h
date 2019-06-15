@@ -18,6 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) NSInteger gender;
 @property (nonatomic, copy) NSString *birthday;
 @property (nonatomic, copy) NSString *nickname;
+@property (nonatomic, copy) NSString *profession;
+@property (nonatomic, assign) NSInteger age;
 @property (nonatomic, copy) NSString *token;
 
 @end

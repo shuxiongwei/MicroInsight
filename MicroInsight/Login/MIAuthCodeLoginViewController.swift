@@ -58,12 +58,14 @@ class MIAuthCodeLoginViewController: MIBaseViewController {
             let code = dic["code"]?.int64Value
             if code == 0 {
                 let data = dic["data"]
-                weakSelf?.token = data?["verifyToken"] as? String
+                let token = data?["verifyToken"] as? Int
+                weakSelf?.token = token?.description
             }
             
             weakSelf?.downCount = 60
             weakSelf?.authCodeBtn.isUserInteractionEnabled = false
             weakSelf?.authCodeBtn.setBackgroundImage(nil, for: .normal)
+            weakSelf?.authCodeBtn.backgroundColor = MIRgbaColor(rgbValue: 0xF2F3F5, alpha: 1)
             weakSelf?.authCodeBtn.setTitle("\(weakSelf!.downCount!)" + "s", for: .normal)
             weakSelf?.authCodeBtn.setTitleColor(MIRgbaColor(rgbValue: 0x999999, alpha: 1), for: .normal)
             weakSelf?.initTimer()
@@ -93,7 +95,7 @@ class MIAuthCodeLoginViewController: MIBaseViewController {
                 let model = MIUserInfoModel.yy_model(with: user as! [AnyHashable : Any])
                 MILocalData.saveCurrentLoginUserInfo(model)
                 
-                weakSelf?.navigationController?.popViewController(animated: true)
+                weakSelf?.navigationController?.popToRootViewController(animated: true)
             } else {
                 let msg = dic["message"] as! String
                 MIHudView.showMsg(msg)
@@ -110,6 +112,7 @@ class MIAuthCodeLoginViewController: MIBaseViewController {
         downCount -= 1
         if downCount == 0 {
             authCodeBtn.isUserInteractionEnabled = true
+            authCodeBtn.backgroundColor = nil
             authCodeBtn.setButtonCustomBackgroudImage(btn: authCodeBtn, fromColor: MIRgbaColor(rgbValue: 0x72B3E3, alpha: 1), toColor: MIRgbaColor(rgbValue: 0x6DD1CC, alpha: 1))
             authCodeBtn.setTitle("发送验证码", for: .normal)
             authCodeBtn.setTitleColor(MIRgbaColor(rgbValue: 0xffffff, alpha: 1), for: .normal)

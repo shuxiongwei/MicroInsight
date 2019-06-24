@@ -24,6 +24,9 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapImageView)];
+    [_imgView addGestureRecognizer:tap];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -33,6 +36,8 @@
 }
 
 - (void)setModel:(MITweetSectionModel *)model {
+    _model = model;
+    
     if ([model.type isEqualToString:@"1"]) {
         _contentLab.hidden = NO;
         _imgView.hidden = YES;
@@ -44,17 +49,28 @@
         _imgView.hidden = NO;
         if ([model.type isEqualToString:@"2"]) {
             _playBtn.hidden = YES;
+            [_imgView sd_setImageWithURL:[NSURL URLWithString:model.content] placeholderImage:[UIImage imageNamed:@"img_app_placeholder_default"]];
         } else {
             _playBtn.hidden = NO;
+            
+            AVAsset *asset = [AVAsset assetWithURL:[NSURL URLWithString:_model.content]];
+            _imgView.image = [MIHelpTool fetchThumbnailWithAVAsset:asset curTime:0];
         }
-        
-        NSString *url = [NSString stringWithFormat:@"%@?x-oss-process=image/resize,m_fill,h_%ld,w_%ld", model.content, (NSInteger)(_imgView.width / 1) , (NSInteger)(_imgView.height / 1)];
-        [_imgView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:nil];
     }
 }
 
 - (IBAction)clickPlayBtn:(UIButton *)sender {
-    
+    if (self.clickPlayBtn) {
+        self.clickPlayBtn(_model.content);
+    }
+}
+
+- (void)tapImageView {
+    if ([_model.type isEqualToString:@"2"]) {
+        if (self.clickImageView) {
+            self.clickImageView(_model.content);
+        }
+    }
 }
 
 @end

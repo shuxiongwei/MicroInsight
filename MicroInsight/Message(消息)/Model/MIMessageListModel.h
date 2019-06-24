@@ -16,7 +16,8 @@ typedef NS_ENUM(NSUInteger, MIMessageType) {
     MIMessageTypePraise,             //点赞
     MIMessageTypeLetter,             //私信
     MIMessageTypeCommentPraise,      //评论点赞
-    MIMessageTypeCommentComment      //评论评论
+    MIMessageTypeCommentComment,     //评论评论
+    MIMessageTypeNone                //空类型
 };
 
 @interface MIMessageListModel : MIBaseModel
@@ -36,6 +37,7 @@ typedef NS_ENUM(NSUInteger, MIMessageType) {
 @property (nonatomic, copy) NSString *avatar; //图像地址
 @property (nonatomic, copy) NSString *title; //标题
 @property (nonatomic, copy) NSString *comContent; //评论内容
+@property (nonatomic, copy) NSString *tweet_id; //推文id
 
 @end
 

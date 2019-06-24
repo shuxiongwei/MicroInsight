@@ -37,3 +37,8 @@
 #import "MISelectPhotoView.h"
 #import "MIMessageVC.h"
 #import "QZShareMgr.h"
+#import "MIAlbumManager.h"
+#import "MIReportView.h"
+#import "MIWatermarkVC.h"
+#import "MBProgressHUD+MJ.h"
+#import "MIBlackListViewController.h"

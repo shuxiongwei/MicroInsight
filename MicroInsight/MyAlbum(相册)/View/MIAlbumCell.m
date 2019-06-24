@@ -17,6 +17,9 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
+    
+    _durationLab.layer.cornerRadius = 10;
+    _durationLab.layer.masksToBounds = YES;
 }
 
 @end

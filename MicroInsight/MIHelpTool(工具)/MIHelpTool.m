@@ -31,6 +31,10 @@ static NSInteger const maxLength = 20;
    return  [self createFolderWithLastComponent:@"Assets"];
 }
 
++ (void)saveData:(NSData *)data toPath:(NSString *)path {
+    [data writeToFile:path atomically:YES];
+}
+
 + (NSString *)createFolderWithLastComponent:(NSString *)component {
     
     NSFileManager *fileManager = [[NSFileManager alloc] init];

@@ -14,6 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) id model;
 @property (nonatomic, copy) void (^clickUserIcon)(NSInteger userId);
+@property (nonatomic, copy) void (^clickPlayBtn)(NSString *videoUrl);
+@property (nonatomic, copy) void (^clickContentImageView)(NSString *imgPath);
 
 @end
 

@@ -189,8 +189,13 @@ typedef NS_ENUM(NSInteger,MIModuleType) {
     [[MIThirdPartyLoginManager shareManager] getUserInfoWithWTLoginType:MILoginTypeTencent result:^(NSDictionary *loginResult, NSString *error) {
 
         if ([MIHelpTool isBlankString:error]) {
+            [MBProgressHUD showStatus:@"QQ登录中，请稍后..."];
             [MIRequestManager loginByQQWithOpenId:loginResult[@"openId"] accessToken:loginResult[@"accessToken"] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
 
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [MBProgressHUD hideHUD];
+                });
+                
                 NSInteger code = [jsonData[@"code"] integerValue];
                 if (code == 0) {
                     NSDictionary *data = jsonData[@"data"];
@@ -215,7 +220,12 @@ typedef NS_ENUM(NSInteger,MIModuleType) {
     [[MIThirdPartyLoginManager shareManager] getUserInfoWithWTLoginType:MILoginTypeWeiXin result:^(NSDictionary *loginResult, NSString *error) {
 
         if ([MIHelpTool isBlankString:error]) {
+            [MBProgressHUD showStatus:@"微信登录中，请稍后..."];
             [MIRequestManager loginByWXWithCode:loginResult[@"code"] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [MBProgressHUD hideHUD];
+                });
                 
                 NSInteger code = [jsonData[@"code"] integerValue];
                 if (code == 0) {

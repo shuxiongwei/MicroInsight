@@ -74,12 +74,12 @@
 }
 
 - (CGFloat)getChildCommentTableViewHeight {
-    if (self.child.count == 0) {
+    if (self.childCount == 0) {
         return 0;
     } else {
         NSInteger line = 0;
-        if (self.child.count < 4) {
-            line = self.child.count;
+        if (self.childCount < 4) {
+            line = self.childCount;
         } else {
             line = 3;
         }

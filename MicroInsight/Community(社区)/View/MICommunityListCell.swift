@@ -14,6 +14,9 @@ class MICommunityListCell: UITableViewCell {
 
     var clickUserIconBlock: communityBlock?
     var clickExtendBtnBlock: communityBlock?
+    var clickCommentBtnBlock: communityBlock?
+    var clickPraiseBtnBlock: communityBlock?
+    var clickPlayBtnBlock: communityBlock?
     @IBOutlet weak var headIconBtn: UIButton!
     @IBOutlet weak var recommendBtn: UIButton!
     @IBOutlet weak var nameLab: UILabel!
@@ -25,6 +28,7 @@ class MICommunityListCell: UITableViewCell {
     @IBOutlet weak var tagTitle: UILabel!
     @IBOutlet weak var readingBtn: UIButton!
     @IBOutlet weak var widthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var playBtn: UIButton!
     var communityModel: MICommunityListModel!
     
     override func awakeFromNib() {
@@ -48,11 +52,7 @@ class MICommunityListCell: UITableViewCell {
         readingBtn.setTitle("\(model.readings)", for: .normal)
         commentBtn.setTitle("\(model.comments)", for: .normal)
         praiseBtn.setTitle("\(model.likes)", for: .normal)
-        if (model.isLike) {
-            praiseBtn.setImage(UIImage(named: "icon_community_praise_sel"), for: .normal)
-        } else {
-            praiseBtn.setImage(UIImage(named: "icon_community_praise_nor"), for: .normal)
-        }
+        praiseBtn.isSelected = model.isLike
         
         contentLab.text = model.title
         if model.tags.count > 0 {
@@ -73,9 +73,13 @@ class MICommunityListCell: UITableViewCell {
         } else {
             imgUrl = model.coverUrl
         }
-
-        imgUrl = imgUrl + "?x-oss-process=image/resize,m_fill,h_\(Int(imgView.width)),w_\(Int(imgView.height))"
-        imgView.sd_setImage(with: NSURL(string: imgUrl) as URL?, placeholderImage: UIImage(named: ""), options: .retryFailed, completed: nil)
+        imgView.sd_setImage(with: NSURL(string: imgUrl) as URL?, placeholderImage: UIImage(named: "img_app_placeholder_default"), options: .retryFailed, completed: nil)
+        
+        if communityModel.contentType == 0 {
+            playBtn.isHidden = true
+        } else {
+            playBtn.isHidden = false
+        }
     }
     
     @IBAction func clickUserIconBtn(_ sender: UIButton) {
@@ -87,6 +91,24 @@ class MICommunityListCell: UITableViewCell {
     @IBAction func clickExtendBtn(_ sender: UIButton) {
         if clickExtendBtnBlock != nil {
             clickExtendBtnBlock!(communityModel.userId)
+        }
+    }
+    
+    @IBAction func clickCommentBtn(_ sender: UIButton) {
+        if clickCommentBtnBlock != nil {
+            clickCommentBtnBlock!(communityModel.userId)
+        }
+    }
+    
+    @IBAction func clickPraiseBtn(_ sender: UIButton) {
+        if clickPraiseBtnBlock != nil {
+            clickPraiseBtnBlock!(communityModel.userId)
+        }
+    }
+    
+    @IBAction func clickPlayBtn(_ sender: UIButton) {
+        if clickPlayBtnBlock != nil {
+            clickPlayBtnBlock!(communityModel.userId)
         }
     }
 }

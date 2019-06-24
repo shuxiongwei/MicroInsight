@@ -26,16 +26,31 @@
 }
 
 - (void)configReportUI {
-    self.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
-    _reportList = @[@"广告", @"标题夸张", @"低俗色情", @"错别字多", @"涉嫌违法犯罪"];
+    self.backgroundColor = [UIColorFromRGBWithAlpha(0x666666, 1) colorWithAlphaComponent:0.8];
+    _reportList = @[@"垃圾广告", @"低俗色情", @"有害信息", @"诈骗信息", @"违法犯罪"];
     
-    _reportTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, self.bounds.size.height - 350, self.bounds.size.width, 350) style:UITableViewStylePlain];
+    _reportTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, self.height - 287, self.width, 227) style:UITableViewStylePlain];
     _reportTableView.backgroundColor = UIColorFromRGBWithAlpha(0xCCCCCC, 1);
     _reportTableView.separatorColor = UIColorFromRGBWithAlpha(0x0000000, 0.6);
     _reportTableView.delegate = self;
     _reportTableView.dataSource = self;
+    _reportTableView.scrollEnabled = NO;
+    _reportTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [_reportTableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cell"];
     [self addSubview:_reportTableView];
+    
+    UIButton *cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    cancelBtn.frame = CGRectMake(0, self.height - 50, MIScreenWidth, 50);
+    cancelBtn.backgroundColor = [UIColor whiteColor];
+    [cancelBtn setTitleColor:UIColorFromRGBWithAlpha(0x333333, 1) forState:UIControlStateNormal];
+    [cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
+    cancelBtn.titleLabel.font = [UIFont systemFontOfSize:15];
+    [cancelBtn addTarget:self action:@selector(clickCancelBtn) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:cancelBtn];
+    
+    UIView *segView = [[UIView alloc] initWithFrame:CGRectMake(0, self.height - 60, MIScreenWidth, 10)];
+    segView.backgroundColor = UIColorFromRGBWithAlpha(0xF2F3F5, 1);
+    [self addSubview:segView];
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)];
     tap.delegate = self;
@@ -43,6 +58,12 @@
 }
 
 - (void)tap:(UIGestureRecognizer *)rec {
+    [UIView animateWithDuration:0.3 animations:^{
+        self.frame = CGRectMake(0, self.bounds.size.height, self.bounds.size.width, self.bounds.size.height);
+    }];
+}
+
+- (void)clickCancelBtn {
     [UIView animateWithDuration:0.3 animations:^{
         self.frame = CGRectMake(0, self.bounds.size.height, self.bounds.size.width, self.bounds.size.height);
     }];
@@ -80,17 +101,17 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 50;
+    return 37;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 60;
+    return 38;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     
-    UILabel *sectionLab = [MIUIFactory createLabelWithCenter:CGPointMake(MIScreenWidth / 2.0, 30) withBounds:CGRectMake(0, 0, MIScreenWidth, 50) withText:@"举报内容问题" withFont:18 withTextColor:[UIColor blackColor] withTextAlignment:NSTextAlignmentCenter];
-    sectionLab.backgroundColor = [UIColor clearColor];
+    UILabel *sectionLab = [MIUIFactory createLabelWithCenter:CGPointMake(MIScreenWidth / 2.0, 18.5) withBounds:CGRectMake(0, 0, MIScreenWidth, 37) withText:@"举报内容问题" withFont:11 withTextColor:[UIColor blackColor] withTextAlignment:NSTextAlignmentCenter];
+    sectionLab.backgroundColor = [UIColor whiteColor];
     
     return sectionLab;
 }
@@ -98,9 +119,16 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
-    cell.backgroundColor = [UIColor clearColor];
+    cell.backgroundColor = [UIColor whiteColor];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.textLabel.text = _reportList[indexPath.row];
+    cell.textLabel.textAlignment = NSTextAlignmentCenter;
+    cell.textLabel.font = [UIFont systemFontOfSize:12];
+    cell.textLabel.textColor = UIColorFromRGBWithAlpha(0x333333, 1);
+    
+    UIView *lineV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, cell.width, 1)];
+    lineV.backgroundColor = UIColorFromRGBWithAlpha(0xF2F3F5, 1);
+    [cell addSubview:lineV];
     
     return cell;
 }

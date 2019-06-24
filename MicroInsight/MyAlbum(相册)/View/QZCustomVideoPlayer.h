@@ -22,7 +22,16 @@ NS_ASSUME_NONNULL_BEGIN
  @param videoUrl 视频源
  @return 返回值
  */
-- (instancetype)initWithFrame:(CGRect)frame videoUrl:(NSString *)videoUrl;
+- (instancetype)initWithFrame:(CGRect)frame videoUrl:(nullable NSString *)videoUrl;
+
+- (instancetype)initWithFrame:(CGRect)frame
+                     videoUrl:(nullable NSString *)videoUrl
+                   videoAsset:(nullable AVAsset *)asset;
+
+- (instancetype)initWithFrame:(CGRect)frame
+                     videoUrl:(nullable NSString *)videoUrl
+                   videoAsset:(nullable AVAsset *)asset
+              networkVideoUrl:(nullable NSString *)networkVideoUrl;
 
 /**
  设置视频源

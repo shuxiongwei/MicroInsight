@@ -17,7 +17,7 @@
     _imgView.layer.cornerRadius = 15;
     _imgView.layer.masksToBounds = YES;
     _cancelLab.layer.borderWidth = 1;
-    _cancelLab.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    _cancelLab.layer.borderColor = [UIColor blackColor].CGColor;
     _cancelLab.layer.cornerRadius = 5;
     _cancelLab.layer.masksToBounds = YES;
     self.selectionStyle = UITableViewCellSelectionStyleNone;

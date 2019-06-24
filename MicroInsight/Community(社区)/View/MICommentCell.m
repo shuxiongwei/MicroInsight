@@ -48,12 +48,23 @@
     }
 }
 
+- (IBAction)clickPraiseBtn:(UIButton *)sender {
+    if (_model.isLike) {
+        [MIHudView showMsg:@"已经点赞过该评论了"];
+        return;
+    }
+    
+    if (self.clickPraiseComment) {
+        self.clickPraiseComment();
+    }
+}
+
 #pragma mark - UITableViewDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (_model.child.count > 3) {
+    if (_model.childCount > 2) {
         if (indexPath.row == 2) {
-            if (self.clickCommentReplay) {
-                self.clickCommentReplay(_model);
+            if (self.clickShowAllChildComment) {
+                self.clickShowAllChildComment(_model);
             }
         }
     }
@@ -61,7 +72,7 @@
 
 #pragma mark - UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return _model.child.count > 3 ? 3 : _model.child.count;
+    return _model.childCount > 2 ? 3 : _model.childCount;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -76,7 +87,7 @@
     cell.textLabel.font = [UIFont systemFontOfSize:11];
     
     WSWeak(weakSelf)
-    if (_model.child.count > 3) {
+    if (_model.childCount > 2) {
         if (indexPath.row < 2) {
             MIChildCommentModel *model = _model.child[indexPath.row];
             cell.textLabel.text = [NSString stringWithFormat:@"%@:%@", model.nickname, model.content];
@@ -89,7 +100,7 @@
                 }
             }];
         } else {
-            cell.textLabel.text = [NSString stringWithFormat:@"共%ld条回复 >", _model.child.count];
+            cell.textLabel.text = [NSString stringWithFormat:@"共%ld条回复 >", _model.childCount];
             cell.textLabel.textColor = UIColorFromRGBWithAlpha(0x3189C8, 1);
         }
     } else {

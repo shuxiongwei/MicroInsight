@@ -86,21 +86,23 @@
  
  @param cameraView 自身
  */
-- (void)takePhotoAction:(MICameraView *)cameraView;
+- (void)takePhotoAction:(MICameraView *)cameraView waterImage:(nullable UIImage *)waterImage;
+
+- (AVCaptureVideoOrientation)getCurrentVideoOrientation:(MICameraView *)cameraView;
 
 /**
  停止录视频
  
  @param cameraView 自身
  */
-- (void)stopRecordVideoAction:(MICameraView *)cameraView;
+- (void)stopRecordVideoAction:(MICameraView *)cameraView waterImage:(nullable UIImage *)waterImage;
 
 /**
  开始录视频
  
  @param cameraView 自身
  */
-- (void)startRecordVideoAction:(MICameraView *)cameraView;
+- (void)startRecordVideoAction:(MICameraView *)cameraView waterImage:(nullable UIImage *)waterImage;
 
 /**
  改变拍摄类型

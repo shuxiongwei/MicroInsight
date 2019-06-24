@@ -24,8 +24,11 @@ static NSString * const myCommunityListUrl = @"/node/my";
 static NSString * const otherCommunityListUrl = @"/node/visitor";
 static NSString * const communityDetailUrl = @"/node/get-detail";
 static NSString * const communityCommentUrl = @"/node/comment-lists";
+static NSString * const communityChildCommentUrl = @"/node/get-comment";
 static NSString * const praiseUrl = @"/node/like";
+static NSString * const praiseCommentUrl = @"/node/comment-like";
 static NSString * const commentUrl = @"/node/comment";
+static NSString * const commentProductionCommentUrl = @"/node/comment-comment";
 static NSString * const uploadImageUrl = @"/image/upload";
 static NSString * const uploadVideoUrl = @"/video/create";
 static NSString * const checkSensitiveWordUrl = @"/site/check-sensitive-word";
@@ -33,15 +36,25 @@ static NSString * const reportUserUrl = @"/user-report/report";
 static NSString * const modifyUserInfoUrl = @"/user/update-profile";
 static NSString * const uploadUserAvatarUrl = @"/user/upload-avatar";
 static NSString * const getUserInfoUrl = @"/user/info";
-static NSString * const addBlackListUrl = @"/user-black/add";
+static NSString * const addBlackListUrl = @"/user/blacklist";
 static NSString * const cancelBlackListUrl = @"/user-black/cancel";
 static NSString * const blackListUrl = @"/user-black/list";
 static NSString * const forgetPasswordUrl = @"/site/forget-login";
 static NSString * const loginByAuthCodeUrl = @"/site/login-mobile";
 static NSString * const recommendListUrl = @"/tweet/get-tweets";
 static NSString * const getAllNotReadMessageUrl = @"/message/get-messages";
+static NSString * const getMessageResorceUrl = @"/message/show-comment-source";
+static NSString * const getTweetMessageUrl = @"/message/get-tweet";
+static NSString * const readMessageUrl = @"/message/callback";
 static NSString * const getSingleTweetUrl = @"/tweet/get-tweet";
+static NSString * const praiseTweetUrl = @"/tweet/like";
+static NSString * const praiseTweetCommentUrl = @"/tweet/comment-like";
+static NSString * const getTweetUrl = @"/tweet/tweet-comment";
+static NSString * const commentTweetUrl = @"/tweet/comment";
+static NSString * const commentTweetCommentUrl = @"/tweet/comment-comment";
+static NSString * const tweetChildCommentUrl = @"/tweet/get-comment";
 static NSString * const otherProductionListUrl = @"/user/user-info";
+static NSString * const userFeedbackUrl = @"/user/feedback";
 
 @implementation MIRequestManager
 
@@ -51,7 +64,7 @@ static NSString * const otherProductionListUrl = @"/user/user-info";
     
     dispatch_once(&onceToken, ^{
         manager = [[MIRequestManager alloc] init];
-        manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/plain", @"multipart/form-data", @"application/json", @"text/html", @"image/jpeg", @"image/png", @"application/octet-stream", @"text/json", nil];
+        manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/plain", @"multipart/form-data", @"application/json", @"text/html", @"image/jpeg", @"image/png", @"application/octet-stream", @"text/json", @"text/javascript", nil];
     });
     
     return manager;
@@ -217,7 +230,10 @@ static NSString * const otherProductionListUrl = @"/user/user-info";
        params[@"gender"] = @"1";
     }
     params[@"avatar"] = [[[dic objectForKey:@"picture"] objectForKey:@"data"] objectForKey:@"url"];
-    params[@"email"] = dic[@"email"];
+    
+    if (![MIHelpTool isBlankString:dic[@"email"]]) {
+        params[@"email"] = dic[@"email"];
+    }
     
     NSString *url = [requestUrl stringByAppendingString:loginByFacebookUrl];
     [MIRequestManager postApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
@@ -331,6 +347,23 @@ static NSString * const otherProductionListUrl = @"/user/user-info";
     }];
 }
 
++ (void)getCommunityCommentAndChildCommentListWithContentId:(NSInteger)contentId contentType:(NSInteger)contentType commentId:(NSInteger)commentId requestToken:(NSString *)token page:(NSInteger)page pageSize:(NSInteger)pageSize completed:(void (^)(id jsonData, NSError *error))completed {
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"contentId"] = @(contentId);
+    params[@"contentType"] = @(contentType);
+    params[@"commentId"] = @(commentId);
+    params[@"page"] = @(page);
+    params[@"pageSize"] = @(pageSize);
+    params[@"token"] = token;
+    
+    NSString *url = [requestUrl stringByAppendingString:communityChildCommentUrl];
+    [MIRequestManager getApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+        
+        completed(jsonData, error);
+    }];
+}
+
 + (void)praiseWithContentId:(NSInteger)contentId contentType:(NSInteger)contentType requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed {
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
@@ -338,6 +371,21 @@ static NSString * const otherProductionListUrl = @"/user/user-info";
     params[@"contentId"] = @(contentId);
     
     NSString *url = [requestUrl stringByAppendingString:praiseUrl];
+    url = [url stringByAppendingString:[NSString stringWithFormat:@"?token=%@", token]];
+    [MIRequestManager postApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+        
+        completed(jsonData, error);
+    }];
+}
+
++ (void)praiseCommunityCommentWithContentId:(NSInteger)contentId contentType:(NSInteger)contentType commentId:(NSInteger)commentId requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed {
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"contentType"] = @(contentType);
+    params[@"contentId"] = @(contentId);
+    params[@"commentId"] = @(commentId);
+    
+    NSString *url = [requestUrl stringByAppendingString:praiseCommentUrl];
     url = [url stringByAppendingString:[NSString stringWithFormat:@"?token=%@", token]];
     [MIRequestManager postApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
         
@@ -360,7 +408,23 @@ static NSString * const otherProductionListUrl = @"/user/user-info";
     }];
 }
 
-+ (void)uploadImageWithFile:(NSString *)file fileName:(NSString *)fileName filePath:(NSString *)path title:(NSString *)title tags:(NSArray *)tags requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed {
++ (void)commentProductionCommentWithContentId:(NSInteger)contentId contentType:(NSInteger)contentType commentId:(NSInteger)commentId content:(NSString *)content requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed {
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"contentId"] = @(contentId);
+    params[@"contentType"] = @(contentType);
+    params[@"commentId"] = @(commentId);
+    params[@"content"] = content;
+    
+    NSString *url = [requestUrl stringByAppendingString:commentProductionCommentUrl];
+    url = [url stringByAppendingString:[NSString stringWithFormat:@"?token=%@", token]];
+    [MIRequestManager postApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+        
+        completed(jsonData, error);
+    }];
+}
+
++ (void)uploadImageWithFile:(NSString *)file fileName:(NSString *)fileName image:(UIImage *)image title:(NSString *)title tags:(NSArray *)tags requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed {
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"title"] = title;
@@ -372,9 +436,8 @@ static NSString * const otherProductionListUrl = @"/user/user-info";
     //[MIRequestManager sharedManager].responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/plain", @"multipart/form-data", @"application/json", @"text/html", @"image/jpeg", @"image/png", @"application/octet-stream", @"text/json", nil];
     
     [[MIRequestManager sharedManager] POST:url parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
-        
-        UIImage *img = [UIImage imageWithContentsOfFile:path];
-        NSData *datas = UIImageJPEGRepresentation(img, 0.1);
+
+        NSData *datas = UIImageJPEGRepresentation(image, 0.1);
         [formData appendPartWithFileData:datas name:file fileName:fileName mimeType:@"image/jpg"];
     } progress:^(NSProgress * _Nonnull uploadProgress) {
         
@@ -456,14 +519,13 @@ static NSString * const otherProductionListUrl = @"/user/user-info";
     }];
 }
 
-+ (void)modifyUserInfoWithNickname:(NSString *)nickname gender:(NSInteger)gender birthday:(NSString *)birthday profession:(NSString *)profession requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed {
++ (void)modifyUserInfoWithNickname:(NSString *)nickname gender:(NSInteger)gender birthday:(NSString *)birthday profession:(NSInteger)profession requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed {
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"nickname"] = nickname;
     params[@"gender"] = @(gender);
     params[@"birthday"] = birthday;
-//    params[@"profession"] = profession;
-    params[@"profession"] = @(0);
+    params[@"profession"] = @(profession);
     
     NSString *url = [requestUrl stringByAppendingString:modifyUserInfoUrl];
     url = [url stringByAppendingString:[NSString stringWithFormat:@"?token=%@", token]];
@@ -495,7 +557,7 @@ static NSString * const otherProductionListUrl = @"/user/user-info";
 + (void)addBlackListWithUserId:(NSString *)userId requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed {
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"userId"] = userId;
+    params[@"id"] = @(userId.integerValue);
     
     NSString *url = [requestUrl stringByAppendingString:addBlackListUrl];
     url = [url stringByAppendingString:[NSString stringWithFormat:@"?token=%@", token]];
@@ -575,6 +637,92 @@ static NSString * const otherProductionListUrl = @"/user/user-info";
     }];
 }
 
++ (void)praiseTweetWithTweetId:(NSInteger)tweetId requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed {
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"id"] = @(tweetId);
+
+    NSString *url = [requestUrl stringByAppendingString:praiseTweetUrl];
+    url = [url stringByAppendingString:[NSString stringWithFormat:@"?token=%@", token]];
+    [MIRequestManager postApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+        
+        completed(jsonData, error);
+    }];
+}
+
++ (void)praiseTweetCommentWithTweetId:(NSInteger)tweetId commentId:(NSInteger)commentId requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed {
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"tweetId"] = @(tweetId);
+    params[@"commentId"] = @(commentId);
+    
+    NSString *url = [requestUrl stringByAppendingString:praiseTweetCommentUrl];
+    url = [url stringByAppendingString:[NSString stringWithFormat:@"?token=%@", token]];
+    [MIRequestManager postApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+        
+        completed(jsonData, error);
+    }];
+}
+
++ (void)getTweetCommentsWithTweetId:(NSInteger )tweetId requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed {
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"id"] = @(tweetId);
+    params[@"token"] = token;
+    
+    NSString *url = [requestUrl stringByAppendingString:getTweetUrl];
+    
+    [MIRequestManager getApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+        
+        completed(jsonData, error);
+    }];
+}
+
++ (void)commentTweetWithTweetId:(NSInteger )tweetId content:(NSString *)content requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed {
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"id"] = @(tweetId);
+    params[@"content"] = content;
+    
+    NSString *url = [requestUrl stringByAppendingString:commentTweetUrl];
+    url = [url stringByAppendingString:[NSString stringWithFormat:@"?token=%@", token]];
+    [MIRequestManager postApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+        
+        completed(jsonData, error);
+    }];
+}
+
++ (void)commentTweetCommentWithTweetId:(NSInteger)tweetId commentId:(NSInteger)commentId content:(NSString *)content requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed {
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"tweetId"] = @(tweetId);
+    params[@"commentId"] = @(commentId);
+    params[@"content"] = content;
+    
+    NSString *url = [requestUrl stringByAppendingString:commentTweetCommentUrl];
+    url = [url stringByAppendingString:[NSString stringWithFormat:@"?token=%@", token]];
+    [MIRequestManager postApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+        
+        completed(jsonData, error);
+    }];
+}
+
++ (void)getTweetCommentAndChildCommentListWithTweetId:(NSInteger)tweetId commentId:(NSInteger)commentId requestToken:(NSString *)token page:(NSInteger)page pageSize:(NSInteger)pageSize completed:(void (^)(id jsonData, NSError *error))completed {
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"tweetId"] = @(tweetId);
+    params[@"commentId"] = @(commentId);
+    params[@"page"] = @(page);
+    params[@"pageSize"] = @(pageSize);
+    params[@"token"] = token;
+    
+    NSString *url = [requestUrl stringByAppendingString:tweetChildCommentUrl];
+    [MIRequestManager getApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+        
+        completed(jsonData, error);
+    }];
+}
+
 + (void)getAllNotReadMessageWithRequestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed {
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
@@ -582,6 +730,45 @@ static NSString * const otherProductionListUrl = @"/user/user-info";
 
     NSString *url = [requestUrl stringByAppendingString:getAllNotReadMessageUrl];
     
+    [MIRequestManager getApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+        
+        completed(jsonData, error);
+    }];
+}
+
++ (void)getMessageSourceWithCommentId:(NSInteger)commentId requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed {
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"commentId"] = @(commentId);
+    params[@"token"] = token;
+    
+    NSString *url = [requestUrl stringByAppendingString:getMessageResorceUrl];
+    
+    [MIRequestManager getApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+        
+        completed(jsonData, error);
+    }];
+}
+
++ (void)readMessageWithMessageIds:(NSArray *)messageIds requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed {
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"messageIds"] = messageIds;
+    
+    NSString *url = [requestUrl stringByAppendingString:readMessageUrl];
+    url = [url stringByAppendingString:[NSString stringWithFormat:@"?token=%@", token]];
+    [MIRequestManager postApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+        
+        completed(jsonData, error);
+    }];
+}
+
++ (void)getTweetMessageWithRequestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed {
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"token"] = token;
+    
+    NSString *url = [requestUrl stringByAppendingString:getTweetMessageUrl];
     [MIRequestManager getApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
         
         completed(jsonData, error);
@@ -597,6 +784,30 @@ static NSString * const otherProductionListUrl = @"/user/user-info";
     
     NSString *url = [requestUrl stringByAppendingString:communityCommentUrl];
     [MIRequestManager getApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+        
+        completed(jsonData, error);
+    }];
+}
+
++ (void)feedbackWithContent:(NSString *)content requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed {
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"feedback"] = content;
+    
+    NSString *url = [requestUrl stringByAppendingString:userFeedbackUrl];
+    url = [url stringByAppendingString:[NSString stringWithFormat:@"?token=%@", token]];
+    [MIRequestManager postApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+        
+        completed(jsonData, error);
+    }];
+}
+
++ (void)checkAppVersionCompleted:(void (^)(id jsonData, NSError *error))completed {
+ 
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    NSString *url = @"https://itunes.apple.com/cn/lookup?id=1433904650";
+
+    [MIRequestManager postApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
         
         completed(jsonData, error);
     }];

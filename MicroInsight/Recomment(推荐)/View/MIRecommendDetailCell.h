@@ -14,6 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MIRecommendDetailCell : UITableViewCell
 
 @property (nonatomic, strong) MITweetSectionModel *model;
+@property (nonatomic, copy) void (^clickPlayBtn)(NSString *videoUrl);
+@property (nonatomic, copy) void (^clickImageView)(NSString *imgPath);
 
 @end
 

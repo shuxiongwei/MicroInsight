@@ -18,4 +18,6 @@
                               color:(UIColor *)color
                                font:(CGFloat)font;
 
++ (void)changeLineSpaceForLabel:(UILabel *)label WithSpace:(float)space;
+
 @end

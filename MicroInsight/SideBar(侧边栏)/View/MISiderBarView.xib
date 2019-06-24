@@ -34,8 +34,11 @@
                                         <action selector="clickHeadPortraitBtn:" destination="iN0-l3-epB" eventType="touchUpInside" id="1wg-cB-e2o"/>
                                     </connections>
                                 </button>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qz3-k2-BRl">
-                                    <rect key="frame" x="100" y="131" width="229" height="0.0"/>
+                                <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qz3-k2-BRl">
+                                    <rect key="frame" x="100" y="116" width="229" height="30"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="30" id="ayC-tG-xnd"/>
+                                    </constraints>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>

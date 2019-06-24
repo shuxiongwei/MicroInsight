@@ -17,6 +17,7 @@
 #import "MIReviewImageViewController.h"
 #import "MIMyAlbumViewController.h"
 #import "MILocalAlbumVC.h"
+#import "ZRWaterPrintComposition.h"
 
 @interface MIPhotographyViewController () <AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptureAudioDataOutputSampleBufferDelegate, MICameraViewDelegate>
 
@@ -49,6 +50,7 @@
 //不活跃的设备(这里指前摄像头或后摄像头，不包括外接输入设备)
 @property(nonatomic, strong) AVCaptureDevice *inactiveCamera;
 @property(nonatomic, assign) AVCaptureVideoOrientation referenceOrientation; //视频播放方向
+@property (nonatomic, strong) UIImage *currentWaterImage;
 
 @end
 
@@ -88,16 +90,16 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    self.navigationController.navigationBarHidden = YES;
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
     [self changeTorch:AVCaptureTorchModeOn];
     [_cameraView changeTorch:YES];
     
-    self.navigationController.interactivePopGestureRecognizer.delegate = nil;
-    //开启侧滑返回
-    if([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
-        self.navigationController.interactivePopGestureRecognizer.enabled = NO;
-    }
+//    self.navigationController.interactivePopGestureRecognizer.delegate = nil;
+//    //开启侧滑返回
+//    if([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
+//        self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+//    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -254,7 +256,7 @@
 }
 
 #pragma mark - 拍摄照片
-- (void)takePictureImage {
+- (void)takePictureImage:(UIImage *)waterImage {
     AVCaptureConnection *connection = [_imageOutput connectionWithMediaType:AVMediaTypeVideo];
     if (connection.isVideoOrientationSupported) {
         connection.videoOrientation = [self currentVideoOrientation];
@@ -267,6 +269,15 @@
         
         NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
         UIImage *image = [[UIImage alloc] initWithData:imageData];
+        
+        //添加水印
+        if (waterImage) {
+//            CGFloat widthScale = image.size.width / MIScreenWidth;
+//            CGFloat heightScale = image.size.height / (MIScreenHeight - 110);
+//            image = [UIImage addWaterImageWithImage:image waterImage:waterImage waterImageRect:CGRectMake(0, (MIScreenHeight - 200) * heightScale, MIScreenWidth * widthScale, 36 * heightScale)];
+            image = [UIImage addWaterImageWithImage:image waterImage:waterImage waterImageRect:CGRectMake(0, 0, image.size.width, image.size.height)];
+        }
+        imageData = UIImageJPEGRepresentation(image, 1);
         
         NSFileManager *manager = [NSFileManager defaultManager];
         NSString *assetsPath = [MIHelpTool assetsPath];
@@ -285,7 +296,9 @@
 
 #pragma mark - 录制视频
 //开始录制
-- (void)startRecording {
+- (void)startRecording:(UIImage *)waterImage {
+    _currentWaterImage = waterImage;
+    
     [self removeFile:_movieURL];
     dispatch_async(_movieWritingQueue, ^{
         if (!self->_movieWriter) {
@@ -298,7 +311,7 @@
 }
 
 //停止录制
-- (void)stopRecording {
+- (void)stopRecording:(UIImage *)waterImage {
     _recording = NO;
     _readyToRecordVideo = NO;
     _readyToRecordAudio = NO;
@@ -307,7 +320,7 @@
         [self->_movieWriter finishWritingWithCompletionHandler:^() {
             if (self->_movieWriter.status == AVAssetWriterStatusCompleted) {
                 dispatch_sync(dispatch_get_main_queue(), ^{
-                    [self saveMovieToCameraRoll];
+                    [self saveMovieToCameraRoll:waterImage];
                 });
             } else {
                 [MIToastAlertView showAlertViewWithMessage:self->_movieWriter.error.localizedDescription];
@@ -318,40 +331,71 @@
 }
 
 // 保存视频
-- (void)saveMovieToCameraRoll {
-    if (MIIOS9) {
-        [PHPhotoLibrary requestAuthorization:^( PHAuthorizationStatus status ) {
-            if (status != PHAuthorizationStatusAuthorized) return;
-            [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
-                if (@available(iOS 9.0, *)) {
-                    PHAssetCreationRequest *videoRequest = [PHAssetCreationRequest creationRequestForAsset];
-                    [videoRequest addResourceWithType:PHAssetResourceTypeVideo fileURL:self->_movieURL options:nil];
-                } else {
-                    // Fallback on earlier versions
-                }
-            } completionHandler:^( BOOL success, NSError * _Nullable error ) {
-                success?:[MIToastAlertView showAlertViewWithMessage:error.localizedDescription];
-            }];
-        }];
-    } else {
-        ALAssetsLibrary *lab = [[ALAssetsLibrary alloc]init];
-        [lab writeVideoAtPathToSavedPhotosAlbum:_movieURL completionBlock:^(NSURL *assetURL, NSError *error) {
-            !error?:[MIToastAlertView showAlertViewWithMessage:error.localizedDescription];
-        }];
-    }
+- (void)saveMovieToCameraRoll:(UIImage *)waterImage {
     
     NSFileManager *manager = [NSFileManager defaultManager];
     NSString *assetsPath = [MIHelpTool assetsPath];
     NSString *videoName = [MIHelpTool converDate:[NSDate date] toStringByFormat:@"yyyy-MM-dd+HH:mm:ss"];
     NSString *videoPath = [NSString stringWithFormat:@"%@/%@.mov", assetsPath,videoName];
-    _videoPath = videoPath;
-    NSError *error;
-    if ([manager fileExistsAtPath:videoPath]) {
-        [manager removeItemAtPath:videoPath error:nil];
+    
+    if (_currentWaterImage == nil) {
+        if (MIIOS9) {
+            [PHPhotoLibrary requestAuthorization:^( PHAuthorizationStatus status ) {
+                if (status != PHAuthorizationStatusAuthorized) return;
+                [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
+                    if (@available(iOS 9.0, *)) {
+                        PHAssetCreationRequest *videoRequest = [PHAssetCreationRequest creationRequestForAsset];
+                        [videoRequest addResourceWithType:PHAssetResourceTypeVideo fileURL:_movieURL options:nil];
+                    } else {
+                        // Fallback on earlier versions
+                    }
+                } completionHandler:^( BOOL success, NSError * _Nullable error ) {
+                    success?:[MIToastAlertView showAlertViewWithMessage:error.localizedDescription];
+                }];
+            }];
+        } else {
+            ALAssetsLibrary *lab = [[ALAssetsLibrary alloc]init];
+            [lab writeVideoAtPathToSavedPhotosAlbum:_movieURL completionBlock:^(NSURL *assetURL, NSError *error) {
+                !error?:[MIToastAlertView showAlertViewWithMessage:error.localizedDescription];
+            }];
+        }
+        
+        _videoPath = videoPath;
+        NSError *error;
+        if ([manager fileExistsAtPath:videoPath]) {
+            [manager removeItemAtPath:videoPath error:nil];
+        }
+        [manager copyItemAtPath:_movieURL.path toPath:videoPath error:&error];
+    } else {
+        [ZRWaterPrintComposition addVideoWaterprintAtURL:_movieURL WithWaterprintImage:_currentWaterImage completionHandler:^(int status, NSString *errorMsg, NSURL *finishedVideoURL) {
+            
+            if (MIIOS9) {
+                [PHPhotoLibrary requestAuthorization:^( PHAuthorizationStatus status ) {
+                    if (status != PHAuthorizationStatusAuthorized) return;
+                    [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
+                        if (@available(iOS 9.0, *)) {
+                            PHAssetCreationRequest *videoRequest = [PHAssetCreationRequest creationRequestForAsset];
+                            [videoRequest addResourceWithType:PHAssetResourceTypeVideo fileURL:finishedVideoURL options:nil];
+                        } else {
+                            // Fallback on earlier versions
+                        }
+                    } completionHandler:^( BOOL success, NSError * _Nullable error ) {
+                        success?:[MIToastAlertView showAlertViewWithMessage:error.localizedDescription];
+                    }];
+                }];
+            } else {
+                ALAssetsLibrary *lab = [[ALAssetsLibrary alloc]init];
+                [lab writeVideoAtPathToSavedPhotosAlbum:finishedVideoURL completionBlock:^(NSURL *assetURL, NSError *error) {
+                    !error?:[MIToastAlertView showAlertViewWithMessage:error.localizedDescription];
+                }];
+            }
+            
+            _videoPath = finishedVideoURL.path;
+            if ([manager fileExistsAtPath:videoPath]) {
+                [manager removeItemAtPath:videoPath error:nil];
+            }
+        }];
     }
-    [manager copyItemAtPath:_movieURL.path toPath:videoPath error:&error];
-
-    [_cameraView resetCoverBtnImageWithAssetPath:videoPath];
 }
 
 #pragma mark - 输出代理
@@ -366,7 +410,7 @@
     if (brightnessValue < 0.5) {
         [self autoFocusAndExposureAction:_cameraView succ:nil fail:nil];
     }
-    
+
     if (_recording && _movieWriter) {
         CFRetain(sampleBuffer);
         dispatch_async(_movieWritingQueue, ^{
@@ -501,18 +545,22 @@
 }
 
 //拍照
-- (void)takePhotoAction:(MICameraView *)cameraView {
-    [self takePictureImage];
+- (void)takePhotoAction:(MICameraView *)cameraView waterImage:(UIImage *)waterImage {
+    [self takePictureImage:waterImage];
+}
+
+- (AVCaptureVideoOrientation)getCurrentVideoOrientation:(MICameraView *)cameraView {
+    return [self currentVideoOrientation];
 }
 
 //开始录像
-- (void)startRecordVideoAction:(MICameraView *)cameraView {
-    [self startRecording];
+- (void)startRecordVideoAction:(MICameraView *)cameraView waterImage:(nullable UIImage *)waterImage {
+    [self startRecording:waterImage];
 }
 
 //停止录像
-- (void)stopRecordVideoAction:(MICameraView *)cameraView {
-    [self stopRecording];
+- (void)stopRecordVideoAction:(MICameraView *)cameraView waterImage:(nullable UIImage *)waterImage {
+    [self stopRecording:waterImage];
 }
 
 //预览图片或视频

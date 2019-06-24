@@ -37,6 +37,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)getOriginalPhotoDataWithAsset:(PHAsset *)asset
                       progressHandler:(void (^)(double progress, NSError *error, BOOL *stop, NSDictionary *info))progressHandler completion:(void (^)(NSData *data,NSDictionary *info,BOOL isDegraded))completion;
 
+- (void)getAVAssetWithAsset:(PHAsset *)phAsset
+                 completion:(void (^)(AVAsset *dataAsset))completion;
+
 @end
 
 NS_ASSUME_NONNULL_END

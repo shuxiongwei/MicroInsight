@@ -7,12 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Photos/Photos.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface MIUploadViewController : MIBaseViewController
 
 @property (nonatomic, copy) NSString *assetUrl;
+@property (nonatomic, strong) PHAsset *asset;
 
 @end
 

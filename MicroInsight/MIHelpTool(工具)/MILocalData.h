@@ -102,6 +102,14 @@ static NSString * const languageMapping = @"languageMapping"; //语言映射关�
 
 + (NSString *)appLanguage:(NSString *)key;
 
+/**
+ 保存比例尺水印是否打开
+
+ @param open 是否打开
+ */
++ (void)saveOpenRuleWatermark:(BOOL)open;
++ (BOOL)getOpenRuleWatermark;
+
 @end
 
 NS_ASSUME_NONNULL_END

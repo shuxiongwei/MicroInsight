@@ -97,7 +97,12 @@ class MILoginViewController: MIBaseViewController {
         MIThirdPartyLoginManager.share()?.getUserInfo(withWTLoginType: .tencent, result: { (result: Dictionary?, error: String?) in
             
             if (MIHelpTool.isBlankString(error)) {
+                MBProgressHUD.showStatus("QQ登录中，请稍后...")
                 MIRequestManager.loginByQQ(withOpenId: result?["openId"] as! String, accessToken: result?["accessToken"] as! String, completed: { (jsonData: Any?, err: Error?) in
+                    
+                    DispatchQueue.main.async {
+                        MBProgressHUD.hide()
+                    }
                     
                     let dic: [String : AnyObject] = jsonData as! Dictionary
                     let code = dic["code"]?.int64Value
@@ -125,7 +130,12 @@ class MILoginViewController: MIBaseViewController {
         MIThirdPartyLoginManager.share()?.getUserInfo(withWTLoginType: .facebook, result: { (result: Dictionary?, error: String?) in
             
             if (MIHelpTool.isBlankString(error)) {
+                MBProgressHUD.showStatus("Facebook登录中，请稍后...")
                 MIRequestManager.loginByFacebook(withDic: result as! Dictionary, completed: { (jsonData: Any?, err: Error?) in
+                    
+                    DispatchQueue.main.async {
+                        MBProgressHUD.hide()
+                    }
                     
                     let dic: [String : AnyObject] = jsonData as! Dictionary
                     let code = dic["code"]?.int64Value
@@ -153,7 +163,13 @@ class MILoginViewController: MIBaseViewController {
         MIThirdPartyLoginManager.share()?.getUserInfo(withWTLoginType: .weiXin, result: { (result: Dictionary?, error: String?) in
             
             if (MIHelpTool.isBlankString(error)) {
+                MBProgressHUD.showStatus("微信登录中，请稍后...")
                 MIRequestManager.loginByWX(withCode: result?["code"] as! String, completed: { (jsonData: Any?, err: Error?) in
+                    
+                    DispatchQueue.main.async {
+                        MBProgressHUD.hide()
+                    }
+                    
                     let dic: [String : AnyObject] = jsonData as! Dictionary
                     let code = dic["code"]?.int64Value
                     if code == 0 {

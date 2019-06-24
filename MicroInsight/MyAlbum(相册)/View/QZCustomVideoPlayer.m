@@ -22,23 +22,47 @@
 
 @implementation QZCustomVideoPlayer
 
-- (instancetype)initWithFrame:(CGRect)frame videoUrl:(NSString *)videoUrl {
+- (instancetype)initWithFrame:(CGRect)frame
+                     videoUrl:(nullable NSString *)videoUrl {
+    return [self initWithFrame:frame videoUrl:videoUrl videoAsset:nil];
+}
+
+- (instancetype)initWithFrame:(CGRect)frame
+                     videoUrl:(nullable NSString *)videoUrl
+                   videoAsset:(nullable AVAsset *)asset {
+    return [self initWithFrame:frame videoUrl:videoUrl videoAsset:asset networkVideoUrl:nil];
+}
+
+- (instancetype)initWithFrame:(CGRect)frame
+                     videoUrl:(nullable NSString *)videoUrl
+                   videoAsset:(nullable AVAsset *)asset
+              networkVideoUrl:(nullable NSString *)networkVideoUrl {
+
     if (self = [super initWithFrame:frame]) {
         self.backgroundColor = [UIColor blackColor];
-        [self configPlayerWidthVideoUrl:videoUrl];
+        [self configPlayerWidthVideoUrl:videoUrl videoAsset:asset networkVideoUrl:networkVideoUrl];
         [self configPlayerToolBar];
         [self addVideoKVO];
         [self addVideoTimerObserver];
         [self addVideoNotic];
         [self addRecognizer];
     }
-
+    
     return self;
 }
 
-- (void)configPlayerWidthVideoUrl:(NSString *)videoUrl {
+- (void)configPlayerWidthVideoUrl:(NSString *)videoUrl
+                       videoAsset:(AVAsset *)asset
+                  networkVideoUrl:(NSString *)networkVideoUrl {
 
-    self.playerItem = [AVPlayerItem playerItemWithURL:[NSURL fileURLWithPath:videoUrl]];
+    if (![MIHelpTool isBlankString:videoUrl]) {
+        self.playerItem = [AVPlayerItem playerItemWithURL:[NSURL fileURLWithPath:videoUrl]];
+    } else if (![MIHelpTool isBlankString:networkVideoUrl]) {
+        self.playerItem = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:networkVideoUrl]];
+    } else {
+        self.playerItem = [AVPlayerItem playerItemWithAsset:asset];
+    }
+    
     self.player = [AVPlayer playerWithPlayerItem:self.playerItem];
     self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:self.player];
     self.playerLayer.frame = self.bounds;
@@ -147,6 +171,9 @@
 - (void)movieToEnd:(NSNotification *)notic {
     [self refreshPlayerToolBarTimeLable:0];
     [self.toolBar refreshPlayOrPauseButtonStatus:YES];
+    
+    CMTime time = CMTimeMake(0, 1);
+    [_player seekToTime:time];
 }
 
 #pragma mark - 前台后台切换

@@ -169,7 +169,28 @@ static NSString * const cellId = @"cellId";
 }
 
 - (void)clickUploadBtn:(UIButton *)sender {
-
+    if (self.selectArray.count > 1) {
+        [MIHudView showMsg:@"只支持上传单张图片或视频"];
+    } else {
+        MIPhotoModel *model = self.selectArray.firstObject;
+        
+        if (model.asset.mediaType == PHAssetMediaTypeImage) {
+            MIEditOrUploadVC *vc = [[MIEditOrUploadVC alloc] init];
+            vc.imageAsset = model.asset;
+            [self.navigationController pushViewController:vc animated:YES];
+        } else {
+            WSWeak(weakSelf)
+            [[MIAlbumManager manager] getAVAssetWithAsset:model.asset completion:^(AVAsset * _Nonnull dataAsset) {
+               
+               dispatch_async(dispatch_get_main_queue(), ^{
+                   MIVideoUploadVC *vc = [[MIVideoUploadVC alloc] init];
+                   vc.asset = dataAsset;
+                   vc.phAsset = model.asset;
+                   [weakSelf.navigationController pushViewController:vc animated:YES];
+               });
+            }];
+        }
+    }
 }
 
 - (void)clickTitleBtn:(UIButton *)sender {
@@ -182,6 +203,7 @@ static NSString * const cellId = @"cellId";
             sender.imageView.transform = CGAffineTransformMakeRotation(M_PI);
             [self.view bringSubviewToFront:self.albumsBgView];
             [self.view bringSubviewToFront:_albumListView];
+            [self.view bringSubviewToFront:self.topBarView];
         }];
     } else {
         [UIView animateWithDuration:0.25 animations:^{

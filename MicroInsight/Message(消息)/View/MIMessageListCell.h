@@ -15,6 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) MIMessageListModel *model;
 
+- (void)setMessageCount:(NSInteger)count;
+
 @end
 
 NS_ASSUME_NONNULL_END

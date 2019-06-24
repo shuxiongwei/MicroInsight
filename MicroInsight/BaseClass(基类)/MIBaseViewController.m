@@ -11,6 +11,8 @@
 
 @interface MIBaseViewController () <UIGestureRecognizerDelegate>
 
+
+
 @end
 
 @implementation MIBaseViewController
@@ -24,14 +26,18 @@
        NSForegroundColorAttributeName:UIColorFromRGBWithAlpha(333333, 1)}];
 //    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
     self.navigationController.navigationBar.translucent = NO;
+    self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     self.navigationController.navigationBar.clipsToBounds = YES;
+
+    [self configTopBarView];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    self.navigationController.navigationBarHidden = NO;
+    [self.view bringSubviewToFront:_topBarView];
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
 //    [self setStatusBarBackgroundColor:[UIColor whiteColor]];
     
@@ -40,6 +46,12 @@
     if([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
         self.navigationController.interactivePopGestureRecognizer.enabled = YES;
     }
+}
+
+- (void)configTopBarView {
+    _topBarView = [[UIView alloc] initWithFrame:CGRectMake(0, -KNaviBarAllHeight, MIScreenWidth, KStatusHeight)];
+    _topBarView.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:_topBarView];
 }
 
 - (void)configBackBtn {

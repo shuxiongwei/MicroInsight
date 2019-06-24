@@ -25,7 +25,7 @@
     // Do any additional setup after loading the view from its nib.
     
     self.title = @"黑名单";
-    [super configLeftBarButtonItem:@"返回"];
+    [super configLeftBarButtonItem:nil];
     
     [_blackListT registerNib:[UINib nibWithNibName:@"MIBlackListCell" bundle:nil] forCellReuseIdentifier:@"MIBlackListCell"];
     _blackListT.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -80,14 +80,14 @@
     cell.userName.text = model.nickname;
     
     NSString *imgUrl = [NSString stringWithFormat:@"%@?x-oss-process=image/resize,m_fill,h_%ld,w_%ld", model.avatar, (NSInteger)cell.imgView.size.width / 1, (NSInteger)cell.imgView.size.width / 1];
-    [cell.imgView sd_setImageWithURL:[NSURL URLWithString:imgUrl] placeholderImage:[UIImage imageNamed:@"account"] options:SDWebImageRetryFailed];
+    [cell.imgView sd_setImageWithURL:[NSURL URLWithString:imgUrl] placeholderImage:[UIImage imageNamed:@"icon_personal_head_nor"] options:SDWebImageRetryFailed];
     
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    return 50;
+    return 60;
 }
 
 @end

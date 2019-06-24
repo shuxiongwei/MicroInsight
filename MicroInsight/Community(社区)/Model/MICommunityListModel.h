@@ -90,6 +90,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSString *parent_id;
 @property (nonatomic, assign) NSInteger likes;
 @property (nonatomic, copy) NSString *tweet_id;
+@property (nonatomic, assign) BOOL isLike;
+@property (nonatomic, assign) BOOL isBlack;
+
+@property (nonatomic, assign) CGFloat rowHeight;
 
 @end
 

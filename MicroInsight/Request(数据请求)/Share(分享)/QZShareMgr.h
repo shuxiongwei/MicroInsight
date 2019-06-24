@@ -8,18 +8,38 @@
 
 #import <Foundation/Foundation.h>
 
+@protocol MIShareManagerDelete <NSObject>
+
+@optional
+
+/**
+ 举报
+ */
+- (void)shareManagerReportAction;
+
+/**
+ 拉黑
+ */
+- (void)shareManagerAddBlackListAction;
+
+/**
+ 复制链接
+ */
+- (void)shareManagerCopyLinkAction;
+
+/**
+ 回到首页
+ */
+- (void)shareManagerGoHomeAction;
+
+@end
+
 typedef void (^HttpSuccess)(id data);
 
 typedef NS_ENUM(NSUInteger,QZShareType) {
-    QZShareTypeNormal,
-    QZShareTypeMiniVideo, //短视频未收藏样式
-    QZShareTypeMiniVideoCollect, //短视频收藏样式
-    QZShareTypeHaveSendF,//有发送给朋友
-    QZShareTypeHaveReport,//有举报
-    QZShareTypeHaveReportAndSendF, //有举报和发送给朋友
-    QZShareTypeSocial, //社交分享样式：增加分享到个人中心
-    QZShareTypeCompetition, //赛事相关的分享(比赛、联赛和球队主页)
-    QZShareTypeCompetitionQRCode, //赛事相关的二维码分享(比赛、联赛和球队主页)
+    QZShareTypeNormal = 0,
+    QZShareTypeOther,
+    QZShareTypeTweet,
 };
 
 typedef NS_ENUM(NSUInteger,ShareType) {
@@ -31,6 +51,8 @@ typedef NS_ENUM(NSUInteger,ShareType) {
 };
 
 @interface QZShareMgr : NSObject
+
+@property (nonatomic, weak) id<MIShareManagerDelete> delegate;
 
 /* 标题 */
 @property (copy,nonatomic) NSString *title;

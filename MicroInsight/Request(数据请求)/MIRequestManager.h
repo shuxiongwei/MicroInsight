@@ -136,7 +136,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (void)getCommunityDataListWithSearchTitle:(NSString *)title requestToken:(NSString *)token page:(NSInteger)page pageSize:(NSInteger)pageSize isMine:(BOOL)mine completed:(void (^)(id jsonData, NSError *error))completed;
 
-
 /**
  获取他人作品
 
@@ -178,6 +177,19 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)getCommunityCommentListWithContentId:(NSString *)contentId contentType:(NSInteger)contentType requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed;
 
 /**
+ 获取社区作品评论的评论列表
+
+ @param contentId 内容id
+ @param contentType 内容类型
+ @param commentId 主评论id
+ @param token token
+ @param page 当前页码
+ @param pageSize 每页条数
+ @param completed 完成回掉
+ */
++ (void)getCommunityCommentAndChildCommentListWithContentId:(NSInteger)contentId contentType:(NSInteger)contentType commentId:(NSInteger)commentId requestToken:(NSString *)token page:(NSInteger)page pageSize:(NSInteger)pageSize completed:(void (^)(id jsonData, NSError *error))completed;
+
+/**
  评论
 
  @param contentId 图片id
@@ -189,7 +201,19 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)commentWithContentId:(NSString *)contentId contentType:(NSInteger)contentType content:(NSString *)content requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed;
 
 /**
- 点赞
+ 评论作品的评论
+ 
+ @param contentId 图片id
+ @param contentType 类型(0:图片，1:视频)
+ @param commentId 评论id
+ @param content 内容
+ @param token token
+ @param completed 完成回调
+ */
++ (void)commentProductionCommentWithContentId:(NSInteger)contentId contentType:(NSInteger)contentType commentId:(NSInteger)commentId content:(NSString *)content requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed;
+
+/**
+ 点赞社区作品
  
  @param contentId 图片id
  @param contentType 类型(0:图片，1:视频)
@@ -199,17 +223,28 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)praiseWithContentId:(NSInteger)contentId contentType:(NSInteger)contentType requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed;
 
 /**
+ 点赞社区作品的评论
+ 
+ @param contentId 图片id
+ @param contentType 类型(0:图片，1:视频)
+ @param commentId 评论id
+ @param token token
+ @param completed 完成回调
+ */
++ (void)praiseCommunityCommentWithContentId:(NSInteger)contentId contentType:(NSInteger)contentType commentId:(NSInteger)commentId requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed;
+
+/**
  图片上传
 
  @param file 文件
  @param fileName 文件名称
- @param path 文件路径
+ @param image 图片
  @param title 标题
  @param tags 主题列表
  @param token token
  @param completed 完成回调
  */
-+ (void)uploadImageWithFile:(NSString *)file fileName:(NSString *)fileName filePath:(NSString *)path title:(NSString *)title tags:(NSArray *)tags requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed;
++ (void)uploadImageWithFile:(NSString *)file fileName:(NSString *)fileName image:(UIImage *)image title:(NSString *)title tags:(NSArray *)tags requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed;
 
 /**
  视频上传
@@ -270,7 +305,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param token token
  @param completed 完成回调
  */
-+ (void)modifyUserInfoWithNickname:(NSString *)nickname gender:(NSInteger)gender birthday:(NSString *)birthday profession:(NSString *)profession requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed;
++ (void)modifyUserInfoWithNickname:(NSString *)nickname gender:(NSInteger)gender birthday:(NSString *)birthday profession:(NSInteger)profession requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed;
 
 /**
  上传用户头像
@@ -332,11 +367,72 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  获取单条推文信息
  
- @param sweetId 推文id
+ @param tweetId 推文id
  @param token token
  @param completed 完成回掉
  */
-+ (void)getSingleTweetWithId:(NSInteger)TweetId requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed;
++ (void)getSingleTweetWithId:(NSInteger)tweetId requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed;
+
+/**
+ 点赞推文
+ 
+ @param tweetId 图片id
+ @param token token
+ @param completed 完成回调
+ */
++ (void)praiseTweetWithTweetId:(NSInteger)tweetId requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed;
+
+/**
+ 点赞推文的评论
+ 
+ @param tweetId 图片id
+ @param commentId 评论id
+ @param token token
+ @param completed 完成回调
+ */
++ (void)praiseTweetCommentWithTweetId:(NSInteger)tweetId commentId:(NSInteger)commentId requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed;
+
+/**
+ 获取评论列表
+ 
+ @param tweetId 推文id
+ @param token token
+ @param completed 完成回调
+ */
++ (void)getTweetCommentsWithTweetId:(NSInteger)tweetId requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed;
+
+/**
+ 评论推文
+
+ @param tweetId 推文id
+ @param content 评论内容
+ @param token token
+ @param completed 完成回掉
+ */
++ (void)commentTweetWithTweetId:(NSInteger)tweetId content:(NSString *)content requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed;
+
+/**
+ 评论推文
+ 
+ @param tweetId 推文id
+ @param commentId 评论id
+ @param content 评论内容
+ @param token token
+ @param completed 完成回掉
+ */
++ (void)commentTweetCommentWithTweetId:(NSInteger)tweetId commentId:(NSInteger)commentId content:(NSString *)content requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed;
+
+/**
+ 获取推文作品评论的评论列表
+ 
+ @param tweetId 内容id
+ @param commentId 主评论id
+ @param token token
+ @param page 当前页码
+ @param pageSize 每页条数
+ @param completed 完成回掉
+ */
++ (void)getTweetCommentAndChildCommentListWithTweetId:(NSInteger)tweetId commentId:(NSInteger)commentId requestToken:(NSString *)token page:(NSInteger)page pageSize:(NSInteger)pageSize completed:(void (^)(id jsonData, NSError *error))completed;
 
 #pragma mark - 消息
 /**
@@ -346,6 +442,32 @@ NS_ASSUME_NONNULL_BEGIN
  @param completed 完成回掉
  */
 + (void)getAllNotReadMessageWithRequestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed;
+
+/**
+ 获取消息来源
+
+ @param commentId 评论id
+ @param token token
+ @param completed 完成回掉
+ */
++ (void)getMessageSourceWithCommentId:(NSInteger)commentId requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed;
+
+/**
+ 读取消息
+
+ @param messageIds 消息id数组
+ @param token token
+ @param completed 完成回掉
+ */
++ (void)readMessageWithMessageIds:(NSArray *)messageIds requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed;
+
+/**
+ 获取推文消息
+
+ @param token token
+ @param completed 完成回掉
+ */
++ (void)getTweetMessageWithRequestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed;
 
 #pragma mark - 评论(新版)
 /**
@@ -357,6 +479,11 @@ NS_ASSUME_NONNULL_BEGIN
  @param completed 完成回调
  */
 + (void)getCommunityCommentsWithContentId:(NSInteger )contentId contentType:(NSInteger)contentType requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed;
+
+#pragma mark - 意见反馈
++ (void)feedbackWithContent:(NSString *)content requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed;
+
++ (void)checkAppVersionCompleted:(void (^)(id jsonData, NSError *error))completed;
 
 @end
 

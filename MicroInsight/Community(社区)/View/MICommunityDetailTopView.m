@@ -13,6 +13,7 @@
 #import "UIButton+WebCache.h"
 #import "UIImageView+WebCache.h"
 
+
 @interface MICommunityDetailTopView ()
 
 @property (weak, nonatomic) IBOutlet UIButton *headIconBtn;
@@ -23,7 +24,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *tagLab;
 @property (weak, nonatomic) IBOutlet UIImageView *contentImageV;
 @property (weak, nonatomic) IBOutlet YYLabel *contentLab;
-@property (weak, nonatomic) IBOutlet UIImageView *playImageV;
+@property (weak, nonatomic) IBOutlet UIButton *playBtn;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *widthConstraint;
 
 @end
@@ -46,6 +47,9 @@
     [_headIconBtn round:20 RectCorners:UIRectCornerAllCorners];
     [_tagLab rounded:5 width:1 color:UIColorFromRGBWithAlpha(0x999999, 1)];
     [_readingBtn layoutButtonWithEdgeInsetsStyle:MIButtonEdgeInsetsStyleLeft imageTitleSpace:5];
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapContentImageView)];
+    [_contentImageV addGestureRecognizer:tap];
 }
 
 - (IBAction)clickHeadIconBtn:(UIButton *)sender {
@@ -71,7 +75,7 @@
         _timeLab.text = strs.firstObject;
         _contentLab.text = detailM.title;
         [_readingBtn setTitle:[NSString stringWithFormat:@"%ld", detailM.readings] forState:UIControlStateNormal];
-        _playImageV.hidden = YES;
+        _playBtn.hidden = YES;
         
         if (detailM.tags.count > 0) {
             _tagLab.hidden = NO;
@@ -85,7 +89,7 @@
         NSString *imgUrl = [NSString stringWithFormat:@"%@?x-oss-process=image/resize,m_fill,h_40,w_40", detailM.avatar];
         [_headIconBtn sd_setImageWithURL:[NSURL URLWithString:imgUrl] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"icon_personal_head_nor"]];
         
-        [_contentImageV sd_setImageWithURL:[NSURL URLWithString:detailM.url] placeholderImage:nil];
+        [_contentImageV sd_setImageWithURL:[NSURL URLWithString:detailM.url] placeholderImage:[UIImage imageNamed:@"img_app_placeholder_default"]];
     } else {
         MICommunityVideoInfo *info = model;
         _nicknameLab.text = info.nickname;
@@ -95,13 +99,33 @@
         _tagLab.text = tagM.title;
         _contentLab.text = info.title;
         [_readingBtn setTitle:[NSString stringWithFormat:@"%ld", info.readings] forState:UIControlStateNormal];
-        _playImageV.hidden = NO;
+        _playBtn.hidden = NO;
         _widthConstraint.constant = [MIHelpTool measureSingleLineStringWidthWithString:tagM.title font:[UIFont systemFontOfSize:8]] + 10;
         
         NSString *imgUrl = [NSString stringWithFormat:@"%@?x-oss-process=image/resize,m_fill,h_40,w_40", info.avatar];
         [_headIconBtn sd_setImageWithURL:[NSURL URLWithString:imgUrl] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"icon_personal_head_nor"]];
         
-        [_contentImageV sd_setImageWithURL:[NSURL URLWithString:info.coverUrl] placeholderImage:nil];
+        [_contentImageV sd_setImageWithURL:[NSURL URLWithString:info.coverUrl] placeholderImage:[UIImage imageNamed:@"img_app_placeholder_default"]];
+    }
+}
+
+- (IBAction)clickPlayBtn:(UIButton *)sender {
+    MICommunityVideoInfo *info = (MICommunityVideoInfo *)_model;
+    NSArray *list = info.playUrlList;
+    if (list.count > 0) {
+        MIPlayerInfo *playerInfo = list.firstObject;
+        if (self.clickPlayBtn) {
+            self.clickPlayBtn(playerInfo.playUrl);
+        }
+    }
+}
+
+- (void)tapContentImageView {
+    if ([_model isKindOfClass:[MICommunityDetailModel class]]) {
+        MICommunityDetailModel *model = (MICommunityDetailModel *)_model;
+        if (self.clickContentImageView) {
+            self.clickContentImageView(model.url);
+        }
     }
 }
 

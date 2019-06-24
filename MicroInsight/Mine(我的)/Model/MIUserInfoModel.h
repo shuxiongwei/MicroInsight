@@ -10,6 +10,16 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NS_ENUM(NSInteger, MIProfessionType) {
+    
+    MIProfessionTypeOther = 0,   //其他
+    MIProfessionTypeProcedure,   //程序
+    MIProfessionTypeScientific,  //科研
+    MIProfessionTypeEducation,   //教育
+    MIProfessionTypeCollect,     //收藏
+    MIProfessionTypeBeauty,      //美业
+};
+
 @interface MIUserInfoModel : MIBaseModel<NSCoding>
 
 @property (nonatomic, assign) NSInteger uid;
@@ -18,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) NSInteger gender;
 @property (nonatomic, copy) NSString *birthday;
 @property (nonatomic, copy) NSString *nickname;
-@property (nonatomic, copy) NSString *profession;
+@property (nonatomic, assign) MIProfessionType profession;
 @property (nonatomic, assign) NSInteger age;
 @property (nonatomic, copy) NSString *token;
 

@@ -33,6 +33,7 @@
 #import "MICustomAlertView.h"
 #import "UIBarButtonItem+SXCreate.h"
 #import "MicroInsight-Swift.h"
+#import "UIImage+Extension.h"
 
 #import <UMSocialCore/UMSocialCore.h>
 // 友盟分享
@@ -47,6 +48,7 @@
 #define kSinaAppSecret      @"ccb298de169a47c1e0d3129addef4412"
 #define kSinaRedirectURI    @""
 #define kTencentAppId       @"1107985469"
+#define kTencentAppKey      @"UVOSz4dBE4FKprV6"
 #define kWeixinAppId        @"wx00800a91db54370d"
 #define kWeixinAppSecret    @"bb59534de82274b4ee215ce231febd8b"
 #define kFacebookAppId      @"396521724534538"
@@ -68,12 +70,13 @@ isPhoneX = [[UIApplication sharedApplication] delegate].window.safeAreaInsets.bo
 (isPhoneX);})
 
 //导航栏高度
+#define KStatusHeight (KIsiPhoneX ? 44 : 20)
 #define KNaviBarAllHeight (KIsiPhoneX ? 88 : 64)
 
 //状态栏高度
 #define StatusBarHeight  [UIApplication sharedApplication].statusBarFrame.size.height
 
-#define kBottomViewH (KIsiPhoneX ? 70 : 50)
+#define kBottomViewH (KIsiPhoneX ? 60 : 60)
 
 #define WSWeak(weakSelf)        __weak __typeof(&*self)weakSelf = self;
 

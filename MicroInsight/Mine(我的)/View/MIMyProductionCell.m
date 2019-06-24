@@ -34,7 +34,7 @@
     }
     
     url = [NSString stringWithFormat:@"%@?x-oss-process=image/resize,m_fill,h_%ld,w_%ld", url, (NSInteger)(_imgView.width / 1) , (NSInteger)(_imgView.width * 125.0 / 168.0 / 1)];
-    [_imgView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@""]];
+    [_imgView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"img_app_placeholder_default"]];
 }
 
 @end

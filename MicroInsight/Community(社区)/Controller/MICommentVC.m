@@ -22,7 +22,7 @@
 
 - (UITableView *)tableView {
     if (_tableView == nil) {
-        _tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, MIScreenWidth, MIScreenHeight - KNaviBarAllHeight - kBottomViewH - 55) style:UITableViewStylePlain];
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _tableView.delegate = self;
         _tableView.dataSource = self;
@@ -56,25 +56,54 @@
 
 - (void)requestCommentData:(BOOL)isRefresh {
     WSWeak(weakSelf)
-    [MIRequestManager getCommunityCommentsWithContentId:_communityModel.contentId contentType:_communityModel.contentType requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
-        
-        NSInteger code = [jsonData[@"code"] integerValue];
-        if (code == 0) {
-            NSArray *list = jsonData[@"data"][@"list"];
-            for (NSDictionary *dic in list) {
-                MICommentModel *model = [MICommentModel yy_modelWithDictionary:dic];
-                model.rowHeight = [model getRowHeight];
-                model.commentHeight = [model getChildCommentTableViewHeight];
-                [weakSelf.dataArray addObject:model];
-            }
+    
+    if (_commentType == MICommentTypeCommunity) {
+        [MIRequestManager getCommunityCommentsWithContentId:_contentId contentType:_contentType requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
             
-            [weakSelf.tableView reloadData];
-        }
-    }];
+            NSInteger code = [jsonData[@"code"] integerValue];
+            if (code == 0) {
+                NSArray *list = jsonData[@"data"][@"list"];
+                for (NSDictionary *dic in list) {
+                    MICommentModel *model = [MICommentModel yy_modelWithDictionary:dic];
+                    model.rowHeight = [model getRowHeight];
+                    model.commentHeight = [model getChildCommentTableViewHeight];
+                    [weakSelf.dataArray addObject:model];
+                }
+                
+                [weakSelf.tableView reloadData];
+            }
+        }];
+    } else {
+        [MIRequestManager getTweetCommentsWithTweetId:_contentId requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+            
+            NSInteger code = [jsonData[@"code"] integerValue];
+            if (code == 0) {
+                NSArray *list = jsonData[@"data"][@"list"];
+                for (NSDictionary *dic in list) {
+                    MICommentModel *model = [MICommentModel yy_modelWithDictionary:dic];
+                    model.rowHeight = [model getRowHeight];
+                    model.commentHeight = [model getChildCommentTableViewHeight];
+                    [weakSelf.dataArray addObject:model];
+                }
+                
+                [weakSelf.tableView reloadData];
+            }
+        }];
+    }
+}
+
+- (void)refreshView {
+    [self.dataArray removeAllObjects];
+    [self requestCommentData:YES];
 }
 
 #pragma mark - UITableViewDelegate
-
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    MICommentModel *model = self.dataArray[indexPath.row];
+    if (self.clickParentComment) {
+        self.clickParentComment(model);
+    }
+}
 
 #pragma mark - UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -89,7 +118,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     MICommentCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MICommentCell" forIndexPath:indexPath];
-    MICommentModel *model = self.dataArray[indexPath.row];
+    __block MICommentModel *model = self.dataArray[indexPath.row];
     cell.model = model;
     
     WSWeak(weakSelf)
@@ -99,9 +128,39 @@
         }
     };
     
-    cell.clickCommentReplay = ^(MICommentModel * _Nonnull model) {
-        if (weakSelf.clickCommentReplay) {
-            weakSelf.clickCommentReplay(model);
+    cell.clickShowAllChildComment = ^(MICommentModel * _Nonnull model) {
+        if (weakSelf.clickShowAllChildComment) {
+            weakSelf.clickShowAllChildComment(model);
+        }
+    };
+    
+    cell.clickPraiseComment = ^{
+        if (weakSelf.commentType == MICommentTypeCommunity) {
+            [MIRequestManager praiseCommunityCommentWithContentId:weakSelf.contentId contentType:weakSelf.contentType commentId:model.modelId requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+                
+                NSInteger code = [jsonData[@"code"] integerValue];
+                if (code == 0) {
+                    NSDictionary *data = jsonData[@"data"];
+                    model.isLike = YES;
+                    model.likes = [data[@"likes"] integerValue];
+                    [weakSelf.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+                } else {
+                    [MIHudView showMsg:@"点赞失败"];
+                }
+            }];
+        } else {
+            [MIRequestManager praiseTweetCommentWithTweetId:weakSelf.contentId commentId:model.modelId requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+                
+                NSInteger code = [jsonData[@"code"] integerValue];
+                if (code == 0) {
+                    NSDictionary *data = jsonData[@"data"];
+                    model.isLike = YES;
+                    model.likes = [data[@"likes"] integerValue];
+                    [weakSelf.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+                } else {
+                    [MIHudView showMsg:@"点赞失败"];
+                }
+            }];
         }
     };
     

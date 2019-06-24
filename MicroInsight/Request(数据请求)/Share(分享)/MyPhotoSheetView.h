@@ -15,6 +15,8 @@
 
 +(instancetype)shareViewWithTitles:(NSArray *)titles imgs:(NSArray *)imgs title:(NSString *)title;
 
+- (instancetype)initWithFrame:(CGRect)frame shareType:(NSInteger)type;
+
 -(void)showInView:(UIView*)view;
 
 -(void)show;

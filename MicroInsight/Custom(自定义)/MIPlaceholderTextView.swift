@@ -39,7 +39,7 @@ open class MIPlaceholderTextView: UITextView {
         }
     }
     
-    open var placeholderFont: UIFont? {
+    @IBInspectable open var placeholderFont: UIFont? {
         didSet {
             let font = (placeholderFont != nil) ? placeholderFont : self.font
             placeholderLabel.font = font

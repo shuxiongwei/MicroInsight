@@ -39,15 +39,14 @@ static QZShareMgr *_manager;
 
 //分享弹框
 - (void)showShareType:(QZShareType)shareType inVC:(UIViewController *)vc{
-    NSArray *titles;
-    NSArray *imgs;
-    
+    CGRect frame;
     if (shareType == QZShareTypeNormal) {
-        titles = @[@"微信好友", @"朋友圈", @"微博", @"QQ", @"QQ空间"];
-        imgs = @[@"icon_share_weixin_nor",  @"icon_share_friends_nor",@"icon_share_weibo_nor",@"icon_share_qq_nor",@"icon_share_space_nor"];
+        frame = CGRectMake(0, MIScreenHeight, MIScreenWidth, 190);
+    } else {
+        frame = CGRectMake(0, MIScreenHeight, MIScreenWidth, 255);
     }
-    
-    MyPhotoSheetView *sheetView = [MyPhotoSheetView shareViewWithTitles:titles imgs:imgs title:nil];
+
+    MyPhotoSheetView *sheetView = [[MyPhotoSheetView alloc] initWithFrame:frame shareType:shareType];
     if (vc) {
         self.shareVC = vc;
         [sheetView showInView:vc.view];
@@ -65,7 +64,7 @@ static QZShareMgr *_manager;
         if ([title isEqualToString:@"朋友圈"]) {
             platformType = UMSocialPlatformType_WechatTimeLine;
             [weakSelf shareWebPageOrImgToPlatformType:platformType];
-        } else if ([title isEqualToString:@"微信"]) {
+        } else if ([title isEqualToString:@"微信好友"]) {
             platformType = UMSocialPlatformType_WechatSession;
             [weakSelf shareWebPageOrImgToPlatformType:platformType];
         } else if ([title isEqualToString:@"QQ"]) {
@@ -78,7 +77,25 @@ static QZShareMgr *_manager;
             platformType = UMSocialPlatformType_Sina;
             [weakSelf shareWebPageOrImgToPlatformType:platformType];
         } else if ([title isEqualToString:@"举报"]) {
-
+            if ([self.delegate respondsToSelector:@selector(shareManagerReportAction)]) {
+                [self.delegate shareManagerReportAction];
+            }
+        } else if ([title isEqualToString:@"拉黑"]) {
+            if ([self.delegate respondsToSelector:@selector(shareManagerAddBlackListAction)]) {
+                [self.delegate shareManagerAddBlackListAction];
+            }
+        } else if ([title isEqualToString:@"复制链接"]) {
+            [MIHudView showMsg:@"已复制"];
+            UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+            pasteboard.string = weakSelf.shareWebUrl;
+            
+            if ([self.delegate respondsToSelector:@selector(shareManagerCopyLinkAction)]) {
+                [self.delegate shareManagerCopyLinkAction];
+            }
+        } else if ([title isEqualToString:@"回到首页"]) {
+            if ([self.delegate respondsToSelector:@selector(shareManagerGoHomeAction)]) {
+                [self.delegate shareManagerGoHomeAction];
+            }
         }
     };
 }

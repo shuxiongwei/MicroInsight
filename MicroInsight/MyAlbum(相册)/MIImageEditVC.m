@@ -7,6 +7,15 @@
 //
 
 #import "MIImageEditVC.h"
+#import "ZQImageEdit.h"
+
+typedef NS_ENUM(NSInteger, MIImageEditType) {
+    MIImageEditTypeRotation = 0,
+    MIImageEditTypeCrop,
+    MIImageEditTypeMosaic,
+    MIImageEditTypeScrawl,
+    MIImageEditTypeDown,
+};
 
 @interface MIImageEditVC ()
 
@@ -30,6 +39,9 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:saveBtn];
     
     _imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, MIScreenWidth, MIScreenHeight - KNaviBarAllHeight - 60)];
+    _imgView.backgroundColor = [UIColor blackColor];
+    _imgView.contentMode = UIViewContentModeScaleAspectFit;
+    _imgView.clipsToBounds = YES;
     _imgView.image = _image;
     [self.view addSubview:_imgView];
     
@@ -54,7 +66,66 @@
 }
 
 - (void)editImage:(UIButton *)sender {
-    
+    WSWeak(weakSelf)
+    switch (sender.tag) {
+        case MIImageEditTypeRotation: {
+            ZQImageRotationController *vc = [[ZQImageRotationController alloc] init];
+            vc.image = _image;
+            [vc addFinishBlock:^(UIImage *image) {
+                weakSelf.image = image;
+                weakSelf.imgView.image = image;
+            }];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+            break;
+        case MIImageEditTypeCrop: {
+            ZQImageCropController *vc = [[ZQImageCropController alloc] init];
+            vc.image = _image;
+            [vc addFinishBlock:^(UIImage *image) {
+                weakSelf.image = image;
+                weakSelf.imgView.image = image;
+            }];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+            break;
+        case MIImageEditTypeMosaic:{
+            ZQImageMosaicController *vc = [[ZQImageMosaicController alloc] init];
+            vc.image = _image;
+            [vc addFinishBlock:^(UIImage *image) {
+                weakSelf.image = image;
+                weakSelf.imgView.image = image;
+            }];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+            break;
+        case MIImageEditTypeScrawl: {
+            ZQImageScrawlController *vc = [[ZQImageScrawlController alloc] init];
+            vc.image = _image;
+            [vc addFinishBlock:^(UIImage *image) {
+                weakSelf.image = image;
+                weakSelf.imgView.image = image;
+            }];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+            break;
+        case MIImageEditTypeDown:
+            UIImageWriteToSavedPhotosAlbum(_image, self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
+            break;
+        default:
+            break;
+    }
+}
+
+- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
+//    if(!error)
+//    {
+//        [ProgressHud showSuccess:@"保存成功"];
+//
+//    }
+//    else
+//    {
+//        [ProgressHud showError:@"保存失败"];
+//    }
 }
 
 @end

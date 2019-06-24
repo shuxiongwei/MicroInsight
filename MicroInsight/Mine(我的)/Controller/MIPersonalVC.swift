@@ -9,7 +9,7 @@
 import UIKit
 
 @objcMembers
-class MIPersonalVC: MIBaseViewController {
+class MIPersonalVC: UIViewController {
 
     var userId: Int = 0
     var userIconBtn: UIButton!
@@ -71,7 +71,9 @@ class MIPersonalVC: MIBaseViewController {
         super.viewWillAppear(animated)
         
 //        super.setStatusBarBackgroundColor(UIColor.clear)
-        self.navigationController?.isNavigationBarHidden = true
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
+        self.navigationController?.interactivePopGestureRecognizer!.delegate = self;
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
     
     override func viewDidLoad() {
@@ -98,6 +100,14 @@ class MIPersonalVC: MIBaseViewController {
         backBtn.addTarget(self, action: #selector(clickBackBtn(_ :)), for: .touchUpInside)
         view.addSubview(backBtn)
         
+        let blackBtn = UIButton(type: .custom)
+        blackBtn.frame = CGRect(x: ScreenWidth - 70, y: 30, width: 70, height: 30)
+        blackBtn.setTitle("黑名单", for: .normal)
+        blackBtn.setTitleColor(MIRgbaColor(rgbValue: 0x333333, alpha: 1), for: .normal)
+        blackBtn.titleLabel?.font = UIFont.systemFont(ofSize: 13)
+        blackBtn.addTarget(self, action: #selector(clickBlackBtn(_ :)), for: .touchUpInside)
+        view.addSubview(blackBtn)
+        
         configTopView()
     }
     
@@ -115,6 +125,7 @@ class MIPersonalVC: MIBaseViewController {
         bgView.addSubview(userIconBtn)
         
         userNameLab = UILabel.init(frame: CGRect(x: userIconBtn.right + 20, y: 37, width: ScreenWidth - 200, height: 15))
+        userNameLab.centerY = userIconBtn.centerY - 22
         userNameLab.text = "猫若有鱼"
         userNameLab.textColor = UIColor.black
         userNameLab.font = UIFont.systemFont(ofSize: 13)
@@ -122,6 +133,7 @@ class MIPersonalVC: MIBaseViewController {
         bgView.addSubview(userNameLab)
         
         genderLab = UILabel.init(frame: CGRect(x: userIconBtn.right + 20, y: userNameLab.bottom + 10, width: 15, height: 11))
+        genderLab.centerY = userIconBtn.centerY
         genderLab.text = "女"
         genderLab.textColor = MIRgbaColor(rgbValue: 0x333333, alpha: 1)
         genderLab.font = UIFont.systemFont(ofSize: 11)
@@ -129,6 +141,7 @@ class MIPersonalVC: MIBaseViewController {
         bgView.addSubview(genderLab)
         
         ageLab = UILabel.init(frame: CGRect(x: genderLab.right + 20, y: userNameLab.bottom + 10, width: 15, height: 11))
+        ageLab.centerY = genderLab.centerY
         ageLab.text = "23"
         ageLab.textColor = MIRgbaColor(rgbValue: 0x333333, alpha: 1)
         ageLab.font = UIFont.systemFont(ofSize: 11)
@@ -136,6 +149,7 @@ class MIPersonalVC: MIBaseViewController {
         bgView.addSubview(ageLab)
         
         jobLab = UILabel.init(frame: CGRect(x: ageLab.right + 20, y: userNameLab.bottom + 10, width: 50, height: 11))
+        jobLab.centerY = genderLab.centerY
         jobLab.text = "设计师"
         jobLab.textColor = MIRgbaColor(rgbValue: 0x333333, alpha: 1)
         jobLab.font = UIFont.systemFont(ofSize: 11)
@@ -164,11 +178,13 @@ class MIPersonalVC: MIBaseViewController {
         let userInfo = MILocalData.getCurrentLoginUserInfo()
         if userInfo.uid == userId {
             let editBtn = UIButton(type: .custom)
-            editBtn.frame = CGRect(x: bgView.width - 80, y: 34, width: 60, height: 20)
-            editBtn.rounded(2, width: 1, color: MIRgbaColor(rgbValue: 0x48A1D8, alpha: 1))
+            editBtn.frame = CGRect(x: userIconBtn.right + 20, y: 34, width: 60, height: 20)
+            editBtn.centerY = userIconBtn.centerY + 22
+            editBtn.contentHorizontalAlignment = .left
+            editBtn.setEnlargeEdge(5)
             editBtn.setTitle("修改资料", for: .normal)
-            editBtn.titleLabel?.font = UIFont.systemFont(ofSize: 10)
-            editBtn.setTitleColor(MIRgbaColor(rgbValue: 0x48A1D8, alpha: 1), for: .normal)
+            editBtn.titleLabel?.font = UIFont.systemFont(ofSize: 8)
+            editBtn.setTitleColor(MIRgbaColor(rgbValue: 0x999999, alpha: 1), for: .normal)
             editBtn.addTarget(self, action: #selector(clickEditBtn(_ :)), for: .touchUpInside)
             bgView.addSubview(editBtn)
             
@@ -301,12 +317,23 @@ class MIPersonalVC: MIBaseViewController {
         
         userNameLab.text = model.nickname
         genderLab.text = (model.gender == 0 ? "男" : "女")
-        jobLab.text = model.profession
+        
+        let jobList = ["程序", "科研", "教育", "收藏", "美业", "其他"]
+        var str = "其他"
+        if model.profession != .other {
+            str = jobList[model.profession.rawValue - 1]
+        }
+        jobLab.text = str
         ageLab.text = "\(model.age)"
     }
 
     @objc private func clickBackBtn(_ sender: UIButton) {
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    @objc private func clickBlackBtn(_ sender: UIButton) {
+        let vc = MIBlackListViewController.init(nibName: "MIBlackListViewController", bundle: nil)
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc private func clickEditBtn(_ sender: UIButton) {
@@ -320,7 +347,8 @@ extension MIPersonalVC: UICollectionViewDelegate {
         
         let model = self.dataList[indexPath.item]
         let detailVC = MICommunityDetailVC.init()
-        detailVC.communityModel = model
+        detailVC.contentId = model.contentId
+        detailVC.contentType = model.contentType
         self.navigationController?.pushViewController(detailVC, animated: true)
     }
 }
@@ -339,5 +367,15 @@ extension MIPersonalVC: UICollectionViewDataSource {
         cell.setCellWith(model)
         
         return cell
+    }
+}
+
+extension MIPersonalVC: UIGestureRecognizerDelegate {
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        if self.navigationController!.viewControllers.count <= 1 {
+            return false;
+        }
+        return true;
+        
     }
 }

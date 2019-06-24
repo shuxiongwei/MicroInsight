@@ -184,6 +184,21 @@ static dispatch_once_t onceToken;
     }];
 }
 
+- (void)getAVAssetWithAsset:(PHAsset *)phAsset
+                 completion:(void (^)(AVAsset *dataAsset))completion {
+    
+    PHVideoRequestOptions *options = [[PHVideoRequestOptions alloc] init];
+    options.version = PHImageRequestOptionsVersionCurrent;
+    options.deliveryMode = PHVideoRequestOptionsDeliveryModeAutomatic;
+    
+    [[PHImageManager defaultManager] requestAVAssetForVideo:phAsset options:options resultHandler:^(AVAsset * _Nullable asset, AVAudioMix * _Nullable audioMix, NSDictionary * _Nullable info) {
+        
+        if (completion) {
+            completion(asset);
+        }
+    }];
+}
+
 /// 修正图片转向
 - (UIImage *)fixOrientation:(UIImage *)aImage {
     // No-op if the orientation is already correct

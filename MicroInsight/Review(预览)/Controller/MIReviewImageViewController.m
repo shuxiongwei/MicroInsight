@@ -20,7 +20,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    [super configLeftBarButtonItem:@"我的相册"];
+    [super configLeftBarButtonItem:nil];
     [self configNavigationBarRightButton:_curIndex];
     [self configReviewImageUI];
 }

@@ -15,6 +15,7 @@
                 <outlet property="bgView" destination="b9o-mW-rd4" id="bBw-OK-t1T"/>
                 <outlet property="cameraBtn" destination="QQf-si-e5C" id="nTo-Pv-INt"/>
                 <outlet property="communityBtn" destination="h3C-21-wPd" id="dGs-yl-EQ9"/>
+                <outlet property="menuBtn" destination="0PR-eQ-eUr" id="MAc-7r-vKi"/>
                 <outlet property="msgBtn" destination="7wq-90-6z5" id="4LX-Vy-aU6"/>
                 <outlet property="navHeightConstraint" destination="cgO-Cl-igC" id="8By-VE-k43"/>
                 <outlet property="recommendBtn" destination="bNC-4H-EzB" id="xK6-f1-KEY"/>
@@ -45,7 +46,8 @@
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7wq-90-6z5">
                             <rect key="frame" x="342" y="31" width="18" height="22"/>
-                            <state key="normal" image="icon_home_msg_nor"/>
+                            <state key="normal" image="icon_community_message_nor"/>
+                            <state key="selected" image="icon_community_message_sel"/>
                             <connections>
                                 <action selector="clickMsgBtn:" destination="-1" eventType="touchUpInside" id="nzh-2e-11y"/>
                             </connections>
@@ -149,10 +151,11 @@
         </view>
     </objects>
     <resources>
+        <image name="icon_community_message_nor" width="18" height="19"/>
+        <image name="icon_community_message_sel" width="18" height="19"/>
         <image name="icon_home_camera_nor" width="69" height="54.5"/>
         <image name="icon_home_community_nor" width="61" height="64"/>
         <image name="icon_home_menu_nor" width="19" height="14.5"/>
-        <image name="icon_home_msg_nor" width="17.5" height="19"/>
         <image name="icon_home_photo_nor" width="66.5" height="54"/>
         <image name="icon_home_recommend_nor" width="63" height="63"/>
         <image name="img_home_logo_nor" width="109" height="21.5"/>

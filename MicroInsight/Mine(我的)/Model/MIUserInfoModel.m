@@ -18,6 +18,8 @@
     [aCoder encodeObject:_birthday forKey:@"birthday"];
     [aCoder encodeObject:_nickname forKey:@"nickname"];
     [aCoder encodeObject:_token forKey:@"token"];
+    [aCoder encodeInteger:_age forKey:@"age"];
+    [aCoder encodeInteger:_profession forKey:@"profession"];
 }
 
 - (nullable instancetype)initWithCoder:(NSCoder *)aDecoder {
@@ -30,6 +32,8 @@
         _birthday = [aDecoder decodeObjectForKey:@"birthday"];
         _nickname = [aDecoder decodeObjectForKey:@"nickname"];
         _token = [aDecoder decodeObjectForKey:@"token"];
+        _age = [aDecoder decodeIntegerForKey:@"age"];
+        _profession = [aDecoder decodeIntegerForKey:@"profession"];
     }
     
     return self;

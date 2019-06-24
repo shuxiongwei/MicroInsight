@@ -30,6 +30,8 @@
 
 + (NSString *)createAssetsPath;
 
++ (void)saveData:(NSData *)data toPath:(NSString *)path;
+
 /**
  根据文件名创建文件夹
 

@@ -14,6 +14,7 @@ class MIEditOrUploadVC: MIBaseViewController {
 
     var imgView: UIImageView!
     var imgUrl: String!
+    var imageAsset: PHAsset!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,10 +43,25 @@ class MIEditOrUploadVC: MIBaseViewController {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(customView: rightView)
         
         imgView = UIImageView.init(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: ScreenHeight - MINavigationBarHeight(vc: self) - MIStatusBarHeight() - 60))
-        imgView.contentMode = .scaleAspectFill
+        imgView.backgroundColor = UIColor.black
+        imgView.contentMode = .scaleAspectFit
         imgView.clipsToBounds = true
-        imgView.image = UIImage(contentsOfFile: imgUrl)
         view.addSubview(imgView)
+        
+        
+        
+        if MIHelpTool.isBlankString(imgUrl) {
+            let scale = UIScreen.main.scale
+            let width = imgView.bounds.width * scale / 1
+            let height = imgView.bounds.height * scale / 1
+            weak var weakSelf = self
+            MIAlbumManager().getPhotoWith(imageAsset, photoSize: CGSize(width: width, height: height)) { (image, info) in
+                
+                weakSelf?.imgView.image = image
+            }
+        } else {
+            imgView.image = UIImage(contentsOfFile: imgUrl)
+        }
         
         let bottomView = UIView.init(frame: CGRect(x: 0, y: imgView.bottom, width: ScreenWidth, height: 60))
         bottomView.backgroundColor = UIColor.white
@@ -77,7 +93,13 @@ class MIEditOrUploadVC: MIBaseViewController {
     @objc private func clickUploadBtn() {
         let storyBoard = UIStoryboard.init(name: "MyAlbum", bundle: nil)
         let vc = storyBoard.instantiateViewController(withIdentifier: "MIUploadViewController") as! MIUploadViewController
-        vc.assetUrl = imgUrl
+        
+        if MIHelpTool.isBlankString(imgUrl) {
+            vc.asset = imageAsset
+        } else {
+            vc.assetUrl = imgUrl
+        }
+        
         self.navigationController?.pushViewController(vc, animated: true)
     }
 }

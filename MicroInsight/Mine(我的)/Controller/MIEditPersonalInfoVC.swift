@@ -24,6 +24,8 @@ class MIEditPersonalInfoVC: MIBaseViewController {
     @IBOutlet weak var saveBtn: UIButton!
     @IBOutlet weak var jumpBtn: UIButton!
     
+    let jobList = ["程序", "科研", "教育", "收藏", "美业", "其他"]
+    
     private lazy var activityView: UIActivityIndicatorView = {
         let v = UIActivityIndicatorView.init(frame: CGRect(x: (ScreenWidth - 80) / 2.0, y:(ScreenHeight - 80) / 2.0, width: 80, height: 80))
         v.style = .whiteLarge
@@ -61,7 +63,12 @@ class MIEditPersonalInfoVC: MIBaseViewController {
             genderSelectBtn.setTitle((userInfo.gender == 0 ? "男" : "女"), for: .normal)
             let strs = userInfo.birthday.components(separatedBy: " ")
             birthdaySelectBtn.setTitle(strs.first, for: .normal)
-            jobSelectBtn.setTitle(userInfo.profession, for: .normal)
+            
+            var str = "其他"
+            if userInfo.profession != .other {
+                str = jobList[userInfo.profession.rawValue - 1]
+            }
+            jobSelectBtn.setTitle(str, for: .normal)
         } else {
             self.title = "完善个人资料"
             jumpBtn .setTitle("跳过", for: .normal)
@@ -161,9 +168,8 @@ class MIEditPersonalInfoVC: MIBaseViewController {
         let wid = ScreenWidth - 80
         let bounds = CGRect(x: 40, y: (ScreenHeight - wid * 340.0 / 295.0) / 2.0, width: wid, height: wid * 340.0 / 295.0)
         let title = "请选择你的职业"
-        let list = ["程序", "科研", "教育", "收藏", "美业", "其他"]
-        
-        let pickerV = MIPickerView.init(frame: ScreenBounds, bounds: bounds, title: title, list: list)
+
+        let pickerV = MIPickerView.init(frame: ScreenBounds, bounds: bounds, title: title, list: jobList)
         let window = (UIApplication.shared.delegate!.window)!
         window?.addSubview(pickerV)
         
@@ -194,8 +200,13 @@ class MIEditPersonalInfoVC: MIBaseViewController {
             job = "其他"
         }
         
+        var index = jobList.firstIndex(of: job!)! + 1
+        if job == "其他" {
+            index = 0
+        }
+        
         weak var weakSelf = self
-        MIRequestManager.modifyUserInfo(withNickname: inputBtn.titleLabel!.text!, gender: (genderSelectBtn.titleLabel?.text == "男" ? 0 : 1), birthday: birthdaySelectBtn.titleLabel!.text!, profession: job! , requestToken: MILocalData.getCurrentRequestToken()) { (jsonData, error) in
+        MIRequestManager.modifyUserInfo(withNickname: inputBtn.titleLabel!.text!, gender: (genderSelectBtn.titleLabel?.text == "男" ? 0 : 1), birthday: birthdaySelectBtn.titleLabel!.text!, profession: index , requestToken: MILocalData.getCurrentRequestToken()) { (jsonData, error) in
             
             let dic: [String : AnyObject] = jsonData as! Dictionary
             let code = dic["code"]?.int64Value
@@ -204,7 +215,7 @@ class MIEditPersonalInfoVC: MIBaseViewController {
                 model.nickname = (weakSelf?.inputBtn.titleLabel!.text)!
                 model.gender = (weakSelf?.genderSelectBtn.titleLabel?.text == "男" ? 0 : 1)
                 model.birthday = (weakSelf?.birthdaySelectBtn.titleLabel!.text)!
-                model.profession = job!
+                model.profession = MIProfessionType(rawValue: index)!
                 MILocalData.saveCurrentLoginUserInfo(model)
             }
  

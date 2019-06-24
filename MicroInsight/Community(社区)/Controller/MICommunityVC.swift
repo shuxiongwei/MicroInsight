@@ -14,6 +14,10 @@ class MICommunityVC: MIBaseViewController {
     var searchTF: UITextField!
     var curPage: NSInteger!
     var curSearchPage: NSInteger!
+    var messageBtn: UIButton!
+    var reportView: MIReportView!
+    var currentUserId: NSInteger!
+    var currentModel: MICommunityListModel!
     
     private lazy var emptyView: UIView = {
         let v = UIView.init(frame: CGRect(x: 0, y: 60, width: self.view.width, height: ScreenHeight - MINavigationBarHeight(vc: self) - 20 - 60))
@@ -96,6 +100,12 @@ class MICommunityVC: MIBaseViewController {
         return tab
     }()
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        checkNotReadMessage()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -103,6 +113,8 @@ class MICommunityVC: MIBaseViewController {
         
         configCommunityUI()
         requestCommunityList(isRefresh: true)
+        NotificationCenter.default.addObserver(self, selector: #selector(notification), name: NSNotification.Name(rawValue:"isTest"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(blackNotification), name: NSNotification.Name(rawValue:"blackListNotification"), object: nil)
     }
     
     private func configCommunityUI() {
@@ -118,9 +130,10 @@ class MICommunityVC: MIBaseViewController {
         cameraBtn.addTarget(self, action: #selector(clickCameraBtn), for: .touchUpInside)
         let cameraItem = UIBarButtonItem.init(customView: cameraBtn)
         
-        let messageBtn = UIButton(type: .custom)
+        messageBtn = UIButton(type: .custom)
         messageBtn.frame = CGRect(x: 0, y: 0, width: 50, height: 30)
         messageBtn.setImage(UIImage(named: "icon_community_message_nor"), for: .normal)
+        messageBtn.setImage(UIImage(named: "icon_community_message_sel"), for: .selected)
         messageBtn.addTarget(self, action: #selector(clickMessageBtn), for: .touchUpInside)
         let messageItem = UIBarButtonItem.init(customView: messageBtn)
         self.navigationItem.rightBarButtonItems = [messageItem, cameraItem]
@@ -246,6 +259,40 @@ class MICommunityVC: MIBaseViewController {
         }
     }
     
+    func checkNotReadMessage() {
+        weak var weakSelf = self
+        MIRequestManager.getAllNotReadMessage(withRequestToken: MILocalData.getCurrentRequestToken(), completed: { (jsonData, error) in
+            
+            let dic: [String : AnyObject] = jsonData as! Dictionary
+            let code = dic["code"]?.int64Value
+            if code == 0 {
+                let data: [String: AnyObject] = dic["data"] as! Dictionary
+                let list: Array = data["list"] as! Array<[String: AnyObject]>
+                if list.count >= 1 { //有未读消息
+                    weakSelf?.messageBtn.isSelected = true
+                } else {
+                    weakSelf?.messageBtn.isSelected = false
+                }
+            }
+        })
+    }
+    
+    //MARK:通知
+    @objc func notification(nofi : Notification) {
+        messageBtn.isSelected = true
+    }
+    
+    @objc func blackNotification(nofi : Notification) {
+        curPage = 1
+        curSearchPage = 1
+        requestCommunityList(isRefresh: true)
+    }
+    
+    //移除通知
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     @objc func clickCameraBtn() {
         let selectV = MISelectPhotoView.init(frame: ScreenBounds)
         let window = (UIApplication.shared.delegate!.window)!;
@@ -288,6 +335,17 @@ class MICommunityVC: MIBaseViewController {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
+    
+    override func popToForwardViewController() {
+        searchTF.resignFirstResponder()
+        if searchT.isHidden {
+            super.popToForwardViewController()
+        } else {
+            searchT.isHidden = true
+            table.isHidden = false
+            searchTF.text = nil
+        }
+    }
 }
 
 extension MICommunityVC: UITableViewDelegate {
@@ -313,9 +371,12 @@ extension MICommunityVC: UITableViewDelegate {
         }
         
         let detailVC = MICommunityDetailVC.init()
-        detailVC.communityModel = model
-        detailVC.praiseBlock = { (mod: MICommunityListModel) in
-            model = mod
+        detailVC.contentId = model.contentId
+        detailVC.contentType = model.contentType;
+        detailVC.praiseBlock = { (comments: Int, likes: Int, isLike: Bool) in
+            model.comments = comments
+            model.likes = likes
+            model.isLike = isLike
             tableView.reloadRows(at: [indexPath], with: .none)
         }
         self.navigationController?.pushViewController(detailVC, animated: true)
@@ -335,7 +396,7 @@ extension MICommunityVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "MICommunityListCell", for: indexPath) as! MICommunityListCell
-        let model: MICommunityListModel!
+        var model: MICommunityListModel!
         if tableView.tag == 1000 {
             model = self.dataList[indexPath.row]
         } else {
@@ -351,10 +412,56 @@ extension MICommunityVC: UITableViewDataSource {
         }
         
         cell.clickExtendBtnBlock = { (userId: Int) in
-            QZShareMgr.shareManager()?.show(.normal, inVC: nil)
-            QZShareMgr.shareManager()?.shareWebUrl = "http://www.tipscope.com/node.html?token=v_arO1gCPMXRNvog1rcUAnCeY1JAEkxc" + "&contentId=\(model.contentId)" + "&contentType\(model.contentType)"
+            weakSelf?.currentModel = model
+            let userInfo = MILocalData.getCurrentLoginUserInfo()
+            var type: QZShareType!
+            if userInfo.uid == userId {
+                type = .normal
+            } else {
+                type = .other
+            }
+ 
+            let token = MILocalData.getCurrentRequestToken()
+            QZShareMgr.shareManager()?.show(type, inVC: nil)
+            QZShareMgr.shareManager()?.delegate = weakSelf
+            QZShareMgr.shareManager()?.shareWebUrl = "http://www.tipscope.com/node.html?token=" + token + "&contentId=\(model.contentId)" + "&contentType\(model.contentType)"
             QZShareMgr.shareManager()?.shareImg = UIImage(named: "AppIcon")
             QZShareMgr.shareManager()?.title = model.title
+        }
+        
+        cell.clickCommentBtnBlock = { (userId: Int) in
+            let detailVC = MICommunityDetailVC.init()
+            detailVC.contentId = model.contentId
+            detailVC.contentType = model.contentType;
+            detailVC.needShowKeyboard = true
+            detailVC.praiseBlock = { (comments: Int, likes: Int, isLike: Bool) in
+                model.comments = comments
+                model.likes = likes
+                model.isLike = isLike
+                tableView.reloadRows(at: [indexPath], with: .none)
+            }
+            self.navigationController?.pushViewController(detailVC, animated: true)
+        }
+        
+        cell.clickPraiseBtnBlock = { (userId: Int) in
+            if model.isLike {
+                MIHudView.showMsg("您已经点过赞该作品")
+            } else {
+                MIRequestManager.praise(withContentId: model.contentId, contentType: model.contentType, requestToken: MILocalData.getCurrentRequestToken(), completed: { (jsonData, error) in
+                    
+                    let dic: [String : AnyObject] = jsonData as! Dictionary
+                    let code = dic["code"]?.int64Value
+                    if code == 0 {
+                        model.isLike = true
+                        model.likes += 1
+                        tableView.reloadRows(at: [indexPath], with: .none)
+                    }
+                })
+            }
+        }
+        
+        cell.clickPlayBtnBlock = { (userId: Int) in
+
         }
         
         return cell
@@ -403,11 +510,63 @@ extension MICommunityVC: UIImagePickerControllerDelegate, UINavigationController
             image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage;
         }
         picker.dismiss(animated: true, completion: nil)
-        
+
+        let assetPath = MIHelpTool.createAssetsPath()
+        let name = MIHelpTool.converDate(Date(), toStringByFormat: "yyyy-MM-dd+HH:mm:ss") + ".png"
+        let imgPath = assetPath! + name
+        let imgData = image.jpegData(compressionQuality: 0.5)
+        MIHelpTool.save(imgData, toPath: imgPath)
+
+        let vc = MIEditOrUploadVC.init()
+        vc.imgUrl = imgPath
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true, completion: nil)
+    }
+}
+
+extension MICommunityVC: MIShareManagerDelete {
+    func shareManagerReportAction() {
+        
+        weak var weakSelf = self
+        if reportView == nil {
+            reportView = MIReportView.init(frame: ScreenBounds)
+            UIApplication.shared.keyWindow?.addSubview(reportView)
+            
+            reportView.selectReportContent = { (text) in
+                MIRequestManager.reportUse(withUserId: "\(weakSelf?.currentModel.userId ?? 0)", reportContent: text, requestToken: MILocalData.getCurrentRequestToken(), completed: { (jsonData, error) in
+                    
+                    let dic: [String : AnyObject] = jsonData as! Dictionary
+                    let code = dic["code"]?.int64Value
+                    if code == 0 {
+                        MIHudView.showMsg("举报成功")
+                    } else {
+                        MIHudView.showMsg("举报失败")
+                    }
+                })
+            }
+        }
+        
+        UIView.animate(withDuration: 0.3) {
+            weakSelf?.reportView.frame = ScreenBounds
+        }
+    }
+    
+    func shareManagerAddBlackListAction() {
+        weak var weakSelf = self
+        MIRequestManager.addBlackList(withUserId: "\(weakSelf?.currentModel.userId ?? 0)", requestToken: MILocalData.getCurrentRequestToken()) { (jsonData, error) in
+            
+            let dic: [String : AnyObject] = jsonData as! Dictionary
+            let code = dic["code"]?.int64Value
+            if code == 0 {
+                MIHudView.showMsg("拉黑成功")
+                weakSelf?.requestCommunityList(isRefresh: true)
+            } else {
+                MIHudView.showMsg("拉黑失败")
+            }
+        }
     }
 }
 

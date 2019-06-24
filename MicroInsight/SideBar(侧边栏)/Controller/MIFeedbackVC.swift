@@ -32,6 +32,24 @@ class MIFeedbackVC: MIBaseViewController {
     }
     
     @IBAction func clickCommitBtn(_ sender: UIButton) {
-        
+        if MIHelpTool.isBlankString(textView.text) {
+            MIHudView.showMsg("请输入反馈内容")
+            return
+        }
+
+        MIRequestManager.feedback(withContent: textView.text, requestToken: MILocalData.getCurrentRequestToken()) { (jsonData, error) in
+            
+            let dic: [String : AnyObject] = jsonData as! Dictionary
+            let code = dic["code"]?.int64Value
+            if code == 0 {
+                MIHudView.showMsg("反馈成功")
+            } else {
+                MIHudView.showMsg("反馈失败")
+            }
+        }
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        textView.resignFirstResponder()
     }
 }

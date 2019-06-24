@@ -10,6 +10,7 @@
 
 static NSString * const currentLoginUserInfo = @"currentLoginUserInfo";
 static NSString * const currentDemarcateInfo = @"currentDemarcateInfo";
+static NSString * const openRuleWatermark = @"openRuleWatermark";
 
 @implementation MILocalData
 
@@ -110,6 +111,17 @@ static NSString * const currentDemarcateInfo = @"currentDemarcateInfo";
 
 + (NSString *)appLanguage:(NSString *)key {
     return [[NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"%@", [[NSUserDefaults standardUserDefaults] objectForKey:appLanguage]] ofType:@"lproj"]] localizedStringForKey:(key) value:nil table:@"Languages"];
+}
+
++ (void)saveOpenRuleWatermark:(BOOL)open {
+    NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+    [def setValue:@(open) forKey:openRuleWatermark];
+}
+
++ (BOOL)getOpenRuleWatermark {
+    NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+    NSNumber *open = [def valueForKey:openRuleWatermark];
+    return open.integerValue;
 }
 
 @end

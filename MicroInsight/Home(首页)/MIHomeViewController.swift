@@ -8,8 +8,9 @@
 
 import UIKit
 
-class MIHomeViewController: MIBaseViewController {
+class MIHomeViewController: UIViewController {
 
+    @IBOutlet weak var menuBtn: UIButton!
     @IBOutlet weak var navHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var msgBtn: UIButton!
     @IBOutlet weak var cameraBtn: UIButton!
@@ -18,12 +19,14 @@ class MIHomeViewController: MIBaseViewController {
     @IBOutlet weak var recommendBtn: UIButton!
     @IBOutlet weak var bgView: UIView!
     var siderBar: MISiderBarView!
+    var timer: DispatchSourceTimer!
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 //        super.setStatusBarBackgroundColor(.clear)
         self.navigationController?.setNavigationBarHidden(true, animated: true)
         siderBar.refreshTopView()
+        checkNotReadMessage()
     }
 
     override func viewDidLoad() {
@@ -32,10 +35,13 @@ class MIHomeViewController: MIBaseViewController {
         // Do any additional setup after loading the view.
         
         configHomeUI()
+//        configTimer()
     }
 
     private func configHomeUI() {
         navHeightConstraint.constant = MINavigationBarHeight(vc: self) + MIStatusBarHeight()
+        menuBtn.setEnlargeEdge(15)
+        msgBtn.setEnlargeEdge(15)
         
         siderBar = MISiderBarView.loadSiderBarNib()
         siderBar.x = -ScreenWidth;
@@ -59,6 +65,48 @@ class MIHomeViewController: MIBaseViewController {
         swipeR.direction = .right
         view.addGestureRecognizer(swipeR)
     }
+
+    //定时器
+    func configTimer() {
+        /**创建timer
+         * flags: 一个数组
+         * queue: timer 在那个队列里面执行
+         */
+        timer = DispatchSource.makeTimerSource(flags: [], queue: DispatchQueue.global())
+        ///设置timer的计时参数
+        /**
+         wallDeadline: 什么时候开始
+         leeway: 调用频率,即多久调用一次
+         */
+        //循环执行，马上开始，间隔为5s,误差允许10微秒
+        timer?.schedule(deadline: DispatchTime.now(), repeating: .seconds(5), leeway: .milliseconds(10))
+        ///执行timer
+        weak var weakSelf = self
+        self.timer?.setEventHandler(handler: {
+            weakSelf?.checkNotReadMessage()
+        })
+        ///执行timer
+        self.timer?.resume()
+    }
+    
+    func checkNotReadMessage() {
+        weak var weakSelf = self
+        MIRequestManager.getAllNotReadMessage(withRequestToken: MILocalData.getCurrentRequestToken(), completed: { (jsonData, error) in
+            
+            let dic: [String : AnyObject] = jsonData as! Dictionary
+            let code = dic["code"]?.int64Value
+            if code == 0 {
+                let data: [String: AnyObject] = dic["data"] as! Dictionary
+                let list: Array = data["list"] as! Array<[String: AnyObject]>
+                if list.count >= 1 { //有未读消息
+                    weakSelf?.msgBtn.isSelected = true
+                    NotificationCenter.default.post(name: NSNotification.Name("isTest"), object: self, userInfo: ["post":"NewTest"])
+                } else {
+                    weakSelf?.msgBtn.isSelected = false
+                }
+            }
+        })
+    }
     
     //MARK:按钮点击事件
     @IBAction func clickHomeMenuBtn(_ sender: UIButton) {
@@ -68,7 +116,8 @@ class MIHomeViewController: MIBaseViewController {
     }
     
     @IBAction func clickMsgBtn(_ sender: UIButton) {
-        
+        let messageVC = MIMessageVC.init()
+        self.navigationController?.pushViewController(messageVC, animated: true)
     }
     
     @IBAction func clickCameraBtn(_ sender: UIButton) {

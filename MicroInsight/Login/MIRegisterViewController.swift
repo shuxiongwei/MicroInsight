@@ -117,9 +117,16 @@ class MIRegisterViewController: MIBaseViewController {
     }
     
     @IBAction func clickUserServiceAgreementBtn(_ sender: UIButton) {
-        let serviceV = MIUserAgreementView.init(frame: ScreenBounds)
-        let window = (UIApplication.shared.delegate!.window)!;
-        window?.addSubview(serviceV)
+//        let serviceV = MIUserAgreementView.init(frame: ScreenBounds)
+//        let window = (UIApplication.shared.delegate!.window)!;
+//        window?.addSubview(serviceV)
+        
+        let vc = MIUserAgreementVC.init()
+        weak var weakSelf = self
+        vc.agreeBlock = { (text) in
+            weakSelf?.agreementBtn.isSelected = true
+        }
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     //MARK:定时器

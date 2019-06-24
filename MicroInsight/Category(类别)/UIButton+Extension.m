@@ -91,7 +91,7 @@ static char leftNameKey;
         case MIButtonEdgeInsetsStyleTop:
         {
             imageEdgeInsets = UIEdgeInsetsMake(-labelHeight-space/2.0, 0, 0, -labelWidth);
-            labelEdgeInsets = UIEdgeInsetsMake(0, -imageWith, -imageHeight-space/2.0, 0);
+            labelEdgeInsets = UIEdgeInsetsMake(imageHeight+space/2.0, -imageWith, 0, 0);
         }
             break;
         case MIButtonEdgeInsetsStyleLeft:

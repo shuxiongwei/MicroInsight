@@ -46,6 +46,7 @@ typedef NS_ENUM(NSInteger, MIDemarcateType) {
 @property (nonatomic, strong) UIButton *rulerBtn;
 @property (nonatomic, strong) UILabel *unitLab;
 @property (nonatomic, strong) UILabel *totalLab;
+@property (nonatomic, strong) UIImageView *rulerBgView;
 
 /* 相机标定相关 */
 @property (nonatomic, assign) BOOL isDemarcating; //相机标定中
@@ -139,7 +140,7 @@ typedef NS_ENUM(NSInteger, MIDemarcateType) {
     minScale = 1.0;
     maxScale = 10.0;
     
-    self.previewView = [[MIVideoPreview alloc] initWithFrame:CGRectMake(0, 0, self.width, self.height)];
+    self.previewView = [[MIVideoPreview alloc] initWithFrame:CGRectMake(0, 0, self.width, self.height - 110)];
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapAction:)];
     UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleTapAction:)];
@@ -156,11 +157,11 @@ typedef NS_ENUM(NSInteger, MIDemarcateType) {
     [self.previewView addSubview:self.focusView];
     [self.previewView addSubview:self.exposureView];
     
+    [self configFocalSliderUI];
+    [self configRulerUI];
     [self configTopViewUI];
     [self configMiddleUI];
     [self configBottomUI];
-    [self configFocalSliderUI];
-    [self configRulerUI];
 }
 
 //配置顶部视图
@@ -186,11 +187,11 @@ typedef NS_ENUM(NSInteger, MIDemarcateType) {
 - (void)configMiddleUI {
 
     //手电筒
-    _torchBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(self.width - 30 - 18, self.height - 110 - 151, 30, 30) normalTitle:nil normalTitleColor:nil highlightedTitleColor:nil selectedColor:nil titleFont:0 normalImage:[UIImage imageNamed:@"icon_camera_flash_sel"] highlightedImage:nil selectedImage:[UIImage imageNamed:@"icon_camera_flash_nor"] touchUpInSideTarget:self action:@selector(torchClick:)];
+    _torchBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(self.width - 30 - 18, self.height - 110 - 175, 30, 30) normalTitle:nil normalTitleColor:nil highlightedTitleColor:nil selectedColor:nil titleFont:0 normalImage:[UIImage imageNamed:@"icon_camera_flash_sel"] highlightedImage:nil selectedImage:[UIImage imageNamed:@"icon_camera_flash_nor"] touchUpInSideTarget:self action:@selector(torchClick:)];
     [self addSubview:_torchBtn];
     
     //刻度尺
-    _rulerBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(self.width - 30 - 18, self.height - 110 - 106, 30, 30) normalTitle:nil normalTitleColor:nil highlightedTitleColor:nil selectedColor:nil titleFont:0 normalImage:[UIImage imageNamed:@"icon_camera_rule_sel"] highlightedImage:nil selectedImage:[UIImage imageNamed:@"icon_camera_rule_nor"] touchUpInSideTarget:self action:@selector(clickRulerBtn:)];
+    _rulerBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(self.width - 30 - 18, self.height - 110 - 130, 30, 30) normalTitle:nil normalTitleColor:nil highlightedTitleColor:nil selectedColor:nil titleFont:0 normalImage:[UIImage imageNamed:@"icon_camera_rule_sel"] highlightedImage:nil selectedImage:[UIImage imageNamed:@"icon_camera_rule_nor"] touchUpInSideTarget:self action:@selector(clickRulerBtn:)];
     [self addSubview:_rulerBtn];
 }
 
@@ -249,21 +250,24 @@ typedef NS_ENUM(NSInteger, MIDemarcateType) {
 
 //配置刻度尺
 - (void)configRulerUI {
-    _unitLab = [MIUIFactory createLabelWithCenter:CGPointMake(self.centerX, self.height - 191) withBounds:CGRectMake(0, 0, self.width, 18) withText:@"1 mm" withFont:10 withTextColor:[UIColor whiteColor] withTextAlignment:NSTextAlignmentCenter];
-    _unitLab.hidden = YES;
-    [self addSubview:_unitLab];
+    _rulerBgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, MIScreenWidth, MIScreenHeight - 110)];
+    _rulerBgView.hidden = YES;
+    _rulerBgView.backgroundColor = [UIColor clearColor];
+    _rulerBgView.userInteractionEnabled = NO;
+    [self insertSubview:_rulerBgView belowSubview:_focalSliderView];
     
-    _totalLab = [MIUIFactory createLabelWithCenter:CGPointMake(self.centerX, self.height - 164) withBounds:CGRectMake(0, 0, self.width, 8) withText:@"total 1 mm" withFont:8 withTextColor:[UIColor whiteColor] withTextAlignment:NSTextAlignmentCenter];
-    _totalLab.hidden = YES;
-    [self addSubview:_totalLab];
+    _unitLab = [MIUIFactory createLabelWithCenter:CGPointMake(_rulerBgView.centerX, _rulerBgView.height - 81) withBounds:CGRectMake(0, 0, self.width, 18) withText:@"1 mm" withFont:10 withTextColor:[UIColor whiteColor] withTextAlignment:NSTextAlignmentCenter];
+    [_rulerBgView addSubview:_unitLab];
+    
+    _totalLab = [MIUIFactory createLabelWithCenter:CGPointMake(_rulerBgView.centerX, _rulerBgView.height - 59) withBounds:CGRectMake(0, 0, self.width, 8) withText:@"total 1 mm" withFont:8 withTextColor:[UIColor whiteColor] withTextAlignment:NSTextAlignmentCenter];
+    [_rulerBgView addSubview:_totalLab];
     
     _rulerView = [[UIView alloc] init];
     _rulerView.backgroundColor = [UIColor whiteColor];
-    _rulerView.hidden = YES;
-    [self addSubview:_rulerView];
+    [_rulerBgView addSubview:_rulerView];
     WSWeak(weakSelf);
     [_rulerView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self);
+        make.centerX.equalTo(weakSelf.rulerBgView);
         make.top.mas_equalTo(weakSelf.unitLab.mas_bottom).offset(5);
         make.height.mas_equalTo(@1);
         make.width.mas_equalTo(@([MILocalData getCurrentDemarcateInfo] * weakSelf.focalSliderView.value));
@@ -278,17 +282,7 @@ typedef NS_ENUM(NSInteger, MIDemarcateType) {
         make.height.mas_equalTo(@3);
         make.width.mas_equalTo(@1);
     }];
-    
-//    UIView *middleV = [[UIView alloc] init];
-//    middleV.backgroundColor = [UIColor whiteColor];
-//    [_rulerView addSubview:middleV];
-//    [middleV mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.centerX.equalTo(weakSelf.rulerView);
-//        make.bottom.mas_equalTo(weakSelf.rulerView.mas_top).offset(0);
-//        make.height.mas_equalTo(@2);
-//        make.width.mas_equalTo(@1);
-//    }];
-    
+
     UIView *rightV = [[UIView alloc] init];
     rightV.backgroundColor = [UIColor whiteColor];
     [_rulerView addSubview:rightV];
@@ -330,10 +324,8 @@ typedef NS_ENUM(NSInteger, MIDemarcateType) {
 
 - (void)clickRulerBtn:(UIButton *)sender {
 
-    if (!_rulerView.hidden) {
-        _unitLab.hidden = YES;
-        _rulerView.hidden = YES;
-        _totalLab.hidden = YES;
+    if (!_rulerBgView.hidden) {
+        _rulerBgView.hidden = YES;
         sender.selected = !sender.selected;
     } else {
         WSWeak(weakSelf);
@@ -341,7 +333,7 @@ typedef NS_ENUM(NSInteger, MIDemarcateType) {
         //还未进行相机标定
         if (length == 0) {
 //            [self executeCameraDemarcate:MIDemarcateReset];
-            [MIDemarcateAlertView showAlertViewWithFrame:MIScreenBounds alertTitle:@"标定教程" alertMessage:@"①请对准一毫米标尺\n②点击标尺两侧\n③确定标点准确减少误差" leftTitle:@"取消" rightTitle:@"确定" leftAction:^(BOOL alert) {
+            [MIDemarcateAlertView showAlertViewWithFrame:MIScreenBounds alertTitle:@"标定教程" alertMessage:@"1.请对准一毫米标尺\n2.点击标尺两侧\n3.确定标点准确减少误差" leftTitle:@"取消" rightTitle:@"确定" leftAction:^(BOOL alert) {
                 
             } rightAction:^(BOOL alert) {
                 if (alert) {
@@ -349,10 +341,10 @@ typedef NS_ENUM(NSInteger, MIDemarcateType) {
                 }
             }];
         } else {
-            [MIDemarcateAlertView showAlertViewWithFrame:MIScreenBounds alertTitle:@"温馨提示" alertMessage:@"请选择重新进行相机标定或使用已经保存的标定值\n请对准1mm的物体进行标定。" leftTitle:@"重新标定" rightTitle:@"已标定值" leftAction:^(BOOL alert) {
+            [MIDemarcateAlertView showAlertViewWithFrame:MIScreenBounds alertTitle:@"温馨提示" alertMessage:@"请对准一毫米长的物体进行\n标定。" leftTitle:@"重新标定" rightTitle:@"已标定值" leftAction:^(BOOL alert) {
                 
                 if (alert) {
-                    [MIDemarcateAlertView showAlertViewWithFrame:MIScreenBounds alertTitle:@"标定教程" alertMessage:@"①请对准一毫米标尺\n②点击标尺两侧\n③确定标点准确减少误差" leftTitle:@"取消" rightTitle:@"确定" leftAction:^(BOOL alert) {
+                    [MIDemarcateAlertView showAlertViewWithFrame:MIScreenBounds alertTitle:@"标定教程" alertMessage:@"1.请对准一毫米标尺\n2.点击标尺两侧\n3.确定标点准确减少误差" leftTitle:@"取消" rightTitle:@"确定" leftAction:^(BOOL alert) {
                         
                     } rightAction:^(BOOL alert) {
                         if (alert) {
@@ -363,9 +355,7 @@ typedef NS_ENUM(NSInteger, MIDemarcateType) {
             } rightAction:^(BOOL alert) {
                 
                 if (!alert) {
-                    weakSelf.unitLab.hidden = NO;
-                    weakSelf.rulerView.hidden = NO;
-                    weakSelf.totalLab.hidden = NO;
+                    weakSelf.rulerBgView.hidden = NO;
                     sender.selected = !sender.selected;
                 }
             }];
@@ -379,6 +369,11 @@ typedef NS_ENUM(NSInteger, MIDemarcateType) {
     }
     
     if (lastScale > maxScale || lastScale < minScale) {
+        return;
+    }
+    
+    //视频拍摄中
+    if (_rulerBtn.hidden && _torchBtn.hidden) {
         return;
     }
 
@@ -463,9 +458,13 @@ typedef NS_ENUM(NSInteger, MIDemarcateType) {
         [self.recordTimer fire];
         _torchBtn.hidden = YES;
         _rulerBtn.hidden = YES;
+        _focalSliderView.hidden = YES;
+        _reduceV.hidden = YES;
+        _addV.hidden = YES;
         
-        if ([_delegate respondsToSelector:@selector(startRecordVideoAction:)]) {
-            [_delegate startRecordVideoAction:self];
+        UIImage *waterImage = [self getCurrentWaterImage:YES];
+        if ([_delegate respondsToSelector:@selector(startRecordVideoAction:waterImage:)]) {
+            [_delegate startRecordVideoAction:self waterImage:waterImage];
         }
     } else {
         self.recordTitle.hidden = YES;
@@ -473,17 +472,21 @@ typedef NS_ENUM(NSInteger, MIDemarcateType) {
         _recordTimer = nil;
         _torchBtn.hidden = NO;
         _rulerBtn.hidden = NO;
+        _focalSliderView.hidden = NO;
+        _reduceV.hidden = NO;
+        _addV.hidden = NO;
         
-        if ([_delegate respondsToSelector:@selector(stopRecordVideoAction:)]) {
-            [_delegate stopRecordVideoAction:self];
+        if ([_delegate respondsToSelector:@selector(stopRecordVideoAction:waterImage:)]) {
+            [_delegate stopRecordVideoAction:self waterImage:nil];
         }
     }
 }
 
 //拍照
 - (void)takePhoto:(UIButton *)btn {
-    if ([_delegate respondsToSelector:@selector(takePhotoAction:)]) {
-        [_delegate takePhotoAction:self];
+    UIImage *waterImage = [self getCurrentWaterImage:NO];
+    if ([_delegate respondsToSelector:@selector(takePhotoAction:waterImage:)]) {
+        [_delegate takePhotoAction:self waterImage:waterImage];
     }
 }
 
@@ -549,9 +552,7 @@ typedef NS_ENUM(NSInteger, MIDemarcateType) {
     [MILocalData saveCurrentDemarcateInfo:length];
     [self drawDividingLine];
     
-    _unitLab.hidden = NO;
-    _rulerView.hidden = NO;
-    _totalLab.hidden = NO;
+    _rulerBgView.hidden = NO;
     _rulerBtn.selected = !_rulerBtn.selected;
     
     WSWeak(weakSelf);
@@ -625,6 +626,12 @@ typedef NS_ENUM(NSInteger, MIDemarcateType) {
 - (void)executeCameraDemarcate:(MIDemarcateType)type {
     BOOL execute = (type == MIDemarcateReset ? YES : NO);
     
+    if (execute) {
+        self.previewView.frame = CGRectMake(0, 0, self.width, self.height - 60);
+    } else {
+        self.previewView.frame = CGRectMake(0, 0, self.width, self.height - 110);
+    }
+    
     _isDemarcating = execute;
     _backBtn.hidden = execute;
     _torchBtn.hidden = execute;
@@ -671,6 +678,39 @@ typedef NS_ENUM(NSInteger, MIDemarcateType) {
     
     CGFloat unit = 1 / (num * 1.0);
     _unitLab.text = [NSString stringWithFormat:@"%.2f mm/gird", unit];
+}
+
+- (UIImage *)getCurrentWaterImage:(BOOL)isVideo {
+    if ([MILocalData getOpenRuleWatermark]) {
+        if (_rulerBgView.hidden) {
+            return nil;
+        } else {
+            UIImage *waterImage = [UIImage getImageFromView:_rulerBgView inRect:_rulerBgView.bounds];
+            
+            if ([_delegate respondsToSelector:@selector(getCurrentVideoOrientation:)]) {
+                AVCaptureVideoOrientation orientation = [_delegate getCurrentVideoOrientation:self];
+                //横屏,home键在左方
+                if (orientation == AVCaptureVideoOrientationLandscapeLeft) {
+                    waterImage = [UIImage image:waterImage rotation:UIImageOrientationRight];
+                    if (isVideo) {
+                        waterImage = nil;
+                    }
+                }
+                
+                //横屏,home键在右方
+                if (orientation == AVCaptureVideoOrientationLandscapeRight) {
+                    waterImage = [UIImage image:waterImage rotation:UIImageOrientationLeft];
+                    if (isVideo) {
+                        waterImage = nil;
+                    }
+                }
+            }
+            
+            return waterImage;
+        }
+    } else {
+        return nil;
+    }
 }
 
 #pragma mark - 绘制标定线段

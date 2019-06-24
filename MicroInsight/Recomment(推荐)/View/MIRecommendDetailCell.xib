@@ -18,7 +18,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="353" height="244.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="xUj-bb-iEL">
+                    <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="xUj-bb-iEL">
                         <rect key="frame" x="10" y="38.5" width="333" height="201"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="xUj-bb-iEL" secondAttribute="height" multiplier="315:190" id="NPf-3D-KCn"/>

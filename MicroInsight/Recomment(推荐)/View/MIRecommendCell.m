@@ -38,7 +38,7 @@
     
     //等比缩放，限定在矩形框外
     NSString *imgUrl = [NSString stringWithFormat:@"%@?x-oss-process=image/resize,m_fill,h_%ld,w_%ld", model.content, (NSInteger)_imgView.size.width / 1, (NSInteger)_imgView.size.width / 1];
-    [_imgView sd_setImageWithURL:[NSURL URLWithString:imgUrl] placeholderImage:[UIImage imageNamed:@"account"] options:SDWebImageRetryFailed];
+    [_imgView sd_setImageWithURL:[NSURL URLWithString:imgUrl] placeholderImage:[UIImage imageNamed:@"img_app_placeholder_default"] options:SDWebImageRetryFailed];
     
     YYTextLayout *layout = [model getContentHeightWithStr:model.title width:self.width - 176 font:15 lineSpace:5 maxRow:2];
     _heightConstraint.constant = layout.textBoundingSize.height;

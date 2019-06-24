@@ -67,58 +67,78 @@
 }
 
 - (void)configAlertUI {
-    self.backgroundColor = UIColorFromRGBWithAlpha(0x000000, 0.6);
+    self.backgroundColor = UIColorFromRGBWithAlpha(0x000000, 0.5);
+    
+    CGRect rect;
+    CGFloat titleTopMargin;
+    CGFloat messageTopMargin;
+    CGFloat messageLeftMargin;
+    CGFloat messageRightMargin;
+    if ([_title isEqualToString:@"标定教程"]) {
+        rect = CGRectMake(0, 0, 235, 210);
+        titleTopMargin = 30;
+        messageTopMargin = 66;
+        messageLeftMargin = 28;
+        messageRightMargin = 25;
+    } else {
+        rect = CGRectMake(0, 0, 235, 199);
+        titleTopMargin = 35;
+        messageTopMargin = 74;
+        messageLeftMargin = 27;
+        messageRightMargin = 23;
+    }
     
     //提示框
-    _alertView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.width / 1.8, self.width / 1.8 * 1.1)];
+    _alertView = [[UIView alloc] initWithFrame:rect];
     _alertView.center = self.center;
     _alertView.backgroundColor = [UIColor whiteColor];
     [self addSubview:_alertView];
-    [MIUIFactory addShadowToView:_alertView withOpacity:1 shadowColor:UIColorFromRGBWithAlpha(0x000000, 0.12) shadowRadius:23 andCornerRadius:5];
+    [_alertView round:3 RectCorners:UIRectCornerAllCorners];
 
     //标题
     UILabel *titleLab = [MIUIFactory createLabelWithCenter:CGPointZero withBounds:CGRectZero withText:_title withFont:18 withTextColor:UIColorFromRGBWithAlpha(0x00102C, 1) withTextAlignment:NSTextAlignmentLeft];
     [_alertView addSubview:titleLab];
     WSWeak(weakSelf);
     [titleLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(weakSelf.alertView.mas_left).offset(30);
+        make.left.equalTo(weakSelf.alertView.mas_left).offset(26);
         make.right.equalTo(weakSelf.alertView.mas_right).offset(-30);
-        make.top.equalTo(weakSelf.alertView.mas_top).offset(35);
+        make.top.equalTo(weakSelf.alertView.mas_top).offset(titleTopMargin);
     }];
     
     //右边按钮
-    UIButton *rightBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectZero normalTitle:_rightTitle normalTitleColor:UIColorFromRGBWithAlpha(0x55BE50, 1) highlightedTitleColor:nil selectedColor:nil titleFont:15 normalImage:nil highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(clickRightBtn:)];
+    UIButton *rightBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectZero normalTitle:_rightTitle normalTitleColor:UIColorFromRGBWithAlpha(0x333333, 1) highlightedTitleColor:nil selectedColor:nil titleFont:14 normalImage:nil highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(clickRightBtn:)];
+    rightBtn.backgroundColor = UIColorFromRGBWithAlpha(0xF9F9F9, 1);
     [_alertView addSubview:rightBtn];
     [rightBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(weakSelf.alertView.mas_right).offset(-20);
-        make.bottom.equalTo(weakSelf.alertView.mas_bottom).offset(-20);
-        make.width.mas_equalTo(64);
-        make.height.mas_equalTo(36);
+        make.right.equalTo(weakSelf.alertView.mas_right).offset(-25);
+        make.bottom.equalTo(weakSelf.alertView.mas_bottom).offset(-21);
+        make.width.mas_equalTo(88);
+        make.height.mas_equalTo(40);
     }];
     
     //左边按钮
-    UIButton *leftBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectZero normalTitle:_leftTitle normalTitleColor:UIColorFromRGBWithAlpha(0x999999, 1) highlightedTitleColor:nil selectedColor:nil titleFont:15 normalImage:nil highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(clickLeftBtn:)];
+    UIButton *leftBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectZero normalTitle:_leftTitle normalTitleColor:UIColorFromRGBWithAlpha(0x666666, 1) highlightedTitleColor:nil selectedColor:nil titleFont:14 normalImage:nil highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(clickLeftBtn:)];
+    leftBtn.backgroundColor = UIColorFromRGBWithAlpha(0xF9F9F9, 1);
     [_alertView addSubview:leftBtn];
     [leftBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(rightBtn.mas_left).offset(-12);
-        make.bottom.equalTo(weakSelf.alertView.mas_bottom).offset(-20);
-        make.width.mas_equalTo(64);
-        make.height.mas_equalTo(36);
+        make.left.offset(26);
+        make.bottom.equalTo(weakSelf.alertView.mas_bottom).offset(-21);
+        make.width.mas_equalTo(88);
+        make.height.mas_equalTo(40);
     }];
     
-    UILabel *messageLab = [MIUIFactory createLabelWithCenter:CGPointZero withBounds:CGRectZero withText:_message withFont:15 withTextColor:[UIColor blackColor] withTextAlignment:NSTextAlignmentLeft];
+    UILabel *messageLab = [MIUIFactory createLabelWithCenter:CGPointZero withBounds:CGRectZero withText:_message withFont:15 withTextColor:UIColorFromRGBWithAlpha(0x666666, 1) withTextAlignment:NSTextAlignmentLeft];
     if ([_title isEqualToString:@"标定教程"]) {
         messageLab.lineBreakMode = 0;
     }
+    [UILabel changeLineSpaceForLabel:messageLab WithSpace:5];
     messageLab.numberOfLines = 0;
     messageLab.textAlignment = NSTextAlignmentLeft;
-    messageLab.font = [UIFont fontWithName:@"Helvetica Neue" size:15];
     [_alertView addSubview:messageLab];
     [messageLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(weakSelf.alertView.mas_left).offset(30);
-        make.right.equalTo(weakSelf.alertView.mas_right).offset(-30);
-        make.top.equalTo(weakSelf.alertView.mas_top).offset(60);
-        make.bottom.equalTo(weakSelf.alertView.mas_bottom).offset(-80);
+        make.left.equalTo(weakSelf.alertView.mas_left).offset(messageLeftMargin);
+        make.right.equalTo(weakSelf.alertView.mas_right).offset(-messageRightMargin);
+        make.top.equalTo(weakSelf.alertView.mas_top).offset(messageTopMargin);
     }];
 }
 

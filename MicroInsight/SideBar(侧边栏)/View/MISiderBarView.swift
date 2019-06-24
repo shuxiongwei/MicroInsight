@@ -33,6 +33,9 @@ class MISiderBarView: UIView {
         rightConstraint.constant = ScreenWidth / 375.0 * 65.0
         headPortraitBtn.round(25, rectCorners: .allCorners)
         
+        let tapPersonal = UITapGestureRecognizer.init(target: self, action: #selector(tapPersonalAction(_ :)))
+        usernameLab.addGestureRecognizer(tapPersonal)
+        
         let tap = UITapGestureRecognizer.init(target: self, action: #selector(tapAction(_ :)))
         addGestureRecognizer(tap)
         
@@ -45,10 +48,13 @@ class MISiderBarView: UIView {
     @IBAction func clickHeadPortraitBtn(_ sender: UIButton) {
         let navVC = MIGetNavigationViewController()
         if MILocalData.hasLogin() {
-            let personalVC: MIPersonalVC = MIPersonalVC.init()
-            let userInfo = MILocalData.getCurrentLoginUserInfo()
-            personalVC.userId = userInfo.uid
-            navVC.pushViewController(personalVC, animated: true)
+//            let personalVC: MIPersonalVC = MIPersonalVC.init()
+//            let userInfo = MILocalData.getCurrentLoginUserInfo()
+//            personalVC.userId = userInfo.uid
+//            navVC.pushViewController(personalVC, animated: true)
+            
+            let editVC = MIEditPersonalInfoVC.init(nibName: "MIEditPersonalInfoVC", bundle: nil)
+            navVC.pushViewController(editVC, animated: true)
         } else {
             let loginVC: MILoginViewController = MILoginViewController(nibName: "MILoginViewController", bundle: nil)
             navVC.pushViewController(loginVC, animated: true)
@@ -74,13 +80,18 @@ class MISiderBarView: UIView {
     }
     
     @IBAction func clickSetLanguageBtn(_ sender: UIButton) {
-        let languageVC: MISettingLanguageVC = MISettingLanguageVC.init()
-        let navVC = MIGetNavigationViewController()
-        navVC.pushViewController(languageVC, animated: true)
+        MIHudView.showMsg("功能开发中，敬请期待")
+        return
+        
+//        let languageVC: MISettingLanguageVC = MISettingLanguageVC.init()
+//        let navVC = MIGetNavigationViewController()
+//        navVC.pushViewController(languageVC, animated: true)
     }
     
     @IBAction func clickAddWatermarkBtn(_ sender: UIButton) {
-        
+        let watermarkVC = MIWatermarkVC.init()
+        let navVC = MIGetNavigationViewController()
+        navVC.pushViewController(watermarkVC, animated: true)
     }
     
     @IBAction func clickUseHelpBtn(_ sender: UIButton) {
@@ -96,7 +107,49 @@ class MISiderBarView: UIView {
     }
     
     @IBAction func clickCheckUpdateBtn(_ sender: UIButton) {
+        MBProgressHUD.showStatus("版本检测中，请稍后...")
+        MIRequestManager.checkAppVersionCompleted { (jsonData, error) in
+            DispatchQueue.main.async {
+                MBProgressHUD.hide()
+            }
+            
+            let currentDic = Bundle.main.infoDictionary
+            let currentAppVersion: String = currentDic!["CFBundleShortVersionString"] as! String
         
+            let dic: [String : AnyObject] = jsonData as! Dictionary
+            let resultCount = dic["resultCount"]?.int64Value
+            
+            if resultCount == 1 {
+                let results: [AnyObject] = dic["results"] as! [AnyObject]
+                let versionDic: [String: AnyObject] = results.first as! Dictionary
+                let appVersion: String = versionDic["version"] as! String
+                
+                if appVersion.compare(currentAppVersion) == .orderedDescending {
+                    let trackViewUrl: String = versionDic["trackViewUrl"] as! String
+                    
+                    MICustomAlertView.show(withFrame: ScreenBounds, alertTitle: "温馨提示", alertMessage: "当前有最新版本:\(appVersion)，是否进行更新？", leftAction: {
+                        
+                    }, rightAction: {
+                        UIApplication.shared.openURL(URL.init(string: trackViewUrl)!)
+                    })
+                } else {
+                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.3, execute: {
+                        MIHudView.showMsg("当前已经是最新版本:\(appVersion)")
+                    })
+                }
+            }
+        }
+    }
+    
+    @objc func tapPersonalAction(_ rec: UIGestureRecognizer) {
+        let navVC = MIGetNavigationViewController()
+        if MILocalData.hasLogin() {
+            let editVC = MIEditPersonalInfoVC.init(nibName: "MIEditPersonalInfoVC", bundle: nil)
+            navVC.pushViewController(editVC, animated: true)
+        } else {
+            let loginVC: MILoginViewController = MILoginViewController(nibName: "MILoginViewController", bundle: nil)
+            navVC.pushViewController(loginVC, animated: true)
+        }
     }
     
     @objc func tapAction(_ rec: UIGestureRecognizer) {

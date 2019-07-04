@@ -19,10 +19,10 @@ class MIPickerView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    init(frame: CGRect, bounds: CGRect, title: String, list: Array<String>) {
+    init(frame: CGRect, bounds: CGRect, title: String, list: Array<String>, index: NSInteger) {
         super.init(frame: frame)
         
-        curIndex = 0
+        curIndex = index
         dataList = list
         configUI(bounds: bounds, title: title)
     }
@@ -65,6 +65,9 @@ class MIPickerView: UIView {
         rightBtn.titleLabel?.font = UIFont.systemFont(ofSize: 17)
         rightBtn.addTarget(self, action: #selector(clickRightBtn(_ :)), for: .touchUpInside)
         bgView.addSubview(rightBtn)
+        
+        pickerView.selectRow(curIndex, inComponent: 0, animated: true)
+        pickerView.reloadAllComponents()
     }
     
     @objc private func clickLeftBtn(_ sender: UIButton) {

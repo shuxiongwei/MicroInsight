@@ -98,8 +98,13 @@ class MIRegisterViewController: MIBaseViewController {
             return
         }
         
+        MBProgressHUD.showStatus("注册中，请稍后...")
         weak var weakSelf = self
         MIRequestManager.register(withUsername: phoneTF.text!, password: setPsdTF.text!) { (jsonData: Any?, error: Error) in
+            
+            DispatchQueue.main.async {
+                MBProgressHUD.hide()
+            }
             
             let dic: [String : AnyObject] = jsonData as! Dictionary
             let code = dic["code"]?.int64Value

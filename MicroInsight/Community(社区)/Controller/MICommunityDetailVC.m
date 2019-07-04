@@ -138,11 +138,24 @@
     self.bottomView.hidden = NO;
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    [self configBgTextView];
+}
+
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
     [_textView resignFirstResponder];
     self.bottomView.hidden = YES;
+    
+    if (_maskView) {
+        [_maskView removeFromSuperview];
+        _maskView = nil;
+        [_bgTextView removeFromSuperview];
+        _bgTextView = nil;
+    }
 }
 
 - (void)viewDidLoad {
@@ -172,7 +185,7 @@
     
     //因第三方self.view=scrollView，被迫将bottomView加在self.navigationController.view上了
     [self.navigationController.view addSubview:self.bottomView];
-    [self configBgTextView];
+//    [self configBgTextView];
     [self requestDetailDataNeedRefreshTopView:YES needRefreshCommentView:YES needRefreshSupportView:YES];
 }
 
@@ -416,7 +429,7 @@
     [[QZShareMgr shareManager] showShareType:type inVC:nil];
     [QZShareMgr shareManager].delegate = self;
     [QZShareMgr shareManager].shareWebUrl = [NSString stringWithFormat:@"http://www.tipscope.com/node.html?token=%@&contentId=%ld&contentType=%ld", [MILocalData getCurrentRequestToken], _contentId, _contentType];
-    [QZShareMgr shareManager].shareImg = [UIImage imageNamed:@"AppIcon"];
+    [QZShareMgr shareManager].shareImg = [UIImage imageNamed:@"icon_message_app_nor"];
 }
 
 - (void)clickBottomCommentBtn:(UIButton *)sender {

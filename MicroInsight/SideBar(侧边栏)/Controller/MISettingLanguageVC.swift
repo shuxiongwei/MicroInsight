@@ -62,6 +62,8 @@ extension MISettingLanguageVC: UITableViewDelegate {
                 MILocalData.setAppLanguage(languageType)
                 self.title = MILocalData.appLanguage("sideBar_key_3")
                 self.tableView.reloadData()
+                
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue:"languageSetNotification"), object: nil)
             }
         }
     }

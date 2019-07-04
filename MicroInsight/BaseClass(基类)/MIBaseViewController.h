@@ -90,4 +90,9 @@
 - (void)configBackBtn;
 - (void)setStatusBarBackgroundColor:(UIColor *)color;
 
+/**
+ 设置多语言
+ */
+- (void)refreshSubviewsByLanguage;
+
 @end

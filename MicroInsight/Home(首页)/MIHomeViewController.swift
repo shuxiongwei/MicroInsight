@@ -21,9 +21,14 @@ class MIHomeViewController: UIViewController {
     var siderBar: MISiderBarView!
     var timer: DispatchSourceTimer!
     
+    //移除通知
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        super.setStatusBarBackgroundColor(.clear)
+
         self.navigationController?.setNavigationBarHidden(true, animated: true)
         siderBar.refreshTopView()
         checkNotReadMessage()
@@ -36,6 +41,7 @@ class MIHomeViewController: UIViewController {
         
         configHomeUI()
 //        configTimer()
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshSubviewsByLanguage), name: NSNotification.Name(rawValue:"languageSetNotification"), object: nil)
     }
 
     private func configHomeUI() {
@@ -48,14 +54,11 @@ class MIHomeViewController: UIViewController {
         view.addSubview(siderBar)
         
         bgView.rounded(11)
-        cameraBtn.layoutButton(with: .top, imageTitleSpace: 5)
-        albumBtn.layoutButton(with: .top, imageTitleSpace: 5)
-        communityBtn.layoutButton(with: .top, imageTitleSpace: 5)
-        recommendBtn.layoutButton(with: .top, imageTitleSpace: 5)
         cameraBtn.rounded(4)
         albumBtn.rounded(4)
         communityBtn.rounded(4)
         recommendBtn.rounded(4)
+        refreshSubviewsByLanguage()
         
         let swipeL = UISwipeGestureRecognizer.init(target: self, action: #selector(swipeLeftAction(_ :)))
         swipeL.direction = .left
@@ -168,4 +171,14 @@ class MIHomeViewController: UIViewController {
         siderBar.hideSiderBar()
     }
     
+    @objc func refreshSubviewsByLanguage() {
+        cameraBtn.setTitle(MILocalData.appLanguage("home_key_1"), for: .normal)
+        albumBtn.setTitle(MILocalData.appLanguage("home_key_2"), for: .normal)
+        communityBtn.setTitle(MILocalData.appLanguage("home_key_3"), for: .normal)
+        recommendBtn.setTitle(MILocalData.appLanguage("home_key_4"), for: .normal)
+        cameraBtn.layoutButton(with: .top, imageTitleSpace: 5)
+        albumBtn.layoutButton(with: .top, imageTitleSpace: 5)
+        communityBtn.layoutButton(with: .top, imageTitleSpace: 5)
+        recommendBtn.layoutButton(with: .top, imageTitleSpace: 5)
+    }
 }

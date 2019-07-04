@@ -28,6 +28,8 @@
     self.navigationController.navigationBar.translucent = NO;
     [self.navigationController.navigationBar setShadowImage:[UIImage new]];
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshSubviewsByLanguage) name:@"languageSetNotification" object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -103,6 +105,10 @@
     if ([statusBar respondsToSelector:@selector(setBackgroundColor:)]) {
         statusBar.backgroundColor = color;
     }
+}
+
+- (void)refreshSubviewsByLanguage {
+    
 }
 
 #pragma mark - 释放对象

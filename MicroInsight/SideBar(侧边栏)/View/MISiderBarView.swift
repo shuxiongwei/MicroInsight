@@ -80,12 +80,12 @@ class MISiderBarView: UIView {
     }
     
     @IBAction func clickSetLanguageBtn(_ sender: UIButton) {
-        MIHudView.showMsg("功能开发中，敬请期待")
-        return
+//        MIHudView.showMsg("功能开发中，敬请期待")
+//        return
         
-//        let languageVC: MISettingLanguageVC = MISettingLanguageVC.init()
-//        let navVC = MIGetNavigationViewController()
-//        navVC.pushViewController(languageVC, animated: true)
+        let languageVC: MISettingLanguageVC = MISettingLanguageVC.init()
+        let navVC = MIGetNavigationViewController()
+        navVC.pushViewController(languageVC, animated: true)
     }
     
     @IBAction func clickAddWatermarkBtn(_ sender: UIButton) {

@@ -14,7 +14,7 @@ sideBar_key_4 = "添加水印";
 sideBar_key_5 = "使用帮助";
 sideBar_key_6 = "意见反馈";
 sideBar_key_7 = "检查更新";
-sideBar_key_8 = "语言设置";
+sideBar_key_8 = "比例尺";
 
 //登录注册
 login_key_1 = "登录";
@@ -26,21 +26,119 @@ login_key_6 = "验证码登录";
 login_key_7 = "其他登录方式";
 login_key_8 = "请输入您的手机号码";
 login_key_9 = "请输入您的验证码";
-login_key_10 = "请设置6-32位密码";
-login_key_11 = "请再次设置6-32位密码";
+login_key_10 = "请设置6-20位密码";
+login_key_11 = "请再次设置6-20位密码";
 login_key_12 = "发送验证码";
-login_key_13 = "请输入您的验证码";
+login_key_13 = "请阅读《肯维捷斯用户服务协议》";
 login_key_14 = "登录失败";
 login_key_15 = "账号和密码错误，请重新输入";
 login_key_16 = "确认";
 login_key_17 = "验证码错误";
 login_key_18 = "密码不得低于6位";
+login_key_19 = "含有非法字符，昵称仅支持字符";
 
 //使用帮助
 help_key_1 = "如何操作小贴";
-help_key_2 = "可移胶使用";
+help_key_2 = "更换背胶";
 help_key_3 = "测距教程";
+help_key_4 = "操作指南";
+help_key_5 = "从卡扣两侧将收纳盒打开，取出TipScope";
+help_key_6 = "将TipScope背面朝上平放于桌面，打开手机APP的闪光灯";
+help_key_7 = "去掉手机壳，将手机摄像头对准TipScope镜体";
+help_key_8 = "将手机靠近TipScope，保持光圈一直位于屏幕中央，按压使TipScope和手机贴紧";
+help_key_9 = "将TipScope贴近待拍摄物体";
+help_key_10 = "注：不限机型，适用于绝大部分手机";
+help_key_11 = "撕掉原来的背胶，并从收纳盒中拿出备用胶";
+help_key_12 = "从备用胶上取下一片，去掉中间的同心圆后，再撕掉一面离型纸，注意不要用手直接触碰胶面";
+help_key_13 = "将撕掉离型纸的那面胶对准TipScope的背胶凹槽处粘上，并将TipScope朝下用力按压";
+help_key_14 = "最后撕下外面那层离型纸紧";
+help_key_15 = "请对准一毫米标尺";
+help_key_16 = "点击标尺两侧";
+help_key_17 = "确定标点准确以减少误差";
 
 //意见反馈
 feekback_key_1 = "意见反馈";
 feekback_key_2 = "提交";
+feekback_key_3 = "感谢您使用Tipscope APP，使用过程中有任何意见或者建议请反馈给我们";
+
+//个人主页
+personal_key_1 = "完善个人资料";
+personal_key_2 = "更换头像";
+personal_key_3 = "昵称";
+personal_key_4 = "请输入";
+personal_key_5 = "性别";
+personal_key_6 = "请选择";
+personal_key_7 = "生日";
+personal_key_8 = "职业";
+personal_key_9 = "保存";
+personal_key_10 = "退出登录";
+personal_key_11 = "温馨提示";
+personal_key_12 = "确认要退出登录么？";
+personal_key_13 = "取消";
+personal_key_14 = "请输入你的昵称";
+personal_key_15 = "请选择你的性别";
+personal_key_16 = "男";
+personal_key_17 = "女";
+personal_key_18 = "请选择你的生日";
+personal_key_19 = "请选择你的职业";
+personal_key_20 = "程序";
+personal_key_21 = "科研";
+personal_key_22 = "教育";
+personal_key_23 = "收藏";
+personal_key_24 = "美业";
+personal_key_25 = "其他";
+personal_key_26 = "修改资料";
+
+//首页
+home_key_1 = "相机";
+home_key_2 = "相册";
+home_key_3 = "社区";
+home_key_4 = "推荐";
+
+//相机页面
+camera_key_1 = "重置";
+camera_key_2 = "请对准一毫米长的物体进行标定";
+camera_key_3 = "重新标定";
+camera_key_4 = "已标定值";
+camera_key_5 = "确认";
+
+//相册页面
+album_key_1 = "手机相册";
+album_key_2 = "全部";
+album_key_3 = "照片";
+album_key_4 = "视频";
+album_key_5 = "上传";
+album_key_6 = "已选择";
+album_key_7 = "删除";
+album_key_8 = "编辑";
+album_key_9 = "上传作品";
+album_key_10 = "请描述你的作品信息";
+album_key_11 = "确认上传";
+
+//社区、推荐
+community_key_1 = "文章详情";
+community_key_2 = "评论";
+community_key_3 = "点赞";
+community_key_4 = "写评论";
+community_key_5 = "官方回复";
+community_key_6 = "发送";
+community_key_7 = "微信好友";
+community_key_8 = "朋友圈";
+community_key_9 = "微博";
+community_key_10 = "QQ空间";
+community_key_11 = "复制链接";
+community_key_12 = "回到首页";
+community_key_13 = "举报";
+community_key_14 = "点击搜索你感兴趣的";
+community_key_15 = "正文详情";
+community_key_16 = "拉黑";
+community_key_17 = "举报内容问题";
+community_key_18 = "垃圾广告";
+community_key_19 = "低俗色情";
+community_key_20 = "有害信息";
+community_key_21 = "诈骗信息";
+community_key_22 = "违法犯罪";
+community_key_23 = "分享至";
+community_key_24 = "查看详情";
+community_key_25 = "预览";
+community_key_26 = "原图";

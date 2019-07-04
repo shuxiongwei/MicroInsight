@@ -42,7 +42,6 @@
 @property (nonatomic, strong) MIReportView *reportView;
 
 @property (nonatomic, strong) UIView *loadingView;
-@property (nonatomic, strong) UIView *topBarView;
 
 @end
 
@@ -56,11 +55,9 @@
         [self.view addSubview:_bottomView];
         
         _commentBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(0, 0, _bottomView.width / 2.0, _bottomView.height) normalTitle:nil normalTitleColor:[UIColor blackColor] highlightedTitleColor:nil selectedColor:nil titleFont:10 normalImage:[UIImage imageNamed:@"icon_community_comment_nor"] highlightedImage:nil selectedImage:[UIImage imageNamed:@"icon_community_comment_sel"] touchUpInSideTarget:self action:@selector(clickBottomCommentBtn:)];
-        [_commentBtn layoutButtonWithEdgeInsetsStyle:MIButtonEdgeInsetsStyleTop imageTitleSpace:5];
         [_bottomView addSubview:_commentBtn];
         
         _praiseBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(_bottomView.width / 2.0, 0, _bottomView.width / 2.0, _bottomView.height) normalTitle:nil normalTitleColor:[UIColor blackColor] highlightedTitleColor:nil selectedColor:nil titleFont:10 normalImage:[UIImage imageNamed:@"icon_community_praise_nor"] highlightedImage:nil selectedImage:[UIImage imageNamed:@"icon_community_praise_sel"] touchUpInSideTarget:self action:@selector(clickBottomPraiseBtn:)];
-        [_praiseBtn layoutButtonWithEdgeInsetsStyle:MIButtonEdgeInsetsStyleTop imageTitleSpace:5];
         [_bottomView addSubview:_praiseBtn];
     }
     
@@ -128,11 +125,13 @@
 }
 
 #pragma mark - 生命周期
+- (void)dealloc {
+    [self setBottomView:nil];
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
-    [self.view bringSubviewToFront:_topBarView];
-    
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
 
@@ -160,6 +159,12 @@
 
 #pragma mark - 配置UI
 - (void)configDetailUI {
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     @{NSFontAttributeName:[UIFont boldSystemFontOfSize:17],
+       NSForegroundColorAttributeName:UIColorFromRGBWithAlpha(333333, 1)}];
+    self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
+    self.navigationController.navigationBar.translucent = NO;
+    
     self.title = @"正文详情";
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem itemWithTarget:self action:@selector(backAction) image:[UIImage imageNamed:@"icon_login_back_nor"]];
     self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithTarget:self action:@selector(clickExtendBtn) image:[UIImage imageNamed:@"icon_community_more_nor"]];
@@ -168,7 +173,6 @@
     //因第三方self.view=scrollView，被迫将bottomView加在self.navigationController.view上了
     [self.navigationController.view addSubview:self.bottomView];
     [self configBgTextView];
-    [self configTopBarView];
     [self requestDetailDataNeedRefreshTopView:YES needRefreshCommentView:YES needRefreshSupportView:YES];
 }
 
@@ -193,11 +197,12 @@
 
 - (void)configBgTextView {
     _maskView = [UIButton buttonWithType:UIButtonTypeCustom];
-    _maskView.frame = self.view.bounds;
+    _maskView.frame = MIScreenBounds;
     _maskView.backgroundColor = UIColorFromRGBWithAlpha(0x333333, 0.6);
     _maskView.hidden = YES;
     [_maskView addTarget:self action:@selector(clickMaskView) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:_maskView];
+//    [self.view addSubview:_maskView];
+    [self.navigationController.view addSubview:_maskView];
     
     _bgTextView = [[UIView alloc] initWithFrame:CGRectMake(0, MIScreenHeight - kBottomViewH, MIScreenWidth, kBottomViewH)];
     _bgTextView.backgroundColor = UIColorFromRGBWithAlpha(0xF2F3F5, 1);
@@ -219,12 +224,6 @@
     sendBtn.titleLabel.font = [UIFont systemFontOfSize:12];
     [sendBtn addTarget:self action:@selector(clickSendBtn) forControlEvents:UIControlEventTouchUpInside];
     [_bgTextView addSubview:sendBtn];
-}
-
-- (void)configTopBarView {
-    _topBarView = [[UIView alloc] initWithFrame:CGRectMake(0, -KNaviBarAllHeight, MIScreenWidth, KStatusHeight)];
-    _topBarView.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:_topBarView];
 }
 
 /**
@@ -326,18 +325,20 @@
 - (void)updateComments:(NSInteger)comments {
     [self.menuView updateTitle:[NSString stringWithFormat:@"评论 %ld", comments] atIndex:0 andWidth:NO];
     [_commentBtn setTitle:[NSString stringWithFormat:@"%ld", comments] forState:UIControlStateNormal];
+    [_commentBtn layoutButtonWithEdgeInsetsStyle:MIButtonEdgeInsetsStyleTop imageTitleSpace:5];
 }
 
 - (void)updateLiks:(NSInteger)likes {
     [self.menuView updateTitle:[NSString stringWithFormat:@"点赞 %ld", likes] atIndex:1 andWidth:NO];
     [_praiseBtn setTitle:[NSString stringWithFormat:@"%ld", likes] forState:UIControlStateNormal];
+    [_praiseBtn layoutButtonWithEdgeInsetsStyle:MIButtonEdgeInsetsStyleTop imageTitleSpace:5];
 }
 
 #pragma mark - Notify
 - (void)keyBoardWillShow:(NSNotification *) notification {
     _bgTextView.hidden = NO;
     _maskView.hidden = NO;
-    [self.view bringSubviewToFront:_maskView];
+//    [self.view bringSubviewToFront:_maskView];
     
     // 获取用户信息
     NSDictionary *userInfo = [NSDictionary dictionaryWithDictionary:notification.userInfo];

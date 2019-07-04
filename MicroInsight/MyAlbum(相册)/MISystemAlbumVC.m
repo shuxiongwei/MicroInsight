@@ -160,11 +160,13 @@ static NSString * const cellId = @"cellId";
     [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
         [PHAssetChangeRequest deleteAssets:arr];
     } completionHandler:^(BOOL success, NSError * _Nullable error) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [MIHudView showMsg:@"图片删除成功"];
-            [self.selectArray removeAllObjects];
-            [self requestData];
-        });
+        
+        if (success) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.selectArray removeAllObjects];
+                [self requestData];
+            });
+        }
     }];
 }
 
@@ -203,7 +205,6 @@ static NSString * const cellId = @"cellId";
             sender.imageView.transform = CGAffineTransformMakeRotation(M_PI);
             [self.view bringSubviewToFront:self.albumsBgView];
             [self.view bringSubviewToFront:_albumListView];
-            [self.view bringSubviewToFront:self.topBarView];
         }];
     } else {
         [UIView animateWithDuration:0.25 animations:^{

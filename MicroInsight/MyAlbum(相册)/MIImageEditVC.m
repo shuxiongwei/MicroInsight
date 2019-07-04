@@ -62,7 +62,11 @@ typedef NS_ENUM(NSInteger, MIImageEditType) {
 }
 
 - (void)clickSaveBtn {
+    if (self.editImage) {
+        self.editImage(_image);
+    }
     
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)editImage:(UIButton *)sender {

@@ -10,8 +10,6 @@
 
 @interface MIBaseViewController : UIViewController
 
-@property (nonatomic, strong) UIView *topBarView;
-
 /**
  配置导航栏左边视图
 

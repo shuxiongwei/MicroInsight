@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MIImageEditVC : MIBaseViewController
 
 @property (nonatomic, strong) UIImage *image;
-//@property ()
+@property (nonatomic, copy) void (^editImage)(UIImage *img);
 
 @end
 

@@ -41,7 +41,7 @@ static dispatch_once_t onceToken;
     if (!allowPickingVideo) option.predicate = [NSPredicate predicateWithFormat:@"mediaType == %ld", PHAssetMediaTypeImage];
     if (!allowPickingImage) option.predicate = [NSPredicate predicateWithFormat:@"mediaType == %ld",
                                                 PHAssetMediaTypeVideo];
-    option.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:YES]];
+    option.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:NO]];
     
     // 我的照片流 1.6.10重新加入..
     PHFetchResult *myPhotoStreamAlbum = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeAlbumMyPhotoStream options:nil];
@@ -79,17 +79,46 @@ static dispatch_once_t onceToken;
                allowPickingImage:(BOOL)allowPickingImage
                       completion:(void (^)(NSArray<MIPhotoModel *> *models))completion {
     
+    dispatch_group_t group = dispatch_group_create();
+    dispatch_queue_t queue = dispatch_queue_create("getAssetQueue", DISPATCH_QUEUE_SERIAL);
+    
     NSMutableArray *photoArr = [NSMutableArray array];
     [result enumerateObjectsUsingBlock:^(PHAsset *asset, NSUInteger idx, BOOL * _Nonnull stop) {
-        MIPhotoModel *model = [self assetModelWithAsset:asset allowPickingVideo:allowPickingVideo allowPickingImage:allowPickingImage];
-        if (model) {
-            [photoArr addObject:model];
+        
+        dispatch_group_enter(group);
+        if (asset.mediaType == PHAssetMediaTypeVideo) {
+            [self getAVAssetWithAsset:asset completion:^(AVAsset * _Nonnull dataAsset) {
+                CGFloat time = dataAsset.duration.value / (dataAsset.duration.timescale * 1.0);
+                if (time >= 3 && time <= 60) {
+                    MIPhotoModel *model = [self assetModelWithAsset:asset allowPickingVideo:allowPickingVideo allowPickingImage:allowPickingImage];
+                    if (model) {
+                        [photoArr addObject:model];
+                    }
+                }
+                dispatch_group_leave(group);
+            }];
+        } else {
+            MIPhotoModel *model = [self assetModelWithAsset:asset allowPickingVideo:allowPickingVideo allowPickingImage:allowPickingImage];
+            if (model) {
+                [photoArr addObject:model];
+            }
+            dispatch_group_leave(group);
         }
     }];
     
-    if (completion) {
-        completion(photoArr);
-    }
+    dispatch_group_notify(group, queue, ^{
+        if (completion) {
+            
+            [photoArr sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+                
+                MIPhotoModel *model1 = (MIPhotoModel *)obj1;
+                MIPhotoModel *model2 = (MIPhotoModel *)obj2;
+                return [model2.asset.creationDate compare:model1.asset.creationDate];
+            }];
+            
+            completion(photoArr);
+        }
+    });
 }
 
 - (BOOL)isCameraRollAlbum:(PHAssetCollection *)metadata {

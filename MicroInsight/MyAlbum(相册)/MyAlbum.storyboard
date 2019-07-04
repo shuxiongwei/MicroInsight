@@ -369,7 +369,7 @@
                                 </connections>
                             </button>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="rVZ-wP-xvo">
-                                <rect key="frame" x="0.0" y="329.5" width="414" height="461.5"/>
+                                <rect key="frame" x="0.0" y="339.5" width="414" height="451.5"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Ddg-9i-3jw">
                                     <size key="itemSize" width="50" height="50"/>
@@ -420,10 +420,10 @@
                                 </connections>
                             </collectionView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KBd-LN-DJp" customClass="MIPlaceholderTextView" customModule="MicroInsight" customModuleProvider="target">
-                                <rect key="frame" x="15" y="269.5" width="384" height="40"/>
+                                <rect key="frame" x="15" y="269.5" width="384" height="50"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="Xl4-ME-Vsr"/>
+                                    <constraint firstAttribute="height" constant="50" id="Xl4-ME-Vsr"/>
                                 </constraints>
                                 <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="0.6013484589041096" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
@@ -451,6 +451,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="heightConstraint" destination="Xl4-ME-Vsr" id="gQF-zX-Yx7"/>
                         <outlet property="imageView" destination="wjZ-BY-4z5" id="Sxt-EI-w2Y"/>
                         <outlet property="playBgView" destination="iRG-fU-DEA" id="jw3-Rg-n2N"/>
                         <outlet property="playBtn" destination="5qh-Ju-6yX" id="dyz-js-Zco"/>

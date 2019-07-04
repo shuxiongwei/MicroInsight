@@ -35,6 +35,9 @@
 		3B830AE521AC084B00EC7746 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3B830AE421AC084B00EC7746 /* Main.storyboard */; };
 		3B9C19A121BE716600E5B544 /* MICommunityRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B9C19A021BE716600E5B544 /* MICommunityRequest.m */; };
 		3BB45A7A21C118E700196914 /* MIPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BB45A7921C118E700196914 /* MIPlayerViewController.m */; };
+		7005D76222CA31250064EDDC /* YBRectConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 7005D75D22CA31250064EDDC /* YBRectConst.m */; };
+		7005D76322CA31250064EDDC /* YBPopupMenuPath.m in Sources */ = {isa = PBXBuildFile; fileRef = 7005D75E22CA31250064EDDC /* YBPopupMenuPath.m */; };
+		7005D76422CA31250064EDDC /* YBPopupMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 7005D76022CA31250064EDDC /* YBPopupMenu.m */; };
 		700601DC21E70B2A00ABB166 /* MIReportView.m in Sources */ = {isa = PBXBuildFile; fileRef = 700601DB21E70B2A00ABB166 /* MIReportView.m */; };
 		7009569F22B07C2D00B5D61A /* MIMessageVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7009569E22B07C2D00B5D61A /* MIMessageVC.m */; };
 		700956A622B07C7400B5D61A /* MIMessageListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 700956A422B07C7400B5D61A /* MIMessageListCell.m */; };
@@ -392,6 +395,12 @@
 		3BB45A7921C118E700196914 /* MIPlayerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MIPlayerViewController.m; sourceTree = "<group>"; };
 		54F2597ADBF8F4BC4200A0B9 /* libPods-MicroInsight.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MicroInsight.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		569EC9E96DF1B12DA9274E3A /* Pods-MicroInsight.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MicroInsight.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MicroInsight/Pods-MicroInsight.debug.xcconfig"; sourceTree = "<group>"; };
+		7005D75C22CA31250064EDDC /* YBPopupMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YBPopupMenu.h; sourceTree = "<group>"; };
+		7005D75D22CA31250064EDDC /* YBRectConst.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YBRectConst.m; sourceTree = "<group>"; };
+		7005D75E22CA31250064EDDC /* YBPopupMenuPath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YBPopupMenuPath.m; sourceTree = "<group>"; };
+		7005D75F22CA31250064EDDC /* YBRectConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YBRectConst.h; sourceTree = "<group>"; };
+		7005D76022CA31250064EDDC /* YBPopupMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YBPopupMenu.m; sourceTree = "<group>"; };
+		7005D76122CA31250064EDDC /* YBPopupMenuPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YBPopupMenuPath.h; sourceTree = "<group>"; };
 		700601DA21E70B2A00ABB166 /* MIReportView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIReportView.h; sourceTree = "<group>"; };
 		700601DB21E70B2A00ABB166 /* MIReportView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MIReportView.m; sourceTree = "<group>"; };
 		7009569D22B07C2D00B5D61A /* MIMessageVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIMessageVC.h; sourceTree = "<group>"; };
@@ -1107,6 +1116,19 @@
 				D6210C935518D5CD3C8D161A /* Pods-MicroInsight.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		7005D75B22CA31250064EDDC /* YBPopupMenu */ = {
+			isa = PBXGroup;
+			children = (
+				7005D75C22CA31250064EDDC /* YBPopupMenu.h */,
+				7005D75D22CA31250064EDDC /* YBRectConst.m */,
+				7005D75E22CA31250064EDDC /* YBPopupMenuPath.m */,
+				7005D75F22CA31250064EDDC /* YBRectConst.h */,
+				7005D76022CA31250064EDDC /* YBPopupMenu.m */,
+				7005D76122CA31250064EDDC /* YBPopupMenuPath.h */,
+			);
+			path = YBPopupMenu;
 			sourceTree = "<group>";
 		};
 		7009569C22B07BFC00B5D61A /* Message(消息) */ = {
@@ -2123,6 +2145,7 @@
 		70D277D921BCF84D007FEA63 /* Vender */ = {
 			isa = PBXGroup;
 			children = (
+				7005D75B22CA31250064EDDC /* YBPopupMenu */,
 				70E5E48222AEAC9400F8853F /* UMengUShare */,
 				70E5E47922AE94CB00F8853F /* Facebook */,
 				7013595922AB97C100143701 /* YYText */,
@@ -2588,6 +2611,7 @@
 				701C085A22B9B9930093401F /* TextColorItem.m in Sources */,
 				701C085C22B9B9930093401F /* ImageBrightnessView.m in Sources */,
 				3B6D661B21AE3AA8005CAE9A /* MIHTTPSessionManager.m in Sources */,
+				7005D76422CA31250064EDDC /* YBPopupMenu.m in Sources */,
 				70710C6120F476A300052929 /* MIPhotographyViewController.m in Sources */,
 				701359A222AB97C200143701 /* YYTextUtilities.m in Sources */,
 				7013599922AB97C200143701 /* YYTextSelectionView.m in Sources */,
@@ -2628,6 +2652,7 @@
 				701C085122B9B9930093401F /* ZQImageRotationController.m in Sources */,
 				701359A622AB97C200143701 /* YYTextTransaction.m in Sources */,
 				70B509EC21B754B300BBB2A9 /* MIDetailViewController.m in Sources */,
+				7005D76222CA31250064EDDC /* YBRectConst.m in Sources */,
 				701C088422BA66520093401F /* QSScrawlView.m in Sources */,
 				701C087C22B9B9A00093401F /* PECropViewController.m in Sources */,
 				701C085022B9B9930093401F /* ZQImageCropController.m in Sources */,
@@ -2696,6 +2721,7 @@
 				701C085322B9B9930093401F /* ImageRotateToolBar.m in Sources */,
 				70DF2A31229EAB6500919FD4 /* MIAlbumListView.m in Sources */,
 				700956A622B07C7400B5D61A /* MIMessageListCell.m in Sources */,
+				7005D76322CA31250064EDDC /* YBPopupMenuPath.m in Sources */,
 				701C084D22B9B9930093401F /* ZQFilterController.m in Sources */,
 				70AFE0BF21CFBE06000585D0 /* MIThirdPartyLoginManager.m in Sources */,
 				706A6E2420F6FB530097C577 /* MICameraView.m in Sources */,
@@ -2952,7 +2978,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 2WHXP7FN9G;
+				DEVELOPMENT_TEAM = JV39K6U9AB;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3001,7 +3027,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 2WHXP7FN9G;
+				DEVELOPMENT_TEAM = JV39K6U9AB;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

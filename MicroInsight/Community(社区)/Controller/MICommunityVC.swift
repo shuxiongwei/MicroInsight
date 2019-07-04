@@ -18,6 +18,7 @@ class MICommunityVC: MIBaseViewController {
     var reportView: MIReportView!
     var currentUserId: NSInteger!
     var currentModel: MICommunityListModel!
+    var maskView: UIView!
     
     private lazy var emptyView: UIView = {
         let v = UIView.init(frame: CGRect(x: 0, y: 60, width: self.view.width, height: ScreenHeight - MINavigationBarHeight(vc: self) - 20 - 60))
@@ -106,15 +107,24 @@ class MICommunityVC: MIBaseViewController {
         checkNotReadMessage()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        searchTF.resignFirstResponder()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         
+        NotificationCenter.default.addObserver(self, selector: #selector(theKeyboardWillHideNotification), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(theKeyboardWillShowNotification), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(blackNotification), name: NSNotification.Name(rawValue:"blackListNotification"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(notification), name: NSNotification.Name(rawValue:"isTest"), object: nil)
+        
         configCommunityUI()
         requestCommunityList(isRefresh: true)
-        NotificationCenter.default.addObserver(self, selector: #selector(notification), name: NSNotification.Name(rawValue:"isTest"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(blackNotification), name: NSNotification.Name(rawValue:"blackListNotification"), object: nil)
     }
     
     private func configCommunityUI() {
@@ -159,6 +169,11 @@ class MICommunityVC: MIBaseViewController {
 //        imgView.image = searchImage
 //        searchTF.rightView = imgView
 //        searchTF.rightViewMode = .always
+        
+        maskView = UIView.init(frame: CGRect(x: 0, y: searchTF.bottom + 10, width: ScreenWidth, height: ScreenHeight - MINavigationBarHeight(vc: self) - 20 - 60))
+        maskView.backgroundColor = MIRgbaColor(rgbValue: 0x666666, alpha: 0.6)
+        maskView.isHidden = true
+        view.addSubview(maskView)
     }
 
     private func requestCommunityList(isRefresh: Bool) {
@@ -288,6 +303,15 @@ class MICommunityVC: MIBaseViewController {
         requestCommunityList(isRefresh: true)
     }
     
+    @objc func theKeyboardWillShowNotification(nofi : Notification) {
+        self.view.bringSubviewToFront(maskView)
+        maskView.isHidden = false
+    }
+    
+    @objc func theKeyboardWillHideNotification(nofi : Notification) {
+        maskView.isHidden = true
+    }
+    
     //移除通知
     deinit {
         NotificationCenter.default.removeObserver(self)
@@ -312,17 +336,25 @@ class MICommunityVC: MIBaseViewController {
                     MIHudView.showMsg("此设备不支持拍照")
                 }
                 
-                let pickerVC = UIImagePickerController.init()
-                pickerVC.allowsEditing = true
-                pickerVC.delegate = self
-                pickerVC.sourceType = .camera
-                weakSelf?.present(pickerVC, animated: true, completion: nil)
+//                let pickerVC = UIImagePickerController.init()
+//                pickerVC.allowsEditing = true
+//                pickerVC.delegate = self
+//                pickerVC.sourceType = .camera
+//                weakSelf?.present(pickerVC, animated: true, completion: nil)
+                
+                let vc = MIPhotographyViewController.init()
+                vc.pushFrom = 1
+                vc.delegate = self
+                self.navigationController?.pushViewController(vc, animated: true)
             } else {
-                let pickerVC = UIImagePickerController.init()
-                pickerVC.allowsEditing = true
-                pickerVC.delegate = self
-                pickerVC.sourceType = .photoLibrary
-                weakSelf?.present(pickerVC, animated: true, completion: nil)
+//                let pickerVC = UIImagePickerController.init()
+//                pickerVC.allowsEditing = true
+//                pickerVC.delegate = self
+//                pickerVC.sourceType = .photoLibrary
+//                weakSelf?.present(pickerVC, animated: true, completion: nil)
+                
+                let albumVC = MILocalAlbumVC.init()
+                weakSelf?.navigationController?.pushViewController(albumVC, animated: true)
             }
         }
     }
@@ -567,6 +599,22 @@ extension MICommunityVC: MIShareManagerDelete {
                 MIHudView.showMsg("拉黑失败")
             }
         }
+    }
+}
+
+extension MICommunityVC: MIPhotographyViewControllerDelegate {
+    func photographyViewController(_ vc: MIPhotographyViewController!, shootPicture imgPath: String!) {
+        
+        let vc = MIEditOrUploadVC.init()
+        vc.imgUrl = imgPath
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func photographyViewController(_ vc: MIPhotographyViewController!, shootVideo videoPath: String!) {
+        
+        let vc = MIVideoUploadVC.init()
+        vc.videoUrl = videoPath
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }
 

@@ -23,6 +23,7 @@
 @property (nonatomic, assign) NSInteger searchPage;
 
 @property (nonatomic, strong) UITextField *searchTF;
+@property (nonatomic, strong) UIButton *maskView;
 
 @end
 
@@ -105,9 +106,23 @@
     return _searchTV;
 }
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+    [_searchTF resignFirstResponder];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    //键盘监听
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     
     _curPage = 1;
     _searchPage = 1;
@@ -121,7 +136,14 @@
     self.title = @"推荐";
     self.view.backgroundColor = UIColorFromRGBWithAlpha(0xF2F3F5, 1);
     [super configLeftBarButtonItem:nil];
-    [super configRightBarButtonItemWithType:UIButtonTypeCustom frame:CGRectMake(0, 0, 60, 20) normalTitle:nil normalTitleColor:nil highlightedTitleColor:nil selectedColor:nil titleFont:0 normalImage:[UIImage imageNamed:@"icon_community_search_nor"] highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(clickSearchBtn)];
+    [super configRightBarButtonItemWithType:UIButtonTypeCustom frame:CGRectMake(0, 0, 60, 20) normalTitle:nil normalTitleColor:nil highlightedTitleColor:nil selectedColor:nil titleFont:0 normalImage:[UIImage imageNamed:@"icon_recommend_search_nor"] highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(clickSearchBtn)];
+    
+    _maskView = [UIButton buttonWithType:UIButtonTypeCustom];
+    _maskView.frame = CGRectMake(0, 0, MIScreenWidth, MIScreenHeight - KNaviBarAllHeight);
+    _maskView.backgroundColor = UIColorFromRGBWithAlpha(0x333333, 0.6);
+    _maskView.hidden = YES;
+    [_maskView addTarget:self action:@selector(clickMaskView) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:_maskView];
 }
 
 - (void)configTopSearchView {
@@ -225,8 +247,22 @@
     [self configTopSearchView];
 }
 
+- (void)clickMaskView {
+    [_searchTF resignFirstResponder];
+}
+
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     [_searchTF resignFirstResponder];
+}
+
+#pragma mark - Notify
+- (void)keyBoardWillShow:(NSNotification *) notification {
+    _maskView.hidden = NO;
+    [self.view bringSubviewToFront:_maskView];
+}
+
+- (void)keyBoardWillHide:(NSNotification *) notification {
+    _maskView.hidden = YES;
 }
 
 #pragma mark - UITextFieldDelegate

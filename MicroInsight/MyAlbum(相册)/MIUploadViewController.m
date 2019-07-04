@@ -22,7 +22,7 @@
 #import "MIAlbumManager.h"
 
 
-@interface MIUploadViewController ()<UICollectionViewDelegate, UICollectionViewDataSource ,UICollectionViewDelegateFlowLayout>
+@interface MIUploadViewController ()<UICollectionViewDelegate, UICollectionViewDataSource ,UICollectionViewDelegateFlowLayout, UITextViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *playBgView;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
@@ -32,6 +32,7 @@
 @property (weak, nonatomic) IBOutlet MIPlaceholderTextView *textView;
 @property (copy, nonatomic) NSArray *themes;
 @property (nonatomic, strong) MITheme *curTheme;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *heightConstraint;
 
 @end
 
@@ -63,6 +64,7 @@ static NSString *const CellId = @"MIThemeCell";
     self.themes = [NSArray array];
     
     _textView.placeholder = @"请描述你的作品信息......";
+    _textView.delegate = self;
     [_textView rounded:1 width:1 color:UIColorFromRGBWithAlpha(0xDDDDDD, 1)];
     [_uploadBtn setButtonCustomBackgroudImageWithBtn:_uploadBtn fromColor:UIColorFromRGBWithAlpha(0x72B3E2, 1) toColor:UIColorFromRGBWithAlpha(0x6DD1CC, 1)];
 }
@@ -86,7 +88,8 @@ static NSString *const CellId = @"MIThemeCell";
     UIImage *img;
     if ([url.pathExtension isEqualToString:@"png"]) {
         _playBtn.hidden = YES;
-        img =  [UIImage imageWithContentsOfFile:url];
+//        img =  [UIImage imageWithContentsOfFile:url];
+        img = _curImage;
     }
     
     if ([url.pathExtension isEqualToString:@"mov"]) {
@@ -105,17 +108,49 @@ static NSString *const CellId = @"MIThemeCell";
         _playBtn.hidden = NO;
     }
     
-    CGFloat scale = [UIScreen mainScreen].scale;
-    CGFloat width = _imageView.bounds.size.width * scale / 1;
-    CGFloat height = _imageView.bounds.size.height * scale / 1;
+    _imageView.image = _curImage;
     
-    WSWeak(weakSelf)
-    [[MIAlbumManager manager] getPhotoWithAsset:_asset photoSize:CGSizeMake(width, height) completion:^(UIImage * _Nonnull photo, NSDictionary * _Nonnull info) {
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            weakSelf.imageView.image = photo;
-        });
-    }];
+//    CGFloat scale = [UIScreen mainScreen].scale;
+//    CGFloat width = _imageView.bounds.size.width * scale / 1;
+//    CGFloat height = _imageView.bounds.size.height * scale / 1;
+//
+//    WSWeak(weakSelf)
+//    [[MIAlbumManager manager] getPhotoWithAsset:_asset photoSize:CGSizeMake(width, height) completion:^(UIImage * _Nonnull photo, NSDictionary * _Nonnull info) {
+//
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            weakSelf.imageView.image = photo;
+//        });
+//    }];
+    
+//    [[MIAlbumManager manager] getOriginalPhotoDataWithAsset:_asset progressHandler:^(double progress, NSError * _Nonnull error, BOOL * _Nonnull stop, NSDictionary * _Nonnull info) {
+//
+//    } completion:^(NSData * _Nonnull data, NSDictionary * _Nonnull info, BOOL isDegraded) {
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            weakSelf.imageView.image = [UIImage imageWithData:data];
+//        });
+//    }];
+}
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+    
+    float height = [self heightForTextView:textView WithText:textView.text];
+    if (height > 50 && height < 150) {
+        [UIView animateWithDuration:0.3 animations:^{
+            self.heightConstraint.constant = height;
+        } completion:nil];
+    }
+
+    return YES;
+}
+
+- (float)heightForTextView:(UITextView *)textView WithText:(NSString *)strText {
+    CGSize constraint = CGSizeMake(textView.contentSize.width, CGFLOAT_MAX);
+    CGRect size = [strText boundingRectWithSize:constraint
+                                        options:(NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading)
+                                     attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:10]}
+                                        context:nil];
+    float textHeight = size.size.height + 22.0;
+    return textHeight;
 }
 
 #pragma mark - UICollectionViewDelegateFlowLayout
@@ -199,26 +234,45 @@ static NSString *const CellId = @"MIThemeCell";
                     NSString *fileName = [[MIHelpTool timeStampSecond] stringByAppendingString:@".jpg"];
                     NSMutableArray *tags = [NSMutableArray arrayWithObject:@([weakSelf.curTheme.themeId integerValue])];
                     
-                    [[MIAlbumManager manager] getOriginalPhotoDataWithAsset:weakSelf.asset progressHandler:^(double progress, NSError * _Nonnull error, BOOL * _Nonnull stop, NSDictionary * _Nonnull info) {
+                    UIImage *img = weakSelf.imageView.image;
+                    [MIRequestManager uploadImageWithFile:@"file" fileName:fileName image:img title:weakSelf.textView.text tags:tags requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
                         
-                    } completion:^(NSData * _Nonnull data, NSDictionary * _Nonnull info, BOOL isDegraded) {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [MBProgressHUD hideHUD];
+                        });
                         
-                        UIImage *img = [UIImage imageWithData:data];
-                        [MIRequestManager uploadImageWithFile:@"file" fileName:fileName image:img title:weakSelf.textView.text tags:tags requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+                        NSInteger code = [jsonData[@"code"] integerValue];
+                        if (code == 0) {
+                            [MIHudView showMsg:@"图片上传成功"];
                             
-                            dispatch_async(dispatch_get_main_queue(), ^{
-                                [MBProgressHUD hideHUD];
-                            });
-                            
-                            NSInteger code = [jsonData[@"code"] integerValue];
-                            if (code == 0) {
-                                [MIToastAlertView showAlertViewWithMessage:@"上传成功"];
+                            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                                 [weakSelf.navigationController popViewControllerAnimated:YES];
-                            } else {
-                                [MIToastAlertView showAlertViewWithMessage:@"上传失败"];
-                            }
-                        }];
+                            });
+                        } else {
+                            [MIHudView showMsg:@"图片上传失败"];
+                        }
                     }];
+                    
+//                    [[MIAlbumManager manager] getOriginalPhotoDataWithAsset:weakSelf.asset progressHandler:^(double progress, NSError * _Nonnull error, BOOL * _Nonnull stop, NSDictionary * _Nonnull info) {
+//
+//                    } completion:^(NSData * _Nonnull data, NSDictionary * _Nonnull info, BOOL isDegraded) {
+//
+//                        UIImage *img = [UIImage imageWithData:data];
+//                        [MIRequestManager uploadImageWithFile:@"file" fileName:fileName image:img title:weakSelf.textView.text tags:tags requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+//
+//                            dispatch_async(dispatch_get_main_queue(), ^{
+//                                [MBProgressHUD hideHUD];
+//                            });
+//
+//                            NSInteger code = [jsonData[@"code"] integerValue];
+//                            if (code == 0) {
+//                                [MIToastAlertView showAlertViewWithMessage:@"上传成功"];
+//                                [weakSelf.navigationController popViewControllerAnimated:YES];
+//                            } else {
+//                                [MIToastAlertView showAlertViewWithMessage:@"上传失败"];
+//                            }
+//                        }];
+//                    }];
                 } else {
                     NSString *compont = [[MIHelpTool timeStampSecond] stringByAppendingString:@".mp4"];
                     NSString *videoPath = [NSString stringWithFormat:@"%@/%@", [MIHelpTool createAssetsPath], compont];
@@ -252,8 +306,11 @@ static NSString *const CellId = @"MIThemeCell";
                                                     [[NSFileManager defaultManager] removeItemAtPath:videoPath error:nil];
                                                 }
                                                 
-                                                [MIToastAlertView showAlertViewWithMessage:@"视频上传成功"];
-                                                [weakSelf.navigationController popViewControllerAnimated:YES];
+                                                [MIHudView showMsg:@"视频上传成功"];
+                                                
+                                                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                                                    [weakSelf.navigationController popViewControllerAnimated:YES];
+                                                });
                                             }
                                         }];
                                         
@@ -307,7 +364,8 @@ static NSString *const CellId = @"MIThemeCell";
                     NSString *fileName = [[MIHelpTool timeStampSecond] stringByAppendingString:@".jpg"];
                     NSMutableArray *tags = [NSMutableArray arrayWithObject:@([weakSelf.curTheme.themeId integerValue])];
                     
-                    UIImage *image = [UIImage imageWithContentsOfFile:weakSelf.assetUrl];
+//                    UIImage *image = [UIImage imageWithContentsOfFile:weakSelf.assetUrl];
+                    UIImage *image = weakSelf.imageView.image;
                     
                     [MIRequestManager uploadImageWithFile:@"file" fileName:fileName image:image title:weakSelf.textView.text tags:tags requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
                         
@@ -317,10 +375,13 @@ static NSString *const CellId = @"MIThemeCell";
                         
                         NSInteger code = [jsonData[@"code"] integerValue];
                         if (code == 0) {
-                            [MIToastAlertView showAlertViewWithMessage:@"上传成功"];
-                            [weakSelf.navigationController popViewControllerAnimated:YES];
+                            [MIHudView showMsg:@"图片上传成功"];
+                            
+                            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                                [weakSelf.navigationController popViewControllerAnimated:YES];
+                            });
                         } else {
-                            [MIToastAlertView showAlertViewWithMessage:@"上传失败"];
+                            [MIHudView showMsg:@"图片上传失败"];
                         }
                     }];
                 } else {
@@ -344,8 +405,11 @@ static NSString *const CellId = @"MIThemeCell";
                                 
                                 NSInteger code = [jsonData[@"code"] integerValue];
                                 if (code == 0) {
-                                    [MIToastAlertView showAlertViewWithMessage:@"视频上传成功"];
-                                    [weakSelf.navigationController popViewControllerAnimated:YES];
+                                    [MIHudView showMsg:@"视频上传成功"];
+                                    
+                                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                                        [weakSelf.navigationController popViewControllerAnimated:YES];
+                                    });
                                 }
                             }];
                             

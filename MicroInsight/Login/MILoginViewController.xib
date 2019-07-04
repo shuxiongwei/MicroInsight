@@ -45,10 +45,10 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_login_logo_nor" translatesAutoresizingMaskIntoConstraints="NO" id="nxA-eV-Zmz">
-                    <rect key="frame" x="124.5" y="151" width="165" height="33"/>
+                    <rect key="frame" x="146" y="162" width="122" height="22"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="33" id="PMn-Uv-vg9"/>
-                        <constraint firstAttribute="width" constant="165" id="Yyv-0L-iyz"/>
+                        <constraint firstAttribute="height" constant="22" id="PMn-Uv-vg9"/>
+                        <constraint firstAttribute="width" constant="122" id="Yyv-0L-iyz"/>
                     </constraints>
                 </imageView>
                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="EJS-tr-LbX">

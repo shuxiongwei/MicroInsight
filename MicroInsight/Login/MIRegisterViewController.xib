@@ -18,7 +18,7 @@
                 <outlet property="phoneTF" destination="5WN-V5-vYm" id="uBE-Uy-hDw"/>
                 <outlet property="registerBtn" destination="SZf-zf-WsI" id="ppL-t9-xY2"/>
                 <outlet property="setPsdTF" destination="Yxe-Av-tJ5" id="NOK-uP-Itm"/>
-                <outlet property="topConstraint" destination="5GV-bE-uJ8" id="Ibm-Kp-3Lb"/>
+                <outlet property="topConstraint" destination="hcT-m1-AZS" id="4wd-3P-Ac8"/>
                 <outlet property="view" destination="9Uc-g3-Zym" id="Nvy-Cx-oa8"/>
             </connections>
         </placeholder>
@@ -28,14 +28,14 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_login_logo_nor" translatesAutoresizingMaskIntoConstraints="NO" id="6Pm-wn-CK1">
-                    <rect key="frame" x="124.5" y="96" width="165" height="33"/>
+                    <rect key="frame" x="146" y="96" width="122" height="22"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="33" id="OKa-86-iey"/>
-                        <constraint firstAttribute="width" constant="165" id="SXK-hI-LY4"/>
+                        <constraint firstAttribute="height" constant="22" id="OKa-86-iey"/>
+                        <constraint firstAttribute="width" constant="122" id="SXK-hI-LY4"/>
                     </constraints>
                 </imageView>
                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入您的手机号码" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5WN-V5-vYm">
-                    <rect key="frame" x="40" y="189" width="334" height="35"/>
+                    <rect key="frame" x="40" y="178" width="334" height="35"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="35" id="cYy-dn-3wT"/>
                     </constraints>
@@ -44,14 +44,14 @@
                     <textInputTraits key="textInputTraits"/>
                 </textField>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7fP-zJ-wiO">
-                    <rect key="frame" x="40" y="224" width="334" height="1"/>
+                    <rect key="frame" x="40" y="213" width="334" height="1"/>
                     <color key="backgroundColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="1" id="pGg-aG-JyP"/>
                     </constraints>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DEi-9s-IKS">
-                    <rect key="frame" x="294" y="242" width="80" height="35"/>
+                    <rect key="frame" x="294" y="231" width="80" height="35"/>
                     <color key="backgroundColor" red="0.94901960784313721" green="0.95294117647058818" blue="0.96078431372549022" alpha="0.84705882352941175" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="80" id="Tvf-ZJ-3Fe"/>
@@ -66,7 +66,7 @@
                     </connections>
                 </button>
                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入您的验证码" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="NPs-P9-dUE">
-                    <rect key="frame" x="40" y="242" width="234" height="35"/>
+                    <rect key="frame" x="40" y="231" width="234" height="35"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="35" id="nl8-cQ-gPv"/>
                     </constraints>
@@ -75,14 +75,14 @@
                     <textInputTraits key="textInputTraits"/>
                 </textField>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c0t-5i-ju1">
-                    <rect key="frame" x="40" y="282" width="334" height="1"/>
+                    <rect key="frame" x="40" y="271" width="334" height="1"/>
                     <color key="backgroundColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="1" id="UUw-7x-2xB"/>
                     </constraints>
                 </view>
                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请设置6-32位密码" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Yxe-Av-tJ5">
-                    <rect key="frame" x="40" y="300" width="334" height="35"/>
+                    <rect key="frame" x="40" y="289" width="334" height="35"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="35" id="g0h-Z9-K1X"/>
                     </constraints>
@@ -91,14 +91,14 @@
                     <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                 </textField>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1jC-Y9-JpH">
-                    <rect key="frame" x="40" y="335" width="334" height="1"/>
+                    <rect key="frame" x="40" y="324" width="334" height="1"/>
                     <color key="backgroundColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="1" id="SAC-i2-S5S"/>
                     </constraints>
                 </view>
                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请再次设置6-32位密码" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0Ts-wB-qek">
-                    <rect key="frame" x="40" y="353" width="334" height="35"/>
+                    <rect key="frame" x="40" y="342" width="334" height="35"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="35" id="J1Q-xg-ac5"/>
                     </constraints>
@@ -107,14 +107,14 @@
                     <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                 </textField>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JF2-my-2mW">
-                    <rect key="frame" x="40" y="388" width="334" height="1"/>
+                    <rect key="frame" x="40" y="377" width="334" height="1"/>
                     <color key="backgroundColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="1" id="B1S-b4-j21"/>
                     </constraints>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E7A-VT-fjA">
-                    <rect key="frame" x="40" y="419" width="12" height="12"/>
+                    <rect key="frame" x="40" y="408" width="12" height="12"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="12" id="4Ob-bJ-ajm"/>
                         <constraint firstAttribute="height" constant="12" id="fDS-Pa-TDq"/>
@@ -126,7 +126,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o5Q-35-C44">
-                    <rect key="frame" x="59" y="413.5" width="138" height="23"/>
+                    <rect key="frame" x="59" y="402.5" width="138" height="23"/>
                     <fontDescription key="fontDescription" type="system" pointSize="9"/>
                     <state key="normal" title="请阅读《肯维捷斯用户服务协议》">
                         <color key="titleColor" red="0.44705882352941173" green="0.70196078431372544" blue="0.88627450980392153" alpha="0.84705882352941175" colorSpace="calibratedRGB"/>
@@ -136,7 +136,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SZf-zf-WsI">
-                    <rect key="frame" x="40" y="466" width="334" height="40"/>
+                    <rect key="frame" x="40" y="455" width="334" height="40"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="40" id="OoN-BF-YuI"/>
                     </constraints>
@@ -153,7 +153,6 @@
                 <constraint firstItem="JF2-my-2mW" firstAttribute="top" secondItem="0Ts-wB-qek" secondAttribute="bottom" id="1X3-zB-dee"/>
                 <constraint firstAttribute="trailing" secondItem="7fP-zJ-wiO" secondAttribute="trailing" constant="40" id="2Yy-2C-hmq"/>
                 <constraint firstItem="NPs-P9-dUE" firstAttribute="leading" secondItem="9Uc-g3-Zym" secondAttribute="leading" constant="40" id="3aT-BS-ggh"/>
-                <constraint firstItem="6Pm-wn-CK1" firstAttribute="centerX" secondItem="9Uc-g3-Zym" secondAttribute="centerX" id="5GV-bE-uJ8"/>
                 <constraint firstItem="0Ts-wB-qek" firstAttribute="leading" secondItem="9Uc-g3-Zym" secondAttribute="leading" constant="40" id="ALk-js-un6"/>
                 <constraint firstItem="c0t-5i-ju1" firstAttribute="top" secondItem="DEi-9s-IKS" secondAttribute="bottom" constant="5" id="Bfg-gI-nPY"/>
                 <constraint firstItem="E7A-VT-fjA" firstAttribute="top" secondItem="JF2-my-2mW" secondAttribute="bottom" constant="30" id="C1S-KJ-kUP"/>
@@ -180,6 +179,7 @@
                 <constraint firstAttribute="trailing" secondItem="1jC-Y9-JpH" secondAttribute="trailing" constant="40" id="kjd-fA-O6l"/>
                 <constraint firstItem="7fP-zJ-wiO" firstAttribute="top" secondItem="5WN-V5-vYm" secondAttribute="bottom" id="lFR-cJ-Ihu"/>
                 <constraint firstAttribute="trailing" secondItem="JF2-my-2mW" secondAttribute="trailing" constant="40" id="lMo-IV-w3X"/>
+                <constraint firstItem="6Pm-wn-CK1" firstAttribute="centerX" secondItem="9Uc-g3-Zym" secondAttribute="centerX" id="n88-BO-b1A"/>
                 <constraint firstItem="7fP-zJ-wiO" firstAttribute="leading" secondItem="9Uc-g3-Zym" secondAttribute="leading" constant="40" id="nkT-e7-Lgg"/>
                 <constraint firstItem="JF2-my-2mW" firstAttribute="leading" secondItem="9Uc-g3-Zym" secondAttribute="leading" constant="40" id="pEd-jQ-7Qe"/>
                 <constraint firstItem="o5Q-35-C44" firstAttribute="centerY" secondItem="E7A-VT-fjA" secondAttribute="centerY" id="tgu-QA-qQP"/>
@@ -189,8 +189,8 @@
         </view>
     </objects>
     <resources>
-        <image name="icon_personal_gender_nor" width="16.5" height="16.5"/>
-        <image name="icon_personal_gender_sel" width="16.5" height="16.5"/>
-        <image name="img_login_logo_nor" width="165" height="32.5"/>
+        <image name="icon_personal_gender_nor" width="17" height="17"/>
+        <image name="icon_personal_gender_sel" width="17" height="17"/>
+        <image name="img_login_logo_nor" width="122" height="21.5"/>
     </resources>
 </document>

@@ -48,16 +48,21 @@ class MIEditOrUploadVC: MIBaseViewController {
         imgView.clipsToBounds = true
         view.addSubview(imgView)
         
-        
-        
         if MIHelpTool.isBlankString(imgUrl) {
-            let scale = UIScreen.main.scale
-            let width = imgView.bounds.width * scale / 1
-            let height = imgView.bounds.height * scale / 1
+//            let scale = UIScreen.main.scale
+//            let width = imgView.bounds.width * scale / 1
+//            let height = imgView.bounds.height * scale / 1
             weak var weakSelf = self
-            MIAlbumManager().getPhotoWith(imageAsset, photoSize: CGSize(width: width, height: height)) { (image, info) in
+//            MIAlbumManager().getPhotoWith(imageAsset, photoSize: CGSize(width: width, height: height)) { (image, info) in
+//
+//                weakSelf?.imgView.image = image
+//            }
+            MIAlbumManager().getOriginalPhotoData(with: imageAsset, progressHandler: { (progress, error, stop, info) in
                 
-                weakSelf?.imgView.image = image
+            }) { (data, info, isDegraded) in
+                DispatchQueue.main.async {
+                    weakSelf?.imgView.image = UIImage.init(data: data)
+                }
             }
         } else {
             imgView.image = UIImage(contentsOfFile: imgUrl)
@@ -87,6 +92,10 @@ class MIEditOrUploadVC: MIBaseViewController {
     @objc private func clickEditBtn(_ sender: UIButton) {
         let editVC = MIImageEditVC.init()
         editVC.image = imgView.image!
+        weak var weakSelf = self
+        editVC.editImage = { (img) in
+            weakSelf?.imgView.image = img
+        }
         self.navigationController?.pushViewController(editVC, animated: true)
     }
     
@@ -99,6 +108,7 @@ class MIEditOrUploadVC: MIBaseViewController {
         } else {
             vc.assetUrl = imgUrl
         }
+        vc.curImage = imgView.image!
         
         self.navigationController?.pushViewController(vc, animated: true)
     }

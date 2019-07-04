@@ -34,7 +34,7 @@ class MISettingLanguageVC: MIBaseViewController {
 
     private func configSettingLanguageUI() {
         super.configLeftBarButtonItem(nil)
-        self.title = MILocalData.appLanguage("sideBar_key_8")
+        self.title = MILocalData.appLanguage("sideBar_key_3")
         self.view.backgroundColor = MIRgbaColor(rgbValue: 0xF2F3F5, alpha: 1)
         
         languageList = ["简体中文", "English", "日本语"]
@@ -60,7 +60,7 @@ extension MISettingLanguageVC: UITableViewDelegate {
             }) {
                 let languageType = languageDic[key] as! String
                 MILocalData.setAppLanguage(languageType)
-                self.title = MILocalData.appLanguage("sideBar_key_8")
+                self.title = MILocalData.appLanguage("sideBar_key_3")
                 self.tableView.reloadData()
             }
         }

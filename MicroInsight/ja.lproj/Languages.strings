@@ -7,40 +7,138 @@
 */
 
 //侧边栏
-sideBar_key_1 = "立即登录/注册";
-sideBar_key_2 = "个人主页";
-sideBar_key_3 = "语言设置";
-sideBar_key_4 = "添加水印";
-sideBar_key_5 = "使用帮助";
-sideBar_key_6 = "意见反馈";
-sideBar_key_7 = "检查更新";
-sideBar_key_8 = "语言设置";
+sideBar_key_1 = "すぐにログイン/新規登録";
+sideBar_key_2 = "個人ホーム";
+sideBar_key_3 = "言語設定";
+sideBar_key_4 = "スタンプを追加";
+sideBar_key_5 = "ヘルプ";
+sideBar_key_6 = "フィードバック";
+sideBar_key_7 = "更新の確認";
+sideBar_key_8 = "スケール";
 
 //登录注册
-login_key_1 = "登录";
-login_key_2 = "注册";
-login_key_3 = "手机号";
-login_key_4 = "密码";
-login_key_5 = "忘记密码";
-login_key_6 = "验证码登录";
-login_key_7 = "其他登录方式";
-login_key_8 = "请输入您的手机号码";
-login_key_9 = "请输入您的验证码";
-login_key_10 = "请设置6-32位密码";
-login_key_11 = "请再次设置6-32位密码";
-login_key_12 = "发送验证码";
-login_key_13 = "请输入您的验证码";
-login_key_14 = "登录失败";
-login_key_15 = "账号和密码错误，请重新输入";
-login_key_16 = "确认";
-login_key_17 = "验证码错误";
-login_key_18 = "密码不得低于6位";
+login_key_1 = "ログイン";
+login_key_2 = "新規登録";
+login_key_3 = "携帯電話番号";
+login_key_4 = "パスワード";
+login_key_5 = "パスワードを忘れました";
+login_key_6 = "認証番号でログイン";
+login_key_7 = "ほかのログイン方法";
+login_key_8 = "携帯電話番号を入力してください";
+login_key_9 = "認証番号を入力してください";
+login_key_10 = "パスワードは6文字以上、20文字以内で入力してください";
+login_key_11 = "もう一度パスワードを6文字以上、20文字以内で入力してください";
+login_key_12 = "認証番号を送信";
+login_key_13 = "「肯維捷斯ユーザーの利用規約」を読んでください";
+login_key_14 = "ログインできません";
+login_key_15 = "ユーザーIDまたはパスワードが正しくありません。もう一度入力してください";
+login_key_16 = "確定";
+login_key_17 = "認証番号が正しくありません";
+login_key_18 = "パスワードは6文字以上で入力ください";
+login_key_19 = "使用できない形式の特殊文字や記号が含まれています。ニックネームに記号「-」のみが使用できます。";
 
 //使用帮助
-help_key_1 = "如何操作小贴";
-help_key_2 = "可移胶使用";
-help_key_3 = "测距教程";
+help_key_1 = "Tipscopeの操作方法";
+help_key_2 = "接着テープを交換";
+help_key_3 = "長さ測定マニュアル";
+help_key_4 = "操作マニュアル";
+help_key_5 = "バックル両側を持ち上げて収納ボックスを開く。Tipscopewoを取り出してください";
+help_key_6 = "Tipscopeの裏面を上にして平らなテーブルに置く。スマホアプリを起動してフラッシュをONにしてください";
+help_key_7 = "スマホケースを取り外してスマホカメラをTipscopeのレンズに合わせる";
+help_key_8 = "Tipscopeレンズをスマホ画面の中央に保持しながら、Tipscopeにくっ付くまでスマホを近づける";
+help_key_9 = "Tipscopeを被写体に限りなく近づける";
+help_key_10 = "注記：機種に限らずほとんどのスマホに適用";
+help_key_11 = "古い接着テープを取り外す。収納ボックスから交換用の接着テープを取り出す";
+help_key_12 = "交換用の接着テープを1枚取り外して真ん中の円い部分を取り除いて片面のはく離紙を剥がしてください。注意：素手で直接にテープの接着面に触れないでください";
+help_key_13 = "はく離紙を剥がした接着テープの接着面をTipscope裏面の凹部に貼付けて強く押し付けてください";
+help_key_14 = "最後は外側のはく離紙を取り外す";
+help_key_15 = "目盛1mmの定規を合わしてください";
+help_key_16 = "定規目盛線の両側をタップしてください";
+help_key_17 = "誤差制限のために標点が正確かを確かめる";
 
 //意见反馈
-feekback_key_1 = "意见反馈";
-feekback_key_2 = "提交";
+feekback_key_1 = "フィードバック";
+feekback_key_2 = "提出";
+feekback_key_3 = "Tipscopeアプリをご利用いただきありがとうございます。ご意見や見解等あればフィードバックください";
+
+//个人主页
+personal_key_1 = "プロフィールを完成してください";
+personal_key_2 = "画像を変更";
+personal_key_3 = "ニックネーム";
+personal_key_4 = "入力してください";
+personal_key_5 = "性别";
+personal_key_6 = "選択してください";
+personal_key_7 = "生年月日";
+personal_key_8 = "職業";
+personal_key_9 = "保存";
+personal_key_10 = "ログインをキャンセルする";
+personal_key_11 = "ご注意";
+personal_key_12 = "ログインキャンセルを確定するか？";
+personal_key_13 = "取消し";
+personal_key_14 = "ニックネームを入力してください";
+personal_key_15 = "性別を選んでください";
+personal_key_16 = "男性";
+personal_key_17 = "女性";
+personal_key_18 = "生年月日を選んでください";
+personal_key_19 = "職業を選んでください";
+personal_key_20 = "プログラム";
+personal_key_21 = "科学研究";
+personal_key_22 = "教育";
+personal_key_23 = "コレクション";
+personal_key_24 = "美容";
+personal_key_25 = "その他";
+personal_key_26 = "プロフィールを修正";
+
+//首页
+home_key_1 = "カメラ";
+home_key_2 = "アルバム";
+home_key_3 = "ソーシャル";
+home_key_4 = "お薦め";
+
+//相机页面
+camera_key_1 = "再設定";
+camera_key_2 = "標準長さ1mmの物体を合わして標定を行う";
+camera_key_3 = "再標定";
+camera_key_4 = "標定完了値";
+camera_key_5 = "確定";
+
+//相册页面
+album_key_1 = "スマートフォンアルバム";
+album_key_2 = "全部";
+album_key_3 = "写真";
+album_key_4 = "動画";
+album_key_5 = "アップロード";
+album_key_6 = "選択済";
+album_key_7 = "削除";
+album_key_8 = "編集";
+album_key_9 = "作品をアップロード";
+album_key_10 = "あなたの作品を述べてください";
+album_key_11 = "アップロードを確定";
+
+//社区、推荐
+community_key_1 = "文章詳細";
+community_key_2 = "コメント";
+community_key_3 = "いいね！します";
+community_key_4 = "投稿";
+community_key_5 = "公式アカウントの返信";
+community_key_6 = "送信";
+community_key_7 = "WeChat友";
+community_key_8 = "友達";
+community_key_9 = "Weibo";
+community_key_10 = "QQ空間";
+community_key_11 = "リンクをコピー";
+community_key_12 = "ホームへ戻る";
+community_key_13 = "違反を報告する";
+community_key_14 = "クリックしてお気に入りのものを探す";
+community_key_15 = "本文詳細";
+community_key_16 = "ブロック";
+community_key_17 = "不適切なコンテンツを報告";
+community_key_18 = "要らない広告";
+community_key_19 = "低俗なポルノ";
+community_key_20 = "不正な情報";
+community_key_21 = "詐欺系情報";
+community_key_22 = "違法犯罪";
+community_key_23 = "共有";
+community_key_24 = "詳細確認";
+community_key_25 = "プレビュー";
+community_key_26 = "原図";

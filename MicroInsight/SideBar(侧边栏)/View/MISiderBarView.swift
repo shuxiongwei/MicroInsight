@@ -190,7 +190,7 @@ class MISiderBarView: UIView {
             let imgUrl = model.avatar + "?x-oss-process=image/resize,m_fill,h_\(Int(headPortraitBtn.width)),w_\(Int(headPortraitBtn.height))"
             headPortraitBtn.sd_setImage(with: NSURL(string: imgUrl) as URL?, for: .normal, placeholderImage: UIImage(named: "icon_personal_head_nor"), options: .retryFailed, completed: nil)
             
-            usernameLab.text = model.username
+            usernameLab.text = model.nickname
         } else {
             usernameLab.isHidden = true
             loginBtn.isHidden = false

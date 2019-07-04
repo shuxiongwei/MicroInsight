@@ -116,8 +116,13 @@ class MIHomeViewController: UIViewController {
     }
     
     @IBAction func clickMsgBtn(_ sender: UIButton) {
-        let messageVC = MIMessageVC.init()
-        self.navigationController?.pushViewController(messageVC, animated: true)
+        if MILocalData.hasLogin() {
+            let messageVC = MIMessageVC.init()
+            self.navigationController?.pushViewController(messageVC, animated: true)
+        } else {
+            let loginVC: MILoginViewController = MILoginViewController(nibName: "MILoginViewController", bundle: nil)
+            self.navigationController?.pushViewController(loginVC, animated: true)
+        }
     }
     
     @IBAction func clickCameraBtn(_ sender: UIButton) {
@@ -141,8 +146,13 @@ class MIHomeViewController: UIViewController {
     }
     
     @IBAction func clickRecommendBtn(_ sender: UIButton) {
-        let vc = MIRecommendVC.init()
-        self.navigationController?.pushViewController(vc, animated: true)
+        if MILocalData.hasLogin() {
+            let vc = MIRecommendVC.init()
+            self.navigationController?.pushViewController(vc, animated: true)
+        } else {
+            let loginVC: MILoginViewController = MILoginViewController(nibName: "MILoginViewController", bundle: nil)
+            self.navigationController?.pushViewController(loginVC, animated: true)
+        }
     }
     
     @IBAction func clickTopBannerBtn(_ sender: UIButton) {

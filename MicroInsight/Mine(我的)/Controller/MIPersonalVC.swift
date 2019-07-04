@@ -100,13 +100,16 @@ class MIPersonalVC: UIViewController {
         backBtn.addTarget(self, action: #selector(clickBackBtn(_ :)), for: .touchUpInside)
         view.addSubview(backBtn)
         
-        let blackBtn = UIButton(type: .custom)
-        blackBtn.frame = CGRect(x: ScreenWidth - 70, y: 30, width: 70, height: 30)
-        blackBtn.setTitle("黑名单", for: .normal)
-        blackBtn.setTitleColor(MIRgbaColor(rgbValue: 0x333333, alpha: 1), for: .normal)
-        blackBtn.titleLabel?.font = UIFont.systemFont(ofSize: 13)
-        blackBtn.addTarget(self, action: #selector(clickBlackBtn(_ :)), for: .touchUpInside)
-        view.addSubview(blackBtn)
+        let userInfo = MILocalData.getCurrentLoginUserInfo()
+        if userInfo.uid == userId {
+            let blackBtn = UIButton(type: .custom)
+            blackBtn.frame = CGRect(x: ScreenWidth - 70, y: 30, width: 70, height: 30)
+            blackBtn.setTitle("黑名单", for: .normal)
+            blackBtn.setTitleColor(MIRgbaColor(rgbValue: 0x333333, alpha: 1), for: .normal)
+            blackBtn.titleLabel?.font = UIFont.systemFont(ofSize: 13)
+            blackBtn.addTarget(self, action: #selector(clickBlackBtn(_ :)), for: .touchUpInside)
+            view.addSubview(blackBtn)
+        }
         
         configTopView()
     }
@@ -178,13 +181,13 @@ class MIPersonalVC: UIViewController {
         let userInfo = MILocalData.getCurrentLoginUserInfo()
         if userInfo.uid == userId {
             let editBtn = UIButton(type: .custom)
-            editBtn.frame = CGRect(x: userIconBtn.right + 20, y: 34, width: 60, height: 20)
-            editBtn.centerY = userIconBtn.centerY + 22
-            editBtn.contentHorizontalAlignment = .left
+            editBtn.frame = CGRect(x: bgView.width - 80, y: 0, width: 60, height: 20)
+            editBtn.centerY = userNameLab.centerY
             editBtn.setEnlargeEdge(5)
             editBtn.setTitle("修改资料", for: .normal)
-            editBtn.titleLabel?.font = UIFont.systemFont(ofSize: 8)
-            editBtn.setTitleColor(MIRgbaColor(rgbValue: 0x999999, alpha: 1), for: .normal)
+            editBtn.titleLabel?.font = UIFont.systemFont(ofSize: 10)
+            editBtn.rounded(2, width: 1, color: MIRgbaColor(rgbValue: 0x48A1D8, alpha: 1))
+            editBtn.setTitleColor(MIRgbaColor(rgbValue: 0x48A1D8, alpha: 1), for: .normal)
             editBtn.addTarget(self, action: #selector(clickEditBtn(_ :)), for: .touchUpInside)
             bgView.addSubview(editBtn)
             

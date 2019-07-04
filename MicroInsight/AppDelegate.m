@@ -24,7 +24,7 @@
     // Override point for customization after application launch.
     
     //设置状态栏白色模式
-//    application.statusBarStyle = UIStatusBarStyleLightContent;
+//    application.statusBarStyle = UIStatusBarStyleDefault;
 
     //延迟加载
     [NSThread sleepForTimeInterval:1.0];
@@ -58,6 +58,7 @@
     [[FBSDKApplicationDelegate sharedInstance] application:application
                              didFinishLaunchingWithOptions:launchOptions];
     [[QZShareMgr shareManager] setShareAppKey];
+    [WeiboSDK registerApp:kSinaAppKey];
     
     return YES;
 }

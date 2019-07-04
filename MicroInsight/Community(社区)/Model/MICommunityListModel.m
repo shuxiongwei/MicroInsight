@@ -70,7 +70,7 @@
     CGFloat tableViewHeight = [self getChildCommentTableViewHeight];
     YYTextLayout *layout = [self getContentHeightWithStr:_content width:MIScreenWidth - 95 font:12 lineSpace:5 maxRow:3];
 
-    return otherHeight + tableViewHeight + layout.textBoundingSize.height;
+    return otherHeight + tableViewHeight + layout.textBoundingSize.height + 5;
 }
 
 - (CGFloat)getChildCommentTableViewHeight {

@@ -62,7 +62,7 @@ typedef NS_ENUM(NSInteger, MIDemarcateType) {
 #pragma mark - 懒加载
 - (UILabel *)recordTitle {
     if (_recordTitle == nil) {
-        _recordTitle = [MIUIFactory createLabelWithCenter:CGPointMake(self.centerX, self.height - 136) withBounds:CGRectMake(0, 0, 100, 12) withText:@"00:00" withFont:12 withTextColor:UIColorFromRGBWithAlpha(0xFF1617, 1) withTextAlignment:NSTextAlignmentCenter];
+        _recordTitle = [MIUIFactory createLabelWithCenter:CGPointMake(self.centerX, self.height - 116) withBounds:CGRectMake(0, 0, 100, 12) withText:@"00:00" withFont:12 withTextColor:UIColorFromRGBWithAlpha(0xFF1617, 1) withTextAlignment:NSTextAlignmentCenter];
         _recordTitle.hidden = YES;
         [self addSubview:_recordTitle];
     }
@@ -140,7 +140,7 @@ typedef NS_ENUM(NSInteger, MIDemarcateType) {
     minScale = 1.0;
     maxScale = 10.0;
     
-    self.previewView = [[MIVideoPreview alloc] initWithFrame:CGRectMake(0, 0, self.width, self.height - 110)];
+    self.previewView = [[MIVideoPreview alloc] initWithFrame:CGRectMake(0, 0, self.width, self.height)];
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapAction:)];
     UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleTapAction:)];
@@ -170,7 +170,7 @@ typedef NS_ENUM(NSInteger, MIDemarcateType) {
 //    appLab.font = [UIFont captionFontWithName:@"custom" size:20];
 //    [self addSubview:appLab];
     
-    UIImageView *appIcon = [[UIImageView alloc] initWithFrame:CGRectMake(self.width - 74 - 15, 22, 74, 15)];
+    UIImageView *appIcon = [[UIImageView alloc] initWithFrame:CGRectMake(self.width - 63 - 15, 22, 63, 11)];
     appIcon.image = [UIImage imageNamed:@"img_camera_logo_nor"];
     [self addSubview:appIcon];
     
@@ -199,19 +199,19 @@ typedef NS_ENUM(NSInteger, MIDemarcateType) {
 - (void)configBottomUI {
     
     _bottomV = [[UIView alloc] initWithFrame:CGRectMake(0, self.height - 110, self.width, 110)];
-    _bottomV.backgroundColor = [UIColor whiteColor];
+    _bottomV.backgroundColor = [UIColor clearColor];
     [self addSubview:_bottomV];
 
-    //拍照片按钮
-    _photoBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(0, 0, 70, 70) normalTitle:nil normalTitleColor:nil highlightedTitleColor:nil selectedColor:nil titleFont:0 normalImage:[UIImage imageNamed:@"icon_camera_shoot_nor"] highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(takePhoto:)];
-    _photoBtn.center = CGPointMake(_bottomV.centerX, 55);
-    [_bottomV addSubview:_photoBtn];
-    
     //拍视频按钮
     _videoBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(0, 0, 70, 70) normalTitle:nil normalTitleColor:nil highlightedTitleColor:nil selectedColor:nil titleFont:0 normalImage:[UIImage imageNamed:@"icon_camera_video_nor"] highlightedImage:nil selectedImage:[UIImage imageNamed:@"icon_camera_video_sel"] touchUpInSideTarget:self action:@selector(recordVideo:)];
     _videoBtn.center = CGPointMake(_bottomV.centerX, 55);
     _videoBtn.hidden = YES;
     [_bottomV addSubview:_videoBtn];
+    
+    //拍照片按钮
+    _photoBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(0, 0, 70, 70) normalTitle:nil normalTitleColor:nil highlightedTitleColor:nil selectedColor:nil titleFont:0 normalImage:[UIImage imageNamed:@"icon_camera_shoot_nor"] highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(takePhoto:)];
+    _photoBtn.center = CGPointMake(_bottomV.centerX, 55);
+    [_bottomV addSubview:_photoBtn];
     
     //缩略图
     _coverBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(0, 0, 40, 32) normalTitle:nil normalTitleColor:nil highlightedTitleColor:nil selectedColor:nil titleFont:0 normalImage:[UIImage imageNamed:@"icon_camera_photoIcon_nor"] highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(reviewCoverImage:)];
@@ -219,8 +219,9 @@ typedef NS_ENUM(NSInteger, MIDemarcateType) {
     [_bottomV addSubview:_coverBtn];
     
     //拍照按钮
-    _shootBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(0, 0, 44, 30) normalTitle:nil normalTitleColor:nil highlightedTitleColor:nil selectedColor:nil titleFont:0 normalImage:[UIImage imageNamed:@"icon_camera_videoIcon_sel"] highlightedImage:nil selectedImage:[UIImage imageNamed:@"icon_camera_videoIcon_nor"] touchUpInSideTarget:self action:@selector(selectPhotoOrVideo:)];
+    _shootBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(0, 0, 44, 30) normalTitle:nil normalTitleColor:nil highlightedTitleColor:nil selectedColor:nil titleFont:0 normalImage:[UIImage imageNamed:@"icon_camera_videoIcon_nor"] highlightedImage:nil selectedImage:[UIImage imageNamed:@"icon_camera_videoIcon_sel"] touchUpInSideTarget:self action:@selector(selectPhotoOrVideo:)];
     _shootBtn.center = CGPointMake(_bottomV.width - 50 - 20, 55);
+    _shootBtn.selected = YES;
     [_bottomV addSubview:_shootBtn];
 }
 
@@ -250,16 +251,16 @@ typedef NS_ENUM(NSInteger, MIDemarcateType) {
 
 //配置刻度尺
 - (void)configRulerUI {
-    _rulerBgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, MIScreenWidth, MIScreenHeight - 110)];
+    _rulerBgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, MIScreenWidth, MIScreenHeight)];
     _rulerBgView.hidden = YES;
     _rulerBgView.backgroundColor = [UIColor clearColor];
     _rulerBgView.userInteractionEnabled = NO;
     [self insertSubview:_rulerBgView belowSubview:_focalSliderView];
     
-    _unitLab = [MIUIFactory createLabelWithCenter:CGPointMake(_rulerBgView.centerX, _rulerBgView.height - 81) withBounds:CGRectMake(0, 0, self.width, 18) withText:@"1 mm" withFont:10 withTextColor:[UIColor whiteColor] withTextAlignment:NSTextAlignmentCenter];
+    _unitLab = [MIUIFactory createLabelWithCenter:CGPointMake(_rulerBgView.centerX, _rulerBgView.height - 81 - 70) withBounds:CGRectMake(0, 0, self.width, 18) withText:@"1 mm" withFont:10 withTextColor:[UIColor whiteColor] withTextAlignment:NSTextAlignmentCenter];
     [_rulerBgView addSubview:_unitLab];
     
-    _totalLab = [MIUIFactory createLabelWithCenter:CGPointMake(_rulerBgView.centerX, _rulerBgView.height - 59) withBounds:CGRectMake(0, 0, self.width, 8) withText:@"total 1 mm" withFont:8 withTextColor:[UIColor whiteColor] withTextAlignment:NSTextAlignmentCenter];
+    _totalLab = [MIUIFactory createLabelWithCenter:CGPointMake(_rulerBgView.centerX, _rulerBgView.height - 59 - 70) withBounds:CGRectMake(0, 0, self.width, 8) withText:@"total 1 mm" withFont:8 withTextColor:[UIColor whiteColor] withTextAlignment:NSTextAlignmentCenter];
     [_rulerBgView addSubview:_totalLab];
     
     _rulerView = [[UIView alloc] init];
@@ -497,9 +498,9 @@ typedef NS_ENUM(NSInteger, MIDemarcateType) {
     }
     
     sender.selected = !sender.selected;
-    _photoBtn.hidden = sender.selected;
-    _videoBtn.hidden = !sender.selected;
-    _type = (sender.selected ? 1 : 0);
+    _photoBtn.hidden = !sender.selected;
+    _videoBtn.hidden = sender.selected;
+    _type = (sender.selected ? 0 : 1);
 }
 
 //手电筒
@@ -626,19 +627,19 @@ typedef NS_ENUM(NSInteger, MIDemarcateType) {
 - (void)executeCameraDemarcate:(MIDemarcateType)type {
     BOOL execute = (type == MIDemarcateReset ? YES : NO);
     
-    if (execute) {
-        self.previewView.frame = CGRectMake(0, 0, self.width, self.height - 60);
-    } else {
-        self.previewView.frame = CGRectMake(0, 0, self.width, self.height - 110);
-    }
+//    if (execute) {
+//        self.previewView.frame = CGRectMake(0, 0, self.width, self.height - 60);
+//    } else {
+//        self.previewView.frame = CGRectMake(0, 0, self.width, self.height - 110);
+//    }
     
     _isDemarcating = execute;
     _backBtn.hidden = execute;
     _torchBtn.hidden = execute;
     _rulerBtn.hidden = execute;
-    _photoBtn.hidden = execute;
-    _videoBtn.hidden = execute;
-    _coverBtn.hidden = execute;
+//    _photoBtn.hidden = execute;
+//    _videoBtn.hidden = execute;
+//    _coverBtn.hidden = execute;
     _bottomV.hidden = execute;
     _focalSliderView.hidden = execute;
     _reduceV.hidden = execute;

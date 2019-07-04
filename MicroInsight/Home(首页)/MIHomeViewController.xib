@@ -31,21 +31,21 @@
                     <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
                     <subviews>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_home_logo_nor" translatesAutoresizingMaskIntoConstraints="NO" id="IYi-Ba-9T6">
-                            <rect key="frame" x="133" y="31" width="109" height="22"/>
+                            <rect key="frame" x="148" y="39" width="79" height="14"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="109" id="Aj6-Ah-st2"/>
-                                <constraint firstAttribute="height" constant="22" id="xLR-xW-F85"/>
+                                <constraint firstAttribute="width" constant="79" id="Aj6-Ah-st2"/>
+                                <constraint firstAttribute="height" constant="14" id="xLR-xW-F85"/>
                             </constraints>
                         </imageView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0PR-eQ-eUr">
-                            <rect key="frame" x="15" y="31" width="19" height="22"/>
+                            <rect key="frame" x="15" y="35" width="19" height="22"/>
                             <state key="normal" image="icon_home_menu_nor"/>
                             <connections>
                                 <action selector="clickHomeMenuBtn:" destination="-1" eventType="touchUpInside" id="qyJ-7J-lfZ"/>
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7wq-90-6z5">
-                            <rect key="frame" x="342" y="31" width="18" height="22"/>
+                            <rect key="frame" x="342" y="35" width="18" height="22"/>
                             <state key="normal" image="icon_community_message_nor"/>
                             <state key="selected" image="icon_community_message_sel"/>
                             <connections>

@@ -126,7 +126,7 @@ static MIThirdPartyLoginManager *_instance;
     //分享
     if ([resp isKindOfClass:[SendMessageToWXResp class]]) {
         if (resp.errCode == 0) {
-            [MIToastAlertView showAlertViewWithMessage:@"分享成功"];
+//            [MIToastAlertView showAlertViewWithMessage:@"分享成功"];
         }
     }
 }
@@ -197,10 +197,10 @@ static MIThirdPartyLoginManager *_instance;
 }
 
 - (void)didReceiveWeiboResponse:(WBBaseResponse *)response {
-    NSLog(@"token %@", [(WBAuthorizeResponse *) response accessToken]);
-    NSLog(@"uid %@", [(WBAuthorizeResponse *) response userID]);
-    
-    [self getWeiBoUserInfo:[(WBAuthorizeResponse *) response userID] token:[(WBAuthorizeResponse *) response accessToken]];
+//    NSLog(@"token %@", [(WBAuthorizeResponse *) response accessToken]);
+//    NSLog(@"uid %@", [(WBAuthorizeResponse *) response userID]);
+//    
+//    [self getWeiBoUserInfo:[(WBAuthorizeResponse *) response userID] token:[(WBAuthorizeResponse *) response accessToken]];
 }
 
 - (void)getWeiBoUserInfo:(NSString *)uid token:(NSString *)token {

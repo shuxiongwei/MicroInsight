@@ -291,6 +291,14 @@
         
         [self->_cameraView resetCoverBtnImageWithAssetPath:imgPath];
         UIImageWriteToSavedPhotosAlbum(image, self, nil, NULL);
+        
+        if (self.pushFrom == 1) {
+            [self.navigationController popViewControllerAnimated:YES];
+            
+            if ([self.delegate respondsToSelector:@selector(photographyViewController:shootPicture:)]) {
+                [self.delegate photographyViewController:self shootPicture:imgPath];
+            }
+        }
     }];
 }
 
@@ -366,6 +374,14 @@
             [manager removeItemAtPath:videoPath error:nil];
         }
         [manager copyItemAtPath:_movieURL.path toPath:videoPath error:&error];
+        
+        if (self.pushFrom == 1) {
+            [self.navigationController popViewControllerAnimated:YES];
+            
+            if ([self.delegate respondsToSelector:@selector(photographyViewController:shootVideo:)]) {
+                [self.delegate photographyViewController:self shootVideo:_videoPath];
+            }
+        }
     } else {
         [ZRWaterPrintComposition addVideoWaterprintAtURL:_movieURL WithWaterprintImage:_currentWaterImage completionHandler:^(int status, NSString *errorMsg, NSURL *finishedVideoURL) {
             
@@ -393,6 +409,14 @@
             _videoPath = finishedVideoURL.path;
             if ([manager fileExistsAtPath:videoPath]) {
                 [manager removeItemAtPath:videoPath error:nil];
+            }
+            
+            if (self.pushFrom == 1) {
+                [self.navigationController popViewControllerAnimated:YES];
+                
+                if ([self.delegate respondsToSelector:@selector(photographyViewController:shootVideo:)]) {
+                    [self.delegate photographyViewController:self shootVideo:_videoPath];
+                }
             }
         }];
     }

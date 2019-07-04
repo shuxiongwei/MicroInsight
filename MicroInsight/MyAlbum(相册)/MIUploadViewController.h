@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, copy) NSString *assetUrl;
 @property (nonatomic, strong) PHAsset *asset;
+@property (nonatomic, strong) UIImage *curImage;
 
 @end
 

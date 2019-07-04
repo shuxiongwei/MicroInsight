@@ -25,14 +25,14 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_login_logo_nor" translatesAutoresizingMaskIntoConstraints="NO" id="0YS-EU-5cm">
-                    <rect key="frame" x="124.5" y="96" width="165" height="33"/>
+                    <rect key="frame" x="146" y="96" width="122" height="22"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="33" id="ZZB-hJ-4l8"/>
-                        <constraint firstAttribute="width" constant="165" id="bnd-n4-LbC"/>
+                        <constraint firstAttribute="height" constant="22" id="ZZB-hJ-4l8"/>
+                        <constraint firstAttribute="width" constant="122" id="bnd-n4-LbC"/>
                     </constraints>
                 </imageView>
                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入您的手机号码" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="oxp-z9-OED">
-                    <rect key="frame" x="40" y="189" width="334" height="35"/>
+                    <rect key="frame" x="40" y="178" width="334" height="35"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="35" id="Vq2-vE-4yc"/>
                     </constraints>
@@ -41,14 +41,14 @@
                     <textInputTraits key="textInputTraits"/>
                 </textField>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8i5-gb-3YN">
-                    <rect key="frame" x="40" y="224" width="334" height="1"/>
+                    <rect key="frame" x="40" y="213" width="334" height="1"/>
                     <color key="backgroundColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="1" id="IZ1-1q-uXE"/>
                     </constraints>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wHp-ok-BJy">
-                    <rect key="frame" x="294" y="242" width="80" height="35"/>
+                    <rect key="frame" x="294" y="231" width="80" height="35"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="35" id="iJW-23-MEq"/>
                         <constraint firstAttribute="width" constant="80" id="r39-xZ-edF"/>
@@ -62,7 +62,7 @@
                     </connections>
                 </button>
                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入您的验证码" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5CB-6A-fEO">
-                    <rect key="frame" x="40" y="242" width="234" height="35"/>
+                    <rect key="frame" x="40" y="231" width="234" height="35"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="35" id="pc8-sc-7Cn"/>
                     </constraints>
@@ -71,14 +71,14 @@
                     <textInputTraits key="textInputTraits"/>
                 </textField>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sNV-9f-eRG">
-                    <rect key="frame" x="40" y="282" width="334" height="1"/>
+                    <rect key="frame" x="40" y="271" width="334" height="1"/>
                     <color key="backgroundColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="1" id="VeJ-AC-gjW"/>
                     </constraints>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CCM-iQ-TvR">
-                    <rect key="frame" x="40" y="353" width="334" height="40"/>
+                    <rect key="frame" x="40" y="342" width="334" height="40"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="40" id="Kwi-eD-0o4"/>
                     </constraints>

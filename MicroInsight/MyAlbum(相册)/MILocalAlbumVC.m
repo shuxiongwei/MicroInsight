@@ -170,7 +170,7 @@ static NSString * const videoCellId = @"videoCellId";
 }
 
 - (void)configUploadBottomView {
-    CGFloat hgt = [MIUIFactory getNavigitionBarHeight:self] + StatusBarHeight;
+    CGFloat hgt = KNaviBarAllHeight;
     _uploadView = [[UIView alloc] initWithFrame:CGRectMake(0, MIScreenHeight - hgt - 60, MIScreenWidth, 60)];
     _uploadView.hidden = YES;
     [self.view addSubview:_uploadView];
@@ -204,18 +204,24 @@ static NSString * const videoCellId = @"videoCellId";
                 
                 MIPhotoModel *model = [[MIPhotoModel alloc] init];
                 model.filePath = fullPath;
+                AVAsset *asset = [AVAsset assetWithURL:[NSURL fileURLWithPath:model.filePath]];
+                CGFloat time = asset.duration.value / (asset.duration.timescale * 1.0);
 
                 if ([aPath.pathExtension isEqualToString:@"png"]) {
                     model.type = MIAlbumTypePhoto;
                     [self.photoArray addObject:model];
                 } else if ([aPath.pathExtension isEqualToString:@"mov"]) {
-                    model.type = MIAlbumTypeVideo;
-                    [self.videoArray addObject:model];
+                    if (time >= 3) {
+                        model.type = MIAlbumTypeVideo;
+                        [self.videoArray addObject:model];
+                    }
                 }
                 
-                MIPhotoModel *copyModel = [model copy];
-                copyModel.type = MIAlbumTypeAll;
-                [self.allArray addObject:copyModel];
+                if (model.type != MIAlbumTypeAll) {
+                    MIPhotoModel *copyModel = [model copy];
+                    copyModel.type = MIAlbumTypeAll;
+                    [self.allArray addObject:copyModel];
+                }
             }
             
             [_allCollectionV reloadData];

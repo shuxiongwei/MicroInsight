@@ -25,17 +25,17 @@
                                     <rect key="frame" x="0.0" y="0.0" width="349" height="213"/>
                                 </imageView>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nql-yf-0HN">
-                                    <rect key="frame" x="30" y="106" width="50" height="50"/>
+                                    <rect key="frame" x="30" y="96" width="60" height="60"/>
                                     <constraints>
-                                        <constraint firstAttribute="height" constant="50" id="7mP-ga-qiP"/>
-                                        <constraint firstAttribute="width" constant="50" id="niq-Sc-gEh"/>
+                                        <constraint firstAttribute="height" constant="60" id="7mP-ga-qiP"/>
+                                        <constraint firstAttribute="width" constant="60" id="niq-Sc-gEh"/>
                                     </constraints>
                                     <connections>
                                         <action selector="clickHeadPortraitBtn:" destination="iN0-l3-epB" eventType="touchUpInside" id="1wg-cB-e2o"/>
                                     </connections>
                                 </button>
                                 <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qz3-k2-BRl">
-                                    <rect key="frame" x="100" y="116" width="229" height="30"/>
+                                    <rect key="frame" x="110" y="111" width="219" height="30"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="30" id="ayC-tG-xnd"/>
                                     </constraints>
@@ -44,7 +44,7 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="riP-uM-bVo">
-                                    <rect key="frame" x="100" y="118.5" width="90" height="25"/>
+                                    <rect key="frame" x="110" y="113.5" width="90" height="25"/>
                                     <color key="backgroundColor" red="0.2156862745" green="0.58431372550000005" blue="0.83137254900000002" alpha="1" colorSpace="calibratedRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="90" id="jjD-ex-BID"/>

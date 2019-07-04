@@ -65,17 +65,23 @@
     return _dataArray;
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
     
-    self.bgTextView.hidden = NO;
+    [self configBgTextView];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
     [_textView resignFirstResponder];
-    self.bgTextView.hidden = YES;
+
+    if (_maskView) {
+        [_maskView removeFromSuperview];
+        _maskView = nil;
+        [_bgTextView removeFromSuperview];
+        _bgTextView = nil;
+    }
 }
 
 - (void)viewDidLoad {
@@ -89,9 +95,10 @@
     self.title = [NSString stringWithFormat:@"%ld条消息", _commentModel.childCount];
     [super configLeftBarButtonItem:nil];
     
+    _page = 1;
     [self calculateChildCommentCellHeight];
     [self configTopView];
-    [self configBgTextView];
+//    [self configBgTextView];
     [self.view addSubview:self.tableView];
     [self reloadData:YES];
     
@@ -174,11 +181,11 @@
 
 - (void)configBgTextView {
     _maskView = [UIButton buttonWithType:UIButtonTypeCustom];
-    _maskView.frame = self.view.bounds;
+    _maskView.frame = MIScreenBounds;
     _maskView.backgroundColor = UIColorFromRGBWithAlpha(0x333333, 0.6);
     _maskView.hidden = YES;
     [_maskView addTarget:self action:@selector(clickMaskView) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:_maskView];
+    [self.navigationController.view addSubview:_maskView];
     
     _bgTextView = [[UIView alloc] initWithFrame:CGRectMake(0, MIScreenHeight - kBottomViewH, MIScreenWidth, kBottomViewH)];
     _bgTextView.backgroundColor = [UIColor whiteColor];
@@ -228,11 +235,11 @@
                 }
                 
                 if (list.count < 10) {
-                    if (isRefresh) {
+                    if (!isRefresh) {
                         [weakSelf.tableView.mj_footer endRefreshingWithNoMoreData];
                     }
                 } else {
-                    if (isRefresh) {
+                    if (!isRefresh) {
                         [weakSelf.tableView.mj_footer endRefreshing];
                     }
                 }
@@ -261,11 +268,11 @@
                 }
                 
                 if (list.count < 10) {
-                    if (isRefresh) {
+                    if (!isRefresh) {
                         [weakSelf.tableView.mj_footer endRefreshingWithNoMoreData];
                     }
                 } else {
-                    if (isRefresh) {
+                    if (!isRefresh) {
                         [weakSelf.tableView.mj_footer endRefreshing];
                     }
                 }
@@ -355,7 +362,7 @@
 #pragma mark - Notify
 - (void)keyBoardWillShow:(NSNotification *) notification {
     _maskView.hidden = NO;
-    [self.view bringSubviewToFront:_maskView];
+//    [self.view bringSubviewToFront:_maskView];
     
     // 获取用户信息
     NSDictionary *userInfo = [NSDictionary dictionaryWithDictionary:notification.userInfo];

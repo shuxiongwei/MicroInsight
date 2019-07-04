@@ -65,8 +65,13 @@ class MILoginViewController: MIBaseViewController {
             return
         }
         
+        MBProgressHUD.showStatus("登录中，请稍后...")
         weak var weakSelf = self
         MIRequestManager.login(withUsername: phoneTF.text!, password: passwordTF.text!) { (jsonData, error) in
+            
+            DispatchQueue.main.async {
+                MBProgressHUD.hide()
+            }
             
             let dic: [String : AnyObject] = jsonData as! Dictionary
             let code = dic["code"]?.int64Value

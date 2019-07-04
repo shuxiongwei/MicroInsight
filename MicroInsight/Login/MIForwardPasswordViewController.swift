@@ -91,8 +91,13 @@ class MIForwardPasswordViewController: MIBaseViewController {
             return
         }
         
+        MBProgressHUD.showStatus("登录中，请稍后...")
         weak var weakSelf = self
         MIRequestManager.forgetPasswordLogin(withUsername: phoneTF.text!, password: passwordTF.text!, verifyToken: token!, verifyCode: authCodeTF.text!) { (jsonData, error) in
+            
+            DispatchQueue.main.async {
+                MBProgressHUD.hide()
+            }
             
             let dic: [String : AnyObject] = jsonData as! Dictionary
             let code = dic["code"]?.int64Value

@@ -169,7 +169,13 @@ class MIEditPersonalInfoVC: MIBaseViewController {
         let bounds = CGRect(x: 40, y: (ScreenHeight - wid * 340.0 / 295.0) / 2.0, width: wid, height: wid * 340.0 / 295.0)
         let title = "请选择你的职业"
 
-        let pickerV = MIPickerView.init(frame: ScreenBounds, bounds: bounds, title: title, list: jobList)
+        let userInfo = MILocalData.getCurrentLoginUserInfo()
+        var index = 5
+        if userInfo.profession != .other {
+            index = userInfo.profession.rawValue - 1
+        }
+        
+        let pickerV = MIPickerView.init(frame: ScreenBounds, bounds: bounds, title: title, list: jobList, index: index)
         let window = (UIApplication.shared.delegate!.window)!
         window?.addSubview(pickerV)
         

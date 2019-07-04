@@ -45,12 +45,18 @@
     return _dataArray;
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+
+    [self.dataArray removeAllObjects];
+    [self requestData];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
     [self configUI];
-    [self requestData];
 }
 
 - (void)configUI {

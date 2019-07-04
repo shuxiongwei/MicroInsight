@@ -106,11 +106,24 @@
     self.bottomView.hidden = NO;
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    [self configBgTextView];
+}
+
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
     [_textView resignFirstResponder];
     self.bottomView.hidden = YES;
+    
+    if (_maskView) {
+        [_maskView removeFromSuperview];
+        _maskView = nil;
+        [_bgTextView removeFromSuperview];
+        _bgTextView = nil;
+    }
 }
 
 - (void)viewDidLoad {
@@ -204,7 +217,7 @@
         make.height.equalTo(@(15));
     }];
     
-    [self configBgTextView];
+//    [self configBgTextView];
 }
 
 - (void)setUpUI {
@@ -444,7 +457,7 @@
     [[QZShareMgr shareManager] showShareType:QZShareTypeTweet inVC:nil];
     [QZShareMgr shareManager].delegate = self;
     [QZShareMgr shareManager].shareWebUrl = [NSString stringWithFormat:@"http://www.tipscope.com/tweet.html?token=%@&id=%ld", [MILocalData getCurrentRequestToken], _tweetId];
-    [QZShareMgr shareManager].shareImg = [UIImage imageNamed:@"AppIcon"];
+    [QZShareMgr shareManager].shareImg = [UIImage imageNamed:@"icon_message_app_nor"];
 }
 
 - (void)clickBottomCommentBtn:(UIButton *)sender {

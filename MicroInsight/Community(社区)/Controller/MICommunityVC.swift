@@ -457,7 +457,7 @@ extension MICommunityVC: UITableViewDataSource {
             QZShareMgr.shareManager()?.show(type, inVC: nil)
             QZShareMgr.shareManager()?.delegate = weakSelf
             QZShareMgr.shareManager()?.shareWebUrl = "http://www.tipscope.com/node.html?token=" + token + "&contentId=\(model.contentId)" + "&contentType\(model.contentType)"
-            QZShareMgr.shareManager()?.shareImg = UIImage(named: "AppIcon")
+            QZShareMgr.shareManager()?.shareImg = UIImage(named: "icon_message_app_nor")
             QZShareMgr.shareManager()?.title = model.title
         }
         

@@ -2,11 +2,11 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "icon_message_app_nor.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
+      "filename" : "icon_message_app_nor@2x.png",
       "scale" : "2x"
     },
     {

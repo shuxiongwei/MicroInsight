@@ -16,6 +16,7 @@
 #import "MICommentDetailVC.h"
 #import "MIReportView.h"
 #import "MIReviewImageViewController.h"
+#import "MICommentAlertView.h"
 
 @interface MIRecommendDetailVC () <UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, WMPageControllerDelegate, WMPageControllerDataSource, MIShareManagerDelete>
 
@@ -41,6 +42,7 @@
 @property (nonatomic, strong) UIButton *maskView;
 @property (nonatomic, strong) MIReportView *reportView;
 @property (nonatomic, strong) UIView *loadingView;
+@property (nonatomic, strong) MICommentAlertView *commentAlertView;
 
 @end
 
@@ -65,7 +67,8 @@
 
 - (NSArray *)titleCategories {
     if (!_titleCategories) {
-        _titleCategories = @[@"评论", @"点赞"];
+        _titleCategories = @[[MILocalData appLanguage:@"community_key_2"],
+                             [MILocalData appLanguage:@"community_key_3"]];
     }
     return _titleCategories;
 }
@@ -146,7 +149,7 @@
     self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
     self.navigationController.navigationBar.translucent = NO;
     
-    self.title = @"文章详情";
+    self.title = [MILocalData appLanguage:@"community_key_1"];
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem itemWithTarget:self action:@selector(backAction) image:[UIImage imageNamed:@"icon_login_back_nor"]];
     self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithTarget:self action:@selector(clickExtendBtn) image:[UIImage imageNamed:@"icon_community_more_nor"]];
     
@@ -255,7 +258,7 @@
     
     _textView = [[MIPlaceholderTextView alloc] initWithFrame:CGRectMake(20, 10, MIScreenWidth - 80, 40)];
     _textView.backgroundColor = [UIColor whiteColor];
-    _textView.placeholder = @"写评论......";
+    _textView.placeholder = [NSString stringWithFormat:@"%@......", [MILocalData appLanguage:@"community_key_4"]];
     _textView.placeholderColor = UIColorFromRGBWithAlpha(0x999999, 1);
     _textView.placeholderFont = [UIFont systemFontOfSize:11];
     [_bgTextView addSubview:_textView];
@@ -263,7 +266,7 @@
     UIButton *sendBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     sendBtn.frame = CGRectMake(_bgTextView.width - 60, 0, 60, 40);
     sendBtn.centerY = _textView.centerY;
-    [sendBtn setTitle:@"发送" forState:UIControlStateNormal];
+    [sendBtn setTitle:[MILocalData appLanguage:@"community_key_6"] forState:UIControlStateNormal];
     [sendBtn setTitleColor:UIColorFromRGBWithAlpha(0x333333, 1) forState:UIControlStateNormal];
     sendBtn.titleLabel.font = [UIFont systemFontOfSize:12];
     [sendBtn addTarget:self action:@selector(clickSendBtn) forControlEvents:UIControlEventTouchUpInside];
@@ -278,21 +281,21 @@
 }
 
 - (void)updateCommentsTitle:(NSInteger)comments {
-    [self.menuView updateTitle:[NSString stringWithFormat:@"评论 %ld", comments] atIndex:0 andWidth:NO];
+    [self.menuView updateTitle:[NSString stringWithFormat:@"%@ %ld", [MILocalData appLanguage:@"community_key_2"], comments] atIndex:0 andWidth:NO];
 }
 
 - (void)updateLikesTitle:(NSInteger)likes {
-    [self.menuView updateTitle:[NSString stringWithFormat:@"点赞 %ld", likes] atIndex:1 andWidth:NO];
+    [self.menuView updateTitle:[NSString stringWithFormat:@"%@ %ld", [MILocalData appLanguage:@"community_key_3"], likes] atIndex:1 andWidth:NO];
 }
 
 - (void)updateComments:(NSInteger)comments {
-    [self.menuView updateTitle:[NSString stringWithFormat:@"评论 %ld", comments] atIndex:0 andWidth:NO];
+    [self.menuView updateTitle:[NSString stringWithFormat:@"%@ %ld", [MILocalData appLanguage:@"community_key_2"], comments] atIndex:0 andWidth:NO];
     [_commentBtn setTitle:[NSString stringWithFormat:@"%ld", comments] forState:UIControlStateNormal];
     [_commentBtn layoutButtonWithEdgeInsetsStyle:MIButtonEdgeInsetsStyleTop imageTitleSpace:5];
 }
 
 - (void)updateLiks:(NSInteger)likes {
-    [self.menuView updateTitle:[NSString stringWithFormat:@"点赞 %ld", likes] atIndex:1 andWidth:NO];
+    [self.menuView updateTitle:[NSString stringWithFormat:@"%@ %ld", [MILocalData appLanguage:@"community_key_3"], likes] atIndex:1 andWidth:NO];
     [_praiseBtn setTitle:[NSString stringWithFormat:@"%ld", likes] forState:UIControlStateNormal];
     [_praiseBtn layoutButtonWithEdgeInsetsStyle:MIButtonEdgeInsetsStyleTop imageTitleSpace:5];
 }
@@ -319,95 +322,110 @@
 //        [[UIApplication sharedApplication].keyWindow addSubview:self.loadingView];
 //        [MBProgressHUD showMessage:@"数据加载中，请稍后" toView:self.loadingView];
 //    }
-    
+
     WSWeak(weakSelf)
-    [MIRequestManager getSingleTweetWithId:_tweetId requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            [MBProgressHUD hideHUDForView:weakSelf.loadingView];
-//            [weakSelf.loadingView removeFromSuperview];
-//            weakSelf.loadingView = nil;
-//        });
-        
-        NSInteger code = [jsonData[@"code"] integerValue];
-        if (code == 0) {
-            NSDictionary *data = jsonData[@"data"];
-            NSDictionary *tweetDic = data[@"tweet"];
+        [MIRequestManager getSingleTweetWithId:weakSelf.tweetId requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
             
-            if (needRefreshTopView) {
-                weakSelf.tweetModel = [MITweetModel yy_modelWithDictionary:tweetDic];
-                weakSelf.praiseBtn.selected = weakSelf.tweetModel.isLike;
-                [weakSelf refreshSubViews];
-                
-                weakSelf.kHeadViewH += 115;
-                
-                //table的高度
-                CGFloat tableViewHeight = 0;
-                NSArray *sections = data[@"sections"];
-                for (NSDictionary *sectionDic in sections) {
-                    MITweetSectionModel *model = [MITweetSectionModel yy_modelWithDictionary:sectionDic];
-                    [weakSelf.sectionArray addObject:model];
+            //        dispatch_async(dispatch_get_main_queue(), ^{
+            //            [MBProgressHUD hideHUDForView:weakSelf.loadingView];
+            //            [weakSelf.loadingView removeFromSuperview];
+            //            weakSelf.loadingView = nil;
+            //        });
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                NSInteger code = [jsonData[@"code"] integerValue];
+                if (code == 0) {
+                    NSDictionary *data = jsonData[@"data"];
+                    NSDictionary *tweetDic = data[@"tweet"];
                     
-                    if ([model.type isEqualToString:@"1"]) { //文本
-                        NSString *content = model.content;
-                        NSArray *strs = [content componentsSeparatedByString:@"\r\n"];
-                        for (NSString *str in strs) {
-                            YYTextLayout *layout = [model getContentHeightWithStr:str width:MIScreenWidth - 40 font:14 lineSpace:5 maxRow:0];
-                            model.contentHeight += layout.textBoundingSize.height;
-                        }
-                        model.contentHeight += 10;
+                    if (needRefreshTopView) {
+                        weakSelf.tweetModel = [MITweetModel yy_modelWithDictionary:tweetDic];
+                        weakSelf.praiseBtn.selected = weakSelf.tweetModel.isLike;
+                        [weakSelf refreshSubViews];
                         
-                        //处理段落间空行
-                        if ([content containsString:@"\r\n\r\n"]) {
-                            model.contentHeight += 15;
+                        weakSelf.kHeadViewH += 115;
+                        
+                        //table的高度
+                        CGFloat tableViewHeight = 0;
+                        NSArray *sections = data[@"sections"];
+                        for (NSDictionary *sectionDic in sections) {
+                            MITweetSectionModel *model = [MITweetSectionModel yy_modelWithDictionary:sectionDic];
+                            [weakSelf.sectionArray addObject:model];
+                            
+                            if ([model.type isEqualToString:@"1"]) { //文本
+                                NSString *content = model.content;
+                                
+                                //文本最前面是换行
+                                if (content.length >= 2) {
+                                    NSString *firstStr = [content substringToIndex:2];
+                                    if ([firstStr isEqualToString:@"\r\n"]) {
+                                        model.contentHeight += 15;
+                                    }
+                                }
+                                
+                                NSArray *strs = [content componentsSeparatedByString:@"\r\n"];
+                                for (NSString *str in strs) {
+                                    YYTextLayout *layout = [model getContentHeightWithStr:str width:MIScreenWidth - 40 font:14 lineSpace:5 maxRow:0];
+                                    model.contentHeight += layout.textBoundingSize.height;
+                                }
+                                model.contentHeight += 10;
+                                
+                                //处理段落间空行
+                                if ([content containsString:@"\r\n\r\n"]) {
+                                    model.contentHeight += 15;
+                                }
+                            } else if ([model.type isEqualToString:@"2"]) { //图片
+                                CGFloat width = MIScreenWidth - 60;
+                                CGFloat height = width * 190.0 / 315.0;
+                                model.contentHeight = height + 10;
+                            } else if ([model.type isEqualToString:@"3"]) { //视频
+                                CGFloat width = MIScreenWidth - 60;
+                                CGFloat height = width * 190.0 / 315.0;
+                                model.contentHeight = height + 10;
+                            }
+                            
+                            tableViewHeight += model.contentHeight;
+                            weakSelf.kHeadViewH += model.contentHeight;
                         }
-                    } else if ([model.type isEqualToString:@"2"]) { //图片
-                        CGFloat width = MIScreenWidth - 60;
-                        CGFloat height = width * 190.0 / 315.0;
-                        model.contentHeight = height + 10;
-                    } else if ([model.type isEqualToString:@"3"]) { //视频
-                        CGFloat width = MIScreenWidth - 60;
-                        CGFloat height = width * 190.0 / 315.0;
-                        model.contentHeight = height + 10;
+                        
+                        [weakSelf refreshHeaderFrame];
+                        [weakSelf.tableView mas_updateConstraints:^(MASConstraintMaker *make) {
+                            make.height.equalTo(@(tableViewHeight));
+                        }];
+                        [weakSelf.tableView reloadData];
+                    } else {
+                        weakSelf.tweetModel.comments = [tweetDic[@"comments"] integerValue];
+                        weakSelf.tweetModel.likes = [tweetDic[@"likes"] integerValue];
                     }
                     
-                    tableViewHeight += model.contentHeight;
-                    weakSelf.kHeadViewH += model.contentHeight;
+                    if (needRefreshCommentView) {
+                        [weakSelf updateComments:[tweetDic[@"comments"] integerValue]];
+                        
+                        if (!needRefreshTopView || !needRefreshSupportView) {
+                            [weakSelf.commentVC refreshView];
+                        }
+                    }
+                    
+                    if (needRefreshSupportView) {
+                        NSArray *likes = data[@"likes"];
+                        for (NSDictionary *likeDic in likes) {
+                            MIPraiseModel *model = [MIPraiseModel yy_modelWithDictionary:likeDic];
+                            [weakSelf.praiseArray addObject:model];
+                        }
+                        
+                        [weakSelf.praiseBtn setTitle:[NSString stringWithFormat:@"%ld", weakSelf.praiseArray.count] forState:UIControlStateNormal];
+                        weakSelf.supportVC.praiseArray = weakSelf.praiseArray;
+                        [weakSelf updateLiks:weakSelf.praiseArray.count];
+                    }
+                } else {
+                    
                 }
-                
-                [weakSelf refreshHeaderFrame];
-                [weakSelf.tableView mas_updateConstraints:^(MASConstraintMaker *make) {
-                    make.height.equalTo(@(tableViewHeight));
-                }];
-                [weakSelf.tableView reloadData];
-            } else {
-                weakSelf.tweetModel.comments = [tweetDic[@"comments"] integerValue];
-                weakSelf.tweetModel.likes = [tweetDic[@"likes"] integerValue];
-            }
-            
-            if (needRefreshCommentView) {
-                [weakSelf updateComments:[tweetDic[@"comments"] integerValue]];
-                
-                if (!needRefreshTopView || !needRefreshSupportView) {
-                    [weakSelf.commentVC refreshView];
-                }
-            }
-            
-            if (needRefreshSupportView) {
-                NSArray *likes = data[@"likes"];
-                for (NSDictionary *likeDic in likes) {
-                    MIPraiseModel *model = [MIPraiseModel yy_modelWithDictionary:likeDic];
-                    [weakSelf.praiseArray addObject:model];
-                }
-                
-                [weakSelf.praiseBtn setTitle:[NSString stringWithFormat:@"%ld", weakSelf.praiseArray.count] forState:UIControlStateNormal];
-                weakSelf.supportVC.praiseArray = weakSelf.praiseArray;
-                [weakSelf updateLiks:weakSelf.praiseArray.count];
-            }
-        } else {
-            
-        }
-    }];
+            });
+        }];
+    });
 }
 
 #pragma mark - Notify
@@ -458,6 +476,7 @@
     [QZShareMgr shareManager].delegate = self;
     [QZShareMgr shareManager].shareWebUrl = [NSString stringWithFormat:@"http://www.tipscope.com/tweet.html?token=%@&id=%ld", [MILocalData getCurrentRequestToken], _tweetId];
     [QZShareMgr shareManager].shareImg = [UIImage imageNamed:@"icon_message_app_nor"];
+    [QZShareMgr shareManager].title = _tweetModel.title;
 }
 
 - (void)clickBottomCommentBtn:(UIButton *)sender {
@@ -467,7 +486,7 @@
 
 - (void)clickBottomPraiseBtn:(UIButton *)sender {
     if (sender.selected) {
-        [MIHudView showMsg:@"您已经点过赞该作品"];
+        [MIHudView showMsg:[MILocalData appLanguage:@"other_key_12"]];
     } else {
         WSWeak(weakSelf)
         [MIRequestManager praiseTweetWithTweetId:_tweetId requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
@@ -477,7 +496,7 @@
                 weakSelf.praiseBtn.selected = YES;
                 [weakSelf requestDetailDataNeedRefreshTopView:NO needRefreshCommentView:NO needRefreshSupportView:YES];
             } else {
-                [MIHudView showMsg:@"点赞失败"];
+//                [MIHudView showMsg:@"点赞失败"];
             }
         }];
     }
@@ -485,7 +504,7 @@
 
 - (void)clickSendBtn {
     if ([MIHelpTool isBlankString:_textView.text]) {
-        [MIHudView showMsg:@"请输入评论内容"];
+        [MIHudView showMsg:[MILocalData appLanguage:@"other_key_13"]];
         return;
     }
     
@@ -501,7 +520,7 @@
                     if (code == 0) {
                         [weakSelf requestDetailDataNeedRefreshTopView:NO needRefreshCommentView:YES needRefreshSupportView:NO];
                     } else {
-                        [MIHudView showMsg:@"评论失败"];
+//                        [MIHudView showMsg:@"评论失败"];
                     }
                 }];
             } else {
@@ -511,12 +530,12 @@
                     if (code == 0) {
                         [weakSelf requestDetailDataNeedRefreshTopView:NO needRefreshCommentView:YES needRefreshSupportView:NO];
                     } else {
-                        [MIHudView showMsg:@"评论失败"];
+//                        [MIHudView showMsg:@"评论失败"];
                     }
                 }];
             }
         } else if (code == -1) {
-            [MIHudView showMsg:@"评论不能含有敏感词"];
+            [MIHudView showMsg:[MILocalData appLanguage:@"other_key_14"]];
         }
         
         weakSelf.textView.text = nil;
@@ -538,20 +557,23 @@
 }
 
 - (void)shareManagerReportAction {
+    [self shareManagerReportAction:self.tweetModel.modelId];
+}
+
+- (void)shareManagerReportAction:(NSInteger)userId {
     if (!_reportView) {
         _reportView = [[MIReportView alloc] initWithFrame:CGRectMake(0, MIScreenHeight, MIScreenWidth, MIScreenHeight)];
         [[UIApplication sharedApplication].keyWindow addSubview:_reportView];
         
-        WSWeak(weakSelf)
         _reportView.selectReportContent = ^(NSString * _Nonnull content) {
             
-            [MIRequestManager reportUseWithUserId:[NSString stringWithFormat:@"%ld", weakSelf.tweetModel.modelId] reportContent:content requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+            [MIRequestManager reportUseWithUserId:[NSString stringWithFormat:@"%ld", userId] reportContent:content requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
                 
                 NSInteger code = [jsonData[@"code"] integerValue];
                 if (code == 0) {
-                    [MIHudView showMsg:@"举报成功"];
+                    [MIHudView showMsg:[MILocalData appLanguage:@"other_key_15"]];
                 } else {
-                    [MIHudView showMsg:@"举报失败"];
+//                    [MIHudView showMsg:@"举报失败"];
                 }
             }];
         };
@@ -613,9 +635,14 @@
             _commentVC = [[MICommentVC alloc] init];
             _commentVC.contentId = _tweetId;
             _commentVC.commentType = MICommentTypeTweet;
-            _commentVC.clickUserIcon = ^(NSInteger userId) {
+            _commentVC.clickUserIcon = ^(MIChildCommentModel *model) {
+                if (model.isBlack) {
+                    [MIHudView showMsg:[MILocalData appLanguage:@"other_key_54"]];
+                    return;
+                }
+                
                 MIPersonalVC *vc = [[MIPersonalVC alloc] init];
-                vc.userId = userId;
+                vc.userId = model.user_id;
                 [weakSelf.navigationController pushViewController:vc animated:YES];
             };
             
@@ -630,6 +657,51 @@
                 [weakSelf.textView becomeFirstResponder];
                 weakSelf.currentModel = model;
                 weakSelf.currentCommentType = 1;
+            };
+            
+            //长按评论
+            _commentVC.longPressComment = ^(MICommentModel * _Nonnull model) {
+                if (!weakSelf.commentAlertView) {
+                    weakSelf.commentAlertView = [MICommentAlertView commentAlertView];
+                    weakSelf.commentAlertView.frame = MIScreenBounds;
+                    [[UIApplication sharedApplication].keyWindow addSubview:weakSelf.commentAlertView];
+                    
+                    weakSelf.commentAlertView.alertType = ^(NSInteger type) {
+                        if (type == 0) {
+                            [weakSelf.textView becomeFirstResponder];
+                            weakSelf.currentModel = model;
+                            weakSelf.currentCommentType = 1;
+                        } else if (type == 1) {
+                            [weakSelf shareManagerReportAction:model.modelId];
+                        } else if (type == 2) {
+                            if (model.isBlack) {
+                                [MIRequestManager cancelBlackListWithUserId:[NSString stringWithFormat:@"%ld", model.user_id] requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+                                    
+                                    NSInteger code = [jsonData[@"code"] integerValue];
+                                    if (code == 0) {
+                                        [MIHudView showMsg:[MILocalData appLanguage:@"other_key_55"]];
+                                        [[NSNotificationCenter defaultCenter] postNotificationName:@"blackListNotification" object:nil];
+                                    }
+                                }];
+                            } else {
+                                [MIRequestManager addBlackListWithUserId:[NSString stringWithFormat:@"%ld", model.user_id] requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+                                    
+                                    NSInteger code = [jsonData[@"code"] integerValue];
+                                    if (code == 0) {
+                                        [MIHudView showMsg:[MILocalData appLanguage:@"other_key_16"]];
+                                        [[NSNotificationCenter defaultCenter] postNotificationName:@"blackListNotification" object:nil];
+                                    } else {
+                                        //            [MIHudView showMsg:@"拉黑失败"];
+                                    }
+                                }];
+                            }
+                        }
+                    };
+                }
+                
+                [UIView animateWithDuration:0.3 animations:^{
+                    weakSelf.commentAlertView.alpha = 1;
+                }];
             };
             
             return _commentVC;

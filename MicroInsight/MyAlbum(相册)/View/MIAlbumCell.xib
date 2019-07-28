@@ -39,7 +39,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="132" height="166"/>
                         <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="0.6013484589041096" colorSpace="calibratedRGB"/>
                     </view>
-                    <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z1F-eC-cBS">
+                    <button hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z1F-eC-cBS">
                         <rect key="frame" x="112" y="5" width="15" height="15"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="15" id="Fs1-9z-DDD"/>

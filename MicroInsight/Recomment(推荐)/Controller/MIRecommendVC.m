@@ -133,7 +133,7 @@
 }
 
 - (void)configUI {
-    self.title = @"推荐";
+    self.title = [MILocalData appLanguage:@"home_key_4"];
     self.view.backgroundColor = UIColorFromRGBWithAlpha(0xF2F3F5, 1);
     [super configLeftBarButtonItem:nil];
     [super configRightBarButtonItemWithType:UIButtonTypeCustom frame:CGRectMake(0, 0, 60, 20) normalTitle:nil normalTitleColor:nil highlightedTitleColor:nil selectedColor:nil titleFont:0 normalImage:[UIImage imageNamed:@"icon_recommend_search_nor"] highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(clickSearchBtn)];
@@ -269,7 +269,7 @@
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     
     if ([MIHelpTool isBlankString:_searchTF.text]) {
-        [MIHudView showMsg:@"请输入搜索内容"];
+        [MIHudView showMsg:[MILocalData appLanguage:@"other_key_13"]];
         return YES;
     }
     

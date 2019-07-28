@@ -37,7 +37,10 @@ class MIUseHelpVC: MIBaseViewController {
         self.title = MILocalData.appLanguage("sideBar_key_5")
         self.view.backgroundColor = MIRgbaColor(rgbValue: 0xF2F3F5, alpha: 1)
         
-        helpList = [MILocalData.appLanguage("help_key_1"), MILocalData.appLanguage("help_key_2"), MILocalData.appLanguage("help_key_3")]
+        helpList = [MILocalData.appLanguage("help_key_1"),
+                    MILocalData.appLanguage("help_key_2"),
+                    MILocalData.appLanguage("help_key_3"),
+                    MILocalData.appLanguage("help_key_18")]
         self.tableView.reloadData()
     }
 }
@@ -57,10 +60,15 @@ extension MIUseHelpVC: UITableViewDelegate {
             let handleVC = MIUseHandleVC.init()
             handleVC.handleType = .Glue
             self.navigationController?.pushViewController(handleVC, animated: true)
-        } else {
+        } else if indexPath.row == 2 {
             let handleVC = MIUseHandleVC.init()
             handleVC.handleType = .Measure
             self.navigationController?.pushViewController(handleVC, animated: true)
+        } else {
+            let videoVC = MIVideoUploadVC.init()
+            videoVC.networkVideoUrl = MILocalData.getVideoTutorialUrl()
+            videoVC.notUpload = "1"
+            self.navigationController?.pushViewController(videoVC, animated: true)
         }
     }
 }

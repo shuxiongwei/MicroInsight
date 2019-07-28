@@ -89,7 +89,7 @@ static dispatch_once_t onceToken;
         if (asset.mediaType == PHAssetMediaTypeVideo) {
             [self getAVAssetWithAsset:asset completion:^(AVAsset * _Nonnull dataAsset) {
                 CGFloat time = dataAsset.duration.value / (dataAsset.duration.timescale * 1.0);
-                if (time >= 3 && time <= 60) {
+                if (time <= 60) {
                     MIPhotoModel *model = [self assetModelWithAsset:asset allowPickingVideo:allowPickingVideo allowPickingImage:allowPickingImage];
                     if (model) {
                         [photoArr addObject:model];
@@ -185,7 +185,7 @@ static dispatch_once_t onceToken;
     option.resizeMode = PHImageRequestOptionsResizeModeFast;
     //高清图片
     option.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
-    [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:photoSize contentMode:PHImageContentModeAspectFill options:option resultHandler:^(UIImage *result, NSDictionary *info) {
+    [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:photoSize contentMode:PHImageContentModeAspectFit options:option resultHandler:^(UIImage *result, NSDictionary *info) {
 
         result = [self fixOrientation:result];
         if (completion) {

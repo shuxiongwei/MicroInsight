@@ -27,7 +27,7 @@
     [self addSubview:selectView];
     
     UILabel *photoLab = [[UILabel alloc] initWithFrame:CGRectMake(30 + (selectView.width - 45) / 2.0, 0, (selectView.width - 45) / 2.0, 49.5)];
-    photoLab.text = @"照片或视频";
+    photoLab.text = [MILocalData appLanguage:@"other_key_8"];
     photoLab.textColor = UIColorFromRGBWithAlpha(0x999999, 1);
     photoLab.font = [UIFont systemFontOfSize:13];
     photoLab.textAlignment = NSTextAlignmentRight;
@@ -36,7 +36,7 @@
     UIButton *shootBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     shootBtn.frame = CGRectMake(30, 0, selectView.width - 60, 49.5);
     shootBtn.backgroundColor = [UIColor clearColor];
-    [shootBtn setTitle:@"拍照" forState:UIControlStateNormal];
+    [shootBtn setTitle:[MILocalData appLanguage:@"other_key_9"] forState:UIControlStateNormal];
     [shootBtn setTitleColor:UIColorFromRGBWithAlpha(0x666666, 1) forState:UIControlStateNormal];
     shootBtn.titleLabel.font = [UIFont systemFontOfSize:16];
     shootBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
@@ -49,7 +49,7 @@
     
     UIButton *albumBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     albumBtn.frame = CGRectMake(30, 50.5, selectView.width - 60, 49.5);
-    [albumBtn setTitle:@"从相册中选择" forState:UIControlStateNormal];
+    [albumBtn setTitle:[MILocalData appLanguage:@"other_key_10"] forState:UIControlStateNormal];
     [albumBtn setTitleColor:UIColorFromRGBWithAlpha(0x666666, 1) forState:UIControlStateNormal];
     albumBtn.titleLabel.font = [UIFont systemFontOfSize:16];
     albumBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;

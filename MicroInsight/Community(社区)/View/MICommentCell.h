@@ -11,6 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @class MICommentModel;
+@class MIChildCommentModel;
 @interface MICommentCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UIButton *userBtn;
@@ -22,9 +23,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *heightConstraint;
 @property (nonatomic, strong) MICommentModel *model;
 
-@property (nonatomic, copy) void (^clickUserIcon)(NSInteger userId);
+@property (nonatomic, copy) void (^clickUserIcon)(MIChildCommentModel *model);
 @property (nonatomic, copy) void (^clickShowAllChildComment)(MICommentModel *model);
 @property (nonatomic, copy) void (^clickPraiseComment)(void);
+@property (nonatomic, copy) void (^longPressComment)(MICommentModel *model);
 
 @end
 

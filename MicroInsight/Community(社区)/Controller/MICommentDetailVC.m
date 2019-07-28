@@ -193,7 +193,7 @@
     
     _textView = [[MIPlaceholderTextView alloc] initWithFrame:CGRectMake(20, 10, MIScreenWidth - 80, 40)];
     _textView.backgroundColor = UIColorFromRGBWithAlpha(0xF2F3F5, 1);
-    _textView.placeholder = @"回复评论......";
+    _textView.placeholder = [NSString stringWithFormat:@"%@......", [MILocalData appLanguage:@"other_key_17"]];
     _textView.placeholderColor = UIColorFromRGBWithAlpha(0x999999, 1);
     _textView.placeholderFont = [UIFont systemFontOfSize:11];
     [_bgTextView addSubview:_textView];
@@ -201,7 +201,7 @@
     UIButton *sendBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     sendBtn.frame = CGRectMake(_bgTextView.width - 60, 0, 60, 40);
     sendBtn.centerY = _textView.centerY;
-    [sendBtn setTitle:@"发送" forState:UIControlStateNormal];
+    [sendBtn setTitle:[MILocalData appLanguage:@"community_key_6"] forState:UIControlStateNormal];
     [sendBtn setTitleColor:UIColorFromRGBWithAlpha(0x333333, 1) forState:UIControlStateNormal];
     sendBtn.titleLabel.font = [UIFont systemFontOfSize:12];
     [sendBtn addTarget:self action:@selector(clickSendBtn) forControlEvents:UIControlEventTouchUpInside];
@@ -306,7 +306,7 @@
 
 - (void)clickPraiseBtn:(UIButton *)sender {
     if (_praiseBtn.selected) {
-        [MIHudView showMsg:@"您已经点过赞该评论"];
+        [MIHudView showMsg:[MILocalData appLanguage:@"other_key_11"]];
     } else {
         WSWeak(weakSelf)
         [MIRequestManager praiseTweetCommentWithTweetId:[_commentModel.tweet_id integerValue] commentId:_commentModel.modelId requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
@@ -317,7 +317,7 @@
                 weakSelf.commentModel.isLike = YES;
                 [weakSelf updatePraiseBtnStatus];
             } else {
-                [MIHudView showMsg:@"点赞失败"];
+//                [MIHudView showMsg:@"点赞失败"];
             }
         }];
     }
@@ -329,7 +329,7 @@
 
 - (void)clickSendBtn {
     if ([MIHelpTool isBlankString:_textView.text]) {
-        [MIHudView showMsg:@"请输入评论内容"];
+        [MIHudView showMsg:[MILocalData appLanguage:@"other_key_13"]];
     } else {
         WSWeak(weakSelf)
         if ([self isTweet]) {
@@ -339,7 +339,7 @@
                 if (code == 0) {
                     [weakSelf reloadData:YES];
                 } else {
-                    [MIHudView showMsg:@"评论失败"];
+//                    [MIHudView showMsg:@"评论失败"];
                 }
             }];
         } else {
@@ -349,7 +349,7 @@
                 if (code == 0) {
                     [weakSelf reloadData:YES];
                 } else {
-                    [MIHudView showMsg:@"评论失败"];
+//                    [MIHudView showMsg:@"评论失败"];
                 }
             }];
         }
@@ -418,16 +418,16 @@
     cell.model = model;
     
     WSWeak(weakSelf)
-    cell.clickUserIcon = ^(NSInteger userId) {
+    cell.clickUserIcon = ^(MIChildCommentModel *childModel) {
         MIPersonalVC *vc = [[MIPersonalVC alloc] init];
-        vc.userId = userId;
+        vc.userId = childModel.user_id;
         [weakSelf.navigationController pushViewController:vc animated:YES];
     };
     
     __weak __typeof(&*cell)weakCell = cell;
     cell.clickPraiseComment = ^{
         if (model.isLike) {
-            [MIHudView showMsg:@"您已经点过赞该评论"];
+            [MIHudView showMsg:[MILocalData appLanguage:@"other_key_11"]];
         } else {
             if ([weakSelf isTweet]) {
                 [MIRequestManager praiseTweetCommentWithTweetId:[model.tweet_id integerValue] commentId:model.modelId requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
@@ -438,7 +438,7 @@
                         model.likes += 1;
                         weakCell.model = model;
                     } else {
-                        [MIHudView showMsg:@"点赞失败"];
+//                        [MIHudView showMsg:@"点赞失败"];
                     }
                 }];
             } else {
@@ -450,7 +450,7 @@
                         model.likes += 1;
                         weakCell.model = model;
                     } else {
-                        [MIHudView showMsg:@"点赞失败"];
+//                        [MIHudView showMsg:@"点赞失败"];
                     }
                 }];
             }

@@ -29,7 +29,7 @@
 -(void)buildUI
 {
     [super configLeftBarButtonItem:nil];
-    self.title = @"马赛克";
+    self.title = [MILocalData appLanguage:@"other_key_22"];
     self.view.backgroundColor = [UIColor blackColor];
     _mosaicView = [[XLMosaicView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, MIScreenHeight - KNaviBarAllHeight - operaBarHeight - mosaicToolBarHeight)];
     _mosaicView.image = _image;

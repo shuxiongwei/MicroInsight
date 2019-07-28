@@ -48,42 +48,24 @@
 - (void)configUIWithType:(NSInteger)type {
     self.backgroundColor = [UIColor whiteColor];
     
-    UILabel *titleLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, MIScreenWidth, 40)];
-    titleLab.text = @"分享至";
-    titleLab.font = [UIFont systemFontOfSize:10];
-    titleLab.textColor = UIColorFromRGBWithAlpha(0x666666, 1);
-    titleLab.textAlignment = NSTextAlignmentCenter;
-    [self addSubview:titleLab];
-
     CGFloat wid = 50;
     CGFloat margin = (MIScreenWidth - 5 * wid) / 6.0;
     
-    NSArray *fTitles = @[@"微信好友", @"朋友圈", @"微博", @"QQ", @"QQ空间"];
-    NSArray *fImgs = @[@"icon_share_weixin_nor",  @"icon_share_friends_nor",@"icon_share_weibo_nor",@"icon_share_qq_nor",@"icon_share_space_nor"];
-    
-    for (NSInteger i = 0; i < fImgs.count; i++) {
-        UIButton *fBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        fBtn.frame = CGRectMake(margin + (margin + wid) * i, 40, wid, 80);
-        [fBtn setTitleColor:UIColorFromRGBWithAlpha(0x666666, 1) forState:UIControlStateNormal];
-        [fBtn setTitle:fTitles[i] forState:UIControlStateNormal];
-        [fBtn setImage:[UIImage imageNamed:fImgs[i]] forState:UIControlStateNormal];
-        fBtn.titleLabel.font = [UIFont systemFontOfSize:10];
-        [fBtn addTarget:self action:@selector(btnAction:) forControlEvents:UIControlEventTouchUpInside];
-        [fBtn layoutButtonWithEdgeInsetsStyle:MIButtonEdgeInsetsStyleTop imageTitleSpace:10];
-        [self addSubview:fBtn];
-    }
-    
-    if (type == 1) {
-        UIView *lineV = [[UIView alloc] initWithFrame:CGRectMake(0, 120, MIScreenWidth, 1)];
-        lineV.backgroundColor = UIColorFromRGBWithAlpha(0xF2F3F5, 1);
-        [self addSubview:lineV];
+    if (type == 4) {
+        UILabel *titleLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, MIScreenWidth, 40)];
+        titleLab.text = [MILocalData appLanguage:@"personal_key_25"];
+        titleLab.font = [UIFont systemFontOfSize:10];
+        titleLab.textColor = UIColorFromRGBWithAlpha(0x666666, 1);
+        titleLab.textAlignment = NSTextAlignmentCenter;
+        [self addSubview:titleLab];
         
-        NSArray *sTitles = @[@"举报", @"拉黑"];
+        NSArray *sTitles = @[[MILocalData appLanguage:@"community_key_13"],
+                             [MILocalData appLanguage:@"community_key_16"]];
         NSArray *sImgs = @[@"icon_share_report_nor", @"icon_share_black_nor"];
         
         for (NSInteger i = 0; i < sImgs.count; i++) {
             UIButton *sBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-            sBtn.frame = CGRectMake(margin + (margin + wid) * i, 121, wid, 64);
+            sBtn.frame = CGRectMake(margin + (margin + wid) * i, 40, wid, 64);
             [sBtn setTitleColor:UIColorFromRGBWithAlpha(0x666666, 1) forState:UIControlStateNormal];
             [sBtn setTitle:sTitles[i] forState:UIControlStateNormal];
             [sBtn setImage:[UIImage imageNamed:sImgs[i]] forState:UIControlStateNormal];
@@ -92,24 +74,93 @@
             [sBtn layoutButtonWithEdgeInsetsStyle:MIButtonEdgeInsetsStyleTop imageTitleSpace:5];
             [self addSubview:sBtn];
         }
-    } else if (type == 2) {
-        UIView *lineV = [[UIView alloc] initWithFrame:CGRectMake(0, 120, MIScreenWidth, 1)];
-        lineV.backgroundColor = UIColorFromRGBWithAlpha(0xF2F3F5, 1);
-        [self addSubview:lineV];
+    } else {
+        UILabel *titleLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, MIScreenWidth, 40)];
+        titleLab.text = [MILocalData appLanguage:@"community_key_23"];
+        titleLab.font = [UIFont systemFontOfSize:10];
+        titleLab.textColor = UIColorFromRGBWithAlpha(0x666666, 1);
+        titleLab.textAlignment = NSTextAlignmentCenter;
+        [self addSubview:titleLab];
         
-        NSArray *sTitles = @[@"复制链接", @"回到首页", @"举报"];
-        NSArray *sImgs = @[@"icon_share_link_nor", @"icon_share_home_nor", @"icon_share_report_nor"];
+        NSArray *fTitles = @[[MILocalData appLanguage:@"community_key_7"],
+                             [MILocalData appLanguage:@"community_key_8"],
+                             [MILocalData appLanguage:@"community_key_9"],
+                             @"QQ",
+                             [MILocalData appLanguage:@"community_key_10"]];
+        NSArray *fImgs = @[@"icon_share_weixin_nor",  @"icon_share_friends_nor",@"icon_share_weibo_nor",@"icon_share_qq_nor",@"icon_share_space_nor"];
         
-        for (NSInteger i = 0; i < sImgs.count; i++) {
-            UIButton *sBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-            sBtn.frame = CGRectMake(margin + (margin + wid) * i, 121, wid, 64);
-            [sBtn setTitleColor:UIColorFromRGBWithAlpha(0x666666, 1) forState:UIControlStateNormal];
-            [sBtn setTitle:sTitles[i] forState:UIControlStateNormal];
-            [sBtn setImage:[UIImage imageNamed:sImgs[i]] forState:UIControlStateNormal];
-            sBtn.titleLabel.font = [UIFont systemFontOfSize:10];
-            [sBtn addTarget:self action:@selector(btnAction:) forControlEvents:UIControlEventTouchUpInside];
-            [sBtn layoutButtonWithEdgeInsetsStyle:MIButtonEdgeInsetsStyleTop imageTitleSpace:5];
-            [self addSubview:sBtn];
+        for (NSInteger i = 0; i < fImgs.count; i++) {
+            UIButton *fBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+            fBtn.frame = CGRectMake(margin + (margin + wid) * i, 40, wid, 80);
+            [fBtn setTitleColor:UIColorFromRGBWithAlpha(0x666666, 1) forState:UIControlStateNormal];
+            [fBtn setTitle:fTitles[i] forState:UIControlStateNormal];
+            [fBtn setImage:[UIImage imageNamed:fImgs[i]] forState:UIControlStateNormal];
+            fBtn.titleLabel.font = [UIFont systemFontOfSize:10];
+            [fBtn addTarget:self action:@selector(btnAction:) forControlEvents:UIControlEventTouchUpInside];
+            [fBtn layoutButtonWithEdgeInsetsStyle:MIButtonEdgeInsetsStyleTop imageTitleSpace:10];
+            [self addSubview:fBtn];
+        }
+        
+        if (type == 1) {
+            UIView *lineV = [[UIView alloc] initWithFrame:CGRectMake(0, 120, MIScreenWidth, 1)];
+            lineV.backgroundColor = UIColorFromRGBWithAlpha(0xF2F3F5, 1);
+            [self addSubview:lineV];
+            
+            NSArray *sTitles = @[[MILocalData appLanguage:@"community_key_13"],
+                                 [MILocalData appLanguage:@"community_key_16"]];
+            NSArray *sImgs = @[@"icon_share_report_nor", @"icon_share_black_nor"];
+            
+            for (NSInteger i = 0; i < sImgs.count; i++) {
+                UIButton *sBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+                sBtn.frame = CGRectMake(margin + (margin + wid) * i, 121, wid, 64);
+                [sBtn setTitleColor:UIColorFromRGBWithAlpha(0x666666, 1) forState:UIControlStateNormal];
+                [sBtn setTitle:sTitles[i] forState:UIControlStateNormal];
+                [sBtn setImage:[UIImage imageNamed:sImgs[i]] forState:UIControlStateNormal];
+                sBtn.titleLabel.font = [UIFont systemFontOfSize:10];
+                [sBtn addTarget:self action:@selector(btnAction:) forControlEvents:UIControlEventTouchUpInside];
+                [sBtn layoutButtonWithEdgeInsetsStyle:MIButtonEdgeInsetsStyleTop imageTitleSpace:5];
+                [self addSubview:sBtn];
+            }
+        } else if (type == 2) {
+            UIView *lineV = [[UIView alloc] initWithFrame:CGRectMake(0, 120, MIScreenWidth, 1)];
+            lineV.backgroundColor = UIColorFromRGBWithAlpha(0xF2F3F5, 1);
+            [self addSubview:lineV];
+            
+            NSArray *sTitles = @[[MILocalData appLanguage:@"community_key_11"],
+                                 [MILocalData appLanguage:@"community_key_12"],
+                                 [MILocalData appLanguage:@"community_key_13"]];
+            NSArray *sImgs = @[@"icon_share_link_nor", @"icon_share_home_nor", @"icon_share_report_nor"];
+            
+            for (NSInteger i = 0; i < sImgs.count; i++) {
+                UIButton *sBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+                sBtn.frame = CGRectMake(margin + (margin + wid) * i, 121, wid, 64);
+                [sBtn setTitleColor:UIColorFromRGBWithAlpha(0x666666, 1) forState:UIControlStateNormal];
+                [sBtn setTitle:sTitles[i] forState:UIControlStateNormal];
+                [sBtn setImage:[UIImage imageNamed:sImgs[i]] forState:UIControlStateNormal];
+                sBtn.titleLabel.font = [UIFont systemFontOfSize:10];
+                [sBtn addTarget:self action:@selector(btnAction:) forControlEvents:UIControlEventTouchUpInside];
+                [sBtn layoutButtonWithEdgeInsetsStyle:MIButtonEdgeInsetsStyleTop imageTitleSpace:5];
+                [self addSubview:sBtn];
+            }
+        } else if (type == 3) {
+            UIView *lineV = [[UIView alloc] initWithFrame:CGRectMake(0, 120, MIScreenWidth, 1)];
+            lineV.backgroundColor = UIColorFromRGBWithAlpha(0xF2F3F5, 1);
+            [self addSubview:lineV];
+            
+            NSArray *sTitles = @[[MILocalData appLanguage:@"album_key_7"]];
+            NSArray *sImgs = @[@"icon_album_delete_nor"];
+            
+            for (NSInteger i = 0; i < sImgs.count; i++) {
+                UIButton *sBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+                sBtn.frame = CGRectMake(margin + (margin + wid) * i, 121, wid, 64);
+                [sBtn setTitleColor:UIColorFromRGBWithAlpha(0x666666, 1) forState:UIControlStateNormal];
+                [sBtn setTitle:sTitles[i] forState:UIControlStateNormal];
+                [sBtn setImage:[UIImage imageNamed:sImgs[i]] forState:UIControlStateNormal];
+                sBtn.titleLabel.font = [UIFont systemFontOfSize:10];
+                [sBtn addTarget:self action:@selector(btnAction:) forControlEvents:UIControlEventTouchUpInside];
+                [sBtn layoutButtonWithEdgeInsetsStyle:MIButtonEdgeInsetsStyleTop imageTitleSpace:7];
+                [self addSubview:sBtn];
+            }
         }
     }
     
@@ -118,7 +169,7 @@
     cancelBtn.frame = CGRectMake(0, self.height - 50, MIScreenWidth, 50);
     cancelBtn.backgroundColor = [UIColor whiteColor];
     [cancelBtn setTitleColor:UIColorFromRGBWithAlpha(0x333333, 1) forState:UIControlStateNormal];
-    [cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
+    [cancelBtn setTitle:[MILocalData appLanguage:@"personal_key_13"] forState:UIControlStateNormal];
     cancelBtn.titleLabel.font = [UIFont systemFontOfSize:15];
     [cancelBtn addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:cancelBtn];

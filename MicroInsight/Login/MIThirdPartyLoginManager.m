@@ -254,7 +254,7 @@ static MIThirdPartyLoginManager *_instance;
                                         // 第二步：获取用户信息
                                         [weakSelf fetchFaceBookUserinfo:result.token.userID];
                                     } else {
-                                        [MIHudView showMsg:@"Facebook登录取消了"];
+//                                        [MIHudView showMsg:@"Facebook登录取消了"];
                                     }
                                 } else {
                                     

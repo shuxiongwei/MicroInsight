@@ -18,6 +18,7 @@ class MIRegisterViewController: MIBaseViewController {
     @IBOutlet weak var registerBtn: UIButton!
     @IBOutlet weak var topConstraint: NSLayoutConstraint!
     @IBOutlet weak var agreementBtn: UIButton!
+    @IBOutlet weak var readBtn: UIButton!
     var token: String?
     var timer: Timer?
     var downCount: Int!
@@ -47,12 +48,13 @@ class MIRegisterViewController: MIBaseViewController {
         authCodeTF.setValue(MILocalData.appLanguage("login_key_9"), forKeyPath: "_placeholderLabel.text")
         setPsdTF.setValue(MILocalData.appLanguage("login_key_10"), forKeyPath: "_placeholderLabel.text")
         againSetPsdTF.setValue(MILocalData.appLanguage("login_key_11"), forKeyPath: "_placeholderLabel.text")
+        readBtn.setTitle(MILocalData.appLanguage("login_key_13"), for: .normal)
     }
 
     //发送验证码
     @IBAction func clickAuthCodeBtn(_ sender: UIButton) {
         if !MIHelpTool.validateContactNumber(phoneTF.text) {
-            MIHudView.showMsg("请输入正确的手机号码")
+            MIHudView.showMsg(MILocalData.appLanguage("other_key_38"))
             return
         }
 
@@ -79,26 +81,26 @@ class MIRegisterViewController: MIBaseViewController {
     //注册
     @IBAction func clickRegisterBtn(_ sender: UIButton) {
         if !MIHelpTool.validateContactNumber(phoneTF.text) {
-            MIHudView.showMsg("请输入正确的手机号码")
+            MIHudView.showMsg(MILocalData.appLanguage("other_key_38"))
             return
         }
         
-        if setPsdTF.text!.count < 6 || setPsdTF.text!.count > 32 {
-            MIHudView.showMsg("请输入6-32位的密码")
+        if setPsdTF.text!.count < 6 || setPsdTF.text!.count > 20 {
+            MIHudView.showMsg(MILocalData.appLanguage("login_key_10"))
             return
         }
         
         if setPsdTF.text != againSetPsdTF.text {
-            MIHudView.showMsg("两次输入的密码不一样")
+            MIHudView.showMsg(MILocalData.appLanguage("other_key_40"))
             return
         }
         
         if !agreementBtn.isSelected {
-            MIHudView.showMsg("注册需同意用户协议")
+            MIHudView.showMsg(MILocalData.appLanguage("other_key_41"))
             return
         }
         
-        MBProgressHUD.showStatus("注册中，请稍后...")
+        MBProgressHUD.showStatus(MILocalData.appLanguage("other_key_42"))
         weak var weakSelf = self
         MIRequestManager.register(withUsername: phoneTF.text!, password: setPsdTF.text!) { (jsonData: Any?, error: Error) in
             
@@ -145,7 +147,7 @@ class MIRegisterViewController: MIBaseViewController {
             authCodeBtn.isUserInteractionEnabled = true
             authCodeBtn.backgroundColor = nil
             authCodeBtn.setButtonCustomBackgroudImage(btn: authCodeBtn, fromColor: MIRgbaColor(rgbValue: 0x72B3E3, alpha: 1), toColor: MIRgbaColor(rgbValue: 0x6DD1CC, alpha: 1))
-            authCodeBtn.setTitle("发送验证码", for: .normal)
+            authCodeBtn.setTitle(MILocalData.appLanguage("login_key_12"), for: .normal)
             authCodeBtn.setTitleColor(MIRgbaColor(rgbValue: 0xffffff, alpha: 1), for: .normal)
         } else {
             authCodeBtn.setTitle("\(downCount!)" + "s", for: .normal)

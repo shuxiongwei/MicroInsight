@@ -27,7 +27,11 @@
 
 - (void)configReportUI {
     self.backgroundColor = [UIColorFromRGBWithAlpha(0x666666, 1) colorWithAlphaComponent:0.8];
-    _reportList = @[@"垃圾广告", @"低俗色情", @"有害信息", @"诈骗信息", @"违法犯罪"];
+    _reportList = @[[MILocalData appLanguage:@"community_key_18"],
+                    [MILocalData appLanguage:@"community_key_19"],
+                    [MILocalData appLanguage:@"community_key_20"],
+                    [MILocalData appLanguage:@"community_key_21"],
+                    [MILocalData appLanguage:@"community_key_22"]];
     
     _reportTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, self.height - 287, self.width, 227) style:UITableViewStylePlain];
     _reportTableView.backgroundColor = UIColorFromRGBWithAlpha(0xCCCCCC, 1);
@@ -43,7 +47,7 @@
     cancelBtn.frame = CGRectMake(0, self.height - 50, MIScreenWidth, 50);
     cancelBtn.backgroundColor = [UIColor whiteColor];
     [cancelBtn setTitleColor:UIColorFromRGBWithAlpha(0x333333, 1) forState:UIControlStateNormal];
-    [cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
+    [cancelBtn setTitle:[MILocalData appLanguage:@"personal_key_13"] forState:UIControlStateNormal];
     cancelBtn.titleLabel.font = [UIFont systemFontOfSize:15];
     [cancelBtn addTarget:self action:@selector(clickCancelBtn) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:cancelBtn];
@@ -110,7 +114,7 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     
-    UILabel *sectionLab = [MIUIFactory createLabelWithCenter:CGPointMake(MIScreenWidth / 2.0, 18.5) withBounds:CGRectMake(0, 0, MIScreenWidth, 37) withText:@"举报内容问题" withFont:11 withTextColor:[UIColor blackColor] withTextAlignment:NSTextAlignmentCenter];
+    UILabel *sectionLab = [MIUIFactory createLabelWithCenter:CGPointMake(MIScreenWidth / 2.0, 18.5) withBounds:CGRectMake(0, 0, MIScreenWidth, 37) withText:[MILocalData appLanguage:@"community_key_17"] withFont:11 withTextColor:[UIColor blackColor] withTextAlignment:NSTextAlignmentCenter];
     sectionLab.backgroundColor = [UIColor whiteColor];
     
     return sectionLab;

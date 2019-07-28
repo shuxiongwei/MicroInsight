@@ -9,9 +9,9 @@
 #import "MIRequestManager.h"
 
 //测试地址
-//static NSString * const requestUrl = @"http://122.14.225.235:8080/test/api/web/index.php";
+static NSString * const requestUrl = @"http://122.14.225.235:8080/test/api/web/index.php";
 //正式地址
-static NSString * const requestUrl = @"https://api.tipscope.com";
+//static NSString * const requestUrl = @"https://api.tipscope.com";
 static NSString * const registerUrl = @"/site/register";
 static NSString * const messageCodeUrl = @"/site/send-sms-verify-code";
 static NSString * const mobileRegisterUrl = @"/site/register-mobile";
@@ -23,6 +23,7 @@ static NSString * const communityListUrl = @"/node/list";
 static NSString * const myCommunityListUrl = @"/node/my";
 static NSString * const otherCommunityListUrl = @"/node/visitor";
 static NSString * const communityDetailUrl = @"/node/get-detail";
+static NSString * const deletCommunityProductionUrl = @"/user/remove";
 static NSString * const communityCommentUrl = @"/node/comment-lists";
 static NSString * const communityChildCommentUrl = @"/node/get-comment";
 static NSString * const praiseUrl = @"/node/like";
@@ -55,6 +56,12 @@ static NSString * const commentTweetCommentUrl = @"/tweet/comment-comment";
 static NSString * const tweetChildCommentUrl = @"/tweet/get-comment";
 static NSString * const otherProductionListUrl = @"/user/user-info";
 static NSString * const userFeedbackUrl = @"/user/feedback";
+static NSString * const getFeedbackListUrl = @"/user/get-feedback";
+static NSString * const unreadLetterUrl = @"/message/get-unread-letter";
+static NSString * const readLetterUrl = @"/message/get-read-letter";
+static NSString * const sendLetterUrl = @"/message/send-message";
+static NSString * const sendImageLetterUrl = @"/message/send-image";
+static NSString * const sendSkinImageUrl = @"/skin/upload";
 
 @implementation MIRequestManager
 
@@ -96,8 +103,11 @@ static NSString * const userFeedbackUrl = @"/user/feedback";
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         dispatch_async(dispatch_get_main_queue(), ^{
             
+            [MIHudView showMsg:[MILocalData appLanguage:@"other_key_2"]];
+            
+            NSDictionary *dic = @{@"code" : @(-1), @"message" : [MILocalData appLanguage:@"other_key_2"]};
             if (completed) {
-                completed(nil, error);
+                completed(dic, nil);
             }
         });
         
@@ -106,7 +116,7 @@ static NSString * const userFeedbackUrl = @"/user/feedback";
 }
 
 + (void)postApi:(NSString *)path parameters:(id)params completed:(void (^)(id jsonData, NSError *error))completed {
-
+    
     [[MIRequestManager sharedManager] POST:path parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)task.response;
         NSLog(@"AFHTTPSessionManager GET responseURL:%@",httpResponse.URL);
@@ -131,8 +141,11 @@ static NSString * const userFeedbackUrl = @"/user/feedback";
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         dispatch_async(dispatch_get_main_queue(), ^{
             
+            [MIHudView showMsg:[MILocalData appLanguage:@"other_key_2"]];
+            
+            NSDictionary *dic = @{@"code" : @(-1), @"message" : [MILocalData appLanguage:@"other_key_2"]};
             if (completed) {
-                completed(nil, error);
+                completed(dic, nil);
             }
         });
         
@@ -491,6 +504,21 @@ static NSString * const userFeedbackUrl = @"/user/feedback";
     }];
 }
 
++ (void)deleteCommunityProductionWithContentId:(NSString *)contentId contentType:(NSInteger)contentType requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed {
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"contentId"] = @(contentId.integerValue);
+    params[@"contentType"] = @(contentType);
+
+    NSString *url = [requestUrl stringByAppendingString:deletCommunityProductionUrl];
+    url = [url stringByAppendingString:[NSString stringWithFormat:@"?token=%@", token]];
+
+    [MIRequestManager postApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+
+        completed(jsonData, error);
+    }];
+}
+
 + (void)getCurrentLoginUserInfoWithRequestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed {
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
@@ -810,6 +838,99 @@ static NSString * const userFeedbackUrl = @"/user/feedback";
     [MIRequestManager postApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
         
         completed(jsonData, error);
+    }];
+}
+
++ (void)getFeedbackListWithRequestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed {
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"token"] = token;
+    
+    NSString *url = [requestUrl stringByAppendingString:getFeedbackListUrl];
+    [MIRequestManager getApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+        
+        completed(jsonData, error);
+    }];
+}
+
++ (void)getUnreadLetterWithUserId:(NSString *)userId requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed {
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"id"] = @(userId.integerValue);
+    params[@"token"] = token;
+    
+    NSString *url = [requestUrl stringByAppendingString:unreadLetterUrl];
+    [MIRequestManager getApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+        
+        completed(jsonData, error);
+    }];
+}
+
++ (void)getReadLetterWithUserId:(NSString *)userId requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed {
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"id"] = @(userId.integerValue);
+    params[@"token"] = token;
+    
+    NSString *url = [requestUrl stringByAppendingString:readLetterUrl];
+    [MIRequestManager getApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+        
+        completed(jsonData, error);
+    }];
+}
+
++ (void)sendLetterWithReceiveId:(NSString *)receiveId content:(NSString *)content requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed {
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"receiveId"] = @(receiveId.integerValue);
+    params[@"content"] = content;
+    
+    NSString *url = [requestUrl stringByAppendingString:sendLetterUrl];
+    url = [url stringByAppendingString:[NSString stringWithFormat:@"?token=%@", token]];
+    [MIRequestManager postApi:url parameters:params completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+        
+        completed(jsonData, error);
+    }];
+}
+
++ (void)sendImageLetterWithReceiveId:(NSString *)receiveId fileName:(NSString *)fileName image:(UIImage *)image requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed {
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"id"] = receiveId;
+    
+    NSString *url = [requestUrl stringByAppendingString:sendImageLetterUrl];
+    url = [url stringByAppendingString:[NSString stringWithFormat:@"?token=%@", token]];
+    [[MIRequestManager sharedManager] POST:url parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+        
+        NSData *datas = UIImageJPEGRepresentation(image, 0.1);
+        [formData appendPartWithFileData:datas name:@"image" fileName:fileName mimeType:@"image/jpg"];
+    } progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        completed(responseObject, nil);
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        completed(nil, error);
+    }];
+}
+
++ (void)sendSkinImageWithTitle:(NSString *)title type:(NSString *)type fileName:(NSString *)fileName image:(UIImage *)image requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed {
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"title"] = title;
+    params[@"type"] = type;
+    
+    NSString *url = [requestUrl stringByAppendingString:sendSkinImageUrl];
+    url = [url stringByAppendingString:[NSString stringWithFormat:@"?token=%@", token]];
+    [[MIRequestManager sharedManager] POST:url parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+        
+        NSData *datas = UIImageJPEGRepresentation(image, 0.1);
+        [formData appendPartWithFileData:datas name:@"file" fileName:fileName mimeType:@"image/jpg"];
+    } progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        completed(responseObject, nil);
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        completed(nil, error);
     }];
 }
 

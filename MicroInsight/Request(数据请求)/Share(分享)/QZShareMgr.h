@@ -32,14 +32,22 @@
  */
 - (void)shareManagerGoHomeAction;
 
+/**
+ 删除
+ */
+- (void)shareManagerDeleteAction;
+
 @end
 
 typedef void (^HttpSuccess)(id data);
 
 typedef NS_ENUM(NSUInteger,QZShareType) {
     QZShareTypeNormal = 0,
-    QZShareTypeOther,
-    QZShareTypeTweet,
+    QZShareTypeOther, //别人的作品
+    QZShareTypeTweet, //推文
+    QZShareTypePersonal, //自己的作品
+    QZShareTypeAddBlack, //个人主页右上角的扩展(拉黑)
+    QZShareTypeCancelBlack, //个人主页右上角的扩展(取消拉黑)
 };
 
 typedef NS_ENUM(NSUInteger,ShareType) {

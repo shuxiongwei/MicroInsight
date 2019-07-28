@@ -11,8 +11,20 @@
 static NSString * const currentLoginUserInfo = @"currentLoginUserInfo";
 static NSString * const currentDemarcateInfo = @"currentDemarcateInfo";
 static NSString * const openRuleWatermark = @"openRuleWatermark";
+static NSString * const firstLogin = @"firstLogin";
 
 @implementation MILocalData
+
++ (BOOL)isFirstLogin {
+    NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+    NSString *isFirstLogin = [def valueForKey:firstLogin];
+    return ([MIHelpTool isBlankString:isFirstLogin] ? YES : NO);
+}
+
++ (void)setIsFirstLogin:(NSString *)login {
+    NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+    [def setValue:login forKey:firstLogin];
+}
 
 + (NSString *)getCurrentRequestToken {
     MIUserInfoModel *model = [self getCurrentLoginUserInfo];
@@ -122,6 +134,10 @@ static NSString * const openRuleWatermark = @"openRuleWatermark";
     NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
     NSNumber *open = [def valueForKey:openRuleWatermark];
     return open.integerValue;
+}
+
++ (NSString *)getVideoTutorialUrl {
+    return @"http://video.cdn.cvgc.cn/d514840170a2482a9f2dccceb27bb555/e92fd8005c34434e8ce1cdc5a2092782-b05d8a3a7d56b29fd9f26cd4d5ac5f1b-sd.mp4";
 }
 
 @end

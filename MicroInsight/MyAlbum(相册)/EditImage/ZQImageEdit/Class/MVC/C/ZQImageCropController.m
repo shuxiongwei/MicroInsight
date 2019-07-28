@@ -26,7 +26,7 @@
     [super viewDidLoad];
     
     [super configLeftBarButtonItem:nil];
-    
+    self.title = [MILocalData appLanguage:@"other_key_24"];
     [self buildLayout];
 }
 

@@ -12,6 +12,7 @@
 #import "MICommunityDetailVC.h"
 #import "MIRecommendDetailVC.h"
 #import "MIOfficialMessageVC.h"
+#import "MIPrivateLetterVC.h"
 
 @interface MIMessageVC () <UITableViewDelegate, UITableViewDataSource>
 
@@ -72,7 +73,7 @@
 }
 
 - (void)configUI {
-    self.title = @"消息";
+    self.title = [MILocalData appLanguage:@"other_key_5"];
     [super configLeftBarButtonItem:nil];
     
     [self.view addSubview:self.tableView];
@@ -104,6 +105,18 @@
     if (indexPath.section == 0) {
         MIOfficialMessageVC *vc = [[MIOfficialMessageVC alloc] init];
         [self.navigationController pushViewController:vc animated:YES];
+        
+//        NSMutableArray *arr = [NSMutableArray arrayWithCapacity:0];
+//        for (MIMessageListModel *model in self.recommendArray) {
+//            [arr addObject:@(model.modelId)];
+//        }
+//        if (arr.count > 0) {
+//            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//                [MIRequestManager readMessageWithMessageIds:arr requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+//
+//                }];
+//            });
+//        }
     } else {
         MIMessageListModel *model = self.dataArray[indexPath.row];
 
@@ -114,11 +127,11 @@
             vc.contentType = model.content_type;
             [self.navigationController pushViewController:vc animated:YES];
             
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                [MIRequestManager readMessageWithMessageIds:@[@(model.modelId)] requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
-                    
-                }];
-            });
+//            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//                [MIRequestManager readMessageWithMessageIds:@[@(model.modelId)] requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+//
+//                }];
+//            });
         } else if (model.type == MIMessageTypeCommentPraise || model.type == MIMessageTypeCommentComment) { //社区作品评论的评论或点赞
             WSWeak(weakSelf)
             [MIRequestManager getMessageSourceWithCommentId:model.comment_id requestToken:[MILocalData getCurrentRequestToken] completed:
@@ -130,13 +143,31 @@
                      vc.contentId = [jsonData[@"data"][@"content_id"] integerValue];
                      vc.contentType = [jsonData[@"data"][@"content_type"] integerValue];
                      [weakSelf.navigationController pushViewController:vc animated:YES];
-                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                         [MIRequestManager readMessageWithMessageIds:@[@(model.modelId)] requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
-                             
-                         }];
-                     });
+//                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//                         [MIRequestManager readMessageWithMessageIds:@[@(model.modelId)] requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+//
+//                         }];
+//                     });
                  }
              }];
+        } else if (model.type == MIMessageTypeLetter || model.type == MIMessageTypeLetterImage) {
+            MIPrivateLetterVC *vc = [[MIPrivateLetterVC alloc] init];
+            vc.user_receive_id = model.user_send_id;
+            vc.nickname = model.nickname;
+            [self.navigationController pushViewController:vc animated:YES];
+            
+//            NSMutableArray *arr = [NSMutableArray arrayWithCapacity:0];
+//            for (MIMessageListModel *mod in self.dataArray) {
+//                if (mod.user_send_id == model.user_send_id) {
+//                    [arr addObject:@(mod.modelId)];
+//                }
+//            }
+//
+//            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//                [MIRequestManager readMessageWithMessageIds:arr requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+//
+//                }];
+//            });
         }
     }
 }
@@ -208,7 +239,7 @@
 - (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     WSWeak(weakSelf)
-    UITableViewRowAction *deleteRowAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"删除" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+    UITableViewRowAction *deleteRowAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:[MILocalData appLanguage:@"album_key_7"] handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
         
         MIMessageListModel *model = weakSelf.dataArray[indexPath.row];
         [weakSelf.dataArray removeObject:model];

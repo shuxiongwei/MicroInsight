@@ -19,6 +19,7 @@
                 <outlet property="msgBtn" destination="7wq-90-6z5" id="4LX-Vy-aU6"/>
                 <outlet property="navHeightConstraint" destination="cgO-Cl-igC" id="8By-VE-k43"/>
                 <outlet property="recommendBtn" destination="bNC-4H-EzB" id="xK6-f1-KEY"/>
+                <outlet property="topConstraint" destination="RL1-LD-L4r" id="9Iv-Cs-FAi"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -158,7 +159,7 @@
         <image name="icon_home_menu_nor" width="19" height="14.5"/>
         <image name="icon_home_photo_nor" width="66.5" height="54"/>
         <image name="icon_home_recommend_nor" width="63" height="63"/>
-        <image name="img_home_logo_nor" width="109" height="21.5"/>
+        <image name="img_home_logo_nor" width="78.5" height="13.5"/>
         <image name="img_home_topBg_nor" width="375" height="260"/>
     </resources>
 </document>

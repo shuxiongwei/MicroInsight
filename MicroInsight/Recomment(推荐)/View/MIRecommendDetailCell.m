@@ -49,7 +49,9 @@
         _imgView.hidden = NO;
         if ([model.type isEqualToString:@"2"]) {
             _playBtn.hidden = YES;
-            [_imgView sd_setImageWithURL:[NSURL URLWithString:model.content] placeholderImage:[UIImage imageNamed:@"img_app_placeholder_default"]];
+            
+            NSString *url = [NSString stringWithFormat:@"?x-oss-process=image/resize,m_fill,h_%ld,w_%ld", (NSInteger)self.imgView.size.height / 1, (NSInteger)self.imgView.size.width / 1];
+            [_imgView sd_setImageWithURL:[NSURL URLWithString:[model.content stringByAppendingString:url]] placeholderImage:[UIImage imageNamed:@"img_app_placeholder_default"]];
         } else {
             _playBtn.hidden = NO;
             

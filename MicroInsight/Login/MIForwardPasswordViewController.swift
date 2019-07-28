@@ -49,7 +49,7 @@ class MIForwardPasswordViewController: MIBaseViewController {
     //发送验证码
     @IBAction func clickAuthCodeBtn(_ sender: UIButton) {
         if !MIHelpTool.validateContactNumber(phoneTF.text) {
-            MIHudView.showMsg("请输入正确的手机号码")
+            MIHudView.showMsg(MILocalData.appLanguage("other_key_38"))
             return
         }
         
@@ -77,21 +77,21 @@ class MIForwardPasswordViewController: MIBaseViewController {
     //登录
     @IBAction func clickLoginBtn(_ sender: UIButton) {
         if !MIHelpTool.validateContactNumber(phoneTF.text) {
-            MIHudView.showMsg("请输入正确的手机号码")
+            MIHudView.showMsg(MILocalData.appLanguage("other_key_38"))
             return
         }
         
         if authCodeTF.text!.count == 0 {
-            MIHudView.showMsg("请输入验证码")
+            MIHudView.showMsg(MILocalData.appLanguage("login_key_9"))
             return
         }
         
-        if passwordTF.text!.count < 6 || passwordTF.text!.count > 32 {
-            MIHudView.showMsg("请输入6-32位的密码")
+        if passwordTF.text!.count < 6 || passwordTF.text!.count > 20 {
+            MIHudView.showMsg(MILocalData.appLanguage("login_key_10"))
             return
         }
         
-        MBProgressHUD.showStatus("登录中，请稍后...")
+        MBProgressHUD.showStatus(MILocalData.appLanguage("other_key_37"))
         weak var weakSelf = self
         MIRequestManager.forgetPasswordLogin(withUsername: phoneTF.text!, password: passwordTF.text!, verifyToken: token!, verifyCode: authCodeTF.text!) { (jsonData, error) in
             
@@ -126,7 +126,7 @@ class MIForwardPasswordViewController: MIBaseViewController {
             authCodeBtn.isUserInteractionEnabled = true
             authCodeBtn.backgroundColor = nil
             authCodeBtn.setButtonCustomBackgroudImage(btn: authCodeBtn, fromColor: MIRgbaColor(rgbValue: 0x72B3E3, alpha: 1), toColor: MIRgbaColor(rgbValue: 0x6DD1CC, alpha: 1))
-            authCodeBtn.setTitle("发送验证码", for: .normal)
+            authCodeBtn.setTitle(MILocalData.appLanguage("login_key_12"), for: .normal)
             authCodeBtn.setTitleColor(MIRgbaColor(rgbValue: 0xffffff, alpha: 1), for: .normal)
         } else {
             authCodeBtn.setTitle("\(downCount!)" + "s", for: .normal)

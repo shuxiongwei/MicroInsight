@@ -26,14 +26,15 @@ class MIFeedbackVC: MIBaseViewController {
         self.title = MILocalData.appLanguage("feekback_key_1")
         commitBtn.round(2, rectCorners: .allCorners)
         commitBtn.setButtonCustomBackgroudImage(btn: commitBtn, fromColor: MIRgbaColor(rgbValue: 0x72B3E3, alpha: 1), toColor: MIRgbaColor(rgbValue: 0x6DD1CC, alpha: 1))
-        textView.placeholder = "感谢您使用Tipscope APP,使用过程中有任何意见或建议请 反馈给我们。"
+        commitBtn.setTitle(MILocalData.appLanguage("feekback_key_2"), for: .normal)
+        textView.placeholder = MILocalData.appLanguage("feekback_key_3")
         textView.placeholderColor = MIRgbaColor(rgbValue: 0x999999, alpha: 1)
         textView.font = UIFont.systemFont(ofSize: 12)
     }
     
     @IBAction func clickCommitBtn(_ sender: UIButton) {
         if MIHelpTool.isBlankString(textView.text) {
-            MIHudView.showMsg("请输入反馈内容")
+            MIHudView.showMsg(MILocalData.appLanguage("other_key_13"))
             return
         }
 
@@ -42,11 +43,19 @@ class MIFeedbackVC: MIBaseViewController {
             let dic: [String : AnyObject] = jsonData as! Dictionary
             let code = dic["code"]?.int64Value
             if code == 0 {
-                MIHudView.showMsg("反馈成功")
+                MIHudView.showMsg(MILocalData.appLanguage("other_key_50"))
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue:"feedbackFinish"), object: nil)
+                
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
+                    self.navigationController?.popViewController(animated: true)
+                }
             } else {
-                MIHudView.showMsg("反馈失败")
+//                MIHudView.showMsg("反馈失败")
             }
         }
+        
+        textView.text = nil
+        textView.resignFirstResponder()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

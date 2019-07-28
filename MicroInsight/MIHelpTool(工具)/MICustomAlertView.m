@@ -73,8 +73,9 @@
     titleLab.font = [UIFont systemFontOfSize:15];
     [bgView addSubview:titleLab];
     
-    UILabel *messageLab = [[UILabel alloc] initWithFrame:CGRectMake(29, 70, bgView.width - 58, 15)];
+    UILabel *messageLab = [[UILabel alloc] initWithFrame:CGRectMake(29, 70, bgView.width - 58, 36)];
     messageLab.text = _message;
+    messageLab.numberOfLines = 2;
     messageLab.textColor = UIColorFromRGBWithAlpha(0x666666, 1);
     messageLab.textAlignment = NSTextAlignmentLeft;
     messageLab.font = [UIFont systemFontOfSize:15];
@@ -83,7 +84,7 @@
     UIButton *leftBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     leftBtn.frame = CGRectMake(0, bgView.height - 50, bgView.width / 2.0, 50);
     leftBtn.backgroundColor = UIColorFromRGBWithAlpha(0xF9F9F9, 1);
-    [leftBtn setTitle:@"取消" forState:UIControlStateNormal];
+    [leftBtn setTitle:[MILocalData appLanguage:@"personal_key_13"] forState:UIControlStateNormal];
     [leftBtn setTitleColor:UIColorFromRGBWithAlpha(0xBEBEBE, 1) forState:UIControlStateNormal];
     leftBtn.titleLabel.font = [UIFont systemFontOfSize:17];
     [leftBtn addTarget:self action:@selector(clickLeftBtn) forControlEvents:UIControlEventTouchUpInside];
@@ -91,7 +92,7 @@
     
     UIButton *rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     rightBtn.frame = CGRectMake(bgView.width / 2.0, bgView.height - 50, bgView.width / 2.0, 50);
-    [rightBtn setTitle:@"确定" forState:UIControlStateNormal];
+    [rightBtn setTitle:[MILocalData appLanguage:@"camera_key_5"] forState:UIControlStateNormal];
     [rightBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     rightBtn.titleLabel.font = [UIFont systemFontOfSize:17];
     [rightBtn setButtonCustomBackgroudImageWithBtn:rightBtn fromColor:UIColorFromRGBWithAlpha(0x72B3E3, 1) toColor:UIColorFromRGBWithAlpha(0x6DD1CC, 1)];

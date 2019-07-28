@@ -107,16 +107,16 @@ typedef NS_ENUM(NSInteger, MIDemarcateType) {
         [self addSubview:_demarcateSaveView];
         
         //取消标定
-        UIButton *cancelDemarcateBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(30, (_demarcateSaveView.height - 20) / 2.0, 60, 20) normalTitle:@"取消" normalTitleColor:UIColorFromRGBWithAlpha(0x333333, 1) highlightedTitleColor:nil selectedColor:nil titleFont:15 normalImage:nil highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(cancelDemarcate:)];
+        UIButton *cancelDemarcateBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(30, (_demarcateSaveView.height - 20) / 2.0, 60, 20) normalTitle:[MILocalData appLanguage:@"personal_key_13"] normalTitleColor:UIColorFromRGBWithAlpha(0x333333, 1) highlightedTitleColor:nil selectedColor:nil titleFont:15 normalImage:nil highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(cancelDemarcate:)];
         [_demarcateSaveView addSubview:cancelDemarcateBtn];
         
         //保存标定
-        UIButton *saveDemarcateBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(0, (_demarcateSaveView.height - 20) / 2.0, 60, 20) normalTitle:@"保存" normalTitleColor:UIColorFromRGBWithAlpha(0x333333, 1) highlightedTitleColor:nil selectedColor:nil titleFont:15 normalImage:nil highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(saveDemarcate:)];
+        UIButton *saveDemarcateBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(0, (_demarcateSaveView.height - 20) / 2.0, 60, 20) normalTitle:[MILocalData appLanguage:@"personal_key_9"] normalTitleColor:UIColorFromRGBWithAlpha(0x333333, 1) highlightedTitleColor:nil selectedColor:nil titleFont:15 normalImage:nil highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(saveDemarcate:)];
         saveDemarcateBtn.centerX = self.previewView.centerX;
         [_demarcateSaveView addSubview:saveDemarcateBtn];
         
         //重新标定
-        UIButton *resetDemarcateBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(_demarcateSaveView.width - 30 - 60, (_demarcateSaveView.height - 20) / 2.0, 60, 20) normalTitle:@"重置" normalTitleColor:UIColorFromRGBWithAlpha(0x333333, 1) highlightedTitleColor:nil selectedColor:nil titleFont:15 normalImage:nil highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(resetDemarcate:)];
+        UIButton *resetDemarcateBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(_demarcateSaveView.width - 30 - 60, (_demarcateSaveView.height - 20) / 2.0, 60, 20) normalTitle:[MILocalData appLanguage:@"camera_key_1"] normalTitleColor:UIColorFromRGBWithAlpha(0x333333, 1) highlightedTitleColor:nil selectedColor:nil titleFont:15 normalImage:nil highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(resetDemarcate:)];
         [_demarcateSaveView addSubview:resetDemarcateBtn];
     }
     
@@ -309,7 +309,7 @@ typedef NS_ENUM(NSInteger, MIDemarcateType) {
 - (void)goBack:(UIButton *)sender {
     if (!self.recordTitle.hidden) {
         WSWeak(weakSelf)
-        [MICustomAlertView showAlertViewWithFrame:MIScreenBounds alertTitle:@"温馨提示" alertMessage:@"视频拍摄中，确定退出？" leftAction:^(void) {
+        [MICustomAlertView showAlertViewWithFrame:MIScreenBounds alertTitle:[MILocalData appLanguage:@"personal_key_11"] alertMessage:[MILocalData appLanguage:@"other_key_18"] leftAction:^(void) {
             
         } rightAction:^(void) {
             if ([weakSelf.delegate respondsToSelector:@selector(goBackAction:)]) {
@@ -333,8 +333,8 @@ typedef NS_ENUM(NSInteger, MIDemarcateType) {
         CGFloat length = [MILocalData getCurrentDemarcateInfo];
         //还未进行相机标定
         if (length == 0) {
-//            [self executeCameraDemarcate:MIDemarcateReset];
-            [MIDemarcateAlertView showAlertViewWithFrame:MIScreenBounds alertTitle:@"标定教程" alertMessage:@"1.请对准一毫米标尺\n2.点击标尺两侧\n3.确定标点准确减少误差" leftTitle:@"取消" rightTitle:@"确定" leftAction:^(BOOL alert) {
+            NSString *message = [NSString stringWithFormat:@"%@\n%@\n%@", [MILocalData appLanguage:@"help_key_15"], [MILocalData appLanguage:@"help_key_16"], [MILocalData appLanguage:@"help_key_17"]];
+            [MIDemarcateAlertView showAlertViewWithFrame:MIScreenBounds alertTitle:[MILocalData appLanguage:@"help_key_3"] alertMessage:message leftTitle:[MILocalData appLanguage:@"personal_key_13"] rightTitle:[MILocalData appLanguage:@"login_key_16"] leftAction:^(BOOL alert) {
                 
             } rightAction:^(BOOL alert) {
                 if (alert) {
@@ -342,10 +342,11 @@ typedef NS_ENUM(NSInteger, MIDemarcateType) {
                 }
             }];
         } else {
-            [MIDemarcateAlertView showAlertViewWithFrame:MIScreenBounds alertTitle:@"温馨提示" alertMessage:@"请对准一毫米长的物体进行\n标定。" leftTitle:@"重新标定" rightTitle:@"已标定值" leftAction:^(BOOL alert) {
+            [MIDemarcateAlertView showAlertViewWithFrame:MIScreenBounds alertTitle:[MILocalData appLanguage:@"personal_key_11"] alertMessage:[MILocalData appLanguage:@"camera_key_2"] leftTitle:[MILocalData appLanguage:@"camera_key_3"] rightTitle:[MILocalData appLanguage:@"camera_key_4"] leftAction:^(BOOL alert) {
                 
                 if (alert) {
-                    [MIDemarcateAlertView showAlertViewWithFrame:MIScreenBounds alertTitle:@"标定教程" alertMessage:@"1.请对准一毫米标尺\n2.点击标尺两侧\n3.确定标点准确减少误差" leftTitle:@"取消" rightTitle:@"确定" leftAction:^(BOOL alert) {
+                    NSString *message = [NSString stringWithFormat:@"%@\n%@\n%@", [MILocalData appLanguage:@"help_key_15"], [MILocalData appLanguage:@"help_key_16"], [MILocalData appLanguage:@"help_key_17"]];
+                    [MIDemarcateAlertView showAlertViewWithFrame:MIScreenBounds alertTitle:[MILocalData appLanguage:@"help_key_3"] alertMessage:message leftTitle:[MILocalData appLanguage:@"personal_key_13"] rightTitle:[MILocalData appLanguage:@"login_key_16"] leftAction:^(BOOL alert) {
                         
                     } rightAction:^(BOOL alert) {
                         if (alert) {
@@ -493,7 +494,7 @@ typedef NS_ENUM(NSInteger, MIDemarcateType) {
 
 - (void)selectPhotoOrVideo:(UIButton *)sender {
     if (!self.recordTitle.hidden) {
-        [MIHudView showMsg:@"视频拍摄中，请稍后"];
+        [MIHudView showMsg:[MILocalData appLanguage:@"other_key_19"]];
         return;
     }
     
@@ -517,7 +518,7 @@ typedef NS_ENUM(NSInteger, MIDemarcateType) {
 //预览图片
 - (void)reviewCoverImage:(UIButton *)btn {
     if (!self.recordTitle.hidden) {
-        [MIHudView showMsg:@"视频拍摄中，请稍后"];
+        [MIHudView showMsg:[MILocalData appLanguage:@"other_key_19"]];
         return;
     }
     
@@ -612,7 +613,7 @@ typedef NS_ENUM(NSInteger, MIDemarcateType) {
     _recordSecond ++;
     if (_recordSecond > 600) {
         [self recordVideo:_videoBtn];
-        [MIToastAlertView showAlertViewWithMessage:@"视频录制时长不得超过1分钟"];
+        [MIToastAlertView showAlertViewWithMessage:[MILocalData appLanguage:@"other_key_20"]];
         return;
     }
     
@@ -637,9 +638,6 @@ typedef NS_ENUM(NSInteger, MIDemarcateType) {
     _backBtn.hidden = execute;
     _torchBtn.hidden = execute;
     _rulerBtn.hidden = execute;
-//    _photoBtn.hidden = execute;
-//    _videoBtn.hidden = execute;
-//    _coverBtn.hidden = execute;
     _bottomV.hidden = execute;
     _focalSliderView.hidden = execute;
     _reduceV.hidden = execute;
@@ -783,7 +781,7 @@ typedef NS_ENUM(NSInteger, MIDemarcateType) {
 - (void)focusAndExposureClick:(UIButton *)btn {
     if ([_delegate respondsToSelector:@selector(autoFocusAndExposureAction:succ:fail:)]) {
         [_delegate autoFocusAndExposureAction:self succ:^{
-            [MIToastAlertView showAlertViewWithMessage:@"自动聚焦曝光设置成功"];
+//            [MIToastAlertView showAlertViewWithMessage:@"自动聚焦曝光设置成功"];
         } fail:^(NSError *error) {
             [MIToastAlertView showAlertViewWithMessage:error.localizedDescription];
         }];

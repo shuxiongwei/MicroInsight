@@ -56,7 +56,7 @@ class MIVideoUploadVC: MIBaseViewController {
             let uploadBtn = UIButton(type: .custom)
             uploadBtn.frame = CGRect(x: 0, y: self.view.height - MINavigationBarHeight(vc: self) - MIStatusBarHeight() - 60, width: ScreenWidth, height: 60)
             uploadBtn.setButtonCustomBackgroudImage(btn: uploadBtn, fromColor: MIRgbaColor(rgbValue: 0x72B3E2, alpha: 1), toColor: MIRgbaColor(rgbValue: 0x6DD1CC, alpha: 1))
-            uploadBtn.setTitle("确认上传", for: .normal)
+            uploadBtn.setTitle(MILocalData.appLanguage("album_key_11"), for: .normal)
             uploadBtn.setTitleColor(UIColor.white, for: .normal)
             uploadBtn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
             uploadBtn.addTarget(self, action: #selector(clickUploadBtn(_ :)), for: .touchUpInside)
@@ -72,7 +72,7 @@ class MIVideoUploadVC: MIBaseViewController {
     }
     
     @objc private func clickDeleteBtn() {
-        MICustomAlertView.show(withFrame: ScreenBounds, alertTitle: "温馨提示", alertMessage: "确定删除该视频吗？", leftAction: { () in
+        MICustomAlertView.show(withFrame: ScreenBounds, alertTitle: MILocalData.appLanguage("personal_key_11"), alertMessage: MILocalData.appLanguage("other_key_32"), leftAction: { () in
             
         }) { () in
             self.videoPlayer.clear()

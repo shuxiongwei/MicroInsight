@@ -44,4 +44,8 @@
 //更新数据 更新完了上面的时间属性之后 记得调用这个方法 刷新数据
 - (void)loadDataSouce;
 
+- (instancetype)initWithFrame:(CGRect)frame
+                  currentDate:(NSDate *)currentDate
+                      maxDate:(NSDate *)maxDate;
+
 @end

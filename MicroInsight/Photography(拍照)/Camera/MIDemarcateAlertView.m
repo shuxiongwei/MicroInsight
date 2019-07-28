@@ -7,7 +7,7 @@
 //
 
 #import "MIDemarcateAlertView.h"
-
+#import "YYText.h"
 
 @interface MIDemarcateAlertView ()
 
@@ -68,25 +68,17 @@
 
 - (void)configAlertUI {
     self.backgroundColor = UIColorFromRGBWithAlpha(0x000000, 0.5);
-    
-    CGRect rect;
-    CGFloat titleTopMargin;
-    CGFloat messageTopMargin;
-    CGFloat messageLeftMargin;
-    CGFloat messageRightMargin;
-    if ([_title isEqualToString:@"标定教程"]) {
-        rect = CGRectMake(0, 0, 235, 210);
-        titleTopMargin = 30;
-        messageTopMargin = 66;
-        messageLeftMargin = 28;
-        messageRightMargin = 25;
-    } else {
-        rect = CGRectMake(0, 0, 235, 199);
-        titleTopMargin = 35;
-        messageTopMargin = 74;
-        messageLeftMargin = 27;
-        messageRightMargin = 23;
+
+    CGFloat width = (MIScreenWidth < 350 ? 280 : 320);
+    CGFloat messageHeight = 0;
+    NSArray *strs = [_message componentsSeparatedByString:@"\n"];
+    for (NSString *str in strs) {
+        MIBaseModel *model = [[MIBaseModel alloc] init];
+        YYTextLayout *layout = [model getContentHeightWithStr:str width:width - 50 font:15 lineSpace:5 maxRow:0];
+        messageHeight += layout.textBoundingRect.size.height;
     }
+    
+    CGRect rect = CGRectMake(0, 0, width, 150 + messageHeight);
     
     //提示框
     _alertView = [[UIView alloc] initWithFrame:rect];
@@ -100,9 +92,9 @@
     [_alertView addSubview:titleLab];
     WSWeak(weakSelf);
     [titleLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(weakSelf.alertView.mas_left).offset(26);
-        make.right.equalTo(weakSelf.alertView.mas_right).offset(-30);
-        make.top.equalTo(weakSelf.alertView.mas_top).offset(titleTopMargin);
+        make.left.equalTo(weakSelf.alertView.mas_left).offset(25);
+        make.right.equalTo(weakSelf.alertView.mas_right).offset(-25);
+        make.top.equalTo(weakSelf.alertView.mas_top).offset(20);
     }];
     
     //右边按钮
@@ -111,8 +103,8 @@
     [_alertView addSubview:rightBtn];
     [rightBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(weakSelf.alertView.mas_right).offset(-25);
-        make.bottom.equalTo(weakSelf.alertView.mas_bottom).offset(-21);
-        make.width.mas_equalTo(88);
+        make.bottom.equalTo(weakSelf.alertView.mas_bottom).offset(-20);
+        make.width.mas_equalTo(100);
         make.height.mas_equalTo(40);
     }];
     
@@ -121,14 +113,14 @@
     leftBtn.backgroundColor = UIColorFromRGBWithAlpha(0xF9F9F9, 1);
     [_alertView addSubview:leftBtn];
     [leftBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.offset(26);
-        make.bottom.equalTo(weakSelf.alertView.mas_bottom).offset(-21);
-        make.width.mas_equalTo(88);
+        make.left.offset(25);
+        make.bottom.equalTo(weakSelf.alertView.mas_bottom).offset(-20);
+        make.width.mas_equalTo(100);
         make.height.mas_equalTo(40);
     }];
     
     UILabel *messageLab = [MIUIFactory createLabelWithCenter:CGPointZero withBounds:CGRectZero withText:_message withFont:15 withTextColor:UIColorFromRGBWithAlpha(0x666666, 1) withTextAlignment:NSTextAlignmentLeft];
-    if ([_title isEqualToString:@"标定教程"]) {
+    if ([_title isEqualToString:[MILocalData appLanguage:@"help_key_3"]]) {
         messageLab.lineBreakMode = 0;
     }
     [UILabel changeLineSpaceForLabel:messageLab WithSpace:5];
@@ -136,16 +128,16 @@
     messageLab.textAlignment = NSTextAlignmentLeft;
     [_alertView addSubview:messageLab];
     [messageLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(weakSelf.alertView.mas_left).offset(messageLeftMargin);
-        make.right.equalTo(weakSelf.alertView.mas_right).offset(-messageRightMargin);
-        make.top.equalTo(weakSelf.alertView.mas_top).offset(messageTopMargin);
+        make.left.equalTo(weakSelf.alertView.mas_left).offset(25);
+        make.right.equalTo(weakSelf.alertView.mas_right).offset(-25);
+        make.top.equalTo(weakSelf.alertView.mas_top).offset(60);
     }];
 }
 
 #pragma mark - 按钮点击事件
 - (void)clickRightBtn:(UIButton *)sender {
     if (_rightAction) {
-        if ([_title isEqualToString:@"标定教程"]) {
+        if ([_title isEqualToString:[MILocalData appLanguage:@"help_key_3"]]) {
             _rightAction(YES);
         } else {
           _rightAction(NO);
@@ -157,7 +149,7 @@
 
 - (void)clickLeftBtn:(UIButton *)sender {
     if (_leftAction) {
-        if ([_title isEqualToString:@"标定教程"]) {
+        if ([_title isEqualToString:[MILocalData appLanguage:@"help_key_3"]]) {
             _leftAction(NO);
         } else {
             _leftAction(YES);

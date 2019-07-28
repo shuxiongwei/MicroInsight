@@ -20,6 +20,8 @@ class MIPersonalVC: UIViewController {
     var countLab: UILabel!
     var curPage: NSInteger!
     var lineView: UIView!
+    var otherAvatar: String!
+    var reportView: MIReportView!
     
     private lazy var dataList: Array<MICommunityListModel> = {
         let list = [MICommunityListModel]()
@@ -67,6 +69,10 @@ class MIPersonalVC: UIViewController {
         return v
     }()
     
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -80,6 +86,8 @@ class MIPersonalVC: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshHeadView), name: NSNotification.Name(rawValue:"refreshHeadView"), object: nil)
         
         curPage = 1
         configPersonalUI()
@@ -100,16 +108,24 @@ class MIPersonalVC: UIViewController {
         backBtn.addTarget(self, action: #selector(clickBackBtn(_ :)), for: .touchUpInside)
         view.addSubview(backBtn)
         
-        let userInfo = MILocalData.getCurrentLoginUserInfo()
-        if userInfo.uid == userId {
-            let blackBtn = UIButton(type: .custom)
-            blackBtn.frame = CGRect(x: ScreenWidth - 70, y: 30, width: 70, height: 30)
-            blackBtn.setTitle("黑名单", for: .normal)
-            blackBtn.setTitleColor(MIRgbaColor(rgbValue: 0x333333, alpha: 1), for: .normal)
-            blackBtn.titleLabel?.font = UIFont.systemFont(ofSize: 13)
-            blackBtn.addTarget(self, action: #selector(clickBlackBtn(_ :)), for: .touchUpInside)
-            view.addSubview(blackBtn)
-        }
+//        let userInfo = MILocalData.getCurrentLoginUserInfo()
+//        if userInfo.uid == userId {
+//            let blackBtn = UIButton(type: .custom)
+//            blackBtn.frame = CGRect(x: ScreenWidth - 70, y: 30, width: 70, height: 30)
+//            blackBtn.setTitle(MILocalData.appLanguage("other_key_35"), for: .normal)
+//            blackBtn.setTitleColor(MIRgbaColor(rgbValue: 0x333333, alpha: 1), for: .normal)
+//            blackBtn.titleLabel?.font = UIFont.systemFont(ofSize: 13)
+//            blackBtn.addTarget(self, action: #selector(clickBlackBtn(_ :)), for: .touchUpInside)
+//            view.addSubview(blackBtn)
+//        }
+        
+        let extendBtn = UIButton(type: .custom)
+        extendBtn.frame = CGRect(x: ScreenWidth - 50, y: 30, width: 17, height: 3)
+        extendBtn.centerY = backBtn.centerY;
+        extendBtn.setEnlargeEdge(15)
+        extendBtn.setImage(UIImage(named: "icon_more_white_nor"), for: .normal)
+        extendBtn.addTarget(self, action: #selector(clickExtendBtn(_ :)), for: .touchUpInside)
+        view.addSubview(extendBtn)
         
         configTopView()
     }
@@ -127,17 +143,15 @@ class MIPersonalVC: UIViewController {
         userIconBtn.isUserInteractionEnabled = false
         bgView.addSubview(userIconBtn)
         
-        userNameLab = UILabel.init(frame: CGRect(x: userIconBtn.right + 20, y: 37, width: ScreenWidth - 200, height: 15))
+        userNameLab = UILabel.init(frame: CGRect(x: userIconBtn.right + 20, y: 37, width: ScreenWidth - 150, height: 15))
         userNameLab.centerY = userIconBtn.centerY - 22
-        userNameLab.text = "猫若有鱼"
         userNameLab.textColor = UIColor.black
         userNameLab.font = UIFont.systemFont(ofSize: 13)
         userNameLab.textAlignment = .left
         bgView.addSubview(userNameLab)
         
-        genderLab = UILabel.init(frame: CGRect(x: userIconBtn.right + 20, y: userNameLab.bottom + 10, width: 15, height: 11))
+        genderLab = UILabel.init(frame: CGRect(x: userIconBtn.right + 20, y: userNameLab.bottom + 10, width: 50, height: 11))
         genderLab.centerY = userIconBtn.centerY
-        genderLab.text = "女"
         genderLab.textColor = MIRgbaColor(rgbValue: 0x333333, alpha: 1)
         genderLab.font = UIFont.systemFont(ofSize: 11)
         genderLab.textAlignment = .left
@@ -145,22 +159,20 @@ class MIPersonalVC: UIViewController {
         
         ageLab = UILabel.init(frame: CGRect(x: genderLab.right + 20, y: userNameLab.bottom + 10, width: 15, height: 11))
         ageLab.centerY = genderLab.centerY
-        ageLab.text = "23"
         ageLab.textColor = MIRgbaColor(rgbValue: 0x333333, alpha: 1)
         ageLab.font = UIFont.systemFont(ofSize: 11)
         ageLab.textAlignment = .left
         bgView.addSubview(ageLab)
         
-        jobLab = UILabel.init(frame: CGRect(x: ageLab.right + 20, y: userNameLab.bottom + 10, width: 50, height: 11))
+        jobLab = UILabel.init(frame: CGRect(x: ageLab.right + 20, y: userNameLab.bottom + 10, width: 100, height: 11))
         jobLab.centerY = genderLab.centerY
-        jobLab.text = "设计师"
         jobLab.textColor = MIRgbaColor(rgbValue: 0x333333, alpha: 1)
         jobLab.font = UIFont.systemFont(ofSize: 11)
         jobLab.textAlignment = .left
         bgView.addSubview(jobLab)
         
         let allLab = UILabel.init(frame: CGRect(x: 20, y: bgView.bottom + 25, width: 31, height: 15))
-        allLab.text = "全部"
+        allLab.text = MILocalData.appLanguage("album_key_2")
         allLab.textColor = MIRgbaColor(rgbValue: 0x333333, alpha: 1)
         allLab.font = UIFont.systemFont(ofSize: 15)
         allLab.textAlignment = .center
@@ -168,7 +180,6 @@ class MIPersonalVC: UIViewController {
         
         countLab = UILabel.init(frame: CGRect(x: ScreenWidth - 65, y: 0, width: 50, height: 12))
         countLab.centerY = allLab.centerY
-        countLab.text = "共7个"
         countLab.textColor = MIRgbaColor(rgbValue: 0x999999, alpha: 1)
         countLab.font = UIFont.systemFont(ofSize: 12)
         countLab.textAlignment = .right
@@ -180,11 +191,14 @@ class MIPersonalVC: UIViewController {
         
         let userInfo = MILocalData.getCurrentLoginUserInfo()
         if userInfo.uid == userId {
+            let editText = MILocalData.appLanguage("personal_key_26")
+            let wid = MIHelpTool.measureSingleLineStringWidth(with: editText, font: UIFont.systemFont(ofSize: 10))
+            
             let editBtn = UIButton(type: .custom)
-            editBtn.frame = CGRect(x: bgView.width - 80, y: 0, width: 60, height: 20)
+            editBtn.frame = CGRect(x: bgView.width - wid - 10 - 20, y: 0, width: wid + 10, height: 20)
             editBtn.centerY = userNameLab.centerY
             editBtn.setEnlargeEdge(5)
-            editBtn.setTitle("修改资料", for: .normal)
+            editBtn.setTitle(editText, for: .normal)
             editBtn.titleLabel?.font = UIFont.systemFont(ofSize: 10)
             editBtn.rounded(2, width: 1, color: MIRgbaColor(rgbValue: 0x48A1D8, alpha: 1))
             editBtn.setTitleColor(MIRgbaColor(rgbValue: 0x48A1D8, alpha: 1), for: .normal)
@@ -194,6 +208,20 @@ class MIPersonalVC: UIViewController {
             refreshSubViews(model: userInfo)
             requestMyCommunityList(isRefresh: true)
         } else {
+            let privateText = MILocalData.appLanguage("other_key_36")
+            let wid = MIHelpTool.measureSingleLineStringWidth(with: privateText, font: UIFont.systemFont(ofSize: 10))
+            
+            let privateBtn = UIButton(type: .custom)
+            privateBtn.frame = CGRect(x: bgView.width - wid - 10 - 20, y: 0, width: wid + 10, height: 20)
+            privateBtn.centerY = userNameLab.centerY
+            privateBtn.setEnlargeEdge(5)
+            privateBtn.setTitle(privateText, for: .normal)
+            privateBtn.titleLabel?.font = UIFont.systemFont(ofSize: 10)
+            privateBtn.rounded(2, width: 1, color: MIRgbaColor(rgbValue: 0x48A1D8, alpha: 1))
+            privateBtn.setTitleColor(MIRgbaColor(rgbValue: 0x48A1D8, alpha: 1), for: .normal)
+            privateBtn.addTarget(self, action: #selector(clickPrivateBtn(_ :)), for: .touchUpInside)
+            bgView.addSubview(privateBtn)
+            
             requestOtherUserInfo()
             requestOtherCommunityList(isRefresh: true)
         }
@@ -209,6 +237,7 @@ class MIPersonalVC: UIViewController {
                 let data: [String: AnyObject] = dic["data"] as! Dictionary
                 let user: [String: AnyObject] = data["user"] as! Dictionary
                 let model = MIUserInfoModel.yy_model(with: user)
+                weakSelf?.otherAvatar = model?.avatar
                 weakSelf?.refreshSubViews(model: model!)
             }
         }
@@ -230,10 +259,13 @@ class MIPersonalVC: UIViewController {
                 
                 let data: [String: AnyObject] = dic["data"] as! Dictionary
                 let pagination: Dictionary = data["pagination"] as! [String: Int]
-                let totalCount: Int = pagination["totalCount"]!
+                var totalCount: Int = pagination["totalCount"]!
+                let list: Array = data["list"] as! Array<[String: AnyObject]>
+                if list.count == 0 && weakSelf?.curPage == 1 {
+                    totalCount = 0
+                }
                 weakSelf?.countLab.text = "共\(totalCount)个"
                 
-                let list: Array = data["list"] as! Array<[String: AnyObject]>
                 for modelDic: [String: AnyObject] in list {
                     let model = MICommunityListModel.yy_model(with: modelDic)
                     weakSelf?.dataList.append(model!)
@@ -280,10 +312,13 @@ class MIPersonalVC: UIViewController {
                 
                 let data: [String: AnyObject] = dic["data"] as! Dictionary
                 let pagination: Dictionary = data["pagination"] as! [String: Int]
-                let totalCount: Int = pagination["totalCount"]!
-                weakSelf?.countLab.text = "共\(totalCount)个"
-                
+                var totalCount: Int = pagination["totalCount"]!
                 let list: Array = data["list"] as! Array<[String: AnyObject]>
+                if list.count == 0 && weakSelf?.curPage == 1 {
+                    totalCount = 0
+                }
+                weakSelf?.countLab.text = "共\(totalCount)个"
+
                 for modelDic: [String: AnyObject] in list {
                     let model = MICommunityListModel.yy_model(with: modelDic)
                     weakSelf?.dataList.append(model!)
@@ -319,7 +354,7 @@ class MIPersonalVC: UIViewController {
         userIconBtn.sd_setImage(with: NSURL(string: iconUrl) as URL?, for: .normal, placeholderImage: UIImage(named: "icon_personal_head_nor"), options: .retryFailed, completed: nil)
         
         userNameLab.text = model.nickname
-        genderLab.text = (model.gender == 0 ? "男" : "女")
+        genderLab.text = (model.gender == 0 ? MILocalData.appLanguage("personal_key_16") : MILocalData.appLanguage("personal_key_17"))
         
         let jobList = ["程序", "科研", "教育", "收藏", "美业", "其他"]
         var str = "其他"
@@ -327,7 +362,13 @@ class MIPersonalVC: UIViewController {
             str = jobList[model.profession.rawValue - 1]
         }
         jobLab.text = str
-        ageLab.text = "\(model.age)"
+        
+        let currentDate = LVDateHelper.fetchLocalDate()
+        let birthdayDate = LVDateHelper.fetchDate(from: model.birthday, withFormat: "yyyy-MM-dd") ?? currentDate
+        
+        let ti = Int32((currentDate?.timeIntervalSince(birthdayDate!))!)
+        let year = ti / D_YEAR
+        ageLab.text = "\(year)"
     }
 
     @objc private func clickBackBtn(_ sender: UIButton) {
@@ -339,9 +380,44 @@ class MIPersonalVC: UIViewController {
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
+    @objc private func clickExtendBtn(_ sender: UIButton) {
+        let userInfo = MILocalData.getCurrentLoginUserInfo()
+        if userInfo.uid == userId { //自己
+            let titles = [MILocalData.appLanguage("album_key_5"),
+                          MILocalData.appLanguage("other_key_35")]
+            let images = ["icon_personal_upload_nor", "icon_personal_blacklist_nor"]
+            YBPopupMenu.showRely(on: sender, titles: titles, icons: images, menuWidth: 150) { (popMenu: YBPopupMenu?) in
+                popMenu?.delegate = self
+                popMenu?.fontSize = 8
+                popMenu?.itemHeight = 50
+                popMenu?.textColor = MIRgbaColor(rgbValue: 0x333333, alpha: 1)
+                popMenu?.showMaskView = false
+                popMenu?.isShadowShowing = true
+                popMenu?.offset = 5
+                popMenu?.arrowHeight = 10
+            }
+        } else {
+            QZShareMgr.shareManager()?.show(.addBlack, inVC: nil)
+            QZShareMgr.shareManager()?.delegate = self
+        }
+    }
+    
     @objc private func clickEditBtn(_ sender: UIButton) {
         let editVC = MIEditPersonalInfoVC.init(nibName: "MIEditPersonalInfoVC", bundle: nil)
         self.navigationController?.pushViewController(editVC, animated: true)
+    }
+    
+    @objc private func clickPrivateBtn(_ sender: UIButton) {
+        let letterVC = MIPrivateLetterVC.init()
+        letterVC.user_receive_id = userId
+        letterVC.avatar = otherAvatar
+        letterVC.nickname = userNameLab.text!
+        self.navigationController?.pushViewController(letterVC, animated: true)
+    }
+    
+    @objc func refreshHeadView() {
+        let userInfo = MILocalData.getCurrentLoginUserInfo()
+        refreshSubViews(model: userInfo)
     }
 }
 
@@ -380,5 +456,63 @@ extension MIPersonalVC: UIGestureRecognizerDelegate {
         }
         return true;
         
+    }
+}
+
+extension MIPersonalVC: MIShareManagerDelete {
+    func shareManagerReportAction() {
+        
+        weak var weakSelf = self
+        if reportView == nil {
+            reportView = MIReportView.init(frame: ScreenBounds)
+            UIApplication.shared.keyWindow?.addSubview(reportView)
+
+            reportView.selectReportContent = { (text) in
+                MIRequestManager.reportUse(withUserId: "\(weakSelf?.userId ?? 0)", reportContent: text, requestToken: MILocalData.getCurrentRequestToken(), completed: { (jsonData, error) in
+
+                    let dic: [String : AnyObject] = jsonData as! Dictionary
+                    let code = dic["code"]?.int64Value
+                    if code == 0 {
+                        MIHudView.showMsg(MILocalData.appLanguage("other_key_15"))
+                    } else {
+                        //                        MIHudView.showMsg("举报失败")
+                    }
+                })
+            }
+        }
+
+        UIView.animate(withDuration: 0.3) {
+            weakSelf?.reportView.frame = ScreenBounds
+        }
+    }
+    
+    func shareManagerAddBlackListAction() {
+        weak var weakSelf = self
+        MIRequestManager.addBlackList(withUserId: "\(weakSelf?.userId ?? 0)", requestToken: MILocalData.getCurrentRequestToken()) { (jsonData, error) in
+
+            let dic: [String : AnyObject] = jsonData as! Dictionary
+            let code = dic["code"]?.int64Value
+            if code == 0 {
+                MIHudView.showMsg(MILocalData.appLanguage("other_key_16"))
+               
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1, execute: {
+                    weakSelf?.navigationController?.popToRootViewController(animated: true)
+                })
+            } else {
+                //                MIHudView.showMsg("拉黑失败")
+            }
+        }
+    }
+}
+
+extension MIPersonalVC: YBPopupMenuDelegate {
+    func ybPopupMenu(_ ybPopupMenu: YBPopupMenu!, didSelectedAt index: Int) {
+        if index == 0 {
+            let albumVC = MILocalAlbumVC.init()
+            self.navigationController?.pushViewController(albumVC, animated: true)
+        } else if index == 1 {
+            let vc = MIBlackListViewController.init(nibName: "MIBlackListViewController", bundle: nil)
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
     }
 }

@@ -44,6 +44,16 @@ class MISiderBarView: UIView {
         addGestureRecognizer(swipe)
     }
     
+    func refreshSubviewsByLanguage() {
+        loginBtn.setTitle(MILocalData.appLanguage("sideBar_key_1"), for: .normal)
+        personalLab.text = MILocalData.appLanguage("sideBar_key_2")
+        languageLab.text = MILocalData.appLanguage("sideBar_key_3")
+        watermarkLab.text = MILocalData.appLanguage("sideBar_key_4")
+        helpLab.text = MILocalData.appLanguage("sideBar_key_5")
+        feedbackLab.text = MILocalData.appLanguage("sideBar_key_6")
+        updateLab.text = MILocalData.appLanguage("sideBar_key_7")
+    }
+    
     //MARK:事件响应
     @IBAction func clickHeadPortraitBtn(_ sender: UIButton) {
         let navVC = MIGetNavigationViewController()
@@ -101,13 +111,13 @@ class MISiderBarView: UIView {
     }
     
     @IBAction func clickFeedbackBtn(_ sender: UIButton) {
-        let feedbackVC: MIFeedbackVC = MIFeedbackVC(nibName: "MIFeedbackVC", bundle: nil)
+        let vc: MIFeedbackListVC = MIFeedbackListVC.init()
         let navVC = MIGetNavigationViewController()
-        navVC.pushViewController(feedbackVC, animated: true)
+        navVC.pushViewController(vc, animated: true)
     }
     
     @IBAction func clickCheckUpdateBtn(_ sender: UIButton) {
-        MBProgressHUD.showStatus("版本检测中，请稍后...")
+        MBProgressHUD.showStatus(MILocalData.appLanguage("other_key_44"))
         MIRequestManager.checkAppVersionCompleted { (jsonData, error) in
             DispatchQueue.main.async {
                 MBProgressHUD.hide()
@@ -127,14 +137,16 @@ class MISiderBarView: UIView {
                 if appVersion.compare(currentAppVersion) == .orderedDescending {
                     let trackViewUrl: String = versionDic["trackViewUrl"] as! String
                     
-                    MICustomAlertView.show(withFrame: ScreenBounds, alertTitle: "温馨提示", alertMessage: "当前有最新版本:\(appVersion)，是否进行更新？", leftAction: {
+                    let message = MILocalData.appLanguage("other_key_45") + "\(appVersion)" + MILocalData.appLanguage("other_key_46")
+                    MICustomAlertView.show(withFrame: ScreenBounds, alertTitle: MILocalData.appLanguage("personal_key_11"), alertMessage: message, leftAction: {
                         
                     }, rightAction: {
                         UIApplication.shared.openURL(URL.init(string: trackViewUrl)!)
                     })
                 } else {
                     DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.3, execute: {
-                        MIHudView.showMsg("当前已经是最新版本:\(appVersion)")
+                        let msg = MILocalData.appLanguage("other_key_47") + "\(appVersion)"
+                        MIHudView.showMsg(msg)
                     })
                 }
             }

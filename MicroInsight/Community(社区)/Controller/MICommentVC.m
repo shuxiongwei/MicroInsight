@@ -9,12 +9,15 @@
 #import "MICommentVC.h"
 #import "MICommunityListModel.h"
 #import "MICommentCell.h"
-
+#import "MIReportView.h"
+#import "MICommentAlertView.h"
 
 @interface MICommentVC () <UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *dataArray;
+@property (nonatomic, strong) MIReportView *reportView;
+@property (nonatomic, strong) MICommentAlertView *commentAlertView;
 
 @end
 
@@ -122,9 +125,9 @@
     cell.model = model;
     
     WSWeak(weakSelf)
-    cell.clickUserIcon = ^(NSInteger userId) {
+    cell.clickUserIcon = ^(MIChildCommentModel *childModel) {
         if (weakSelf.clickUserIcon) {
-            weakSelf.clickUserIcon(userId);
+            weakSelf.clickUserIcon(childModel);
         }
     };
     
@@ -145,7 +148,7 @@
                     model.likes = [data[@"likes"] integerValue];
                     [weakSelf.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
                 } else {
-                    [MIHudView showMsg:@"点赞失败"];
+//                    [MIHudView showMsg:@"点赞失败"];
                 }
             }];
         } else {
@@ -158,8 +161,91 @@
                     model.likes = [data[@"likes"] integerValue];
                     [weakSelf.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
                 } else {
-                    [MIHudView showMsg:@"点赞失败"];
+//                    [MIHudView showMsg:@"点赞失败"];
                 }
+            }];
+        }
+    };
+    
+    cell.longPressComment = ^(MICommentModel * _Nonnull model) {
+        MIUserInfoModel *userInfo = [MILocalData getCurrentLoginUserInfo];
+        if (userInfo.uid != model.user_id) {
+            
+            if (!weakSelf.commentAlertView) {
+                weakSelf.commentAlertView = [MICommentAlertView commentAlertView];
+                [weakSelf.commentAlertView.commentBtn setTitle:[MILocalData appLanguage:@"other_key_56"] forState:UIControlStateNormal];
+                [weakSelf.commentAlertView.reportBtn setTitle:[MILocalData appLanguage:@"community_key_13"] forState:UIControlStateNormal];
+                
+                NSString *blackStr;
+                if (model.isBlack) {
+                    blackStr = [MILocalData appLanguage:@"other_key_57"];
+                } else {
+                    blackStr = [MILocalData appLanguage:@"community_key_16"];
+                }
+                
+                [weakSelf.commentAlertView.blackBtn setTitle:blackStr forState:UIControlStateNormal];
+                weakSelf.commentAlertView.frame = MIScreenBounds;
+                [[UIApplication sharedApplication].keyWindow addSubview:weakSelf.commentAlertView];
+                
+                weakSelf.commentAlertView.alertType = ^(NSInteger type) {
+                    if (type == 0) {
+                        if (weakSelf.clickParentComment) {
+                            weakSelf.clickParentComment(model);
+                        }
+                    } else if (type == 1) {
+                        if (!weakSelf.reportView) {
+                            weakSelf.reportView = [[MIReportView alloc] initWithFrame:CGRectMake(0, MIScreenHeight, MIScreenWidth, MIScreenHeight)];
+                            [[UIApplication sharedApplication].keyWindow addSubview:weakSelf.reportView];
+
+                            weakSelf.reportView.selectReportContent = ^(NSString * _Nonnull content) {
+                                
+                                [MIRequestManager reportUseWithUserId:[NSString stringWithFormat:@"%ld", model.modelId] reportContent:content requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+                                    
+                                    NSInteger code = [jsonData[@"code"] integerValue];
+                                    if (code == 0) {
+                                        [MIHudView showMsg:[MILocalData appLanguage:@"other_key_15"]];
+                                    } else {
+                                        //                    [MIHudView showMsg:@"举报失败"];
+                                    }
+                                }];
+                            };
+                        }
+                        
+                        [UIView animateWithDuration:0.3 animations:^{
+                            self.reportView.frame = MIScreenBounds;
+                        }];
+                    } else if (type == 2) {
+                        if (model.isBlack) {
+                            [MIRequestManager cancelBlackListWithUserId:[NSString stringWithFormat:@"%ld", model.user_id] requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+                                
+                                NSInteger code = [jsonData[@"code"] integerValue];
+                                if (code == 0) {
+                                    [MIHudView showMsg:[MILocalData appLanguage:@"other_key_55"]];
+                                    [[NSNotificationCenter defaultCenter] postNotificationName:@"blackListNotification" object:nil];
+                                    model.isBlack = NO;
+                                    [weakSelf.tableView reloadData];
+                                }
+                            }];
+                        } else {
+                            [MIRequestManager addBlackListWithUserId:[NSString stringWithFormat:@"%ld", model.user_id] requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+                                
+                                NSInteger code = [jsonData[@"code"] integerValue];
+                                if (code == 0) {
+                                    [MIHudView showMsg:[MILocalData appLanguage:@"other_key_16"]];
+                                    [[NSNotificationCenter defaultCenter] postNotificationName:@"blackListNotification" object:nil];
+                                    model.isBlack = YES;
+                                    [weakSelf.tableView reloadData];
+                                } else {
+                                    //            [MIHudView showMsg:@"拉黑失败"];
+                                }
+                            }];
+                        }
+                    }
+                };
+            }
+            
+            [UIView animateWithDuration:0.3 animations:^{
+                weakSelf.commentAlertView.alpha = 1;
             }];
         }
     };

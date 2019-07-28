@@ -46,7 +46,8 @@ static NSString *const CellId = @"MIThemeCell";
     // Do any additional setup after loading the view.
     
     [super configLeftBarButtonItem:nil];
-    self.title = @"上传作品";
+    self.title = [MILocalData appLanguage:@"album_key_9"];
+    [_uploadBtn setTitle:[MILocalData appLanguage:@"album_key_5"] forState:UIControlStateNormal];
     
     [self requestThemeData];
     
@@ -63,7 +64,7 @@ static NSString *const CellId = @"MIThemeCell";
     self.themCollection.collectionViewLayout = flow;
     self.themes = [NSArray array];
     
-    _textView.placeholder = @"请描述你的作品信息......";
+    _textView.placeholder = [MILocalData appLanguage:@"album_key_10"];
     _textView.delegate = self;
     [_textView rounded:1 width:1 color:UIColorFromRGBWithAlpha(0xDDDDDD, 1)];
     [_uploadBtn setButtonCustomBackgroudImageWithBtn:_uploadBtn fromColor:UIColorFromRGBWithAlpha(0x72B3E2, 1) toColor:UIColorFromRGBWithAlpha(0x6DD1CC, 1)];
@@ -212,12 +213,12 @@ static NSString *const CellId = @"MIThemeCell";
 - (IBAction)uploadBtnClick:(UIButton *)sender {
     
     if ([MIHelpTool isBlankString:_textView.text]) {
-        [MIHudView showMsg:@"请输入标题"];
+        [MIHudView showMsg:[MILocalData appLanguage:@"other_key_26"]];
         return;
     }
     
     if (!_curTheme) {
-        [MIHudView showMsg:@"请选择主题"];
+        [MIHudView showMsg:[MILocalData appLanguage:@"other_key_27"]];
         return;
     }
     
@@ -229,7 +230,7 @@ static NSString *const CellId = @"MIThemeCell";
         
             if ([MIHelpTool isBlankString:weakSelf.assetUrl]) {
                 if (weakSelf.asset.mediaType == PHAssetMediaTypeImage) {
-                    [MBProgressHUD showStatus:@"图片上传中，请稍后"];
+                    [MBProgressHUD showStatus:[NSString stringWithFormat:@"%@...", [MILocalData appLanguage:@"other_key_28"]]];
                     
                     NSString *fileName = [[MIHelpTool timeStampSecond] stringByAppendingString:@".jpg"];
                     NSMutableArray *tags = [NSMutableArray arrayWithObject:@([weakSelf.curTheme.themeId integerValue])];
@@ -243,13 +244,13 @@ static NSString *const CellId = @"MIThemeCell";
                         
                         NSInteger code = [jsonData[@"code"] integerValue];
                         if (code == 0) {
-                            [MIHudView showMsg:@"图片上传成功"];
+                            [MIHudView showMsg:[MILocalData appLanguage:@"other_key_29"]];
                             
                             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                                 [weakSelf.navigationController popViewControllerAnimated:YES];
                             });
                         } else {
-                            [MIHudView showMsg:@"图片上传失败"];
+                            [MIHudView showMsg:[MILocalData appLanguage:@"other_key_30"]];
                         }
                     }];
                     
@@ -306,7 +307,7 @@ static NSString *const CellId = @"MIThemeCell";
                                                     [[NSFileManager defaultManager] removeItemAtPath:videoPath error:nil];
                                                 }
                                                 
-                                                [MIHudView showMsg:@"视频上传成功"];
+                                                [MIHudView showMsg:[MILocalData appLanguage:@"other_key_29"]];
                                                 
                                                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                                                     [weakSelf.navigationController popViewControllerAnimated:YES];
@@ -317,7 +318,7 @@ static NSString *const CellId = @"MIThemeCell";
                                         NSLog(@"%s", __PRETTY_FUNCTION__);
                                     };
                                     listener.failure = ^(UploadFileInfo *fileInfo, NSString *code, NSString *message) {
-                                        [SVProgressHUD showErrorWithStatus:@"上传失败"];
+                                        [SVProgressHUD showErrorWithStatus:[MILocalData appLanguage:@"other_key_30"]];
                                         NSLog(@"%s", __PRETTY_FUNCTION__);
                                     };
                                     listener.started = ^(UploadFileInfo *fileInfo) {
@@ -325,7 +326,7 @@ static NSString *const CellId = @"MIThemeCell";
                                     };
                                     listener.progress = ^(UploadFileInfo *fileInfo, long uploadedSize, long totalSize) {
                                         CGFloat uploadedS = uploadedSize;
-                                        [SVProgressHUD showProgress:uploadedS / totalSize status:@"视频上传中..."];
+                                        [SVProgressHUD showProgress:uploadedS / totalSize status:[NSString stringWithFormat:@"%@...", [MILocalData appLanguage:@"other_key_28"]]];
                                         if (uploadedSize >= totalSize) {
                                             [SVProgressHUD dismiss];
                                         }
@@ -333,7 +334,7 @@ static NSString *const CellId = @"MIThemeCell";
                                     };
                                     
                                     listener.expire = ^{
-                                        [SVProgressHUD showErrorWithStatus:@"上传失败"];
+                                        [SVProgressHUD showErrorWithStatus:[MILocalData appLanguage:@"other_key_30"]];
                                         NSLog(@"%s", __PRETTY_FUNCTION__);
                                     };
                                     
@@ -346,20 +347,20 @@ static NSString *const CellId = @"MIThemeCell";
                                     [uploadClient init:info.AccessKeyId accessKeySecret:info.AccessKeySecret secretToken:info.SecurityToken expireTime:info.Expiration listener:listener];
                                     [uploadClient addFile:videoPath vodInfo:uploadVodInfo];
                                     [uploadClient start];
-                                    [SVProgressHUD showProgress:0 status:@"视频上传中..."];
+                                    [SVProgressHUD showProgress:0 status:[NSString stringWithFormat:@"%@...", [MILocalData appLanguage:@"other_key_28"]]];
                                     
                                 } failureResponse:^(NSError *error) {
                                     
                                 }];
                             });
                         } else {
-                            [MIHudView showMsg:@"视频上传失败"];
+                            [MIHudView showMsg:[MILocalData appLanguage:@"other_key_30"]];
                         }
                     }];
                 }
             } else {
                 if ([weakSelf.assetUrl.pathExtension isEqualToString:@"png"]) {
-                    [MBProgressHUD showStatus:@"图片上传中，请稍后"];
+                    [MBProgressHUD showStatus:[NSString stringWithFormat:@"%@...", [MILocalData appLanguage:@"other_key_28"]]];
                     
                     NSString *fileName = [[MIHelpTool timeStampSecond] stringByAppendingString:@".jpg"];
                     NSMutableArray *tags = [NSMutableArray arrayWithObject:@([weakSelf.curTheme.themeId integerValue])];
@@ -381,7 +382,7 @@ static NSString *const CellId = @"MIThemeCell";
                                 [weakSelf.navigationController popViewControllerAnimated:YES];
                             });
                         } else {
-                            [MIHudView showMsg:@"图片上传失败"];
+                            [MIHudView showMsg:[MILocalData appLanguage:@"other_key_30"]];
                         }
                     }];
                 } else {
@@ -416,7 +417,7 @@ static NSString *const CellId = @"MIThemeCell";
                             NSLog(@"%s", __PRETTY_FUNCTION__);
                         };
                         listener.failure = ^(UploadFileInfo *fileInfo, NSString *code, NSString *message) {
-                            [SVProgressHUD showErrorWithStatus:@"上传失败"];
+                            [SVProgressHUD showErrorWithStatus:[MILocalData appLanguage:@"other_key_30"]];
                             NSLog(@"%s", __PRETTY_FUNCTION__);
                         };
                         listener.started = ^(UploadFileInfo *fileInfo) {
@@ -424,7 +425,7 @@ static NSString *const CellId = @"MIThemeCell";
                         };
                         listener.progress = ^(UploadFileInfo *fileInfo, long uploadedSize, long totalSize) {
                             CGFloat uploadedS = uploadedSize;
-                            [SVProgressHUD showProgress:uploadedS / totalSize status:@"视频上传中..."];
+                            [SVProgressHUD showProgress:uploadedS / totalSize status:[NSString stringWithFormat:@"%@...", [MILocalData appLanguage:@"other_key_28"]]];
                             if (uploadedSize >= totalSize) {
                                 [SVProgressHUD dismiss];
                             }
@@ -432,7 +433,7 @@ static NSString *const CellId = @"MIThemeCell";
                         };
                         
                         listener.expire = ^{
-                            [SVProgressHUD showErrorWithStatus:@"上传失败"];
+                            [SVProgressHUD showErrorWithStatus:[MILocalData appLanguage:@"other_key_30"]];
                             NSLog(@"%s", __PRETTY_FUNCTION__);
                         };
                         
@@ -445,7 +446,7 @@ static NSString *const CellId = @"MIThemeCell";
                         [uploadClient init:info.AccessKeyId accessKeySecret:info.AccessKeySecret secretToken:info.SecurityToken expireTime:info.Expiration listener:listener];
                         [uploadClient addFile:weakSelf.assetUrl vodInfo:uploadVodInfo];
                         [uploadClient start];
-                        [SVProgressHUD showProgress:0 status:@"视频上传中..."];
+                        [SVProgressHUD showProgress:0 status:[NSString stringWithFormat:@"%@...", [MILocalData appLanguage:@"other_key_28"]]];
                         
                     } failureResponse:^(NSError *error) {
                         
@@ -453,7 +454,7 @@ static NSString *const CellId = @"MIThemeCell";
                 }
             }
         } else if (code == -1) {
-            [MIHudView showMsg:@"标题不能含有敏感词"];
+            [MIHudView showMsg:[MILocalData appLanguage:@"other_key_14"]];
         }
     }];
 }

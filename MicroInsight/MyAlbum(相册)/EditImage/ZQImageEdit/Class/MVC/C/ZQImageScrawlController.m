@@ -32,7 +32,7 @@
 
 - (void)configUI {
     [super configLeftBarButtonItem:nil];
-    self.title = @"涂鸦";
+    self.title = [MILocalData appLanguage:@"other_key_23"];
     
     _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, MIScreenWidth, MIScreenHeight - KNaviBarAllHeight - operaBarHeight)];
     _imageView.backgroundColor = [UIColor blackColor];

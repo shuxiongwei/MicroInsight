@@ -53,9 +53,9 @@ extension MISettingLanguageVC: UITableViewDelegate {
             
             let languageDic = MILocalData.getLanguageMapping() as Dictionary
             let key = cell.nameLab.text!
-            let msg = "确定要将语言设置为" + key + "吗？"
+            let msg = MILocalData.appLanguage("other_key_48") + key
             
-            MICustomAlertView.show(withFrame: ScreenBounds, alertTitle: "温馨提示", alertMessage: msg, leftAction: {
+            MICustomAlertView.show(withFrame: ScreenBounds, alertTitle: MILocalData.appLanguage("personal_key_11"), alertMessage: msg, leftAction: {
                 
             }) {
                 let languageType = languageDic[key] as! String

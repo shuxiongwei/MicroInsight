@@ -34,21 +34,24 @@ class MIGenderView: UIView {
         addSubview(bgView)
         
         let titleLab = UILabel.init(frame: CGRect(x: 0, y: 50, width: bgView.width, height: 17))
-        titleLab.text = "请选择你的性别"
+        titleLab.text = MILocalData.appLanguage("personal_key_15")
         titleLab.textColor = MIRgbaColor(rgbValue: 0x333333, alpha: 1)
         titleLab.textAlignment = .center
         titleLab.font = UIFont.systemFont(ofSize: 16)
         bgView.addSubview(titleLab)
         
-        maleBtn = MIUIFactory.createButton(with: .custom, frame: CGRect(x: 55, y: titleLab.bottom + 50, width: 50, height: 20), normalTitle: "男", normalTitleColor: MIRgbaColor(rgbValue: 0x333333, alpha: 1), highlightedTitleColor: nil, selectedColor: nil, titleFont: 15, normalImage: UIImage(named: "icon_personal_gender_nor"), highlightedImage: nil, selectedImage: UIImage(named: "icon_personal_gender_sel"), touchUpInSideTarget: self, action: #selector(clickMaleBtn(_ :)))
-        if genderText == maleBtn.titleLabel?.text || genderText == "请选择" {
+        maleBtn = MIUIFactory.createButton(with: .custom, frame: CGRect(x: 55, y: titleLab.bottom + 50, width: 50, height: 20), normalTitle: MILocalData.appLanguage("personal_key_16"), normalTitleColor: MIRgbaColor(rgbValue: 0x333333, alpha: 1), highlightedTitleColor: nil, selectedColor: nil, titleFont: 15, normalImage: UIImage(named: "icon_personal_gender_nor"), highlightedImage: nil, selectedImage: UIImage(named: "icon_personal_gender_sel"), touchUpInSideTarget: self, action: #selector(clickMaleBtn(_ :)))
+        maleBtn.setEnlargeEdge(10)
+        if genderText == maleBtn.titleLabel?.text || genderText == MILocalData.appLanguage("personal_key_6") {
             maleBtn.isSelected = true
         }
         maleBtn.layoutButton(with: .left, imageTitleSpace: 20)
         bgView.addSubview(maleBtn)
         
-        femaleBtn = MIUIFactory.createButton(with: .custom, frame: CGRect(x: bgView.width - 105, y: titleLab.bottom + 50, width: 50, height: 20), normalTitle: "女", normalTitleColor: MIRgbaColor(rgbValue: 0x333333, alpha: 1), highlightedTitleColor: nil, selectedColor: nil, titleFont: 15, normalImage: UIImage(named: "icon_personal_gender_nor"), highlightedImage: nil, selectedImage: UIImage(named: "icon_personal_gender_sel"), touchUpInSideTarget: self, action: #selector(clickFemaleBtn(_ :)))
+        femaleBtn = MIUIFactory.createButton(with: .custom, frame: CGRect(x: bgView.width - 105, y: titleLab.bottom + 50, width: 80, height: 20), normalTitle: MILocalData.appLanguage("personal_key_17"), normalTitleColor: MIRgbaColor(rgbValue: 0x333333, alpha: 1), highlightedTitleColor: nil, selectedColor: nil, titleFont: 15, normalImage: UIImage(named: "icon_personal_gender_nor"), highlightedImage: nil, selectedImage: UIImage(named: "icon_personal_gender_sel"), touchUpInSideTarget: self, action: #selector(clickFemaleBtn(_ :)))
+        femaleBtn.contentHorizontalAlignment = .left
         femaleBtn.layoutButton(with: .left, imageTitleSpace: 20)
+        femaleBtn.setEnlargeEdge(10)
         if genderText == femaleBtn.titleLabel?.text {
             femaleBtn.isSelected = true
         }
@@ -57,7 +60,7 @@ class MIGenderView: UIView {
         let leftBtn = UIButton(type: .custom)
         leftBtn.frame = CGRect(x: 0, y: bgView.height - 50, width: bgView.width / 2.0, height: 50)
         leftBtn.backgroundColor = MIRgbaColor(rgbValue: 0xF9F9F9, alpha: 1)
-        leftBtn.setTitle("取消", for: .normal)
+        leftBtn.setTitle(MILocalData.appLanguage("personal_key_13"), for: .normal)
         leftBtn.setTitleColor(MIRgbaColor(rgbValue: 0xBEBEBE, alpha: 1), for: .normal)
         leftBtn.titleLabel?.font = UIFont.systemFont(ofSize: 17)
         leftBtn.addTarget(self, action: #selector(clickLeftBtn(_ :)), for: .touchUpInside)
@@ -66,7 +69,7 @@ class MIGenderView: UIView {
         let rightBtn = UIButton(type: .custom)
         rightBtn.frame = CGRect(x: bgView.width / 2.0, y: bgView.height - 50, width: bgView.width / 2.0, height: 50)
         rightBtn.setButtonCustomBackgroudImage(btn: rightBtn, fromColor: MIRgbaColor(rgbValue: 0x72B3E2, alpha: 1), toColor: MIRgbaColor(rgbValue: 0x6DD1CC, alpha: 1))
-        rightBtn.setTitle("确认", for: .normal)
+        rightBtn.setTitle(MILocalData.appLanguage("camera_key_5"), for: .normal)
         rightBtn.setTitleColor(UIColor.white, for: .normal)
         rightBtn.titleLabel?.font = UIFont.systemFont(ofSize: 17)
         rightBtn.addTarget(self, action: #selector(clickRightBtn(_ :)), for: .touchUpInside)

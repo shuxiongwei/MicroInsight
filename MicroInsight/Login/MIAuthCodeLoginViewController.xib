@@ -47,7 +47,7 @@
                         <constraint firstAttribute="height" constant="1" id="IZ1-1q-uXE"/>
                     </constraints>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wHp-ok-BJy">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wHp-ok-BJy">
                     <rect key="frame" x="294" y="231" width="80" height="35"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="35" id="iJW-23-MEq"/>
@@ -114,6 +114,6 @@
         </view>
     </objects>
     <resources>
-        <image name="img_login_logo_nor" width="165" height="32.5"/>
+        <image name="img_login_logo_nor" width="122" height="21.5"/>
     </resources>
 </document>

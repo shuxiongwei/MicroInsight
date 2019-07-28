@@ -17,15 +17,17 @@ typedef NS_ENUM(NSUInteger, MICommentType) {
 
 @class MICommunityListModel;
 @class MICommentModel;
+@class MIChildCommentModel;
 @interface MICommentVC : UIViewController
 
 @property (nonatomic, assign) NSInteger contentId;
 @property (nonatomic, assign) NSInteger contentType; //0:图片，1:视频
 @property (nonatomic, assign) MICommentType commentType;
 
-@property (nonatomic, copy) void (^clickUserIcon)(NSInteger userId);
+@property (nonatomic, copy) void (^clickUserIcon)(MIChildCommentModel *model);
 @property (nonatomic, copy) void (^clickShowAllChildComment)(MICommentModel *model);
 @property (nonatomic, copy) void (^clickParentComment)(MICommentModel *model);
+@property (nonatomic, copy) void (^longPressComment)(MICommentModel *model);
 
 - (void)refreshView;
 

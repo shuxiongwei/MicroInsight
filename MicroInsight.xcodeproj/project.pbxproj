@@ -114,6 +114,10 @@
 		701359B522ABC28D00143701 /* MIRecommendCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 701359B322ABC28D00143701 /* MIRecommendCell.m */; };
 		701359B622ABC28D00143701 /* MIRecommendCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 701359B422ABC28D00143701 /* MIRecommendCell.xib */; };
 		701359B922ACEAF000143701 /* MIRecommendListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 701359B822ACEAF000143701 /* MIRecommendListModel.m */; };
+		7014295022D4C12300615F25 /* MIPrivateImageReviewVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7014294F22D4C12300615F25 /* MIPrivateImageReviewVC.m */; };
+		7014295422D4C50400615F25 /* MIPrivateImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7014295222D4C50400615F25 /* MIPrivateImageCell.m */; };
+		7014295522D4C50400615F25 /* MIPrivateImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7014295322D4C50400615F25 /* MIPrivateImageCell.xib */; };
+		7014295822D4D0AD00615F25 /* MILetterListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7014295722D4D0AD00615F25 /* MILetterListModel.m */; };
 		701648AC229570D4006F676F /* MIPersonalVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701648AB229570D4006F676F /* MIPersonalVC.swift */; };
 		701648AF2295852F006F676F /* MIEditPersonalInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701648AD2295852F006F676F /* MIEditPersonalInfoVC.swift */; };
 		701648B02295852F006F676F /* MIEditPersonalInfoVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 701648AE2295852F006F676F /* MIEditPersonalInfoVC.xib */; };
@@ -122,6 +126,7 @@
 		70194067228C6620003727A8 /* MISettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70194065228C6620003727A8 /* MISettingCell.swift */; };
 		70194068228C6620003727A8 /* MISettingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 70194066228C6620003727A8 /* MISettingCell.xib */; };
 		7019406A228C69D0003727A8 /* MISettingLanguageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70194069228C69D0003727A8 /* MISettingLanguageVC.swift */; };
+		701A433F22D4161F00F60603 /* MIPrivateLetterAlbumVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 701A433E22D4161F00F60603 /* MIPrivateLetterAlbumVC.m */; };
 		701C084D22B9B9930093401F /* ZQFilterController.m in Sources */ = {isa = PBXBuildFile; fileRef = 701C081122B9B9930093401F /* ZQFilterController.m */; };
 		701C084E22B9B9930093401F /* ZQBrightnessController.m in Sources */ = {isa = PBXBuildFile; fileRef = 701C081222B9B9930093401F /* ZQBrightnessController.m */; };
 		701C084F22B9B9930093401F /* ZQImageMosaicController.m in Sources */ = {isa = PBXBuildFile; fileRef = 701C081322B9B9930093401F /* ZQImageMosaicController.m */; };
@@ -210,6 +215,7 @@
 		70710CAE20F4917E00052929 /* MIHorizontalPickerViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 70710CA920F4917E00052929 /* MIHorizontalPickerViewCell.m */; };
 		70710CAF20F4917E00052929 /* MIHorizontalPickerViewCellItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 70710CAB20F4917E00052929 /* MIHorizontalPickerViewCellItem.m */; };
 		70710CB020F4917E00052929 /* MIHorizontalPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70710CAD20F4917E00052929 /* MIHorizontalPickerView.m */; };
+		70736CE122D0A4E8000380B8 /* MIPrivateLetterVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 70736CE022D0A4E8000380B8 /* MIPrivateLetterVC.m */; };
 		707A5BC9212E390E002D61BC /* UIButton+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 707A5BC8212E390E002D61BC /* UIButton+Extension.m */; };
 		707A5BD0212EAA02002D61BC /* UIFont+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 707A5BCF212EAA02002D61BC /* UIFont+Extension.m */; };
 		707A5BD2212EAA90002D61BC /* font.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 707A5BD1212EAA90002D61BC /* font.ttf */; };
@@ -222,6 +228,9 @@
 		7080B0A122BE26E40086982A /* ZRWaterPrintComposition.m in Sources */ = {isa = PBXBuildFile; fileRef = 7080B09F22BE26E40086982A /* ZRWaterPrintComposition.m */; };
 		7080B0A522BF48120086982A /* MIWatermarkVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7080B0A322BF48120086982A /* MIWatermarkVC.m */; };
 		7080B0A622BF48120086982A /* MIWatermarkVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7080B0A422BF48120086982A /* MIWatermarkVC.xib */; };
+		70900D0322DB3DAD002656A6 /* MIFeedbackListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 70900D0222DB3DAD002656A6 /* MIFeedbackListVC.m */; };
+		70900D0622DB3F46002656A6 /* MIFeedbackListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 70900D0522DB3F46002656A6 /* MIFeedbackListCell.m */; };
+		70900D0922DB3F82002656A6 /* MIFeedbackListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 70900D0822DB3F82002656A6 /* MIFeedbackListModel.m */; };
 		70928F1722A00F0B00DCEED1 /* QZPlayerToolBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 70928F1522A00F0B00DCEED1 /* QZPlayerToolBar.m */; };
 		70928F1822A00F0B00DCEED1 /* QZCustomVideoPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 70928F1622A00F0B00DCEED1 /* QZCustomVideoPlayer.m */; };
 		70928F1A22A013A900DCEED1 /* MIVideoUploadVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70928F1922A013A900DCEED1 /* MIVideoUploadVC.swift */; };
@@ -263,6 +272,8 @@
 		70AFE0BF21CFBE06000585D0 /* MIThirdPartyLoginManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 70AFE0BE21CFBE06000585D0 /* MIThirdPartyLoginManager.m */; };
 		70B09DB922B31F7600DCCD15 /* MIPraiseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B09DB722B31F7600DCCD15 /* MIPraiseCell.m */; };
 		70B09DBA22B31F7600DCCD15 /* MIPraiseCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 70B09DB822B31F7600DCCD15 /* MIPraiseCell.xib */; };
+		70B0AA6D22DF4EBD002F5E21 /* MICommentAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B0AA6C22DF4EBD002F5E21 /* MICommentAlertView.m */; };
+		70B0AA6F22DF4EC7002F5E21 /* MICommentAlertView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 70B0AA6E22DF4EC7002F5E21 /* MICommentAlertView.xib */; };
 		70B509EC21B754B300BBB2A9 /* MIDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B509EA21B754B300BBB2A9 /* MIDetailViewController.m */; };
 		70B509ED21B754B300BBB2A9 /* MIDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 70B509EB21B754B300BBB2A9 /* MIDetailViewController.xib */; };
 		70B509F121B7593500BBB2A9 /* MICommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B509EF21B7593500BBB2A9 /* MICommentCell.m */; };
@@ -295,7 +306,7 @@
 		70DF2A31229EAB6500919FD4 /* MIAlbumListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70DF2A30229EAB6500919FD4 /* MIAlbumListView.m */; };
 		70DF2A35229EAB7D00919FD4 /* MIAlbumListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 70DF2A33229EAB7D00919FD4 /* MIAlbumListCell.m */; };
 		70DF2A36229EAB7D00919FD4 /* MIAlbumListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 70DF2A34229EAB7D00919FD4 /* MIAlbumListCell.xib */; };
-		70E0C9CF22C0FB02002294C8 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 70E0C9CE22C0FB02002294C8 /* Images.xcassets */; };
+		70E4B25922D569C100CC295D /* MIPrivateListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 70E4B25822D569C100CC295D /* MIPrivateListCell.m */; };
 		70E5A37821D8ADBE00DB99CC /* MIReviewImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70E5A37721D8ADBE00DB99CC /* MIReviewImageView.m */; };
 		70E5E47E22AE94CB00F8853F /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70E5E47A22AE94CB00F8853F /* FBSDKLoginKit.framework */; };
 		70E5E47F22AE94CB00F8853F /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70E5E47B22AE94CB00F8853F /* FBSDKShareKit.framework */; };
@@ -540,6 +551,13 @@
 		701359B422ABC28D00143701 /* MIRecommendCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MIRecommendCell.xib; sourceTree = "<group>"; };
 		701359B722ACEAF000143701 /* MIRecommendListModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIRecommendListModel.h; sourceTree = "<group>"; };
 		701359B822ACEAF000143701 /* MIRecommendListModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MIRecommendListModel.m; sourceTree = "<group>"; };
+		7014294E22D4C12300615F25 /* MIPrivateImageReviewVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIPrivateImageReviewVC.h; sourceTree = "<group>"; };
+		7014294F22D4C12300615F25 /* MIPrivateImageReviewVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MIPrivateImageReviewVC.m; sourceTree = "<group>"; };
+		7014295122D4C50400615F25 /* MIPrivateImageCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIPrivateImageCell.h; sourceTree = "<group>"; };
+		7014295222D4C50400615F25 /* MIPrivateImageCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MIPrivateImageCell.m; sourceTree = "<group>"; };
+		7014295322D4C50400615F25 /* MIPrivateImageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MIPrivateImageCell.xib; sourceTree = "<group>"; };
+		7014295622D4D0AD00615F25 /* MILetterListModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MILetterListModel.h; sourceTree = "<group>"; };
+		7014295722D4D0AD00615F25 /* MILetterListModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MILetterListModel.m; sourceTree = "<group>"; };
 		701648AB229570D4006F676F /* MIPersonalVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MIPersonalVC.swift; sourceTree = "<group>"; };
 		701648AD2295852F006F676F /* MIEditPersonalInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MIEditPersonalInfoVC.swift; sourceTree = "<group>"; };
 		701648AE2295852F006F676F /* MIEditPersonalInfoVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MIEditPersonalInfoVC.xib; sourceTree = "<group>"; };
@@ -549,6 +567,8 @@
 		70194065228C6620003727A8 /* MISettingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MISettingCell.swift; sourceTree = "<group>"; };
 		70194066228C6620003727A8 /* MISettingCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MISettingCell.xib; sourceTree = "<group>"; };
 		70194069228C69D0003727A8 /* MISettingLanguageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MISettingLanguageVC.swift; sourceTree = "<group>"; };
+		701A433D22D4161F00F60603 /* MIPrivateLetterAlbumVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIPrivateLetterAlbumVC.h; sourceTree = "<group>"; };
+		701A433E22D4161F00F60603 /* MIPrivateLetterAlbumVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MIPrivateLetterAlbumVC.m; sourceTree = "<group>"; };
 		701C080322B9B9930093401F /* ZQImageEdit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZQImageEdit.h; sourceTree = "<group>"; };
 		701C080A22B9B9930093401F /* ZQFilterController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZQFilterController.h; sourceTree = "<group>"; };
 		701C080B22B9B9930093401F /* ZQImageRotationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZQImageRotationController.h; sourceTree = "<group>"; };
@@ -697,6 +717,8 @@
 		70710CAB20F4917E00052929 /* MIHorizontalPickerViewCellItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIHorizontalPickerViewCellItem.m; sourceTree = "<group>"; };
 		70710CAC20F4917E00052929 /* MIHorizontalPickerViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIHorizontalPickerViewCell.h; sourceTree = "<group>"; };
 		70710CAD20F4917E00052929 /* MIHorizontalPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIHorizontalPickerView.m; sourceTree = "<group>"; };
+		70736CDF22D0A4E8000380B8 /* MIPrivateLetterVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIPrivateLetterVC.h; sourceTree = "<group>"; };
+		70736CE022D0A4E8000380B8 /* MIPrivateLetterVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MIPrivateLetterVC.m; sourceTree = "<group>"; };
 		707A5BC7212E390E002D61BC /* UIButton+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIButton+Extension.h"; sourceTree = "<group>"; };
 		707A5BC8212E390E002D61BC /* UIButton+Extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Extension.m"; sourceTree = "<group>"; };
 		707A5BCE212EAA02002D61BC /* UIFont+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIFont+Extension.h"; sourceTree = "<group>"; };
@@ -717,6 +739,12 @@
 		7080B0A222BF48120086982A /* MIWatermarkVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIWatermarkVC.h; sourceTree = "<group>"; };
 		7080B0A322BF48120086982A /* MIWatermarkVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MIWatermarkVC.m; sourceTree = "<group>"; };
 		7080B0A422BF48120086982A /* MIWatermarkVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MIWatermarkVC.xib; sourceTree = "<group>"; };
+		70900D0122DB3DAD002656A6 /* MIFeedbackListVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIFeedbackListVC.h; sourceTree = "<group>"; };
+		70900D0222DB3DAD002656A6 /* MIFeedbackListVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MIFeedbackListVC.m; sourceTree = "<group>"; };
+		70900D0422DB3F46002656A6 /* MIFeedbackListCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIFeedbackListCell.h; sourceTree = "<group>"; };
+		70900D0522DB3F46002656A6 /* MIFeedbackListCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MIFeedbackListCell.m; sourceTree = "<group>"; };
+		70900D0722DB3F82002656A6 /* MIFeedbackListModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIFeedbackListModel.h; sourceTree = "<group>"; };
+		70900D0822DB3F82002656A6 /* MIFeedbackListModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MIFeedbackListModel.m; sourceTree = "<group>"; };
 		70928F1322A00F0A00DCEED1 /* QZPlayerToolBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QZPlayerToolBar.h; sourceTree = "<group>"; };
 		70928F1422A00F0B00DCEED1 /* QZCustomVideoPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QZCustomVideoPlayer.h; sourceTree = "<group>"; };
 		70928F1522A00F0B00DCEED1 /* QZPlayerToolBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QZPlayerToolBar.m; sourceTree = "<group>"; };
@@ -788,6 +816,9 @@
 		70B09DB622B31F7600DCCD15 /* MIPraiseCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIPraiseCell.h; sourceTree = "<group>"; };
 		70B09DB722B31F7600DCCD15 /* MIPraiseCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MIPraiseCell.m; sourceTree = "<group>"; };
 		70B09DB822B31F7600DCCD15 /* MIPraiseCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MIPraiseCell.xib; sourceTree = "<group>"; };
+		70B0AA6B22DF4EBD002F5E21 /* MICommentAlertView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MICommentAlertView.h; sourceTree = "<group>"; };
+		70B0AA6C22DF4EBD002F5E21 /* MICommentAlertView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MICommentAlertView.m; sourceTree = "<group>"; };
+		70B0AA6E22DF4EC7002F5E21 /* MICommentAlertView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MICommentAlertView.xib; sourceTree = "<group>"; };
 		70B509E921B754B300BBB2A9 /* MIDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIDetailViewController.h; sourceTree = "<group>"; };
 		70B509EA21B754B300BBB2A9 /* MIDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MIDetailViewController.m; path = ../MIDetailViewController.m; sourceTree = "<group>"; };
 		70B509EB21B754B300BBB2A9 /* MIDetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MIDetailViewController.xib; sourceTree = "<group>"; };
@@ -838,8 +869,9 @@
 		70DF2A32229EAB7D00919FD4 /* MIAlbumListCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIAlbumListCell.h; sourceTree = "<group>"; };
 		70DF2A33229EAB7D00919FD4 /* MIAlbumListCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MIAlbumListCell.m; sourceTree = "<group>"; };
 		70DF2A34229EAB7D00919FD4 /* MIAlbumListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MIAlbumListCell.xib; sourceTree = "<group>"; };
-		70E0C9CE22C0FB02002294C8 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		70E1D22520F829F5007B07C2 /* MIReviewVideoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIReviewVideoViewController.h; sourceTree = "<group>"; };
+		70E4B25722D569C100CC295D /* MIPrivateListCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIPrivateListCell.h; sourceTree = "<group>"; };
+		70E4B25822D569C100CC295D /* MIPrivateListCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MIPrivateListCell.m; sourceTree = "<group>"; };
 		70E5A37621D8ADBD00DB99CC /* MIReviewImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIReviewImageView.h; sourceTree = "<group>"; };
 		70E5A37721D8ADBE00DB99CC /* MIReviewImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIReviewImageView.m; sourceTree = "<group>"; };
 		70E5E47A22AE94CB00F8853F /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
@@ -1044,6 +1076,9 @@
 				70131F2B22B7E124009A44EB /* MIChildCommentCell.h */,
 				70131F2C22B7E124009A44EB /* MIChildCommentCell.m */,
 				70131F2D22B7E124009A44EB /* MIChildCommentCell.xib */,
+				70B0AA6B22DF4EBD002F5E21 /* MICommentAlertView.h */,
+				70B0AA6C22DF4EBD002F5E21 /* MICommentAlertView.m */,
+				70B0AA6E22DF4EC7002F5E21 /* MICommentAlertView.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1146,6 +1181,8 @@
 			children = (
 				700956A822B07FE100B5D61A /* MIMessageListModel.h */,
 				700956A922B07FE100B5D61A /* MIMessageListModel.m */,
+				7014295622D4D0AD00615F25 /* MILetterListModel.h */,
+				7014295722D4D0AD00615F25 /* MILetterListModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1157,6 +1194,12 @@
 				7009569E22B07C2D00B5D61A /* MIMessageVC.m */,
 				70131F2522B7CB53009A44EB /* MIOfficialMessageVC.h */,
 				70131F2622B7CB53009A44EB /* MIOfficialMessageVC.m */,
+				70736CDF22D0A4E8000380B8 /* MIPrivateLetterVC.h */,
+				70736CE022D0A4E8000380B8 /* MIPrivateLetterVC.m */,
+				701A433D22D4161F00F60603 /* MIPrivateLetterAlbumVC.h */,
+				701A433E22D4161F00F60603 /* MIPrivateLetterAlbumVC.m */,
+				7014294E22D4C12300615F25 /* MIPrivateImageReviewVC.h */,
+				7014294F22D4C12300615F25 /* MIPrivateImageReviewVC.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1167,6 +1210,11 @@
 				700956A322B07C7400B5D61A /* MIMessageListCell.h */,
 				700956A422B07C7400B5D61A /* MIMessageListCell.m */,
 				700956A522B07C7400B5D61A /* MIMessageListCell.xib */,
+				7014295122D4C50400615F25 /* MIPrivateImageCell.h */,
+				7014295222D4C50400615F25 /* MIPrivateImageCell.m */,
+				7014295322D4C50400615F25 /* MIPrivateImageCell.xib */,
+				70E4B25722D569C100CC295D /* MIPrivateListCell.h */,
+				70E4B25822D569C100CC295D /* MIPrivateListCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1418,6 +1466,8 @@
 				7080B0A222BF48120086982A /* MIWatermarkVC.h */,
 				7080B0A322BF48120086982A /* MIWatermarkVC.m */,
 				7080B0A422BF48120086982A /* MIWatermarkVC.xib */,
+				70900D0122DB3DAD002656A6 /* MIFeedbackListVC.h */,
+				70900D0222DB3DAD002656A6 /* MIFeedbackListVC.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1438,6 +1488,8 @@
 				70194065228C6620003727A8 /* MISettingCell.swift */,
 				70194066228C6620003727A8 /* MISettingCell.xib */,
 				70DCDEB9228E3B2400449290 /* MIUserHandleCell.swift */,
+				70900D0422DB3F46002656A6 /* MIFeedbackListCell.h */,
+				70900D0522DB3F46002656A6 /* MIFeedbackListCell.m */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -1771,6 +1823,8 @@
 			isa = PBXGroup;
 			children = (
 				70505901228D98B0009F8CB9 /* MIHandleModel.swift */,
+				70900D0722DB3F82002656A6 /* MIFeedbackListModel.h */,
+				70900D0822DB3F82002656A6 /* MIFeedbackListModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1885,7 +1939,6 @@
 				702641A620F6F15100B21AFC /* MIHelpTool(工具) */,
 				70A8098E212D663B003ED7D2 /* Supporting Files */,
 				7058CB382286B505005EA842 /* Languages.strings */,
-				70E0C9CE22C0FB02002294C8 /* Images.xcassets */,
 			);
 			path = MicroInsight;
 			sourceTree = "<group>";
@@ -2468,6 +2521,7 @@
 				7010352021D5111E008DBF3C /* img_community_3.jpg in Resources */,
 				7080B0A622BF48120086982A /* MIWatermarkVC.xib in Resources */,
 				7010352121D5111E008DBF3C /* img_community_1.jpg in Resources */,
+				7014295522D4C50400615F25 /* MIPrivateImageCell.xib in Resources */,
 				0902409D21969F4C0003D686 /* Community.storyboard in Resources */,
 				701C086322B9B9930093401F /* Kaiti.ttf in Resources */,
 				70AFE08221CDC0DA000585D0 /* MIDatePickerView.xib in Resources */,
@@ -2496,7 +2550,6 @@
 				701C086522B9B9930093401F /* ZQResource.bundle in Resources */,
 				7058CB4F2287D044005EA842 /* MILoginViewController.xib in Resources */,
 				7027AC75228AE93300EC1C61 /* MIForwardPasswordViewController.xib in Resources */,
-				70E0C9CF22C0FB02002294C8 /* Images.xcassets in Resources */,
 				7034EC6022392EDB007DB87D /* img_home_bg_1.jpg in Resources */,
 				70D277E121BCF87B007FEA63 /* README.mdown in Resources */,
 				7034EC5E22392EDB007DB87D /* img_home_bg_0.jpg in Resources */,
@@ -2508,6 +2561,7 @@
 				70A80994212D7744003ED7D2 /* MIFactorSlider.xib in Resources */,
 				701C086622B9B9930093401F /* SimSun.ttf in Resources */,
 				700956A722B07C7400B5D61A /* MIMessageListCell.xib in Resources */,
+				70B0AA6F22DF4EC7002F5E21 /* MICommentAlertView.xib in Resources */,
 				701C087722B9B9A00093401F /* LICENSE in Resources */,
 				70E5E4A922AEAC9400F8853F /* UMSocialSDKPromptResources.bundle in Resources */,
 				701C087922B9B9A00093401F /* README.md in Resources */,
@@ -2592,6 +2646,7 @@
 				700956AA22B07FE100B5D61A /* MIMessageListModel.m in Sources */,
 				3B5FDB8921A2A38500DDCD1E /* MILoginsViewController.m in Sources */,
 				3B7464CF21B901F1007F3820 /* MIUploadVidoInfo.m in Sources */,
+				70900D0622DB3F46002656A6 /* MIFeedbackListCell.m in Sources */,
 				3B6D661C21AE3AA8005CAE9A /* MINetworkConstant.m in Sources */,
 				707FC34A21F34DA000B714F6 /* MIBlackListViewController.m in Sources */,
 				70131F2722B7CB53009A44EB /* MIOfficialMessageVC.m in Sources */,
@@ -2601,6 +2656,7 @@
 				7013599522AB97C200143701 /* YYTextEffectWindow.m in Sources */,
 				70D276BB22983B9B00D63E13 /* LVDatePickerModel.m in Sources */,
 				701C085522B9B9930093401F /* ImageFilterToolBar.m in Sources */,
+				70E4B25922D569C100CC295D /* MIPrivateListCell.m in Sources */,
 				7013594B22A895DF00143701 /* UINavigationController+SXFixSpace.m in Sources */,
 				7019405A228C2E3B003727A8 /* MIHudView.m in Sources */,
 				701C085222B9B9930093401F /* ZQImageTextController.m in Sources */,
@@ -2625,7 +2681,9 @@
 				700601DC21E70B2A00ABB166 /* MIReportView.m in Sources */,
 				70294783212D5F8A00B3732A /* MIReviewImageViewController.m in Sources */,
 				70DF2A35229EAB7D00919FD4 /* MIAlbumListCell.m in Sources */,
+				70736CE122D0A4E8000380B8 /* MIPrivateLetterVC.m in Sources */,
 				7010352721D51196008DBF3C /* UICustomCarouselView.m in Sources */,
+				7014295422D4C50400615F25 /* MIPrivateImageCell.m in Sources */,
 				70D276BA22983B9B00D63E13 /* LVDatePickerView.m in Sources */,
 				701359A922AB97C200143701 /* YYTextWeakProxy.m in Sources */,
 				7093DD442292EB06008DF80C /* MIPhotoModel.m in Sources */,
@@ -2681,6 +2739,7 @@
 				70928F1822A00F0B00DCEED1 /* QZCustomVideoPlayer.m in Sources */,
 				701C087B22B9B9A00093401F /* PEResizeControl.m in Sources */,
 				70C4319221B620FC001D56C4 /* MICommunityListModel.m in Sources */,
+				70900D0922DB3F82002656A6 /* MIFeedbackListModel.m in Sources */,
 				707FC35421F3553800B714F6 /* MIBlackListModel.m in Sources */,
 				70A80996212D7744003ED7D2 /* MIFactorSlider.m in Sources */,
 				70C4318B21B604C4001D56C4 /* MIHomessViewController.m in Sources */,
@@ -2708,6 +2767,7 @@
 				701648AF2295852F006F676F /* MIEditPersonalInfoVC.swift in Sources */,
 				7013593322A893A700143701 /* WMPageController.m in Sources */,
 				7013593A22A893A700143701 /* WMStickyPageController.m in Sources */,
+				7014295822D4D0AD00615F25 /* MILetterListModel.m in Sources */,
 				7027AC74228AE93300EC1C61 /* MIForwardPasswordViewController.swift in Sources */,
 				7013595822AB881B00143701 /* MISupportVC.m in Sources */,
 				3B6D661D21AE3AA8005CAE9A /* MIBaseRequest.m in Sources */,
@@ -2715,6 +2775,7 @@
 				09BC50BE21B57823006B4277 /* UICollectionViewLeftAlignedLayout.m in Sources */,
 				703683C722B53CD800FF782D /* MIRecommendDetailCell.m in Sources */,
 				70FC602322B3F5E40088AF3C /* MIRecommendDetailVC.m in Sources */,
+				701A433F22D4161F00F60603 /* MIPrivateLetterAlbumVC.m in Sources */,
 				706A6E1D20F6F9180097C577 /* UIView+CCAdditions.m in Sources */,
 				09BC50B621B561A2006B4277 /* MIAlbumRequest.m in Sources */,
 				7096B560213784CF003B1D3F /* MICameraFunctionView.m in Sources */,
@@ -2735,12 +2796,14 @@
 				70710C6C20F476A400052929 /* main.m in Sources */,
 				700F01C921B5496400D0D3EA /* MILocalData.m in Sources */,
 				3BB45A7A21C118E700196914 /* MIPlayerViewController.m in Sources */,
+				7014295022D4C12300615F25 /* MIPrivateImageReviewVC.m in Sources */,
 				70D276C122991A0C00D63E13 /* MIActivityDetailVC.swift in Sources */,
 				7013593822A893A700143701 /* WMProgressView.m in Sources */,
 				70928F1A22A013A900DCEED1 /* MIVideoUploadVC.swift in Sources */,
 				701359A122AB97C200143701 /* YYTextRubyAnnotation.m in Sources */,
 				7013599722AB97C200143701 /* YYTextLayout.m in Sources */,
 				3B6D661E21AE3AA8005CAE9A /* MIHTTPResponseSerializer.m in Sources */,
+				70B0AA6D22DF4EBD002F5E21 /* MICommentAlertView.m in Sources */,
 				700A64F721D22071003F0430 /* MIPlayer.m in Sources */,
 				7013599D22AB97C200143701 /* YYTextRunDelegate.m in Sources */,
 				702EA9C522AD2DA300772D4C /* MIImageEditVC.m in Sources */,
@@ -2750,6 +2813,7 @@
 				70F22E6F22B1D3D0000F4E85 /* UILabel+YBAttributeTextTapAction.m in Sources */,
 				701648AC229570D4006F676F /* MIPersonalVC.swift in Sources */,
 				3B7973F921A415540087EE48 /* MIAlbumsCell.m in Sources */,
+				70900D0322DB3DAD002656A6 /* MIFeedbackListVC.m in Sources */,
 				701648B222958E86006F676F /* MIInputView.swift in Sources */,
 				70B50A0D21B7FFA600BBB2A9 /* MIBaseModel.m in Sources */,
 				7013599822AB97C200143701 /* YYTextLine.m in Sources */,
@@ -2976,7 +3040,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = JV39K6U9AB;
 				ENABLE_BITCODE = NO;
@@ -3009,7 +3073,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.sxw.ts;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = tsDevelopmentPP;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "MicroInsight/MicroInsight-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -3024,8 +3088,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = JV39K6U9AB;
 				ENABLE_BITCODE = NO;
@@ -3058,7 +3122,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.sxw.ts;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = tsDistributionPP;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "MicroInsight/MicroInsight-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

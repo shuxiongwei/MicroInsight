@@ -55,7 +55,7 @@
 
 - (IBAction)clickUserIcon:(UIButton *)sender {
     if (self.clickUserIcon) {
-        self.clickUserIcon(_model.user_id);
+        self.clickUserIcon(_model);
     }
 }
 

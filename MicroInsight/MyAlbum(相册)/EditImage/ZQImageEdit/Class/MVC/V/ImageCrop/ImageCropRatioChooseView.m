@@ -29,7 +29,6 @@
 
 -(void)buildUI
 {
-    
     self.backgroundColor = [ZQUtil R:244 G:244 B:244 A:1];
     
     CGFloat bigMargin = 15.0f;
@@ -38,7 +37,7 @@
     
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(bigMargin, 0, labelWidth, labelHeight)];
     label.centerY = self.height/2.0f;
-    label.text = @"裁剪比例";
+    label.text = [MILocalData appLanguage:@"other_key_25"];
     label.textColor = [UIColor blackColor];
     label.font = [UIFont systemFontOfSize:14];
     label.backgroundColor = [ZQUtil R:183 G:197 B:220 A:1];

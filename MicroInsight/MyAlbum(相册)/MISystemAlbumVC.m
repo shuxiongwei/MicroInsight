@@ -12,7 +12,7 @@
 #import "MIPhotoModel.h"
 #import "MIAlbumManager.h"
 #import "MIAlbumListView.h"
-
+#import "MIUploadViewController.h"
 
 static NSString * const cellId = @"cellId";
 
@@ -27,6 +27,7 @@ static NSString * const cellId = @"cellId";
 @property (nonatomic, strong) NSMutableArray *selectArray;
 @property (nonatomic, strong) UILabel *selectLab;
 @property (nonatomic, strong) UIButton *cancelBtn;
+@property (nonatomic, assign) BOOL isSelectModel; //是否是选择模式
 
 @end
 
@@ -75,7 +76,7 @@ static NSString * const cellId = @"cellId";
     
     _titleBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     _titleBtn.frame = CGRectMake(0, 0, 200, 30);
-    [_titleBtn setTitle:@"手机相册" forState:UIControlStateNormal];
+    [_titleBtn setTitle:[MILocalData appLanguage:@"album_key_1"] forState:UIControlStateNormal];
     [_titleBtn setTitleColor:UIColorFromRGBWithAlpha(0x333333, 1) forState:UIControlStateNormal];
     _titleBtn.titleLabel.font = [UIFont systemFontOfSize:15];
     [_titleBtn layoutButtonWithEdgeInsetsStyle:MIButtonEdgeInsetsStyleRight imageTitleSpace:15];
@@ -108,11 +109,11 @@ static NSString * const cellId = @"cellId";
     _uploadView.hidden = YES;
     [self.view addSubview:_uploadView];
     
-    UIButton *deleteBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(15, 0, 109, 60) normalTitle:@"删除" normalTitleColor:UIColorFromRGBWithAlpha(0x333333, 1) highlightedTitleColor:nil selectedColor:nil titleFont:9 normalImage:[UIImage imageNamed:@"icon_album_delete_nor"] highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(clickDeleteBtn:)];
+    UIButton *deleteBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(15, 0, 109, 60) normalTitle:[MILocalData appLanguage:@"album_key_7"] normalTitleColor:UIColorFromRGBWithAlpha(0x333333, 1) highlightedTitleColor:nil selectedColor:nil titleFont:9 normalImage:[UIImage imageNamed:@"icon_album_delete_nor"] highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(clickDeleteBtn:)];
     [deleteBtn layoutButtonWithEdgeInsetsStyle:MIButtonEdgeInsetsStyleTop imageTitleSpace:5];
     [_uploadView addSubview:deleteBtn];
     
-    UIButton *uploadBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(MIScreenWidth - 109 - 15, 0, 109, 60) normalTitle:@"上传" normalTitleColor:UIColorFromRGBWithAlpha(0x333333, 1) highlightedTitleColor:nil selectedColor:nil titleFont:9 normalImage:[UIImage imageNamed:@"icon_album_upload_nor"] highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(clickUploadBtn:)];
+    UIButton *uploadBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(MIScreenWidth - 109 - 15, 0, 109, 60) normalTitle:[MILocalData appLanguage:@"album_key_5"] normalTitleColor:UIColorFromRGBWithAlpha(0x333333, 1) highlightedTitleColor:nil selectedColor:nil titleFont:9 normalImage:[UIImage imageNamed:@"icon_album_upload_nor"] highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(clickUploadBtn:)];
     [uploadBtn layoutButtonWithEdgeInsetsStyle:MIButtonEdgeInsetsStyleTop imageTitleSpace:5];
     [_uploadView addSubview:uploadBtn];
 }
@@ -164,6 +165,7 @@ static NSString * const cellId = @"cellId";
         if (success) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.selectArray removeAllObjects];
+                self.selectLab.text = [NSString stringWithFormat:@"%@（%ld）", [MILocalData appLanguage:@"album_key_6"], self.selectArray.count];
                 [self requestData];
             });
         }
@@ -172,24 +174,27 @@ static NSString * const cellId = @"cellId";
 
 - (void)clickUploadBtn:(UIButton *)sender {
     if (self.selectArray.count > 1) {
-        [MIHudView showMsg:@"只支持上传单张图片或视频"];
+        [MIHudView showMsg:[MILocalData appLanguage:@"other_key_34"]];
     } else {
         MIPhotoModel *model = self.selectArray.firstObject;
         
-        if (model.asset.mediaType == PHAssetMediaTypeImage) {
-            MIEditOrUploadVC *vc = [[MIEditOrUploadVC alloc] init];
-            vc.imageAsset = model.asset;
-            [self.navigationController pushViewController:vc animated:YES];
+        if (self.fromActivity) {
+            if (model.asset.mediaType == PHAssetMediaTypeImage) {
+                MIEditOrUploadVC *vc = [[MIEditOrUploadVC alloc] init];
+                vc.imageAsset = model.asset;
+                vc.fromActivity = (self.fromActivity ? @"true" : nil);
+                [self.navigationController pushViewController:vc animated:YES];
+            } else {
+                
+            }
         } else {
-            WSWeak(weakSelf)
-            [[MIAlbumManager manager] getAVAssetWithAsset:model.asset completion:^(AVAsset * _Nonnull dataAsset) {
-               
-               dispatch_async(dispatch_get_main_queue(), ^{
-                   MIVideoUploadVC *vc = [[MIVideoUploadVC alloc] init];
-                   vc.asset = dataAsset;
-                   vc.phAsset = model.asset;
-                   [weakSelf.navigationController pushViewController:vc animated:YES];
-               });
+            [[MIAlbumManager manager] getPhotoWithAsset:model.asset photoSize:PHImageManagerMaximumSize completion:^(UIImage * _Nonnull photo, NSDictionary * _Nonnull info) {
+                
+                UIStoryboard *board = [UIStoryboard storyboardWithName:@"MyAlbum" bundle:nil];
+                MIUploadViewController *vc = [board instantiateViewControllerWithIdentifier:@"MIUploadViewController"];
+                vc.asset = model.asset;
+                vc.curImage = photo;
+                [self.navigationController pushViewController:vc animated:YES];
             }];
         }
     }
@@ -225,6 +230,7 @@ static NSString * const cellId = @"cellId";
     if (self.selectArray.count == 0) {
         [self.navigationController popViewControllerAnimated:YES];
     } else {
+        _isSelectModel = NO;
         [self.selectArray removeAllObjects];
         [self setSelectLabStatus];
         
@@ -261,26 +267,27 @@ static NSString * const cellId = @"cellId";
 }
 
 - (void)setSelectLabStatus {
-    if (self.selectArray.count == 0) {
+    if (!_isSelectModel) {
         _selectLab.hidden = YES;
         _uploadView.hidden = YES;
         [_cancelBtn setImage:[UIImage imageNamed:@"icon_login_back_nor"] forState:UIControlStateNormal];
         [_cancelBtn setTitle:nil forState:UIControlStateNormal];
     } else {
         _selectLab.hidden = NO;
-        _selectLab.text = [NSString stringWithFormat:@"已选择（%ld）", self.selectArray.count];
+        _selectLab.text = [NSString stringWithFormat:@"%@（%ld）", [MILocalData appLanguage:@"album_key_6"], self.selectArray.count];
         _uploadView.hidden = NO;
         [_cancelBtn setImage:nil forState:UIControlStateNormal];
-        [_cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
+        [_cancelBtn setTitle:[MILocalData appLanguage:@"personal_key_13"] forState:UIControlStateNormal];
     }
 }
 
 #pragma mark - MIAlbumListViewDelegate
 - (void)didClickTableViewCell:(MIAlbumModel *)model animate:(BOOL)animate {
     [_titleBtn setTitle:model.name forState:UIControlStateNormal];
+    [_titleBtn layoutButtonWithEdgeInsetsStyle:MIButtonEdgeInsetsStyleRight imageTitleSpace:15];
     [self clickTitleBtn:_titleBtn];
     
-    [self setSelectLabStatus];
+//    [self setSelectLabStatus];
     [self setModelSelectStatus:model];
     self.dataArray = [NSMutableArray arrayWithArray:model.photos];
     [_collectionV reloadData];
@@ -292,21 +299,41 @@ static NSString * const cellId = @"cellId";
     MIAlbumCell *cell = (MIAlbumCell *)[collectionView cellForItemAtIndexPath:indexPath];;
     MIPhotoModel *model = self.dataArray[indexPath.item];
     
-    if (model.isSelected) {
-        MIPhotoModel *mod = [self getCurrentHandleModel:model];
-        if (mod) {
-            [self.selectArray removeObject:mod];
+    if (_isSelectModel) {
+        if (model.isSelected) {
+            MIPhotoModel *mod = [self getCurrentHandleModel:model];
+            if (mod) {
+                [self.selectArray removeObject:mod];
+            }
+            
+            model.isSelected = NO;
+            cell.selectBtn.selected = NO;
+        } else {
+            model.isSelected = YES;
+            cell.selectBtn.selected = YES;
+            [self.selectArray addObject:model];
         }
         
-        model.isSelected = NO;
-        cell.selectBtn.selected = NO;
+        _selectLab.text = [NSString stringWithFormat:@"%@（%ld）", [MILocalData appLanguage:@"album_key_6"], self.selectArray.count];
     } else {
-        model.isSelected = YES;
-        cell.selectBtn.selected = YES;
-        [self.selectArray addObject:model];
+        if (model.asset.mediaType == PHAssetMediaTypeImage) {
+            MIEditOrUploadVC *vc = [[MIEditOrUploadVC alloc] init];
+            vc.imageAsset = model.asset;
+            vc.fromActivity = (self.fromActivity ? @"true" : nil);
+            [self.navigationController pushViewController:vc animated:YES];
+        } else {
+            WSWeak(weakSelf)
+            [[MIAlbumManager manager] getAVAssetWithAsset:model.asset completion:^(AVAsset * _Nonnull dataAsset) {
+
+               dispatch_async(dispatch_get_main_queue(), ^{
+                   MIVideoUploadVC *vc = [[MIVideoUploadVC alloc] init];
+                   vc.asset = dataAsset;
+                   vc.phAsset = model.asset;
+                   [weakSelf.navigationController pushViewController:vc animated:YES];
+               });
+            }];
+        }
     }
-    
-    [self setSelectLabStatus];
 }
 
 #pragma mark - UICollectionViewDataSource
@@ -319,10 +346,7 @@ static NSString * const cellId = @"cellId";
     
     MIAlbumCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellId forIndexPath:indexPath];;
     MIPhotoModel *model = self.dataArray[indexPath.item];
-    
-    cell.selectBtn.selected = model.isSelected;
-    cell.maskView.hidden = !model.isSelected;
-    
+
     if ([MIHelpTool isBlankString:model.filePath]) {
         if (model.asset.mediaType == PHAssetMediaTypeImage) {
             cell.durationLab.hidden = YES;
@@ -356,6 +380,24 @@ static NSString * const cellId = @"cellId";
         cell.imgView.image = image;
     }
 
+    if (_isSelectModel) {
+        cell.selectBtn.hidden = NO;
+        cell.maskView.hidden = !model.isSelected;
+        cell.selectBtn.selected = model.isSelected;
+    } else {
+        cell.selectBtn.hidden = YES;
+        cell.maskView.hidden = YES;
+    }
+    
+    WSWeak(weakSelf)
+    cell.longPress = ^{
+        if (!weakSelf.isSelectModel) {
+            weakSelf.isSelectModel = YES;
+            [weakSelf setSelectLabStatus];
+            [collectionView reloadData];
+        }
+    };
+    
     return cell;
 }
 

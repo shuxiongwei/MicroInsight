@@ -20,6 +20,7 @@ class MIHomeViewController: UIViewController {
     @IBOutlet weak var bgView: UIView!
     var siderBar: MISiderBarView!
     var timer: DispatchSourceTimer!
+    @IBOutlet weak var topConstraint: NSLayoutConstraint!
     
     //移除通知
     deinit {
@@ -42,9 +43,16 @@ class MIHomeViewController: UIViewController {
         configHomeUI()
 //        configTimer()
         NotificationCenter.default.addObserver(self, selector: #selector(refreshSubviewsByLanguage), name: NSNotification.Name(rawValue:"languageSetNotification"), object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(loginFirst), name: NSNotification.Name(rawValue:"isFirstLogin"), object: nil)
+        
+        let login = MILocalData.isFirstLogin()
+        if login {
+            loginFirst()
+        }
     }
 
     private func configHomeUI() {
+        topConstraint.constant = 221.0 / 375.0 * ScreenWidth
         navHeightConstraint.constant = MINavigationBarHeight(vc: self) + MIStatusBarHeight()
         menuBtn.setEnlargeEdge(15)
         msgBtn.setEnlargeEdge(15)
@@ -103,7 +111,7 @@ class MIHomeViewController: UIViewController {
                 let list: Array = data["list"] as! Array<[String: AnyObject]>
                 if list.count >= 1 { //有未读消息
                     weakSelf?.msgBtn.isSelected = true
-                    NotificationCenter.default.post(name: NSNotification.Name("isTest"), object: self, userInfo: ["post":"NewTest"])
+                    NotificationCenter.default.post(name: NSNotification.Name("newMessage"), object: self, userInfo: nil)
                 } else {
                     weakSelf?.msgBtn.isSelected = false
                 }
@@ -159,8 +167,8 @@ class MIHomeViewController: UIViewController {
     }
     
     @IBAction func clickTopBannerBtn(_ sender: UIButton) {
-//        let vc = MIActivityDetailVC.init()
-//        self.navigationController?.pushViewController(vc, animated: true)
+        let vc = MIActivityDetailVC.init()
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc func swipeRightAction(_ rec: UIGestureRecognizer) {
@@ -180,5 +188,16 @@ class MIHomeViewController: UIViewController {
         albumBtn.layoutButton(with: .top, imageTitleSpace: 5)
         communityBtn.layoutButton(with: .top, imageTitleSpace: 5)
         recommendBtn.layoutButton(with: .top, imageTitleSpace: 5)
+        
+        siderBar.refreshSubviewsByLanguage()
+    }
+    
+    @objc func loginFirst() {
+        MILocalData.setIsFirstLogin("true")
+        
+        let videoVC = MIVideoUploadVC.init()
+        videoVC.networkVideoUrl = MILocalData.getVideoTutorialUrl()
+        videoVC.notUpload = "1"
+        self.navigationController?.pushViewController(videoVC, animated: true)
     }
 }

@@ -35,7 +35,7 @@ class MIInputView: UIView {
         addSubview(bgView)
         
         let titleLab = UILabel.init(frame: CGRect(x: 0, y: 50, width: bgView.width, height: 17))
-        titleLab.text = "请输入您的昵称"
+        titleLab.text = MILocalData.appLanguage("personal_key_14")
         titleLab.textColor = MIRgbaColor(rgbValue: 0x333333, alpha: 1)
         titleLab.textAlignment = .center
         titleLab.font = UIFont.systemFont(ofSize: 16)
@@ -53,7 +53,7 @@ class MIInputView: UIView {
         let leftBtn = UIButton(type: .custom)
         leftBtn.frame = CGRect(x: 0, y: bgView.height - 50, width: bgView.width / 2.0, height: 50)
         leftBtn.backgroundColor = MIRgbaColor(rgbValue: 0xF9F9F9, alpha: 1)
-        leftBtn.setTitle("取消", for: .normal)
+        leftBtn.setTitle(MILocalData.appLanguage("personal_key_13"), for: .normal)
         leftBtn.setTitleColor(MIRgbaColor(rgbValue: 0xBEBEBE, alpha: 1), for: .normal)
         leftBtn.titleLabel?.font = UIFont.systemFont(ofSize: 17)
         leftBtn.addTarget(self, action: #selector(clickLeftBtn(_ :)), for: .touchUpInside)
@@ -62,7 +62,7 @@ class MIInputView: UIView {
         let rightBtn = UIButton(type: .custom)
         rightBtn.frame = CGRect(x: bgView.width / 2.0, y: bgView.height - 50, width: bgView.width / 2.0, height: 50)
         rightBtn.setButtonCustomBackgroudImage(btn: rightBtn, fromColor: MIRgbaColor(rgbValue: 0x72B3E2, alpha: 1), toColor: MIRgbaColor(rgbValue: 0x6DD1CC, alpha: 1))
-        rightBtn.setTitle("确认", for: .normal)
+        rightBtn.setTitle(MILocalData.appLanguage("camera_key_5"), for: .normal)
         rightBtn.setTitleColor(UIColor.white, for: .normal)
         rightBtn.titleLabel?.font = UIFont.systemFont(ofSize: 17)
         rightBtn.addTarget(self, action: #selector(clickRightBtn(_ :)), for: .touchUpInside)
@@ -77,7 +77,7 @@ class MIInputView: UIView {
         removeFromSuperview()
         
         if MIHelpTool.isBlankString(textField.text) {
-            MIHudView.showMsg("请输入您的昵称")
+            MIHudView.showMsg(MILocalData.appLanguage("personal_key_14"))
             return
         }
         

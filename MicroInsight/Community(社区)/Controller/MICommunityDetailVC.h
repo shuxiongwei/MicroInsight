@@ -17,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) NSInteger contentType; //0:图片，1:视频
 
 @property (nonatomic, copy) void (^praiseBlock)(NSInteger comments, NSInteger likes, BOOL isLike);
+@property (nonatomic, copy) void (^deleteBlock)(NSInteger contentId);
 /* 标识是否需要谈起键盘 */
 @property (nonatomic, assign) BOOL needShowKeyboard;
 

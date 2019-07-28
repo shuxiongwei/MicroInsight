@@ -11,6 +11,7 @@
 #import "MIPhotoModel.h"
 #import "MIAlbumCollectionLayout.h"
 #import "MISystemAlbumVC.h"
+#import "MIUploadViewController.h"
 
 static NSString * const allCellId = @"allCellId";
 static NSString * const photoCellId = @"photoCellId";
@@ -33,6 +34,7 @@ static NSString * const videoCellId = @"videoCellId";
 @property (nonatomic, strong) UILabel *titleLab;
 @property (nonatomic, strong) UIButton *cancelBtn;
 @property (nonatomic, strong) UIButton *phoneAlbumBtn;
+@property (nonatomic, assign) BOOL isSelectModel; //是否是选择模式
 
 @end
 
@@ -90,11 +92,11 @@ static NSString * const videoCellId = @"videoCellId";
     _cancelBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(0, 0, 60, 28) normalTitle:nil normalTitleColor:UIColorFromRGBWithAlpha(0x333333, 1) highlightedTitleColor:nil selectedColor:nil titleFont:12 normalImage:[UIImage imageNamed:@"icon_login_back_nor"] highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(clickCancelBtn)];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_cancelBtn];
     
-    _phoneAlbumBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(0, 0, 80, 30) normalTitle:@"手机相册" normalTitleColor:UIColorFromRGBWithAlpha(0x333333, 1) highlightedTitleColor:nil selectedColor:nil titleFont:12 normalImage:nil highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(selectPhotoFromSystemAlbum)];
+    _phoneAlbumBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(0, 0, 80, 30) normalTitle:[MILocalData appLanguage:@"album_key_1"] normalTitleColor:UIColorFromRGBWithAlpha(0x333333, 1) highlightedTitleColor:nil selectedColor:nil titleFont:12 normalImage:nil highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(selectPhotoFromSystemAlbum)];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_phoneAlbumBtn];
     
-    _titleLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
-    _titleLab.text = @"相册";
+    _titleLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 150, 30)];
+    _titleLab.text = [MILocalData appLanguage:@"home_key_2"];
     _titleLab.font = [UIFont systemFontOfSize:15];
     _titleLab.textColor = UIColorFromRGBWithAlpha(0x333333, 1);
     _titleLab.textAlignment = NSTextAlignmentCenter;
@@ -146,17 +148,17 @@ static NSString * const videoCellId = @"videoCellId";
     _selectView = [[UIView alloc] initWithFrame:CGRectMake(0, MIScreenHeight - hgt - 60, MIScreenWidth, 60)];
     [self.view addSubview:_selectView];
     
-    _allBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(15, 0, 109, 60) normalTitle:@"全部" normalTitleColor:UIColorFromRGBWithAlpha(0x333333, 1) highlightedTitleColor:nil selectedColor:nil titleFont:15 normalImage:[UIImage imageNamed:@"icon_album_line_nor"] highlightedImage:nil selectedImage:[UIImage imageNamed:@"icon_album_line_sel"] touchUpInSideTarget:self action:@selector(clickAllBtn:)];
+    _allBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(15, 0, 109, 60) normalTitle:[MILocalData appLanguage:@"album_key_2"] normalTitleColor:UIColorFromRGBWithAlpha(0x333333, 1) highlightedTitleColor:nil selectedColor:nil titleFont:15 normalImage:[UIImage imageNamed:@"icon_album_line_nor"] highlightedImage:nil selectedImage:[UIImage imageNamed:@"icon_album_line_sel"] touchUpInSideTarget:self action:@selector(clickAllBtn:)];
     _allBtn.selected = YES;
     [_allBtn layoutButtonWithEdgeInsetsStyle:MIButtonEdgeInsetsStyleBottom imageTitleSpace:5];
     [_selectView addSubview:_allBtn];
     
-    _photoBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(0, 0, 109, 60) normalTitle:@"相册" normalTitleColor:UIColorFromRGBWithAlpha(0x333333, 1) highlightedTitleColor:nil selectedColor:nil titleFont:15 normalImage:[UIImage imageNamed:@"icon_album_line_nor"] highlightedImage:nil selectedImage:[UIImage imageNamed:@"icon_album_line_sel"] touchUpInSideTarget:self action:@selector(clickPhotoBtn:)];
+    _photoBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(0, 0, 109, 60) normalTitle:[MILocalData appLanguage:@"album_key_3"] normalTitleColor:UIColorFromRGBWithAlpha(0x333333, 1) highlightedTitleColor:nil selectedColor:nil titleFont:15 normalImage:[UIImage imageNamed:@"icon_album_line_nor"] highlightedImage:nil selectedImage:[UIImage imageNamed:@"icon_album_line_sel"] touchUpInSideTarget:self action:@selector(clickPhotoBtn:)];
     _photoBtn.center = CGPointMake(_selectView.centerX, 30);
     [_photoBtn layoutButtonWithEdgeInsetsStyle:MIButtonEdgeInsetsStyleBottom imageTitleSpace:5];
     [_selectView addSubview:_photoBtn];
     
-    _videoBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(MIScreenWidth - 109 - 15, 0, 109, 60) normalTitle:@"视频" normalTitleColor:UIColorFromRGBWithAlpha(0x333333, 1) highlightedTitleColor:nil selectedColor:nil titleFont:15 normalImage:[UIImage imageNamed:@"icon_album_line_nor"] highlightedImage:nil selectedImage:[UIImage imageNamed:@"icon_album_line_sel"] touchUpInSideTarget:self action:@selector(clickVideoBtn:)];
+    _videoBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(MIScreenWidth - 109 - 15, 0, 109, 60) normalTitle:[MILocalData appLanguage:@"album_key_4"] normalTitleColor:UIColorFromRGBWithAlpha(0x333333, 1) highlightedTitleColor:nil selectedColor:nil titleFont:15 normalImage:[UIImage imageNamed:@"icon_album_line_nor"] highlightedImage:nil selectedImage:[UIImage imageNamed:@"icon_album_line_sel"] touchUpInSideTarget:self action:@selector(clickVideoBtn:)];
     [_videoBtn layoutButtonWithEdgeInsetsStyle:MIButtonEdgeInsetsStyleBottom imageTitleSpace:5];
     [_selectView addSubview:_videoBtn];
     
@@ -175,11 +177,11 @@ static NSString * const videoCellId = @"videoCellId";
     _uploadView.hidden = YES;
     [self.view addSubview:_uploadView];
     
-    UIButton *deleteBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(15, 0, 109, 60) normalTitle:@"删除" normalTitleColor:UIColorFromRGBWithAlpha(0x333333, 1) highlightedTitleColor:nil selectedColor:nil titleFont:9 normalImage:[UIImage imageNamed:@"icon_album_delete_nor"] highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(clickDeleteBtn:)];
+    UIButton *deleteBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(15, 0, 109, 60) normalTitle:[MILocalData appLanguage:@"album_key_7"] normalTitleColor:UIColorFromRGBWithAlpha(0x333333, 1) highlightedTitleColor:nil selectedColor:nil titleFont:9 normalImage:[UIImage imageNamed:@"icon_album_delete_nor"] highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(clickDeleteBtn:)];
     [deleteBtn layoutButtonWithEdgeInsetsStyle:MIButtonEdgeInsetsStyleTop imageTitleSpace:5];
     [_uploadView addSubview:deleteBtn];
     
-    UIButton *uploadBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(MIScreenWidth - 109 - 15, 0, 109, 60) normalTitle:@"上传" normalTitleColor:UIColorFromRGBWithAlpha(0x333333, 1) highlightedTitleColor:nil selectedColor:nil titleFont:9 normalImage:[UIImage imageNamed:@"icon_album_upload_nor"] highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(clickUploadBtn:)];
+    UIButton *uploadBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(MIScreenWidth - 109 - 15, 0, 109, 60) normalTitle:[MILocalData appLanguage:@"album_key_5"] normalTitleColor:UIColorFromRGBWithAlpha(0x333333, 1) highlightedTitleColor:nil selectedColor:nil titleFont:9 normalImage:[UIImage imageNamed:@"icon_album_upload_nor"] highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(clickUploadBtn:)];
     [uploadBtn layoutButtonWithEdgeInsetsStyle:MIButtonEdgeInsetsStyleTop imageTitleSpace:5];
     [_uploadView addSubview:uploadBtn];
 }
@@ -211,10 +213,10 @@ static NSString * const videoCellId = @"videoCellId";
                     model.type = MIAlbumTypePhoto;
                     [self.photoArray addObject:model];
                 } else if ([aPath.pathExtension isEqualToString:@"mov"]) {
-                    if (time >= 3) {
+//                    if (time >= 3) {
                         model.type = MIAlbumTypeVideo;
                         [self.videoArray addObject:model];
-                    }
+//                    }
                 }
                 
                 if (model.type != MIAlbumTypeAll) {
@@ -234,6 +236,7 @@ static NSString * const videoCellId = @"videoCellId";
 #pragma mark - 事件响应
 - (void)selectPhotoFromSystemAlbum {
     MISystemAlbumVC *vc = [[MISystemAlbumVC alloc] init];
+    vc.fromActivity = self.fromActivity;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -271,8 +274,12 @@ static NSString * const videoCellId = @"videoCellId";
 }
 
 - (void)clickDeleteBtn:(UIButton *)sender {
+    if (self.selectArray.count == 0) {
+        [MIHudView showMsg:[MILocalData appLanguage:@"other_key_31"]];
+        return;
+    }
  
-    [MICustomAlertView showAlertViewWithFrame:MIScreenBounds alertTitle:@"温馨提示" alertMessage:@"确定要删除这些图片或视频吗？" leftAction:^(void) {
+    [MICustomAlertView showAlertViewWithFrame:MIScreenBounds alertTitle:[MILocalData appLanguage:@"personal_key_11"] alertMessage:[MILocalData appLanguage:@"other_key_32"] leftAction:^(void) {
         
     } rightAction:^(void) {
         for (MIPhotoModel *model in self.selectArray) {
@@ -284,32 +291,45 @@ static NSString * const videoCellId = @"videoCellId";
         
         [self requestAssets];
         [self.selectArray removeAllObjects];
-        [self showOrHideBottomView];
+        _titleLab.text = [NSString stringWithFormat:@"%@（%ld）", [MILocalData appLanguage:@"album_key_6"], self.selectArray.count];
     }];
 }
 
 - (void)clickUploadBtn:(UIButton *)sender {
+    if (self.selectArray.count == 0) {
+        [MIHudView showMsg:[MILocalData appLanguage:@"other_key_33"]];
+        return;
+    }
+    
     if (self.selectArray.count > 1) {
-        [MIHudView showMsg:@"只支持上传单张图片或视频"];
+        [MIHudView showMsg:[MILocalData appLanguage:@"other_key_34"]];
     } else {
         MIPhotoModel *model = self.selectArray.firstObject;
         
-        if ([model.filePath.pathExtension isEqualToString:@"png"]) {
-            MIEditOrUploadVC *vc = [[MIEditOrUploadVC alloc] init];
-            vc.imgUrl = model.filePath;
-            [self.navigationController pushViewController:vc animated:YES];
+        if (self.fromActivity) {
+            if ([model.filePath.pathExtension isEqualToString:@"png"]) {
+                MIEditOrUploadVC *vc = [[MIEditOrUploadVC alloc] init];
+                vc.imgUrl = model.filePath;
+                vc.fromActivity = (self.fromActivity ? @"true" : nil);
+                [self.navigationController pushViewController:vc animated:YES];
+            } else {
+                
+            }
         } else {
-            MIVideoUploadVC *vc = [[MIVideoUploadVC alloc] init];
-            vc.videoUrl = model.filePath;
+            UIStoryboard *board = [UIStoryboard storyboardWithName:@"MyAlbum" bundle:nil];
+            MIUploadViewController *vc = [board instantiateViewControllerWithIdentifier:@"MIUploadViewController"];
+            vc.assetUrl = model.filePath;
+            vc.curImage = [UIImage imageWithContentsOfFile:model.filePath];
             [self.navigationController pushViewController:vc animated:YES];
         }
     }
 }
 
 - (void)clickCancelBtn {
-    if (self.selectArray.count == 0) {
+    if (!_isSelectModel) {
         [self.navigationController popViewControllerAnimated:YES];
     } else {
+        _isSelectModel = NO;
         [self.selectArray removeAllObjects];
         [self showOrHideBottomView];
         
@@ -338,19 +358,19 @@ static NSString * const videoCellId = @"videoCellId";
 
 #pragma mark - helper
 - (void)showOrHideBottomView {
-    if (self.selectArray.count == 0) {
+    if (!_isSelectModel) {
         _selectView.hidden = NO;
         _uploadView.hidden = YES;
         [_cancelBtn setImage:[UIImage imageNamed:@"icon_login_back_nor"] forState:UIControlStateNormal];
         [_cancelBtn setTitle:nil forState:UIControlStateNormal];
-        _titleLab.text = @"相册";
+        _titleLab.text = [MILocalData appLanguage:@"home_key_2"];
         _phoneAlbumBtn.hidden = NO;
     } else {
         _selectView.hidden = YES;
         _uploadView.hidden = NO;
         [_cancelBtn setImage:nil forState:UIControlStateNormal];
-        [_cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
-        _titleLab.text = [NSString stringWithFormat:@"已选择（%ld）", self.selectArray.count];
+        [_cancelBtn setTitle:[MILocalData appLanguage:@"personal_key_13"] forState:UIControlStateNormal];
+        _titleLab.text = [NSString stringWithFormat:@"%@（%ld）", [MILocalData appLanguage:@"album_key_6"], self.selectArray.count];
         _phoneAlbumBtn.hidden = YES;
     }
 }
@@ -368,18 +388,32 @@ static NSString * const videoCellId = @"videoCellId";
         model = self.videoArray[indexPath.item];
     }
     
-    if (model.isSelected) {
-        model.isSelected = NO;
-        cell.selectBtn.selected = NO;
-        cell.maskView.hidden = YES;
-        [self.selectArray removeObject:model];
+    if (_isSelectModel) {
+        if (model.isSelected) {
+            model.isSelected = NO;
+            cell.selectBtn.selected = NO;
+            cell.maskView.hidden = YES;
+            [self.selectArray removeObject:model];
+        } else {
+            model.isSelected = YES;
+            cell.selectBtn.selected = YES;
+            cell.maskView.hidden = NO;
+            [self.selectArray addObject:model];
+        }
+        
+        _titleLab.text = [NSString stringWithFormat:@"%@（%ld）", [MILocalData appLanguage:@"album_key_6"], self.selectArray.count];
     } else {
-        model.isSelected = YES;
-        cell.selectBtn.selected = YES;
-        cell.maskView.hidden = NO;
-        [self.selectArray addObject:model];
+        if ([model.filePath.pathExtension isEqualToString:@"png"]) {
+            MIEditOrUploadVC *vc = [[MIEditOrUploadVC alloc] init];
+            vc.imgUrl = model.filePath;
+            vc.fromActivity = (self.fromActivity ? @"true" : nil);
+            [self.navigationController pushViewController:vc animated:YES];
+        } else {
+            MIVideoUploadVC *vc = [[MIVideoUploadVC alloc] init];
+            vc.videoUrl = model.filePath;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
     }
-    [self showOrHideBottomView];
 }
 
 #pragma mark - UICollectionViewDataSource
@@ -422,10 +456,25 @@ static NSString * const videoCellId = @"videoCellId";
         cell.durationLab.hidden = NO;
         cell.durationLab.text = [MIHelpTool convertTime:asset.duration.value / (asset.duration.timescale * 1.0)];
     }
-    
-    cell.selectBtn.selected = model.isSelected;
-    cell.maskView.hidden = !model.isSelected;
     cell.imgView.image = image;
+    
+    if (_isSelectModel) {
+        cell.selectBtn.hidden = NO;
+        cell.maskView.hidden = !model.isSelected;
+        cell.selectBtn.selected = model.isSelected;
+    } else {
+        cell.selectBtn.hidden = YES;
+        cell.maskView.hidden = YES;
+    }
+    
+    WSWeak(weakSelf)
+    cell.longPress = ^{
+        if (!weakSelf.isSelectModel) {
+            weakSelf.isSelectModel = YES;
+            [weakSelf showOrHideBottomView];
+            [collectionView reloadData];
+        }
+    };
     
     return cell;
 }

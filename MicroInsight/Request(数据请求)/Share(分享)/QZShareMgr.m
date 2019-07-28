@@ -40,7 +40,7 @@ static QZShareMgr *_manager;
 //分享弹框
 - (void)showShareType:(QZShareType)shareType inVC:(UIViewController *)vc{
     CGRect frame;
-    if (shareType == QZShareTypeNormal) {
+    if (shareType == QZShareTypeNormal || shareType == QZShareTypeAddBlack) {
         frame = CGRectMake(0, MIScreenHeight, MIScreenWidth, 190);
     } else {
         frame = CGRectMake(0, MIScreenHeight, MIScreenWidth, 255);
@@ -61,40 +61,44 @@ static QZShareMgr *_manager;
         if (weakSelf.shareActiondBlock) {
             weakSelf.shareActiondBlock(title);
         }
-        if ([title isEqualToString:@"朋友圈"]) {
+        if ([title isEqualToString:[MILocalData appLanguage:@"community_key_8"]]) {
             platformType = UMSocialPlatformType_WechatTimeLine;
             [weakSelf shareWebPageOrImgToPlatformType:platformType];
-        } else if ([title isEqualToString:@"微信好友"]) {
+        } else if ([title isEqualToString:[MILocalData appLanguage:@"community_key_7"]]) {
             platformType = UMSocialPlatformType_WechatSession;
             [weakSelf shareWebPageOrImgToPlatformType:platformType];
         } else if ([title isEqualToString:@"QQ"]) {
             platformType = UMSocialPlatformType_QQ;
             [weakSelf shareWebPageOrImgToPlatformType:platformType];
-        } else if ([title isEqualToString:@"QQ空间"]) {
+        } else if ([title isEqualToString:[MILocalData appLanguage:@"community_key_10"]]) {
             platformType = UMSocialPlatformType_Qzone;
             [weakSelf shareWebPageOrImgToPlatformType:platformType];
-        } else if ([title isEqualToString:@"微博"]) {
+        } else if ([title isEqualToString:[MILocalData appLanguage:@"community_key_9"]]) {
             platformType = UMSocialPlatformType_Sina;
             [weakSelf shareWebPageOrImgToPlatformType:platformType];
-        } else if ([title isEqualToString:@"举报"]) {
+        } else if ([title isEqualToString:[MILocalData appLanguage:@"community_key_13"]]) {
             if ([self.delegate respondsToSelector:@selector(shareManagerReportAction)]) {
                 [self.delegate shareManagerReportAction];
             }
-        } else if ([title isEqualToString:@"拉黑"]) {
+        } else if ([title isEqualToString:[MILocalData appLanguage:@"community_key_16"]]) {
             if ([self.delegate respondsToSelector:@selector(shareManagerAddBlackListAction)]) {
                 [self.delegate shareManagerAddBlackListAction];
             }
-        } else if ([title isEqualToString:@"复制链接"]) {
-            [MIHudView showMsg:@"已复制"];
+        } else if ([title isEqualToString:[MILocalData appLanguage:@"community_key_11"]]) {
+            [MIHudView showMsg:[MILocalData appLanguage:@"other_key_1"]];
             UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
             pasteboard.string = weakSelf.shareWebUrl;
             
             if ([self.delegate respondsToSelector:@selector(shareManagerCopyLinkAction)]) {
                 [self.delegate shareManagerCopyLinkAction];
             }
-        } else if ([title isEqualToString:@"回到首页"]) {
+        } else if ([title isEqualToString:[MILocalData appLanguage:@"community_key_12"]]) {
             if ([self.delegate respondsToSelector:@selector(shareManagerGoHomeAction)]) {
                 [self.delegate shareManagerGoHomeAction];
+            }
+        } else if ([title isEqualToString:[MILocalData appLanguage:@"album_key_7"]]) {
+            if ([self.delegate respondsToSelector:@selector(shareManagerDeleteAction)]) {
+                [self.delegate shareManagerDeleteAction];
             }
         }
     };

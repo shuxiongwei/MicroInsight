@@ -121,7 +121,7 @@ class MICommunityVC: MIBaseViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(theKeyboardWillHideNotification), name: UIResponder.keyboardWillHideNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(theKeyboardWillShowNotification), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(blackNotification), name: NSNotification.Name(rawValue:"blackListNotification"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(notification), name: NSNotification.Name(rawValue:"isTest"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(messageNotification), name: NSNotification.Name(rawValue:"newMessage"), object: nil)
         
         configCommunityUI()
         requestCommunityList(isRefresh: true)
@@ -129,7 +129,7 @@ class MICommunityVC: MIBaseViewController {
     
     private func configCommunityUI() {
         super.configLeftBarButtonItem(nil)
-        self.title = "社区"
+        self.title = MILocalData.appLanguage("home_key_3")
         self.view.backgroundColor = UIColor.white
         curPage = 1
         curSearchPage = 1
@@ -155,7 +155,7 @@ class MICommunityVC: MIBaseViewController {
         searchTF = UITextField.init(frame: CGRect(x: 15, y: 11, width: ScreenWidth - 30, height: 30))
         searchTF.font = UIFont.systemFont(ofSize: 10)
         searchTF.textColor = MIRgbaColor(rgbValue: 0x999999, alpha: 1)
-        searchTF.placeholder = "    点击搜索你感兴趣的"
+        searchTF.placeholder = MILocalData.appLanguage("community_key_14")
         searchTF.backgroundColor = MIRgbaColor(rgbValue: 0xF2F3F5, alpha: 1)
         searchTF.returnKeyType = .search
         searchTF.delegate = self
@@ -293,7 +293,7 @@ class MICommunityVC: MIBaseViewController {
     }
     
     //MARK:通知
-    @objc func notification(nofi : Notification) {
+    @objc func messageNotification(nofi : Notification) {
         messageBtn.isSelected = true
     }
     
@@ -402,6 +402,7 @@ extension MICommunityVC: UITableViewDelegate {
             model = self.searchDataList[indexPath.row]
         }
         
+        weak var weakSelf = self
         let detailVC = MICommunityDetailVC.init()
         detailVC.contentId = model.contentId
         detailVC.contentType = model.contentType;
@@ -409,7 +410,17 @@ extension MICommunityVC: UITableViewDelegate {
             model.comments = comments
             model.likes = likes
             model.isLike = isLike
-            tableView.reloadRows(at: [indexPath], with: .none)
+//            tableView.reloadRows(at: [indexPath], with: .none)
+            tableView.reloadData()
+            weakSelf?.table.scrollToRow(at: indexPath, at: .top, animated: false)
+        }
+        detailVC.deleteBlock = { (contentId: Int) in
+            if var index = weakSelf?.dataList.firstIndex(of: model) {
+                weakSelf?.dataList.remove(at: index)
+                weakSelf?.table.reloadData()
+                index = (index >= 1 ? index - 1 : 0)
+                weakSelf?.table.scrollToRow(at: IndexPath(row: index, section: 0), at: .top, animated: false)
+            }
         }
         self.navigationController?.pushViewController(detailVC, animated: true)
     }
@@ -448,7 +459,7 @@ extension MICommunityVC: UITableViewDataSource {
             let userInfo = MILocalData.getCurrentLoginUserInfo()
             var type: QZShareType!
             if userInfo.uid == userId {
-                type = .normal
+                type = .personal
             } else {
                 type = .other
             }
@@ -472,12 +483,20 @@ extension MICommunityVC: UITableViewDataSource {
                 model.isLike = isLike
                 tableView.reloadRows(at: [indexPath], with: .none)
             }
+            detailVC.deleteBlock = { (contentId: Int) in
+                if var index = weakSelf?.dataList.firstIndex(of: model) {
+                    weakSelf?.dataList.remove(at: index)
+                    weakSelf?.table.reloadData()
+                    index = (index >= 1 ? index - 1 : 0)
+                    weakSelf?.table.scrollToRow(at: IndexPath(row: index, section: 0), at: .top, animated: false)
+                }
+            }
             self.navigationController?.pushViewController(detailVC, animated: true)
         }
         
         cell.clickPraiseBtnBlock = { (userId: Int) in
             if model.isLike {
-                MIHudView.showMsg("您已经点过赞该作品")
+                MIHudView.showMsg(MILocalData.appLanguage("other_key_12"))
             } else {
                 MIRequestManager.praise(withContentId: model.contentId, contentType: model.contentType, requestToken: MILocalData.getCurrentRequestToken(), completed: { (jsonData, error) in
                     
@@ -509,7 +528,7 @@ extension MICommunityVC: UIScrollViewDelegate {
 extension MICommunityVC: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if searchTF.text?.count == 0 {
-            MIHudView.showMsg("请输入搜索内容")
+            MIHudView.showMsg(MILocalData.appLanguage("other_key_13"))
             return true
         }
         
@@ -573,9 +592,9 @@ extension MICommunityVC: MIShareManagerDelete {
                     let dic: [String : AnyObject] = jsonData as! Dictionary
                     let code = dic["code"]?.int64Value
                     if code == 0 {
-                        MIHudView.showMsg("举报成功")
+                        MIHudView.showMsg(MILocalData.appLanguage("other_key_15"))
                     } else {
-                        MIHudView.showMsg("举报失败")
+//                        MIHudView.showMsg("举报失败")
                     }
                 })
             }
@@ -593,10 +612,33 @@ extension MICommunityVC: MIShareManagerDelete {
             let dic: [String : AnyObject] = jsonData as! Dictionary
             let code = dic["code"]?.int64Value
             if code == 0 {
-                MIHudView.showMsg("拉黑成功")
+                MIHudView.showMsg(MILocalData.appLanguage("other_key_16"))
                 weakSelf?.requestCommunityList(isRefresh: true)
             } else {
-                MIHudView.showMsg("拉黑失败")
+//                MIHudView.showMsg("拉黑失败")
+            }
+        }
+    }
+    
+    func shareManagerDeleteAction() {
+        weak var weakSelf = self
+        MICustomAlertView.show(withFrame: ScreenBounds, alertTitle: MILocalData.appLanguage("personal_key_11"), alertMessage: MILocalData.appLanguage("other_key_51"), leftAction: {
+            
+        }) {
+            MIRequestManager.deleteCommunityProduction(withContentId: "\(weakSelf?.currentModel.contentId ?? 0)", contentType: weakSelf?.currentModel.contentType ?? 0, requestToken: MILocalData.getCurrentRequestToken()) { (jsonData, error) in
+                
+                MIHudView.showMsg(MILocalData.appLanguage("other_key_52"))
+                let dic: [String : AnyObject] = jsonData as! Dictionary
+                let code = dic["code"]?.int64Value
+                if code == 0 {
+                    if var index = weakSelf?.dataList.firstIndex(of: weakSelf!.currentModel) {
+                        weakSelf?.dataList.remove(at: index)
+                        weakSelf?.table.reloadData()
+                        
+                        index = (index >= 1 ? index - 1 : 0)
+                        weakSelf?.table.scrollToRow(at: IndexPath(row: index, section: 0), at: .top, animated: false)
+                    }
+                }
             }
         }
     }

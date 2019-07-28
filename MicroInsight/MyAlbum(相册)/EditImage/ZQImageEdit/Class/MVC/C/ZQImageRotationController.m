@@ -29,7 +29,7 @@
 -(void)buildLayout
 {
     [super configLeftBarButtonItem:nil];
-    self.title = @"旋转";
+    self.title = [MILocalData appLanguage:@"other_key_21"];
     self.view.backgroundColor = [UIColor blackColor];
     
     _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, MIScreenWidth, MIScreenHeight - KNaviBarAllHeight - operaBarHeight - rotateToolBarHeight)];

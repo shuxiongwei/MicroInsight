@@ -25,9 +25,10 @@
 }
 
 - (void)configUI {
-    self.title = @"添加水印";
+    self.title = [MILocalData appLanguage:@"sideBar_key_4"];
     [super configLeftBarButtonItem:nil];
     
+    _ruleLab.text = [MILocalData appLanguage:@"sideBar_key_8"];
     _switchBtn.on = [MILocalData getOpenRuleWatermark];
 }
 

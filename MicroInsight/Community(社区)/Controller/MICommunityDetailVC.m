@@ -66,7 +66,8 @@
 
 - (NSArray *)titleCategories {
     if (!_titleCategories) {
-        _titleCategories = @[@"评论", @"点赞"];
+        _titleCategories = @[[MILocalData appLanguage:@"community_key_2"],
+                             [MILocalData appLanguage:@"community_key_3"]];
     }
     return _titleCategories;
 }
@@ -178,7 +179,7 @@
     self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
     self.navigationController.navigationBar.translucent = NO;
     
-    self.title = @"正文详情";
+    self.title = [MILocalData appLanguage:@"community_key_15"];
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem itemWithTarget:self action:@selector(backAction) image:[UIImage imageNamed:@"icon_login_back_nor"]];
     self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithTarget:self action:@selector(clickExtendBtn) image:[UIImage imageNamed:@"icon_community_more_nor"]];
     self.view.backgroundColor = [UIColor whiteColor];
@@ -224,7 +225,7 @@
     
     _textView = [[MIPlaceholderTextView alloc] initWithFrame:CGRectMake(20, 10, MIScreenWidth - 80, 40)];
     _textView.backgroundColor = [UIColor whiteColor];
-    _textView.placeholder = @"写评论......";
+    _textView.placeholder = [MILocalData appLanguage:@"community_key_4"];
     _textView.placeholderColor = UIColorFromRGBWithAlpha(0x999999, 1);
     _textView.placeholderFont = [UIFont systemFontOfSize:11];
     [_bgTextView addSubview:_textView];
@@ -232,7 +233,7 @@
     UIButton *sendBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     sendBtn.frame = CGRectMake(_bgTextView.width - 60, 0, 60, 40);
     sendBtn.centerY = _textView.centerY;
-    [sendBtn setTitle:@"发送" forState:UIControlStateNormal];
+    [sendBtn setTitle:[MILocalData appLanguage:@"community_key_6"] forState:UIControlStateNormal];
     [sendBtn setTitleColor:UIColorFromRGBWithAlpha(0x333333, 1) forState:UIControlStateNormal];
     sendBtn.titleLabel.font = [UIFont systemFontOfSize:12];
     [sendBtn addTarget:self action:@selector(clickSendBtn) forControlEvents:UIControlEventTouchUpInside];
@@ -336,13 +337,13 @@
 }
 
 - (void)updateComments:(NSInteger)comments {
-    [self.menuView updateTitle:[NSString stringWithFormat:@"评论 %ld", comments] atIndex:0 andWidth:NO];
+    [self.menuView updateTitle:[NSString stringWithFormat:@"%@ %ld", [MILocalData appLanguage:@"community_key_2"], comments] atIndex:0 andWidth:NO];
     [_commentBtn setTitle:[NSString stringWithFormat:@"%ld", comments] forState:UIControlStateNormal];
     [_commentBtn layoutButtonWithEdgeInsetsStyle:MIButtonEdgeInsetsStyleTop imageTitleSpace:5];
 }
 
 - (void)updateLiks:(NSInteger)likes {
-    [self.menuView updateTitle:[NSString stringWithFormat:@"点赞 %ld", likes] atIndex:1 andWidth:NO];
+    [self.menuView updateTitle:[NSString stringWithFormat:@"%@ %ld", [MILocalData appLanguage:@"community_key_3"], likes] atIndex:1 andWidth:NO];
     [_praiseBtn setTitle:[NSString stringWithFormat:@"%ld", likes] forState:UIControlStateNormal];
     [_praiseBtn layoutButtonWithEdgeInsetsStyle:MIButtonEdgeInsetsStyleTop imageTitleSpace:5];
 }
@@ -387,22 +388,22 @@
 
 #pragma mark - 事件响应
 - (void)backAction {
-    NSInteger comments;
-    NSInteger likes;
-    BOOL isLike;
-    if (_contentType == 0) {
-        comments = [_detailModel.comments integerValue];
-        likes = [_detailModel.likes integerValue];
-        isLike = _detailModel.isLike;
-    } else {
-        comments = [_videoInfo.comments integerValue];
-        likes = [_videoInfo.likes integerValue];
-        isLike = _videoInfo.isLike;
-    }
-    
-    if (self.praiseBlock) {
-        self.praiseBlock(comments, likes, isLike);
-    }
+//    NSInteger comments;
+//    NSInteger likes;
+//    BOOL isLike;
+//    if (_contentType == 0) {
+//        comments = [_detailModel.comments integerValue];
+//        likes = [_detailModel.likes integerValue];
+//        isLike = _detailModel.isLike;
+//    } else {
+//        comments = [_videoInfo.comments integerValue];
+//        likes = [_videoInfo.likes integerValue];
+//        isLike = _videoInfo.isLike;
+//    }
+//
+//    if (self.praiseBlock) {
+//        self.praiseBlock(comments, likes, isLike);
+//    }
     
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -410,26 +411,30 @@
 - (void)clickExtendBtn {
     [_textView resignFirstResponder];
     
+    NSString *title;
     MIUserInfoModel *model = [MILocalData getCurrentLoginUserInfo];
     QZShareType type;
     if (_contentType == 0) {
         if (model.uid == _detailModel.userId) {
-            type = QZShareTypeNormal;
+            type = QZShareTypePersonal;
         } else {
             type = QZShareTypeOther;
         }
+        title = _detailModel.title;
     } else {
         if (model.uid == [_videoInfo.userId integerValue]) {
-            type = QZShareTypeNormal;
+            type = QZShareTypePersonal;
         } else {
             type = QZShareTypeOther;
         }
+        title = _videoInfo.title;
     }
     
     [[QZShareMgr shareManager] showShareType:type inVC:nil];
     [QZShareMgr shareManager].delegate = self;
     [QZShareMgr shareManager].shareWebUrl = [NSString stringWithFormat:@"http://www.tipscope.com/node.html?token=%@&contentId=%ld&contentType=%ld", [MILocalData getCurrentRequestToken], _contentId, _contentType];
     [QZShareMgr shareManager].shareImg = [UIImage imageNamed:@"icon_message_app_nor"];
+    [QZShareMgr shareManager].title = title;
 }
 
 - (void)clickBottomCommentBtn:(UIButton *)sender {
@@ -439,7 +444,7 @@
 
 - (void)clickBottomPraiseBtn:(UIButton *)sender {
     if (sender.selected) {
-        [MIHudView showMsg:@"您已经点过赞该作品"];
+        [MIHudView showMsg:[MILocalData appLanguage:@"other_key_12"]];
     } else {
         WSWeak(weakSelf)
         [MIRequestManager praiseWithContentId:_contentId contentType:_contentType requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
@@ -449,7 +454,7 @@
                 weakSelf.praiseBtn.selected = YES;
                 [weakSelf requestDetailDataNeedRefreshTopView:NO needRefreshCommentView:NO needRefreshSupportView:YES];
             } else {
-                [MIHudView showMsg:@"点赞失败"];
+//                [MIHudView showMsg:@"点赞失败"];
             }
         }];
     }
@@ -457,7 +462,7 @@
 
 - (void)clickSendBtn {
     if ([MIHelpTool isBlankString:_textView.text]) {
-        [MIHudView showMsg:@"请输入评论内容"];
+        [MIHudView showMsg:[MILocalData appLanguage:@"other_key_13"]];
         return;
     }
     
@@ -473,7 +478,7 @@
                     if (code == 0) {
                         [weakSelf requestDetailDataNeedRefreshTopView:NO needRefreshCommentView:YES needRefreshSupportView:NO];
                     } else {
-                        [MIHudView showMsg:@"评论失败"];
+//                        [MIHudView showMsg:@"评论失败"];
                     }
                 }];
             } else {
@@ -483,12 +488,12 @@
                     if (code == 0) {
                         [weakSelf requestDetailDataNeedRefreshTopView:NO needRefreshCommentView:YES needRefreshSupportView:NO];
                     } else {
-                        [MIHudView showMsg:@"评论失败"];
+//                        [MIHudView showMsg:@"评论失败"];
                     }
                 }];
             }
         } else if (code == -1) {
-            [MIHudView showMsg:@"评论不能含有敏感词"];
+            [MIHudView showMsg:[MILocalData appLanguage:@"other_key_14"]];
         }
         
         weakSelf.textView.text = nil;
@@ -520,9 +525,9 @@
                 
                 NSInteger code = [jsonData[@"code"] integerValue];
                 if (code == 0) {
-                    [MIHudView showMsg:@"举报成功"];
+                    [MIHudView showMsg:[MILocalData appLanguage:@"other_key_15"]];
                 } else {
-                    [MIHudView showMsg:@"举报失败"];
+//                    [MIHudView showMsg:@"举报失败"];
                 }
             }];
         };
@@ -545,12 +550,34 @@
         
         NSInteger code = [jsonData[@"code"] integerValue];
         if (code == 0) {
-            [MIHudView showMsg:@"拉黑成功"];
+            [MIHudView showMsg:[MILocalData appLanguage:@"other_key_16"]];
             [[NSNotificationCenter defaultCenter] postNotificationName:@"blackListNotification" object:nil];
             [self.navigationController popViewControllerAnimated:YES];
         } else {
-            [MIHudView showMsg:@"拉黑失败"];
+//            [MIHudView showMsg:@"拉黑失败"];
         }
+    }];
+}
+
+- (void)shareManagerDeleteAction {
+    WSWeak(weakSelf)
+    [MICustomAlertView showAlertViewWithFrame:MIScreenBounds alertTitle:[MILocalData appLanguage:@"personal_key_11"] alertMessage:[MILocalData appLanguage:@"other_key_51"] leftAction:^(void) {
+        
+    } rightAction:^(void) {
+        [MIRequestManager deleteCommunityProductionWithContentId:[NSString stringWithFormat:@"%ld", weakSelf.contentId] contentType:weakSelf.contentType requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+            
+            NSInteger code = [jsonData[@"code"] integerValue];
+            if (code == 0) {
+                [MIHudView showMsg:[MILocalData appLanguage:@"other_key_52"]];
+                if (weakSelf.deleteBlock) {
+                    weakSelf.deleteBlock(weakSelf.contentId);
+                }
+                
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    [weakSelf.navigationController popViewControllerAnimated:YES];
+                });
+            }
+        }];
     }];
 }
 
@@ -571,9 +598,14 @@
             _commentVC.contentType = _contentType;
             _commentVC.commentType = MICommentTypeCommunity;
             WSWeak(weakSelf)
-            _commentVC.clickUserIcon = ^(NSInteger userId) {
+            _commentVC.clickUserIcon = ^(MIChildCommentModel *model) {
+                if (model.isBlack) {
+                    [MIHudView showMsg:[MILocalData appLanguage:@"other_key_54"]];
+                    return;
+                }
+                
                 MIPersonalVC *vc = [[MIPersonalVC alloc] init];
-                vc.userId = userId;
+                vc.userId = model.user_id;
                 [weakSelf.navigationController pushViewController:vc animated:YES];
             };
             

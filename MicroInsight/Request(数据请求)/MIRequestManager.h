@@ -275,6 +275,16 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (void)reportUseWithUserId:(NSString *)userId reportContent:(NSString *)content requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed;
 
+/**
+ 删除社区作品
+
+ @param contentId 内容id
+ @param contentType 内容类型
+ @param token token
+ @param completed 完成回掉
+ */
++ (void)deleteCommunityProductionWithContentId:(NSString *)contentId contentType:(NSInteger)contentType requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed;
+
 #pragma mark - 个人中心
 /**
  获取当前登录的用户信息
@@ -484,6 +494,20 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)feedbackWithContent:(NSString *)content requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed;
 
 + (void)checkAppVersionCompleted:(void (^)(id jsonData, NSError *error))completed;
+
++ (void)getFeedbackListWithRequestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed;
+
+#pragma mark - 私信
++ (void)getUnreadLetterWithUserId:(NSString *)userId requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed;
+
++ (void)getReadLetterWithUserId:(NSString *)userId requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed;
+
++ (void)sendLetterWithReceiveId:(NSString *)receiveId content:(NSString *)content requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed;
+
++ (void)sendImageLetterWithReceiveId:(NSString *)receiveId fileName:(NSString *)fileName image:(UIImage *)image requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed;
+
+#pragma mark - 皮肤
++ (void)sendSkinImageWithTitle:(NSString *)title type:(NSString *)type fileName:(NSString *)fileName image:(UIImage *)image requestToken:(NSString *)token completed:(void (^)(id jsonData, NSError *error))completed;
 
 @end
 

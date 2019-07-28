@@ -45,6 +45,19 @@
 
 @implementation LVDatePickerView
 
+- (instancetype)initWithFrame:(CGRect)frame
+                  currentDate:(NSDate *)currentDate
+                      maxDate:(NSDate *)maxDate {
+    self = [super initWithFrame:frame];
+    if (self) {
+        _scrollToDate = currentDate;
+        _defailtLimitedMaxDate = maxDate;
+        [self configUI];
+        [self loadDataSouce];
+    }
+    return self;
+}
+
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
@@ -65,17 +78,17 @@
     _bgView = bgView;
     
     UILabel *birthdayLab = [[UILabel alloc] initWithFrame:CGRectMake(10, 50, bgView.width - 20, 16)];
-    birthdayLab.text = @"请选择你的生日";
+    birthdayLab.text = [MILocalData appLanguage:@"personal_key_18"];
     birthdayLab.textColor = UIColorFromRGBWithAlpha(0x333333, 1);
     birthdayLab.font = [UIFont systemFontOfSize:16];
     birthdayLab.textAlignment = NSTextAlignmentCenter;
     [bgView addSubview:birthdayLab];
     
-    UIButton *leftBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(0, bgView.height - 50, bgView.width / 2.0, 50) normalTitle:@"取消" normalTitleColor:UIColorFromRGBWithAlpha(0xBEBEBE, 1) highlightedTitleColor:nil selectedColor:nil titleFont:17 normalImage:nil highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(clickLeftBtn:)];
+    UIButton *leftBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(0, bgView.height - 50, bgView.width / 2.0, 50) normalTitle:[MILocalData appLanguage:@"personal_key_13"] normalTitleColor:UIColorFromRGBWithAlpha(0xBEBEBE, 1) highlightedTitleColor:nil selectedColor:nil titleFont:17 normalImage:nil highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(clickLeftBtn:)];
     leftBtn.backgroundColor = UIColorFromRGBWithAlpha(0xF9F9F9, 1);
     [bgView addSubview:leftBtn];
     
-    UIButton *rightBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(bgView.width / 2.0, bgView.height - 50, bgView.width / 2.0, 50) normalTitle:@"确定" normalTitleColor:UIColorFromRGBWithAlpha(0xFFFFFF, 1) highlightedTitleColor:nil selectedColor:nil titleFont:17 normalImage:nil highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(clickRightBtn:)];
+    UIButton *rightBtn = [MIUIFactory createButtonWithType:UIButtonTypeCustom frame:CGRectMake(bgView.width / 2.0, bgView.height - 50, bgView.width / 2.0, 50) normalTitle:[MILocalData appLanguage:@"camera_key_5"] normalTitleColor:UIColorFromRGBWithAlpha(0xFFFFFF, 1) highlightedTitleColor:nil selectedColor:nil titleFont:17 normalImage:nil highlightedImage:nil selectedImage:nil touchUpInSideTarget:self action:@selector(clickRightBtn:)];
     [rightBtn setButtonCustomBackgroudImageWithBtn:rightBtn fromColor:UIColorFromRGBWithAlpha(0x72B3E2, 1) toColor:UIColorFromRGBWithAlpha(0x6DD1CC, 1)];
     [bgView addSubview:rightBtn];
     

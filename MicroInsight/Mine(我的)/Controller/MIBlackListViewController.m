@@ -24,7 +24,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-    self.title = @"黑名单";
+    self.title = [MILocalData appLanguage:@"other_key_35"];
     [super configLeftBarButtonItem:nil];
     
     [_blackListT registerNib:[UINib nibWithNibName:@"MIBlackListCell" bundle:nil] forCellReuseIdentifier:@"MIBlackListCell"];
@@ -63,6 +63,7 @@
         
         NSInteger code = [jsonData[@"code"] integerValue];
         if (code == 0) {
+            [MIHudView showMsg:[MILocalData appLanguage:@"other_key_55"]];
             [self configBlackList];
         }
     }];

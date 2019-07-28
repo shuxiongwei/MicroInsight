@@ -18,6 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UIButton *playBtn;
 @property (weak, nonatomic) IBOutlet UIView *maskView;
 
+@property (nonatomic, copy) void (^longPress)(void);
+
 @end
 
 NS_ASSUME_NONNULL_END

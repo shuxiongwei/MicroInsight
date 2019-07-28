@@ -12,6 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MISystemAlbumVC : MIBaseViewController
 
+@property (nonatomic, assign) BOOL fromActivity;
+
 @end
 
 NS_ASSUME_NONNULL_END

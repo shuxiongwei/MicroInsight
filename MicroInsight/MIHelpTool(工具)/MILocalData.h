@@ -18,6 +18,10 @@ static NSString * const languageMapping = @"languageMapping"; //语言映射关�
 @class MIUserInfoModel;
 @interface MILocalData : NSObject
 
+//判断第一次登录
++ (BOOL)isFirstLogin;
++ (void)setIsFirstLogin:(NSString *)login;
+
 /**
  获取当前请求token
 
@@ -109,6 +113,13 @@ static NSString * const languageMapping = @"languageMapping"; //语言映射关�
  */
 + (void)saveOpenRuleWatermark:(BOOL)open;
 + (BOOL)getOpenRuleWatermark;
+
+/**
+ 获取视频教程地址
+
+ @return 返回值
+ */
++ (NSString *)getVideoTutorialUrl;
 
 @end
 

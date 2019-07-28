@@ -57,15 +57,15 @@ class MILoginViewController: MIBaseViewController {
     //登录
     @IBAction func login(_ sender: UIButton) {
         if !MIHelpTool.validateContactNumber(phoneTF.text) {
-            MIHudView.showMsg("请输入正确的手机号码")
+            MIHudView.showMsg(MILocalData.appLanguage("other_key_38"))
             return
         }
         if passwordTF.text!.count == 0 {
-            MIHudView.showMsg("请输入密码")
+            MIHudView.showMsg(MILocalData.appLanguage("other_key_39"))
             return
         }
         
-        MBProgressHUD.showStatus("登录中，请稍后...")
+        MBProgressHUD.showStatus(MILocalData.appLanguage("other_key_37"))
         weak var weakSelf = self
         MIRequestManager.login(withUsername: phoneTF.text!, password: passwordTF.text!) { (jsonData, error) in
             
@@ -81,7 +81,8 @@ class MILoginViewController: MIBaseViewController {
                 let model = MIUserInfoModel.yy_model(with: user as! [AnyHashable : Any])
                 MILocalData.saveCurrentLoginUserInfo(model)
                 
-                weakSelf?.navigationController?.popViewController(animated: true)
+                weakSelf?.navigationController?.popToRootViewController(animated: true)
+//                weakSelf?.judgeIsFirstLogin()
             } else {
                 let msg = dic["message"] as! String
                 MIHudView.showMsg(msg)
@@ -102,7 +103,7 @@ class MILoginViewController: MIBaseViewController {
         MIThirdPartyLoginManager.share()?.getUserInfo(withWTLoginType: .tencent, result: { (result: Dictionary?, error: String?) in
             
             if (MIHelpTool.isBlankString(error)) {
-                MBProgressHUD.showStatus("QQ登录中，请稍后...")
+                MBProgressHUD.showStatus(MILocalData.appLanguage("other_key_37"))
                 MIRequestManager.loginByQQ(withOpenId: result?["openId"] as! String, accessToken: result?["accessToken"] as! String, completed: { (jsonData: Any?, err: Error?) in
                     
                     DispatchQueue.main.async {
@@ -118,6 +119,7 @@ class MILoginViewController: MIBaseViewController {
                         MILocalData.saveCurrentLoginUserInfo(model)
                         
                         weakSelf?.navigationController?.popToRootViewController(animated: true)
+//                        weakSelf?.judgeIsFirstLogin()
                     } else {
                         let msg = dic["message"] as! String
                         MIHudView.showMsg(msg)
@@ -135,7 +137,7 @@ class MILoginViewController: MIBaseViewController {
         MIThirdPartyLoginManager.share()?.getUserInfo(withWTLoginType: .facebook, result: { (result: Dictionary?, error: String?) in
             
             if (MIHelpTool.isBlankString(error)) {
-                MBProgressHUD.showStatus("Facebook登录中，请稍后...")
+                MBProgressHUD.showStatus(MILocalData.appLanguage("other_key_37"))
                 MIRequestManager.loginByFacebook(withDic: result as! Dictionary, completed: { (jsonData: Any?, err: Error?) in
                     
                     DispatchQueue.main.async {
@@ -151,6 +153,7 @@ class MILoginViewController: MIBaseViewController {
                         MILocalData.saveCurrentLoginUserInfo(model)
                         
                         weakSelf?.navigationController?.popToRootViewController(animated: true)
+//                        weakSelf?.judgeIsFirstLogin()
                     } else {
                         let msg = dic["message"] as! String
                         MIHudView.showMsg(msg)
@@ -168,7 +171,7 @@ class MILoginViewController: MIBaseViewController {
         MIThirdPartyLoginManager.share()?.getUserInfo(withWTLoginType: .weiXin, result: { (result: Dictionary?, error: String?) in
             
             if (MIHelpTool.isBlankString(error)) {
-                MBProgressHUD.showStatus("微信登录中，请稍后...")
+                MBProgressHUD.showStatus(MILocalData.appLanguage("other_key_37"))
                 MIRequestManager.loginByWX(withCode: result?["code"] as! String, completed: { (jsonData: Any?, err: Error?) in
                     
                     DispatchQueue.main.async {
@@ -184,6 +187,7 @@ class MILoginViewController: MIBaseViewController {
                         MILocalData.saveCurrentLoginUserInfo(model)
 
                         weakSelf?.navigationController?.popToRootViewController(animated: true)
+//                        weakSelf?.judgeIsFirstLogin()
                     } else {
                         let msg = dic["message"] as! String
                         MIHudView.showMsg(msg)
@@ -203,5 +207,12 @@ class MILoginViewController: MIBaseViewController {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
+    }
+    
+    func judgeIsFirstLogin() {
+        let login = MILocalData.isFirstLogin()
+        if login {
+            NotificationCenter.default.post(name: NSNotification.Name("isFirstLogin"), object: self, userInfo: nil)
+        }
     }
 }

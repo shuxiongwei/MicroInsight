@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) MIChildCommentModel *model;
 
-@property (nonatomic, copy) void (^clickUserIcon)(NSInteger userId);
+@property (nonatomic, copy) void (^clickUserIcon)(MIChildCommentModel *childModel);
 @property (nonatomic, copy) void (^clickPraiseComment)(void);
 
 @end

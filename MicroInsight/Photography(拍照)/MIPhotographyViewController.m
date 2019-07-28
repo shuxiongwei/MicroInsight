@@ -299,6 +299,8 @@
                 [self.delegate photographyViewController:self shootPicture:imgPath];
             }
         }
+        
+        [MIHudView showMsg:[MILocalData appLanguage:@"other_key_53"]];
     }];
 }
 
@@ -382,6 +384,8 @@
                 [self.delegate photographyViewController:self shootVideo:_videoPath];
             }
         }
+        
+        [MIHudView showMsg:[MILocalData appLanguage:@"other_key_53"]];
     } else {
         [ZRWaterPrintComposition addVideoWaterprintAtURL:_movieURL WithWaterprintImage:_currentWaterImage completionHandler:^(int status, NSString *errorMsg, NSURL *finishedVideoURL) {
             
@@ -418,6 +422,8 @@
                     [self.delegate photographyViewController:self shootVideo:_videoPath];
                 }
             }
+            
+            [MIHudView showMsg:[MILocalData appLanguage:@"other_key_53"]];
         }];
     }
 }

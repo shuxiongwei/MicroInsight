@@ -42,10 +42,10 @@
                         <action selector="clickHeadIconBtn:" destination="-1" eventType="touchUpInside" id="c3B-AM-Uds"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HCL-Ip-7tj">
-                    <rect key="frame" x="182" y="103" width="50" height="30"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HCL-Ip-7tj">
+                    <rect key="frame" x="107" y="103" width="200" height="30"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="50" id="9cP-LL-2Ik"/>
+                        <constraint firstAttribute="width" constant="200" id="9cP-LL-2Ik"/>
                         <constraint firstAttribute="height" constant="30" id="ALo-6N-rYn"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="9"/>

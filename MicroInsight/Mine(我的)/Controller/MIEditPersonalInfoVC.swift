@@ -24,7 +24,12 @@ class MIEditPersonalInfoVC: MIBaseViewController {
     @IBOutlet weak var saveBtn: UIButton!
     @IBOutlet weak var jumpBtn: UIButton!
     
-    let jobList = ["程序", "科研", "教育", "收藏", "美业", "其他"]
+    let jobList = [MILocalData.appLanguage("personal_key_20"),
+                   MILocalData.appLanguage("personal_key_21"),
+                   MILocalData.appLanguage("personal_key_22"),
+                   MILocalData.appLanguage("personal_key_23"),
+                   MILocalData.appLanguage("personal_key_24"),
+                   MILocalData.appLanguage("personal_key_25")]
     
     private lazy var activityView: UIActivityIndicatorView = {
         let v = UIActivityIndicatorView.init(frame: CGRect(x: (ScreenWidth - 80) / 2.0, y:(ScreenHeight - 80) / 2.0, width: 80, height: 80))
@@ -52,38 +57,45 @@ class MIEditPersonalInfoVC: MIBaseViewController {
         super.configLeftBarButtonItem(nil)
         
         if MILocalData.hasLogin() {
-            self.title = "个人资料"
-            jumpBtn .setTitle("退出登录", for: .normal)
+            self.title = MILocalData.appLanguage("personal_key_1")
+            jumpBtn.setTitle(MILocalData.appLanguage("personal_key_10"), for: .normal)
             let userInfo = MILocalData.getCurrentLoginUserInfo()
             
             let iconUrl = userInfo.avatar + "?x-oss-process=image/resize,m_fill,h_60,w_60"
             headIconBtn.sd_setImage(with: NSURL(string: iconUrl) as URL?, for: .normal, placeholderImage: UIImage(named: "icon_personal_head_nor"), options: .retryFailed, completed: nil)
             
             inputBtn.setTitle(userInfo.nickname, for: .normal)
-            genderSelectBtn.setTitle((userInfo.gender == 0 ? "男" : "女"), for: .normal)
+            genderSelectBtn.setTitle((userInfo.gender == 0 ? MILocalData.appLanguage("personal_key_16") : MILocalData.appLanguage("personal_key_17")), for: .normal)
             let strs = userInfo.birthday.components(separatedBy: " ")
             birthdaySelectBtn.setTitle(strs.first, for: .normal)
             
-            var str = "其他"
+            var str = MILocalData.appLanguage("personal_key_25")
             if userInfo.profession != .other {
                 str = jobList[userInfo.profession.rawValue - 1]
             }
             jobSelectBtn.setTitle(str, for: .normal)
         } else {
-            self.title = "完善个人资料"
-            jumpBtn .setTitle("跳过", for: .normal)
+            self.title = MILocalData.appLanguage("personal_key_1")
+            jumpBtn.setTitle("跳过", for: .normal)
         }
         
         headIconBtn.round(30, rectCorners: .allCorners)
         saveBtn.setButtonCustomBackgroudImage(btn: saveBtn, fromColor: MIRgbaColor(rgbValue: 0x72B3E2, alpha: 1), toColor: MIRgbaColor(rgbValue: 0x6DD1CC, alpha: 1))
         saveBtn.round(2, rectCorners: .allCorners)
+        saveBtn.setTitle(MILocalData.appLanguage("personal_key_9"), for: .normal)
         jumpBtn.round(2, rectCorners: .allCorners)
+        
+        nickNameLab.text = MILocalData.appLanguage("personal_key_3")
+        genderLab.text = MILocalData.appLanguage("personal_key_5")
+        birthdayLab.text = MILocalData.appLanguage("personal_key_7")
+        jobLab.text = MILocalData.appLanguage("personal_key_8")
+        changeBtn.setTitle(MILocalData.appLanguage("personal_key_2"), for: .normal)
     }
     
     func changeHeadIcon() {
         let alertVC = UIAlertController.init(title: nil, message: nil, preferredStyle: .actionSheet)
-        let cancelAction = UIAlertAction.init(title: "取消", style: .cancel, handler: nil)
-        let cameraAction = UIAlertAction.init(title: "拍照", style: .default) { (action) in
+        let cancelAction = UIAlertAction.init(title: MILocalData.appLanguage("personal_key_13"), style: .cancel, handler: nil)
+        let cameraAction = UIAlertAction.init(title: MILocalData.appLanguage("other_key_9"), style: .default) { (action) in
             
             let avStatus = AVCaptureDevice.authorizationStatus(for: .video)
             if avStatus == .denied {
@@ -102,7 +114,7 @@ class MIEditPersonalInfoVC: MIBaseViewController {
             pickerVC.sourceType = .camera
             self.present(pickerVC, animated: true, completion: nil)
         }
-        let photoAction = UIAlertAction.init(title: "从相册上传", style: .default) { (action) in
+        let photoAction = UIAlertAction.init(title: MILocalData.appLanguage("other_key_10"), style: .default) { (action) in
             let pickerVC = UIImagePickerController.init()
             pickerVC.allowsEditing = true
             pickerVC.delegate = self
@@ -124,7 +136,7 @@ class MIEditPersonalInfoVC: MIBaseViewController {
     }
     
     @IBAction func clickInputBtn(_ sender: UIButton) {
-        let inputV = MIInputView.init(frame: ScreenBounds, nickName: sender.titleLabel?.text ?? "请输入您的昵称")
+        let inputV = MIInputView.init(frame: ScreenBounds, nickName: sender.titleLabel?.text ?? MILocalData.appLanguage("personal_key_14"))
         let window = (UIApplication.shared.delegate!.window)!
         window?.addSubview(inputV)
         
@@ -146,20 +158,20 @@ class MIEditPersonalInfoVC: MIBaseViewController {
     }
     
     @IBAction func clickBirthdaySelectBtn(_ sender: UIButton) {
-        let birthdayV = LVDatePickerView.init(frame: ScreenBounds)
+        
         var date: Date!
-        if sender.titleLabel?.text == "请选择" {
+        if sender.titleLabel?.text == MILocalData.appLanguage("personal_key_6") {
             date = LVDateHelper.fetchLocalDate()
         } else {
             date = LVDateHelper.fetchDate(from: sender.titleLabel?.text, withFormat: "yyyy-MM-dd")
         }
-        birthdayV.scrollToDate = date
         
+        let birthdayV = LVDatePickerView.init(frame: ScreenBounds, currentDate: date, maxDate: LVDateHelper.fetchLocalDate())
         let window = (UIApplication.shared.delegate!.window)!
-        window?.addSubview(birthdayV)
+        window?.addSubview(birthdayV!)
         
         weak var weakSelf = self
-        birthdayV.confimAction = { (time: String?) -> Void in
+        birthdayV?.confimAction = { (time: String?) -> Void in
             weakSelf?.birthdaySelectBtn.setTitle(time, for: .normal)
         }
     }
@@ -167,7 +179,7 @@ class MIEditPersonalInfoVC: MIBaseViewController {
     @IBAction func clickJobSelectBtn(_ sender: UIButton) {
         let wid = ScreenWidth - 80
         let bounds = CGRect(x: 40, y: (ScreenHeight - wid * 340.0 / 295.0) / 2.0, width: wid, height: wid * 340.0 / 295.0)
-        let title = "请选择你的职业"
+        let title = MILocalData.appLanguage("personal_key_19")
 
         let userInfo = MILocalData.getCurrentLoginUserInfo()
         var index = 5
@@ -187,52 +199,54 @@ class MIEditPersonalInfoVC: MIBaseViewController {
     
     @IBAction func clickSaveBtn(_ sender: UIButton) {
         if inputBtn.titleLabel?.text == nil {
-            MIHudView.showMsg("请输入昵称")
+            MIHudView.showMsg(MILocalData.appLanguage("personal_key_14"))
             return
         }
         
-        if genderSelectBtn.titleLabel?.text != "男" && genderSelectBtn.titleLabel?.text != "女" {
-            MIHudView.showMsg("请选择性别")
+        if genderSelectBtn.titleLabel?.text != MILocalData.appLanguage("personal_key_16") && genderSelectBtn.titleLabel?.text != MILocalData.appLanguage("personal_key_17") {
+            MIHudView.showMsg(MILocalData.appLanguage("personal_key_15"))
             return
         }
         
-        if birthdaySelectBtn.titleLabel?.text == nil || birthdaySelectBtn.titleLabel?.text == "请选择" {
-            MIHudView.showMsg("请选择生日")
+        if birthdaySelectBtn.titleLabel?.text == nil || birthdaySelectBtn.titleLabel?.text == MILocalData.appLanguage("personal_key_6") {
+            MIHudView.showMsg(MILocalData.appLanguage("personal_key_18"))
             return
         }
         
         var job = jobSelectBtn.titleLabel?.text
-        if jobSelectBtn.titleLabel?.text == nil || jobSelectBtn.titleLabel?.text == "请选择" {
-            job = "其他"
+        if jobSelectBtn.titleLabel?.text == nil || jobSelectBtn.titleLabel?.text == MILocalData.appLanguage("personal_key_6") {
+            job = MILocalData.appLanguage("personal_key_25")
         }
         
         var index = jobList.firstIndex(of: job!)! + 1
-        if job == "其他" {
+        if job == MILocalData.appLanguage("personal_key_25") {
             index = 0
         }
         
         weak var weakSelf = self
-        MIRequestManager.modifyUserInfo(withNickname: inputBtn.titleLabel!.text!, gender: (genderSelectBtn.titleLabel?.text == "男" ? 0 : 1), birthday: birthdaySelectBtn.titleLabel!.text!, profession: index , requestToken: MILocalData.getCurrentRequestToken()) { (jsonData, error) in
+        MIRequestManager.modifyUserInfo(withNickname: inputBtn.titleLabel!.text!, gender: (genderSelectBtn.titleLabel?.text == MILocalData.appLanguage("personal_key_16") ? 0 : 1), birthday: birthdaySelectBtn.titleLabel!.text!, profession: index , requestToken: MILocalData.getCurrentRequestToken()) { (jsonData, error) in
             
             let dic: [String : AnyObject] = jsonData as! Dictionary
             let code = dic["code"]?.int64Value
             if code == 0 {
                 let model: MIUserInfoModel = MILocalData.getCurrentLoginUserInfo()
                 model.nickname = (weakSelf?.inputBtn.titleLabel!.text)!
-                model.gender = (weakSelf?.genderSelectBtn.titleLabel?.text == "男" ? 0 : 1)
+                model.gender = (weakSelf?.genderSelectBtn.titleLabel?.text == MILocalData.appLanguage("personal_key_16") ? 0 : 1)
                 model.birthday = (weakSelf?.birthdaySelectBtn.titleLabel!.text)!
                 model.profession = MIProfessionType(rawValue: index)!
                 MILocalData.saveCurrentLoginUserInfo(model)
+                
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue:"refreshHeadView"), object: nil)
             }
  
-            let msg = dic["message"] as! String
-            MIHudView.showMsg(msg)
+//            let msg = dic["message"] as! String
+//            MIHudView.showMsg(msg)
         }
     }
     
     @IBAction func clickJumpBtn(_ sender: UIButton) {
         if MILocalData.hasLogin() {
-            MICustomAlertView.show(withFrame: ScreenBounds, alertTitle: "温馨提示", alertMessage: "确认要退出登录么？", leftAction: {
+            MICustomAlertView.show(withFrame: ScreenBounds, alertTitle: MILocalData.appLanguage("personal_key_11"), alertMessage: MILocalData.appLanguage("personal_key_12"), leftAction: {
                 
             }) {
                 MILocalData.saveCurrentLoginUserInfo(nil)
@@ -265,7 +279,7 @@ class MIEditPersonalInfoVC: MIBaseViewController {
                 weakSelf?.headIconBtn .setImage(image, for: .normal)
                 weakSelf?.activityView.stopAnimating()
             } else {
-                MIHudView.showMsg("头像设置失败")
+//                MIHudView.showMsg("头像设置失败")
             }
         }
     }

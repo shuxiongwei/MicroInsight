@@ -21,6 +21,9 @@
     _userBtn.layer.masksToBounds = YES;
     [_supportBtn layoutButtonWithEdgeInsetsStyle:MIButtonEdgeInsetsStyleLeft imageTitleSpace:5];
     [_commentTableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cell"];
+    
+    UILongPressGestureRecognizer *longRec = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPress:)];
+    [self addGestureRecognizer:longRec];
 }
 
 - (void)setModel:(MICommentModel *)model {
@@ -44,18 +47,24 @@
 
 - (IBAction)clickUserIconBtn:(UIButton *)sender {
     if (self.clickUserIcon) {
-        self.clickUserIcon(_model.user_id);
+        self.clickUserIcon(_model);
     }
 }
 
 - (IBAction)clickPraiseBtn:(UIButton *)sender {
     if (_model.isLike) {
-        [MIHudView showMsg:@"已经点赞过该评论了"];
+        [MIHudView showMsg:[MILocalData appLanguage:@"other_key_11"]];
         return;
     }
     
     if (self.clickPraiseComment) {
         self.clickPraiseComment();
+    }
+}
+
+- (void)longPress:(UILongPressGestureRecognizer *)rec {
+    if (self.longPressComment) {
+        self.longPressComment(_model);
     }
 }
 
@@ -96,7 +105,7 @@
             [cell.textLabel yb_addAttributeTapActionWithStrings:@[model.nickname] tapClicked:^(NSString *string, NSRange range, NSInteger index) {
                 
                 if (weakSelf.clickUserIcon) {
-                    weakSelf.clickUserIcon(model.user_id);
+                    weakSelf.clickUserIcon(model);
                 }
             }];
         } else {
@@ -111,7 +120,7 @@
         [cell.textLabel yb_addAttributeTapActionWithStrings:@[model.nickname] tapClicked:^(NSString *string, NSRange range, NSInteger index) {
             
             if (weakSelf.clickUserIcon) {
-                weakSelf.clickUserIcon(model.user_id);
+                weakSelf.clickUserIcon(model);
             }
         }];
     }

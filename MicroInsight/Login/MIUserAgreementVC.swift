@@ -22,7 +22,7 @@ class MIUserAgreementVC: MIBaseViewController {
 
     private func configActivityDetailUI() {
         super.configLeftBarButtonItem(nil)
-        self.title = "用户服务协议"
+        self.title = MILocalData.appLanguage("login_key_20")
         self.view.backgroundColor = MIRgbaColor(rgbValue: 0xF2F3F5, alpha: 1)
         
         let bgView = UIView.init(frame: CGRect(x: 15, y: 15, width: ScreenWidth - 30, height: ScreenHeight - MINavigationBarHeight(vc: self) - MIStatusBarHeight() - 54))
@@ -46,7 +46,7 @@ class MIUserAgreementVC: MIBaseViewController {
         let uploadBtn = UIButton(type: .custom)
         uploadBtn.frame = CGRect(x: 25, y: bgView.height - 90, width: bgView.width - 50, height: 40)
         uploadBtn.setButtonCustomBackgroudImage(btn: uploadBtn, fromColor: MIRgbaColor(rgbValue: 0x72B3E2, alpha: 1), toColor: MIRgbaColor(rgbValue: 0x6DD1CC, alpha: 1))
-        uploadBtn.setTitle("同意", for: .normal)
+        uploadBtn.setTitle(MILocalData.appLanguage("other_key_43"), for: .normal)
         uploadBtn.setTitleColor(UIColor.white, for: .normal)
         uploadBtn.titleLabel?.font = UIFont.systemFont(ofSize: 13)
         uploadBtn.addTarget(self, action: #selector(clickAgreeBtn(_ :)), for: .touchUpInside)

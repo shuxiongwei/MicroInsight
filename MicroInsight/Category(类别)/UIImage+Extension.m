@@ -8,6 +8,9 @@
 
 #import "UIImage+Extension.h"
 
+#define MAX_IMAGE_W 141.0
+#define MAX_IMAGE_H 228.0
+
 @implementation UIImage (Extension)
 
 + (UIImage *)getImageFromView:(UIView *)orgView inRect:(CGRect)rect {
@@ -123,5 +126,29 @@
     return newImage;
 }
 
+/*
+ 判断图片长度&宽度
+ */
+- (CGSize)imageShowSize {
+    CGFloat imageWith = self.size.width;
+    CGFloat imageHeight = self.size.height;
+    CGFloat maxWidth = MIScreenWidth / 2.0;
+    CGFloat maxHeight = MIScreenWidth / 2.0;
+    if (imageWith >= imageHeight) {
+        if (imageWith > maxWidth){
+             return CGSizeMake(maxWidth, imageHeight * maxWidth / imageWith);
+        } else {
+            return self.size;
+        }
+    } else {
+        if (imageHeight > maxHeight) {
+            return CGSizeMake(imageWith * maxWidth / imageHeight, maxWidth);
+        } else {
+            return self.size;
+        }
+    }
+
+    return CGSizeZero;
+}
 
 @end

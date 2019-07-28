@@ -60,7 +60,7 @@
 }
 
 - (void)configUI {
-    self.title = @"官方消息";
+    self.title = [MILocalData appLanguage:@"other_key_6"];
     [super configLeftBarButtonItem:nil];
     
     [self.view addSubview:self.tableView];
@@ -92,11 +92,11 @@
     vc.tweetId = model.user_send_id;
     [self.navigationController pushViewController:vc animated:YES];
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [MIRequestManager readMessageWithMessageIds:@[@(model.modelId)] requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
-            
-        }];
-    });
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//        [MIRequestManager readMessageWithMessageIds:@[@(model.modelId)] requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+//
+//        }];
+//    });
 }
 
 #pragma mark - UITableViewDataSource

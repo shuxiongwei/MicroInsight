@@ -60,11 +60,11 @@ class MIUseHandleVC: MIBaseViewController {
         let width = Float(ScreenWidth - 70)
         
         if handleType == .Tips {
-            titleList = ["1.从卡扣两侧将收纳盒打开，取出TipScope。",
-                         "2.将TipScope背面朝上平放于桌面，打开手机 APP的闪光灯。",
-                         "3.去掉手机壳，将手机摄像头对准TipScope镜 头，手机闪光灯对准TipScope镜体。",
-                         "4.将手机靠近TipScope，保持光圈一直位于屏 幕中央，按压使TipScope和手机贴紧。",
-                         "5. 将TipScope贴近拍待摄物体。"]
+            titleList = [MILocalData.appLanguage("help_key_5"),
+                         MILocalData.appLanguage("help_key_6"),
+                         MILocalData.appLanguage("help_key_7"),
+                         MILocalData.appLanguage("help_key_8"),
+                         MILocalData.appLanguage("help_key_9")]
             
             for index in 0..<titleList.count {
                 let model = MIHandleModel()
@@ -89,7 +89,7 @@ class MIUseHandleVC: MIBaseViewController {
                     margin = 40.0
                 }
                 
-                let footerStr = "(注：不限机型，适用于绝大部分手机)"
+                let footerStr = MILocalData.appLanguage("help_key_10")
                 let footerHeight = MIHelpTool.measureMutilineStringHeight(with: footerStr, font: UIFont.systemFont(ofSize: 11), width: CGFloat(width)) + 10
                 let lab = UILabel.init(frame: CGRect(x: 10, y: 0, width: ScreenWidth - 20, height: footerHeight))
                 lab.text = footerStr
@@ -102,10 +102,10 @@ class MIUseHandleVC: MIBaseViewController {
                 handleList.append(model)
             }
         } else if handleType == .Glue {
-            titleList = ["1.撕掉原来的背胶，并从收纳盒中拿出备用胶。",
-                         "2.从备用胶上取下一片，去掉中间的同心圆后， 再撕掉一面离型纸，注意不要用手直接触碰胶 面。",
-                         "3.将撕掉离型纸的那面胶对准TipScope的背胶 凹槽处粘上,并将TipScope朝下用力按压。",
-                         "4.最后撕下外面那层离型纸。"]
+            titleList = [MILocalData.appLanguage("help_key_11"),
+                         MILocalData.appLanguage("help_key_12"),
+                         MILocalData.appLanguage("help_key_13"),
+                         MILocalData.appLanguage("help_key_14")]
             
             for index in 0..<titleList.count {
                 let model = MIHandleModel()
@@ -141,13 +141,13 @@ class MIUseHandleVC: MIBaseViewController {
     private func configMeasureDistanceUI() {
         let width = ScreenWidth - 70
         
-        let str1 = "1.请对准一毫米标尺"
+        let str1 = MILocalData.appLanguage("help_key_15")
         let height1 = MIHelpTool.measureMutilineStringHeight(with: str1, font: UIFont.systemFont(ofSize: 11), width: width) + 10
         
-        let str2 = "2.点击标尺两侧"
+        let str2 = MILocalData.appLanguage("help_key_16")
         let height2 = MIHelpTool.measureMutilineStringHeight(with: str2, font: UIFont.systemFont(ofSize: 11), width: width) + 10
         
-        let str3 = "3.确定标点准确以减少误差"
+        let str3 = MILocalData.appLanguage("help_key_17")
         let height3 = MIHelpTool.measureMutilineStringHeight(with: str3, font: UIFont.systemFont(ofSize: 11), width: width) + 10
         
         let bgView = UIView.init(frame: CGRect(x: 15, y: 15, width: ScreenWidth - 30, height: height1 + height2 + height3 + 100))

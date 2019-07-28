@@ -20,6 +20,15 @@
     
     _durationLab.layer.cornerRadius = 10;
     _durationLab.layer.masksToBounds = YES;
+    
+    UILongPressGestureRecognizer *rec = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPress:)];
+    [self addGestureRecognizer:rec];
+}
+
+- (void)longPress:(UILongPressGestureRecognizer *)rec {
+    if (self.longPress) {
+        self.longPress();
+    }
 }
 
 @end

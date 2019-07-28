@@ -334,7 +334,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="384" height="233.5"/>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5qh-Ju-6yX">
-                                        <rect key="frame" x="162" y="86.5" width="60.5" height="60.5"/>
+                                        <rect key="frame" x="184" y="106" width="16" height="22"/>
                                         <state key="normal" image="icon_upload_play_nor"/>
                                         <connections>
                                             <action selector="playerBtnClick:" destination="neH-88-gCI" eventType="touchUpInside" id="X0P-94-Cex"/>

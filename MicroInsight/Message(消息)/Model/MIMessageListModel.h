@@ -14,9 +14,10 @@ typedef NS_ENUM(NSUInteger, MIMessageType) {
     MIMessageTypePush = 0,           //官方推送
     MIMessageTypeComment,            //评论
     MIMessageTypePraise,             //点赞
-    MIMessageTypeLetter,             //私信
+    MIMessageTypeLetter,             //私信文本
     MIMessageTypeCommentPraise,      //评论点赞
     MIMessageTypeCommentComment,     //评论评论
+    MIMessageTypeLetterImage,        //私信图片
     MIMessageTypeNone                //空类型
 };
 

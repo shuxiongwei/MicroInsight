@@ -33,6 +33,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (UIImage *)image:(UIImage *)image rotation:(UIImageOrientation)orientation;
 
+- (CGSize)imageShowSize;
+
 @end
 
 NS_ASSUME_NONNULL_END

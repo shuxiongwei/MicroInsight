@@ -47,9 +47,9 @@
 }
 
 - (IBAction)clickUserIconBtn:(UIButton *)sender {
-    if (self.clickUserIcon) {
-        self.clickUserIcon([_model.user_id integerValue]);
-    }
+//    if (self.clickUserIcon) {
+//        self.clickUserIcon([_model.user_id integerValue]);
+//    }
 }
 
 - (IBAction)clickPraiseBtn:(UIButton *)sender {

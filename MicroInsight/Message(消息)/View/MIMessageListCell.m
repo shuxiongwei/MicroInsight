@@ -48,12 +48,12 @@
         _timeLab.hidden = YES;
         _extendBtn.hidden = NO;
         [_userIconBtn setImage:[UIImage imageNamed:@"icon_message_app_nor"] forState:UIControlStateNormal];
-        _titleLab.text = @"官方推送";
+        _titleLab.text = [MILocalData appLanguage:@"other_key_3"];
     } else {
         if (model.type == MIMessageTypePush) {
             [_userIconBtn setImage:[UIImage imageNamed:@"icon_message_app_nor"] forState:UIControlStateNormal];
             
-            _titleLab.text = @"官方推送";
+            _titleLab.text = [MILocalData appLanguage:@"other_key_3"];
             _contentLab.text = model.title;
         } else {
             NSString *imgUrl = [NSString stringWithFormat:@"%@?x-oss-process=image/resize,m_fill,h_40,w_40", model.avatar];
@@ -61,12 +61,22 @@
             
             NSString *title = model.nickname;
             if (model.type == MIMessageTypeComment || model.type == MIMessageTypeCommentComment) {
-                title = [NSString stringWithFormat:@"%@评论了你的", model.nickname];
+                title = [NSString stringWithFormat:@"%@ 评论了你的", model.nickname];
             } else if (model.type == MIMessageTypePraise || model.type == MIMessageTypeCommentPraise) {
-                title = [NSString stringWithFormat:@"%@赞了你", model.nickname];
+                title = [NSString stringWithFormat:@"%@ 赞了你", model.nickname];
+            } else if (model.type == MIMessageTypeLetter || model.type == MIMessageTypeLetterImage) {
+                title = [NSString stringWithFormat:@"%@ 私信了你", model.nickname];
             }
             _titleLab.text = title;
             _contentLab.text = model.comContent;
+            
+            if (model.type == MIMessageTypeLetter) {
+                _contentLab.text = model.content;
+            }
+            
+            if (model.type == MIMessageTypeLetterImage) {
+                _contentLab.text = [NSString stringWithFormat:@"%@给你发送了图片", model.nickname];
+            }
         }
         
         _numLab.hidden = NO;
@@ -78,7 +88,7 @@
         if ([date isToday]) {
             _timeLab.text = strs.lastObject;
         } else if ([date isYesterday]) {
-            _timeLab.text = @"昨天";
+            _timeLab.text = [MILocalData appLanguage:@"other_key_4"];
         } else {
             _timeLab.text = strs.firstObject;
         }

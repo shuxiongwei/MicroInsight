@@ -168,16 +168,17 @@
                         }];
                         
                         if (!needReload) {
-                            NSMutableArray *arr = [NSMutableArray arrayWithCapacity:0];
+//                            NSMutableArray *arr = [NSMutableArray arrayWithCapacity:0];
                             for (NSDictionary *dic in list) {
                                 MILetterListModel *model = [MILetterListModel yy_modelWithDictionary:dic];
-                                [arr addObject:model.modelId];
+//                                [arr addObject:model.modelId];
+                                [model updateToDatabase];
                             }
-                            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                                [MIRequestManager readMessageWithMessageIds:arr requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
-                                    
-                                }];
-                            });
+//                            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//                                [MIRequestManager readMessageWithMessageIds:arr requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+//
+//                                }];
+//                            });
                         }
                     } else {
                         if (needReload) {

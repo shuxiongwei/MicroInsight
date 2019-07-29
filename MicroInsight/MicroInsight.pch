@@ -41,6 +41,7 @@
 #import "UMSocialSinaHandler.h"      // 微博
 #import "UMSocialQQHandler.h"           // QQ和QQ空间
 #import "QZShareMgr.h"
+#import "NSObject+LKDBHelper.h"
 
 
 #define kUMAppKey           @"5cf7834b3fc19529860009ef"

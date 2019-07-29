@@ -7,11 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "QSDatabase.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @class YYTextLayout;
-@interface MIBaseModel : NSObject
+@interface MIBaseModel : QSDatabase
 
 /**
  获取文本的高度

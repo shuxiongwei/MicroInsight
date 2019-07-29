@@ -275,21 +275,26 @@ class MICommunityVC: MIBaseViewController {
     }
     
     func checkNotReadMessage() {
-        weak var weakSelf = self
-        MIRequestManager.getAllNotReadMessage(withRequestToken: MILocalData.getCurrentRequestToken(), completed: { (jsonData, error) in
-            
-            let dic: [String : AnyObject] = jsonData as! Dictionary
-            let code = dic["code"]?.int64Value
-            if code == 0 {
-                let data: [String: AnyObject] = dic["data"] as! Dictionary
-                let list: Array = data["list"] as! Array<[String: AnyObject]>
-                if list.count >= 1 { //有未读消息
-                    weakSelf?.messageBtn.isSelected = true
-                } else {
-                    weakSelf?.messageBtn.isSelected = false
+        let count = MIMessageListModel.getNotReadMessageCount()
+        if count > 0 {
+            messageBtn.isSelected = true
+        } else {
+            weak var weakSelf = self
+            MIRequestManager.getAllNotReadMessage(withRequestToken: MILocalData.getCurrentRequestToken(), completed: { (jsonData, error) in
+                
+                let dic: [String : AnyObject] = jsonData as! Dictionary
+                let code = dic["code"]?.int64Value
+                if code == 0 {
+                    let data: [String: AnyObject] = dic["data"] as! Dictionary
+                    let list: Array = data["list"] as! Array<[String: AnyObject]>
+                    if list.count >= 1 { //有未读消息
+                        weakSelf?.messageBtn.isSelected = true
+                    } else {
+                        weakSelf?.messageBtn.isSelected = false
+                    }
                 }
-            }
-        })
+            })
+        }
     }
     
     //MARK:通知

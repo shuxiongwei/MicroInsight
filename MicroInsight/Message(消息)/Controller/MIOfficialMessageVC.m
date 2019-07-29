@@ -48,7 +48,6 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
-    [self.dataArray removeAllObjects];
     [self requestData];
 }
 
@@ -66,6 +65,15 @@
     [self.view addSubview:self.tableView];
 }
 
+- (void)getAllMessageData {
+    [self.dataArray removeAllObjects];
+    
+    NSString *sql = [NSString stringWithFormat:@"type == 0"];
+    NSUInteger count = [MIMessageListModel rowCountWithWhere:sql];
+    self.dataArray = [MIMessageListModel searchToDatabaseFromIndex:0 count:count condition:sql orderBy:@"created_at desc"];
+    [self.tableView reloadData];
+}
+
 - (void)requestData {
     WSWeak(weakSelf)
     [MIRequestManager getTweetMessageWithRequestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
@@ -73,14 +81,26 @@
         NSInteger code = [jsonData[@"code"] integerValue];
         if (code == 0) {
             NSArray *list = jsonData[@"data"][@"list"];
-            for (NSDictionary *dic in list) {
-                MIMessageListModel *model = [MIMessageListModel yy_modelWithDictionary:dic];
-                if (![MIHelpTool isBlankString:model.title]) {
-                    [weakSelf.dataArray addObject:model];
+            if (list.count > 0) {
+                NSMutableArray *tempList = [NSMutableArray arrayWithCapacity:0];
+                for (NSDictionary *dic in list) {
+                    MIMessageListModel *model = [MIMessageListModel yy_modelWithDictionary:dic];
+                    if (![MIHelpTool isBlankString:model.title]) {
+                        [weakSelf.dataArray addObject:model];
+                    }
+                    
+                    [tempList addObject:@(model.modelId)];
+                    if (tempList.count > 0) {
+                        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                            [MIRequestManager readMessageWithMessageIds:tempList requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
+                                
+                            }];
+                        });
+                    }
                 }
+                
+                [weakSelf getAllMessageData];
             }
-            
-            [weakSelf.tableView reloadData];
         }
     }];
 }
@@ -92,11 +112,10 @@
     vc.tweetId = model.user_send_id;
     [self.navigationController pushViewController:vc animated:YES];
     
-//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//        [MIRequestManager readMessageWithMessageIds:@[@(model.modelId)] requestToken:[MILocalData getCurrentRequestToken] completed:^(id  _Nonnull jsonData, NSError * _Nonnull error) {
-//
-//        }];
-//    });
+    model.status = 1;
+    [model updateToDatabase];
+    
+    [self.tableView reloadData];
 }
 
 #pragma mark - UITableViewDataSource
@@ -115,9 +134,8 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     MIMessageListCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MIMessageListCell" forIndexPath:indexPath];
-    MIMessageListModel *
-    model = self.dataArray[indexPath.row];
-    cell.model = model;
+    MIMessageListModel *model = self.dataArray[indexPath.row];
+    cell.messageModel = model;
     if (model.status == 0) { //未读
         [cell setMessageCount:1];
     } else {
@@ -125,6 +143,36 @@
     }
     
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    return YES;
+}
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 0) {
+        return UITableViewCellEditingStyleNone;
+    }
+    return UITableViewCellEditingStyleDelete;
+}
+
+- (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    WSWeak(weakSelf)
+    UITableViewRowAction *deleteRowAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:[MILocalData appLanguage:@"album_key_7"] handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+        
+        MIMessageListModel *model = weakSelf.dataArray[indexPath.row];
+        [weakSelf.dataArray removeObject:model];
+        [weakSelf.tableView reloadData];
+        
+        [model deleteToDatabase];
+    }];
+    
+    return @[deleteRowAction];
 }
 
 @end

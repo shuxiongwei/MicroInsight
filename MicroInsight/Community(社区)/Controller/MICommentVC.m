@@ -72,7 +72,7 @@
                     model.commentHeight = [model getChildCommentTableViewHeight];
                     [weakSelf.dataArray addObject:model];
                 }
-                
+                [weakSelf sortCommentList];
                 [weakSelf.tableView reloadData];
             }
         }];
@@ -88,11 +88,19 @@
                     model.commentHeight = [model getChildCommentTableViewHeight];
                     [weakSelf.dataArray addObject:model];
                 }
-                
+                [weakSelf sortCommentList];
                 [weakSelf.tableView reloadData];
             }
         }];
     }
+}
+
+- (void)sortCommentList {
+    [self.dataArray sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+        MICommentModel *model1 = (MICommentModel *)obj1;
+        MICommentModel *model2 = (MICommentModel *)obj2;
+        return [model2.created_at compare:model1.created_at];
+    }];
 }
 
 - (void)refreshView {

@@ -9,9 +9,9 @@
 #import "MIRequestManager.h"
 
 //测试地址
-static NSString * const requestUrl = @"http://122.14.225.235:8080/test/api/web/index.php";
+//static NSString * const requestUrl = @"http://122.14.225.235:8080/test/api/web/index.php";
 //正式地址
-//static NSString * const requestUrl = @"https://api.tipscope.com";
+static NSString * const requestUrl = @"https://api.tipscope.com";
 static NSString * const registerUrl = @"/site/register";
 static NSString * const messageCodeUrl = @"/site/send-sms-verify-code";
 static NSString * const mobileRegisterUrl = @"/site/register-mobile";

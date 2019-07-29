@@ -9,5 +9,7 @@ pod 'MJRefresh'
 pod 'SDWebImage'
 pod 'VODUpload'
 pod 'MMDrawerController'
+pod 'FMDB'
+pod 'LKDBHelper'
 
 end

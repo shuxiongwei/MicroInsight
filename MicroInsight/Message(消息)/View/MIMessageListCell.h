@@ -10,10 +10,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class MIMessageModel;
 @class MIMessageListModel;
 @interface MIMessageListCell : UITableViewCell
 
-@property (nonatomic, strong) MIMessageListModel *model;
+@property (nonatomic, strong) MIMessageModel *model;
+@property (nonatomic, strong) MIMessageListModel *messageModel;
 
 - (void)setMessageCount:(NSInteger)count;
 

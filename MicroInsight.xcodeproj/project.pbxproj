@@ -274,6 +274,7 @@
 		70B09DBA22B31F7600DCCD15 /* MIPraiseCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 70B09DB822B31F7600DCCD15 /* MIPraiseCell.xib */; };
 		70B0AA6D22DF4EBD002F5E21 /* MICommentAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B0AA6C22DF4EBD002F5E21 /* MICommentAlertView.m */; };
 		70B0AA6F22DF4EC7002F5E21 /* MICommentAlertView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 70B0AA6E22DF4EC7002F5E21 /* MICommentAlertView.xib */; };
+		70B3F2E122ED3B5100C59D16 /* QSDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B3F2DF22ED3B5100C59D16 /* QSDatabase.m */; };
 		70B509EC21B754B300BBB2A9 /* MIDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B509EA21B754B300BBB2A9 /* MIDetailViewController.m */; };
 		70B509ED21B754B300BBB2A9 /* MIDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 70B509EB21B754B300BBB2A9 /* MIDetailViewController.xib */; };
 		70B509F121B7593500BBB2A9 /* MICommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B509EF21B7593500BBB2A9 /* MICommentCell.m */; };
@@ -819,6 +820,8 @@
 		70B0AA6B22DF4EBD002F5E21 /* MICommentAlertView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MICommentAlertView.h; sourceTree = "<group>"; };
 		70B0AA6C22DF4EBD002F5E21 /* MICommentAlertView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MICommentAlertView.m; sourceTree = "<group>"; };
 		70B0AA6E22DF4EC7002F5E21 /* MICommentAlertView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MICommentAlertView.xib; sourceTree = "<group>"; };
+		70B3F2DF22ED3B5100C59D16 /* QSDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSDatabase.m; sourceTree = "<group>"; };
+		70B3F2E022ED3B5100C59D16 /* QSDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSDatabase.h; sourceTree = "<group>"; };
 		70B509E921B754B300BBB2A9 /* MIDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIDetailViewController.h; sourceTree = "<group>"; };
 		70B509EA21B754B300BBB2A9 /* MIDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MIDetailViewController.m; path = ../MIDetailViewController.m; sourceTree = "<group>"; };
 		70B509EB21B754B300BBB2A9 /* MIDetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MIDetailViewController.xib; sourceTree = "<group>"; };
@@ -1920,6 +1923,7 @@
 		70710C5B20F476A300052929 /* MicroInsight */ = {
 			isa = PBXGroup;
 			children = (
+				70B3F2DE22ED3B5100C59D16 /* Database(数据库) */,
 				7010351A21D51040008DBF3C /* Resources */,
 				70D277D921BCF84D007FEA63 /* Vender */,
 				700F01C021B5443D00D0D3EA /* Request(数据请求) */,
@@ -2141,6 +2145,15 @@
 				70AFE0B621CFBD45000585D0 /* TencentOpenAPI.framework */,
 			);
 			path = Tencent3.1.0;
+			sourceTree = "<group>";
+		};
+		70B3F2DE22ED3B5100C59D16 /* Database(数据库) */ = {
+			isa = PBXGroup;
+			children = (
+				70B3F2E022ED3B5100C59D16 /* QSDatabase.h */,
+				70B3F2DF22ED3B5100C59D16 /* QSDatabase.m */,
+			);
+			path = "Database(数据库)";
 			sourceTree = "<group>";
 		};
 		70C4318F21B61F45001D56C4 /* Model */ = {
@@ -2821,6 +2834,7 @@
 				70710C5E20F476A300052929 /* AppDelegate.m in Sources */,
 				7058CB482287C155005EA842 /* Constant.swift in Sources */,
 				7093DD402292E33C008DF80C /* MIAlbumCell.m in Sources */,
+				70B3F2E122ED3B5100C59D16 /* QSDatabase.m in Sources */,
 				701359A822AB97C200143701 /* YYTextAsyncLayer.m in Sources */,
 				7019406A228C69D0003727A8 /* MISettingLanguageVC.swift in Sources */,
 				7011C68C229D67F50022B632 /* MIAlbumManager.m in Sources */,
@@ -3040,7 +3054,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = JV39K6U9AB;
 				ENABLE_BITCODE = NO;
@@ -3073,7 +3087,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.sxw.ts;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = tsDevelopmentPP;
 				SWIFT_OBJC_BRIDGING_HEADER = "MicroInsight/MicroInsight-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -3088,8 +3102,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = JV39K6U9AB;
 				ENABLE_BITCODE = NO;
@@ -3122,7 +3136,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.sxw.ts;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = tsDistributionPP;
 				SWIFT_OBJC_BRIDGING_HEADER = "MicroInsight/MicroInsight-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

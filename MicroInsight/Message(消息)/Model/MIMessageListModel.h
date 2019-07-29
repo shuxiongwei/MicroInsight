@@ -40,6 +40,18 @@ typedef NS_ENUM(NSUInteger, MIMessageType) {
 @property (nonatomic, copy) NSString *comContent; //评论内容
 @property (nonatomic, copy) NSString *tweet_id; //推文id
 
++ (NSInteger)getNotReadMessageCount;
+
+@end
+
+
+@interface MIMessageModel : MIBaseModel
+
+@property (nonatomic, strong) MIMessageListModel *messageModel;
+@property (nonatomic, copy) NSArray<MIMessageListModel *> *messageList;
+@property (nonatomic, assign) NSInteger status; //状态，已读或未读
+@property (nonatomic, assign) NSInteger notReadCount;
+
 @end
 
 NS_ASSUME_NONNULL_END
